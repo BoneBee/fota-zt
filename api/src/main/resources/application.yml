@@ -1,7 +1,7 @@
 server:
   port: 9901
   servlet:
-    context-path: /springboot
+    context-path: /
 
 spring:
   datasource:
@@ -48,3 +48,6 @@ mybatis:
 #swagger2 开关
 swagger2:
   enable: true
+
+#basic-service 文件上传存储目录
+upload-file.path-string: d:/tmp/webhost/uploadFile/

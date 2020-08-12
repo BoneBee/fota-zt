@@ -14,7 +14,17 @@
 	<description>basic-service project for Spring Boot</description>
 
 	<dependencies>
-
+		<dependency>
+			<groupId>com.intest.web</groupId>
+			<artifactId>dao</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.intest.web</groupId>
+			<artifactId>dao</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>compile</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

@@ -23,6 +23,17 @@
 			<scope>compile</scope>
 		</dependency>
 
+		<dependency>
+			<groupId>com.intest.web</groupId>
+			<artifactId>basic-service</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.intest.web</groupId>
+			<artifactId>common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<build>
