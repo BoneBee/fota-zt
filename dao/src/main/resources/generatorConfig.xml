@@ -51,7 +51,82 @@
             <!-- <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
             <!-- <columnOverride column="content" jdbcType="VARCHAR" />-->
         </table>
+        <table tableName="F_USER" domainObjectName="UserBto">
+            <property name="useActualColumnNames" value="false"/>
+            <!-- 插入时是否自动生成主键 -->
+            <!-- <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!-- <columnOverride column="content" jdbcType="VARCHAR" />-->
+        </table>
 
+        <table tableName="F_OPTION" domainObjectName="OptionBto">
+            <property name="useActualColumnNames" value="false"/>
+            <!-- 插入时是否自动生成主键 -->
+            <!-- <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!-- <columnOverride column="content" jdbcType="VARCHAR" />-->
+        </table>
+
+        <table tableName="F_COLUMN" domainObjectName="ColumnBto">
+            <property name="useActualColumnNames" value="false"/>
+            <!-- 插入时是否自动生成主键 -->
+            <!-- <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!-- <columnOverride column="content" jdbcType="VARCHAR" />-->
+        </table>
+
+        <table tableName="F_COLUMN" domainObjectName="ColumnBto">
+            <property name="useActualColumnNames" value="false"/>
+            <!-- 插入时是否自动生成主键 -->
+            <!-- <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!-- <columnOverride column="content" jdbcType="VARCHAR" />-->
+        </table>
+
+        <table tableName="F_COLUMNOPTION" domainObjectName="ColumnOptionBto">
+            <property name="useActualColumnNames" value="false"/>
+            <!-- 插入时是否自动生成主键 -->
+            <!-- <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!-- <columnOverride column="content" jdbcType="VARCHAR" />-->
+        </table>
+
+        <table tableName="F_ITEM" domainObjectName="ItemBto">
+            <property name="useActualColumnNames" value="false"/>
+            <!-- 插入时是否自动生成主键 -->
+            <!-- <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!-- <columnOverride column="content" jdbcType="VARCHAR" />-->
+        </table>
+
+        <table tableName="F_MENU" domainObjectName="MeunBto">
+            <property name="useActualColumnNames" value="false"/>
+            <!-- 插入时是否自动生成主键 -->
+            <!-- <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!-- <columnOverride column="content" jdbcType="VARCHAR" />-->
+        </table>
+
+        <table tableName="F_TABLE" domainObjectName="TableBto">
+            <property name="useActualColumnNames" value="false"/>
+            <!-- 插入时是否自动生成主键 -->
+            <!-- <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!-- <columnOverride column="content" jdbcType="VARCHAR" />-->
+        </table>
+
+        <table tableName="F_TABLECOLUMN" domainObjectName="TableColumnBto">
+            <property name="useActualColumnNames" value="false"/>
+            <!-- 插入时是否自动生成主键 -->
+            <!-- <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!-- <columnOverride column="content" jdbcType="VARCHAR" />-->
+        </table>
+
+        <table tableName="F_TOOLBAR" domainObjectName="ToolbarBto">
+            <property name="useActualColumnNames" value="false"/>
+            <!-- 插入时是否自动生成主键 -->
+            <!-- <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!-- <columnOverride column="content" jdbcType="VARCHAR" />-->
+        </table>
+
+        <table tableName="F_TOOLBARITEM" domainObjectName="ToolbarItemBto">
+            <property name="useActualColumnNames" value="false"/>
+            <!-- 插入时是否自动生成主键 -->
+            <!-- <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!-- <columnOverride column="content" jdbcType="VARCHAR" />-->
+        </table>
 
     </context>
 </generatorConfiguration>
