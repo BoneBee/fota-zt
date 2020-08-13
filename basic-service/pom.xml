@@ -10,6 +10,7 @@
 	</parent>
 	<groupId>com.intest.web</groupId>
 	<artifactId>basic-service</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
 	<name>basic-service</name>
 	<description>basic-service project for Spring Boot</description>
 
@@ -18,12 +19,6 @@
 			<groupId>com.intest.web</groupId>
 			<artifactId>dao</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.intest.web</groupId>
-			<artifactId>dao</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 

@@ -6,6 +6,7 @@ import com.intest.dao.entity.MeunBto;
 import com.intest.dao.entity.MeunBtoExample;
 import com.intest.dao.entity.UserBtoExample;
 import com.intest.dao.mapper.MeunBtoMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -14,7 +15,7 @@ import java.util.List;
 @Service
 public class MeunImpl implements MeunService {
 
-    @Resource
+    @Autowired
     MeunBtoMapper meunBtoMapper;
 
     @Override

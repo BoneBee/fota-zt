@@ -21,10 +21,7 @@ import com.intest.dao.entity.UserBto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.math.BigDecimal;
@@ -51,6 +48,7 @@ public class UserController {
      * @param userRequest
      * @return
      */
+    @ResponseBody
     @ApiOperation("用户登录接口")
     @RequestMapping(value = "/infota/product/inLogin", method = RequestMethod.POST)
     public ResponseBean inLogin(@RequestBody UserRequest userRequest) {
@@ -133,6 +131,7 @@ public class UserController {
      */
     @ApiOperation("用户登出接口")
     @AuthToken
+    @ResponseBody
     @RequestMapping(value = "/infota/product/exitLogin", method = RequestMethod.GET)
     public ResponseBean exitLogin(HttpServletRequest request) {
         String token = request.getHeader("token");
@@ -154,6 +153,7 @@ public class UserController {
      * @return
      */
     @ApiOperation("用户注册接口")
+    @ResponseBody
     @RequestMapping(value = "/infota/product/inRegister", method = RequestMethod.POST)
     public ResponseBean inRegister(@RequestBody UserBto userBto) {
         String account = userBto.getLoginName();

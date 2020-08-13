@@ -5,6 +5,7 @@ import com.intest.basicservice.table.impl.service.ItemService;
 import com.intest.dao.entity.ItemBto;
 import com.intest.dao.entity.ItemBtoExample;
 import com.intest.dao.mapper.ItemBtoMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -13,7 +14,7 @@ import java.util.List;
 @Service
 public class ItemImpl implements ItemService {
 
-    @Resource
+    @Autowired
     ItemBtoMapper itemBtoMapper;
 
     @Override

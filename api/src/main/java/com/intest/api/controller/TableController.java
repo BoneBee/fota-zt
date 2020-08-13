@@ -11,10 +11,7 @@ import com.intest.dao.entity.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -52,6 +49,7 @@ public class TableController {
     @Autowired
     TableColumnImpl tableColumnImpl;
 
+    @ResponseBody
     @RequestMapping(value = "/api/basic/table/gettoolbar", method = RequestMethod.GET)
     public ResponseBean gettoolbar(String tableId) {
         if (!StringUtils.isNotEmptyStr(tableId)) {
@@ -89,6 +87,7 @@ public class TableController {
         return new ResponseBean(1, "查询成功", new ToolbarResponse(toolbarBto.getToolbarId(), toolbarBto.getCharecked().intValue() == 1 ? true : false, items));
     }
 
+    @ResponseBody
     @RequestMapping(value = "/api/basic/table/selectcolumn", method = RequestMethod.POST)
     public ResponseBean getcolumn(@RequestBody ColumnRequest columnRequest) {
         List<ColumnItemResponse> columnItemResponseList = new ArrayList<>();
@@ -240,6 +239,7 @@ public class TableController {
      *
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "/api/basic/table/getmenu", method = RequestMethod.GET)
     public ResponseBean getmenu() {
         List<MeunBto> meunBtos = meunImpl.getMeun();
@@ -261,6 +261,7 @@ public class TableController {
      * @param menuId
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "/api/basic/table/gettableinfo", method = RequestMethod.GET)
     public ResponseBean gettableinfo(String menuId) {
         if (!StringUtils.isNotEmptyStr(menuId)) {
@@ -326,6 +327,7 @@ public class TableController {
      * @param optionId
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "/api/basic/table/getquery", method = RequestMethod.GET)
     public ResponseBean getquery(@ApiParam String optionId) {
         if (!StringUtils.isNotEmptyStr(optionId)) {
@@ -352,6 +354,7 @@ public class TableController {
      * @param optionRequest
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "/api/basic/table/savequery", method = RequestMethod.POST)
     public ResponseBean savequery(@RequestBody OptionRequest optionRequest) {
         ValidateHelper.validateNull(optionRequest, new String[]{"optionId", "columnId", "Kind"});
@@ -427,6 +430,7 @@ public class TableController {
      * @param optionId
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "/api/basic/table/deletequery", method = RequestMethod.GET)
     public ResponseBean deletequery(@ApiParam String optionId) {
         if (!StringUtils.isNotEmptyStr(optionId)) {
@@ -453,6 +457,7 @@ public class TableController {
      * @param tableRequest
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "/api/basic/table/savetable", method = RequestMethod.POST)
     public ResponseBean savetable(@RequestBody TableRequest tableRequest) {
         ValidateHelper.validateNull(tableRequest, new String[]{"menuId", "toolbar", "column"});
@@ -531,6 +536,7 @@ public class TableController {
      * @param tableRequest
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "/api/basic/table/revisetable", method = RequestMethod.POST)
     public ResponseBean revisetable(@RequestBody TableRequest tableRequest) {
         ValidateHelper.validateNull(tableRequest, new String[]{"menuId", "toolbar", "column"});
@@ -613,6 +619,7 @@ public class TableController {
      * @param columnId
      * @return
      */
+    @ResponseBody
     @RequestMapping(value = "/api/basic/table/deletecolumn", method = RequestMethod.GET)
     public ResponseBean deletecolumn(@ApiParam String columnId) {
         if (!StringUtils.isNotEmptyStr(columnId)) {
@@ -645,6 +652,7 @@ public class TableController {
         return new ResponseBean(1, "删除成功", null);
     }
 
+    @ResponseBody
     @RequestMapping(value = "/api/basic/table/new", method = RequestMethod.GET)
     public ResponseBean news() {
         List<ItemBto> itemBtoList = itemImpl.getAllItem();
@@ -660,6 +668,7 @@ public class TableController {
 
     }
 
+    @ResponseBody
     @RequestMapping(value = "/api/basic/table/delete", method = RequestMethod.GET)
     public ResponseBean deleteTable(String tableId) {
         if (editSaveTableImpl.getTableByID(tableId) == null) {

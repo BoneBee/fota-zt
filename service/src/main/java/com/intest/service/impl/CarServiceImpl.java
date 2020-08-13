@@ -1,12 +1,11 @@
 package com.intest.service.impl;
 
-import com.intest.service.CarService;
 import com.intest.dao.entity.Car;
 import com.intest.dao.mapper.CarMapper;
+import com.intest.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +18,7 @@ public class CarServiceImpl implements CarService {
     @Autowired
     private CarMapper carMapper;
 
-    @Override
+   @Override
     public List<Car> getCarInfo() {
         List<Car> list = carMapper.selectByExample(null);
         return list;

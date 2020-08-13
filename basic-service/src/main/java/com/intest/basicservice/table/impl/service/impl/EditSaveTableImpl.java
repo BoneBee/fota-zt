@@ -5,6 +5,7 @@ import com.intest.basicservice.table.impl.service.EditSaveTableService;
 import com.intest.dao.entity.TableBto;
 import com.intest.dao.entity.TableBtoExample;
 import com.intest.dao.mapper.TableBtoMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -13,7 +14,7 @@ import java.util.List;
 @Service
 public class EditSaveTableImpl implements EditSaveTableService {
 
-    @Resource
+    @Autowired
     TableBtoMapper tableBtoMapper;
 
     @Override

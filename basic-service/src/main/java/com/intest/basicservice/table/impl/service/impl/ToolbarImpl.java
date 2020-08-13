@@ -5,6 +5,7 @@ import com.intest.basicservice.table.impl.service.ToolbarService;
 import com.intest.dao.entity.ToolbarBto;
 import com.intest.dao.entity.ToolbarBtoExample;
 import com.intest.dao.mapper.ToolbarBtoMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @Service
 public class ToolbarImpl implements ToolbarService {
-    @Resource
+    @Autowired
     ToolbarBtoMapper toolbarBtoMapper;
 
     @Override

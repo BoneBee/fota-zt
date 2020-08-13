@@ -5,6 +5,7 @@ import com.intest.basicservice.table.impl.service.TableColumnService;
 import com.intest.dao.entity.TableColumnBto;
 import com.intest.dao.entity.TableColumnBtoExample;
 import com.intest.dao.mapper.TableColumnBtoMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @Service
 public class TableColumnImpl implements TableColumnService {
-    @Resource
+    @Autowired
     TableColumnBtoMapper tableColumnBtoMapper;
 
     @Override

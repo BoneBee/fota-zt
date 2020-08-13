@@ -20,7 +20,6 @@
 			<groupId>com.intest.web</groupId>
 			<artifactId>service</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
@@ -46,16 +45,16 @@
 			<!--commons模块和dao模块没有依赖的模块，因此无需配置-->
 			<configuration>
 				<!-- 指定该Main Class为全局的唯一入口 -->
-				<mainClass>com.intest.web.api.ApiApplication</mainClass>
+				<mainClass>com.intest.api.ApiApplication</mainClass>
 				<layout>ZIP</layout>
 			</configuration>
-			<executions>
+			<!--<executions>
 				<execution>
 					<goals>
-						<goal>repackage</goal><!--可以把依赖的包都打包到生成的Jar包中-->
-					</goals>
+						<goal>repackage</goal>--><!--可以把依赖的包都打包到生成的Jar包中-->
+					<!--</goals>
 				</execution>
-			</executions>
+			</executions>-->
 		</plugin>
 		</plugins>
 	</build>

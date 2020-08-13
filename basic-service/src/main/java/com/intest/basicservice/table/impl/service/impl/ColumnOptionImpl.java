@@ -5,6 +5,7 @@ import com.intest.basicservice.table.impl.service.ColumnOptionService;
 import com.intest.dao.entity.ColumnOptionBto;
 import com.intest.dao.entity.ColumnOptionBtoExample;
 import com.intest.dao.mapper.ColumnOptionBtoMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -12,7 +13,7 @@ import java.util.List;
 
 @Service
 public class ColumnOptionImpl implements ColumnOptionService {
-    @Resource
+    @Autowired
     ColumnOptionBtoMapper columnOptionBtoMapper;
 
     @Override
