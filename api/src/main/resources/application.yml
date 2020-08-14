@@ -2,8 +2,14 @@ server:
   port: 61042
   servlet:
     context-path: /
+  tomcat:
+    max-http-form-post-size: 20971520
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
   datasource:
     url: jdbc:oracle:thin:@//192.168.1.79:1521/ney
     driver-class-name: oracle.jdbc.OracleDriver
@@ -63,9 +69,16 @@ mybatis:
   #加载mapper配置类
   mapper-locations: classpath:/mapper/*.xml
 
+# pagehelper
+pagehelper:
+  helperDialect: oracle
+  reasonable: true
+  supportMethodsArguments: true
+  params: count=countSql
+
 #swagger2 开关
 swagger2:
   enable: true
 
 #basic-service 文件上传存储目录
-upload-file.path-string: d:/tmp/webhost/uploadFile/
+upload-file.path-string: /tmp/webhost/uploadFile

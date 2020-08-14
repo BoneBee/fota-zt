@@ -83,6 +83,7 @@ public class UploadFileController {
             File dir = new File(pathString);
             if (!dir.exists()) {
                 dir.mkdir();
+                System.out.println("UploadFile文件目录不存在：" + pathString);
             }
             byte[] bytes = file.getBytes();
             BufferedOutputStream buffStream = new BufferedOutputStream(new FileOutputStream(new File(pathString + "/" + fileName)));

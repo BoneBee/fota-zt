@@ -11,11 +11,9 @@ public class ChunkFileRO {
 
     }
 
-    @JsonProperty("fileId")
-    public String FileId = "";
+    private String FileId;
 
-    @JsonProperty("chunkIndex")
-    public int ChunkIndex;
+    private int ChunkIndex;
 
     public String getFileId() {
         return this.FileId;
@@ -25,10 +23,12 @@ public class ChunkFileRO {
         return this.ChunkIndex;
     }
 
+    @JsonProperty("fileId")
     public void setFileId(String value) {
         this.FileId = value;
     }
 
+    @JsonProperty("chunkIndex")
     public void setChunkIndex(int value) {
         this.ChunkIndex = value;
     }

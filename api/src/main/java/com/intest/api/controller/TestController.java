@@ -1,7 +1,10 @@
 package com.intest.api.controller;
 
+import com.intest.common.result.PagerDataBaseVO;
+import com.intest.common.tableData.TableDataAnnotation;
 import com.intest.service.CarService;
 import com.intest.dao.entity.Car;
+import com.intest.service.impl.CarPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,8 +27,8 @@ public class TestController {
 
     @GetMapping("/api/test")
     @ApiOperation(value = "获取车辆")
-    public List<Car> test() {
-        return carService.getCarInfo();
+    public PagerDataBaseVO test() {
+        return carService.getCarInfo(new CarPage());
     }
 
 }

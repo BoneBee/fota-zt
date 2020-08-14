@@ -5,6 +5,7 @@ import com.intest.basicservice.table.impl.common.ResponseBean;
 import com.intest.basicservice.table.impl.config.helper.ValidateHelper;
 import com.intest.basicservice.table.impl.exception.CustomException;
 import com.intest.basicservice.table.impl.response.*;
+import com.intest.basicservice.table.impl.ro.GetDataRO;
 import com.intest.basicservice.table.impl.service.impl.*;
 import com.intest.basicservice.table.impl.util.common.StringUtils;
 import com.intest.dao.entity.*;
@@ -48,6 +49,9 @@ public class TableController {
 
     @Autowired
     TableColumnImpl tableColumnImpl;
+
+    @Autowired
+    TableDataImpl tableDataImpl;
 
     @ResponseBody
     @RequestMapping(value = "/api/basic/table/gettoolbar", method = RequestMethod.GET)
@@ -233,7 +237,6 @@ public class TableController {
         return new ResponseBean(1, "查询成功", columnItemResponseList);
     }
 
-
     /**
      * 获取全部菜单下拉框列表数据
      *
@@ -253,7 +256,6 @@ public class TableController {
         }
         return new ResponseBean(1, "查询成功", new MenuResponse(data));
     }
-
 
     /**
      * 获取一个菜单下的全部表格基本数据
@@ -347,7 +349,6 @@ public class TableController {
 
     }
 
-
     /**
      * 保存一个查询条件的编辑信息
      *
@@ -422,7 +423,6 @@ public class TableController {
             }
         }
     }
-
 
     /**
      * 删除一个查询条件的编辑信息
@@ -721,5 +721,10 @@ public class TableController {
         }
     }
 
+    @ResponseBody
+    @RequestMapping(value = "/api/basic/table/getdata", method = RequestMethod.POST)
+    public Object GetTableData(@RequestBody GetDataRO model) {
+        return tableDataImpl.GetTableData(model);
+    }
 
 }
