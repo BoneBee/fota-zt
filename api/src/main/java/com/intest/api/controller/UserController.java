@@ -80,6 +80,38 @@ public class UserController {
         userService.updateUser(userBto);
         List<MeunBto> meunBtoList = meunImpl.getMeun();
         List<LoginResponse.MenusItemBean> menus = new ArrayList<>();
+        List<LoginResponse.MenusItemBean> rootMeuns = new ArrayList<>();
+        for(MeunBto meunBto : meunBtoList) {
+            if (meunBto.getFkMenuId() == null) {
+                LoginResponse.MenusItemBean menusItemBean = new LoginResponse.MenusItemBean();
+                menusItemBean.setId(meunBto.getMenuId());
+                menusItemBean.setPage(meunBto.getIspage().intValue() == 1 ? true : false);
+                menusItemBean.setShow(meunBto.getIsshow().intValue() == 1 ? true : false);
+                menusItemBean.setLink(meunBto.getMenulink());
+                menusItemBean.setpId(meunBto.getFkMenuId());
+                menusItemBean.setPermissionId("");
+                menusItemBean.setText(meunBto.getMenudisplayname());
+                menusItemBean.setChildren(new ArrayList<>());
+                rootMeuns.add(menusItemBean);
+            }
+        }
+
+        for(LoginResponse.MenusItemBean meunBto : rootMeuns) {
+            for (MeunBto subMeunBto : meunBtoList) {
+                if (subMeunBto.getFkMenuId()!=null && subMeunBto.getFkMenuId().equals(meunBto.getId())) {
+                    LoginResponse.MenusItemBean menusItemBean = new LoginResponse.MenusItemBean();
+                    menusItemBean.setId(subMeunBto.getMenuId());
+                    menusItemBean.setPage(subMeunBto.getIspage().intValue() == 1 ? true : false);
+                    menusItemBean.setShow(subMeunBto.getIsshow().intValue() == 1 ? true : false);
+                    menusItemBean.setLink(subMeunBto.getMenulink());
+                    menusItemBean.setpId(subMeunBto.getFkMenuId());
+                    menusItemBean.setPermissionId("");
+                    menusItemBean.setText(subMeunBto.getMenudisplayname());
+                    meunBto.getChildren().add(menusItemBean);
+                }
+            }
+        }
+/*
         for (MeunBto meunBto : meunBtoList) {
             LoginResponse.MenusItemBean menusItemBean = new LoginResponse.MenusItemBean();
             menusItemBean.setId(meunBto.getMenuId());
@@ -110,16 +142,16 @@ public class UserController {
             }
             menusItemBean.setChildren(children);
             menus.add(menusItemBean);
-        }
+        }*/
 
         if (JedisUtil.exists(Constant.PREFIX_SHIRO_CACHE + userName)) {
             Object token = JedisUtil.getObject(Constant.PREFIX_SHIRO_CACHE + userName);
-            return new ResponseBean(1, "登陆成功", new LoginResponse(1, token + "", 0, menus));
+            return new ResponseBean(1, "登陆成功", new LoginResponse(1, token + "", 0, rootMeuns));
         } else {
             String token = bcrptTokenGenerator.generate(userName);
             JedisUtil.setObject(Constant.PREFIX_SHIRO_CACHE + userName, token, Constant.EXRP_DAY);
             JedisUtil.setObject(Constant.PREFIX_SHIRO_ACCESS_TOKEN + token, userName, Constant.EXRP_DAY);
-            return new ResponseBean(1, "登陆成功", new LoginResponse(1, token, 0, menus));
+            return new ResponseBean(1, "登陆成功", new LoginResponse(1, token, 0, rootMeuns));
         }
     }
 

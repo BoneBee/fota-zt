@@ -1,6 +1,5 @@
 package com.intest.common.tableData;
 
-import com.sun.org.glassfish.gmbal.Description;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;

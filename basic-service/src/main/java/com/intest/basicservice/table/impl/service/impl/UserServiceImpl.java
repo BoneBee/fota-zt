@@ -23,7 +23,7 @@ public class UserServiceImpl implements UserService {
         UserBtoExample.Criteria criteria = example.createCriteria();
         criteria.andLoginNameEqualTo(loginName);
         List<UserBto> userBtos = userBtoMapper.selectByExample(example);
-        if (userBtos != null || userBtos.size() != 0) {
+        if (userBtos != null && userBtos.size() != 0) {
             return userBtos.get(0);
         } else {
             return null;
