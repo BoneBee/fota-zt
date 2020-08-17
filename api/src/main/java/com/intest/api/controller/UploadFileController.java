@@ -8,6 +8,7 @@ import com.intest.basicservice.uploadfile.vo.CheckUploadFileVO;
 import com.intest.basicservice.uploadfile.vo.ChunkFileVO;
 import com.intest.basicservice.uploadfile.vo.CompleteVO;
 import com.intest.common.result.ResultT;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.*;
@@ -24,6 +25,7 @@ import java.io.IOException;
  * basic-service 文件上传
  */
 @RestController
+@Api(tags = {"基础组件/文件上传"})
 public class UploadFileController {
 
     @Autowired

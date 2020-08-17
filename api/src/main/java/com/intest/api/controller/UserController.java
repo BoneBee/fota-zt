@@ -50,7 +50,7 @@ public class UserController {
      */
     @ResponseBody
     @ApiOperation("用户登录接口")
-    @RequestMapping(value = "/infota/product/inLogin", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/infota/product/inLogin", method = RequestMethod.POST)
     public ResponseBean inLogin(@RequestBody UserRequest userRequest) {
         UserBto userBto = userService.getUserByname(userRequest.getUserName());
         if (userBto == null) {
@@ -164,7 +164,7 @@ public class UserController {
     @ApiOperation("用户登出接口")
     @AuthToken
     @ResponseBody
-    @RequestMapping(value = "/infota/product/exitLogin", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/infota/product/exitLogin", method = RequestMethod.GET)
     public ResponseBean exitLogin(HttpServletRequest request) {
         String token = request.getHeader("token");
         if (JedisUtil.exists(Constant.PREFIX_SHIRO_ACCESS_TOKEN + token)) {
@@ -186,7 +186,7 @@ public class UserController {
      */
     @ApiOperation("用户注册接口")
     @ResponseBody
-    @RequestMapping(value = "/infota/product/inRegister", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/infota/product/inRegister", method = RequestMethod.POST)
     public ResponseBean inRegister(@RequestBody UserBto userBto) {
         String account = userBto.getLoginName();
         String passworld = userBto.getLoginPassword();
