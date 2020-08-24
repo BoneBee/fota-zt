@@ -1,6 +1,6 @@
 package com.intest.dao.mapper;
 
-import com.intest.dao.entity.Car;
+import com.intest.dao.entity.CarBto;
 
 import java.util.List;
 
@@ -13,5 +13,5 @@ public interface CarExtendMapper {
      * 分页查询车辆
      * @return
      */
-    List<Car> selectPage();
+    List<CarBto> selectPage();
 }

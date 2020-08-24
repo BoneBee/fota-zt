@@ -21,7 +21,7 @@ public class PreUploadFileRO {
      * 文件大小
      */
     @JsonProperty("Size")
-    private BigDecimal Size;
+    private long Size;
 
     /*
      * 文件修改时间
@@ -39,7 +39,7 @@ public class PreUploadFileRO {
         this.OriginalName = value;
     }
 
-    public void setSize(BigDecimal value) {
+    public void setSize(long value) {
         this.Size = value;
     }
 
@@ -55,7 +55,7 @@ public class PreUploadFileRO {
         return this.OriginalName;
     }
 
-    public BigDecimal getSize() {
+    public long getSize() {
         return this.Size;
     }
 

@@ -1,22 +1,24 @@
 package com.intest.api.controller;
 
 
-import com.intest.basicservice.table.impl.common.ResponseBean;
-import com.intest.basicservice.table.impl.common.constant.Constant;
-import com.intest.basicservice.table.impl.config.helper.ValidateHelper;
-import com.intest.basicservice.table.impl.config.jwt.AuthToken;
-import com.intest.basicservice.table.impl.config.jwt.BcrptTokenGenerator;
-import com.intest.basicservice.table.impl.config.redis.JedisUtil;
-import com.intest.basicservice.table.impl.exception.CustomException;
-import com.intest.basicservice.table.impl.response.LoginOutResponse;
-import com.intest.basicservice.table.impl.response.LoginResponse;
-import com.intest.basicservice.table.impl.response.UserRequest;
-import com.intest.basicservice.table.impl.service.impl.MeunImpl;
-import com.intest.basicservice.table.impl.service.impl.UserServiceImpl;
-import com.intest.basicservice.table.impl.util.BCrypt;
-import com.intest.basicservice.table.impl.util.CheckPwd;
-import com.intest.basicservice.table.impl.util.common.StringUtils;
-import com.intest.dao.entity.MeunBto;
+import com.intest.basicservice.table.common.ResponseBean;
+import com.intest.basicservice.table.common.constant.Constant;
+import com.intest.basicservice.table.config.helper.ValidateHelper;
+import com.intest.basicservice.table.config.jwt.AuthToken;
+import com.intest.basicservice.table.config.jwt.BcrptTokenGenerator;
+import com.intest.basicservice.table.config.redis.JedisUtil;
+import com.intest.basicservice.table.exception.CustomException;
+import com.intest.basicservice.user.response.LoginOutResponse;
+import com.intest.basicservice.user.response.LoginResponse;
+import com.intest.basicservice.user.response.UserRequest;
+import com.intest.basicservice.table.service.impl.MeunImpl;
+import com.intest.basicservice.user.service.UserService;
+import com.intest.basicservice.user.service.impl.UserServiceImpl;
+import com.intest.basicservice.user.util.BCrypt;
+import com.intest.basicservice.table.util.CheckPwd;
+import com.intest.basicservice.table.util.common.StringUtils;
+import com.intest.basicservice.user.vo.LoginVO;
+import com.intest.common.result.ResultT;
 import com.intest.dao.entity.UserBto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,7 +26,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -37,10 +38,7 @@ public class UserController {
     BcrptTokenGenerator bcrptTokenGenerator;
 
     @Autowired
-    UserServiceImpl userService;
-
-    @Autowired
-    MeunImpl meunImpl;
+    UserService userService;
 
     /**
      * 用户登录
@@ -51,8 +49,18 @@ public class UserController {
     @ResponseBody
     @ApiOperation("用户登录接口")
     @RequestMapping(value = "/api/infota/product/inLogin", method = RequestMethod.POST)
-    public ResponseBean inLogin(@RequestBody UserRequest userRequest) {
-        UserBto userBto = userService.getUserByname(userRequest.getUserName());
+    public ResultT<LoginVO> inLogin(@RequestBody UserRequest userRequest) {
+        ResultT<LoginVO> result = new ResultT<LoginVO>();
+        try {
+            LoginVO loginVO = userService.checkLogin(userRequest.getUserName(), userRequest.getPassword());
+            result.setResult(loginVO);
+        }catch (Exception ex) {
+            result.setFail();
+        }
+
+        return result;
+
+        /*UserBto userBto = userService.getUserByname(userRequest.getUserName());
         if (userBto == null) {
             throw new CustomException("查询失败,该账号未注册(Query Failure)");
         }
@@ -70,13 +78,13 @@ public class UserController {
         if (!BCrypt.checkpw(password, sqlPassworld)) {
             errorNumber -= 1;
             if (errorNumber == 0) {
-                userBto.setAccountStatus(BigDecimal.valueOf(0));
+                userBto.setAccountStatus((short) 0);
             }
-            userBto.setPasswordRetryCount(BigDecimal.valueOf(errorNumber));
+            userBto.setPasswordRetryCount(errorNumber);
             userService.updateUser(userBto);
             return new ResponseBean(1, "密码错误(Passworld Failure)", new LoginResponse(2, "", errorNumber, null));
         }
-        userBto.setPasswordRetryCount(BigDecimal.valueOf(5));
+        userBto.setPasswordRetryCount(5);
         userService.updateUser(userBto);
         List<MeunBto> meunBtoList = meunImpl.getMeun();
         List<LoginResponse.MenusItemBean> menus = new ArrayList<>();
@@ -143,7 +151,7 @@ public class UserController {
             menusItemBean.setChildren(children);
             menus.add(menusItemBean);
         }*/
-
+/*
         if (JedisUtil.exists(Constant.PREFIX_SHIRO_CACHE + userName)) {
             Object token = JedisUtil.getObject(Constant.PREFIX_SHIRO_CACHE + userName);
             return new ResponseBean(1, "登陆成功", new LoginResponse(1, token + "", 0, rootMeuns));
@@ -152,7 +160,7 @@ public class UserController {
             JedisUtil.setObject(Constant.PREFIX_SHIRO_CACHE + userName, token, Constant.EXRP_DAY);
             JedisUtil.setObject(Constant.PREFIX_SHIRO_ACCESS_TOKEN + token, userName, Constant.EXRP_DAY);
             return new ResponseBean(1, "登陆成功", new LoginResponse(1, token, 0, rootMeuns));
-        }
+        }*/
     }
 
 

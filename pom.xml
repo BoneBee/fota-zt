@@ -22,6 +22,7 @@
 		<module>api</module>
 		<module>service</module>
 		<module>dao</module>
+		<module>dao-help</module>
 		<module>common</module>
 		<!-- 产品service -->
 		<module>basic-service</module>

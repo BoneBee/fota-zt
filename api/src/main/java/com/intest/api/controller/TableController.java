@@ -1,13 +1,13 @@
 package com.intest.api.controller;
 
 import com.alibaba.fastjson.JSONArray;
-import com.intest.basicservice.table.impl.common.ResponseBean;
-import com.intest.basicservice.table.impl.config.helper.ValidateHelper;
-import com.intest.basicservice.table.impl.exception.CustomException;
-import com.intest.basicservice.table.impl.response.*;
-import com.intest.basicservice.table.impl.ro.GetDataRO;
-import com.intest.basicservice.table.impl.service.impl.*;
-import com.intest.basicservice.table.impl.util.common.StringUtils;
+import com.intest.basicservice.table.common.ResponseBean;
+import com.intest.basicservice.table.config.helper.ValidateHelper;
+import com.intest.basicservice.table.exception.CustomException;
+import com.intest.basicservice.table.response.*;
+import com.intest.basicservice.table.ro.GetDataRO;
+import com.intest.basicservice.table.service.impl.*;
+import com.intest.basicservice.table.util.common.StringUtils;
 import com.intest.dao.entity.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
@@ -165,9 +165,9 @@ public class TableController {
                 if (columnBto == null) {
                     throw new CustomException("未找到对应column！");
                 }
-                columnBto.setOrderNum(BigDecimal.valueOf(styleBean.getOrderNum()));
-                columnBto.setWidth(BigDecimal.valueOf(styleBean.getWidth()));
-                columnBto.setIsshow(BigDecimal.valueOf(styleBean.getIsShow() ? 1 : 0));
+                columnBto.setOrderNum((short)styleBean.getOrderNum());
+                columnBto.setWidth(styleBean.getWidth());
+                columnBto.setIsshow((short)(styleBean.getIsShow() ? 1 : 0));
                 columnBto.setSort(styleBean.getSort());
                 if (columnImpl.updateColumn(columnBto) != 1) {
                     throw new CustomException("更新column失败！");
@@ -245,12 +245,12 @@ public class TableController {
     @ResponseBody
     @RequestMapping(value = "/api/basic/table/getmenu", method = RequestMethod.GET)
     public ResponseBean getmenu() {
-        List<MeunBto> meunBtos = meunImpl.getMeun();
+        List<MenuBto> meunBtos = meunImpl.getMeun();
         if (meunBtos.size() == 0) {
             return new ResponseBean(1, "查询成功", null);
         }
         List<MenuResponse.MenuItemBean> data = new ArrayList<>();
-        for (MeunBto meunBto : meunBtos) {
+        for (MenuBto meunBto : meunBtos) {
             MenuResponse.MenuItemBean menuItemBean = new MenuResponse.MenuItemBean(meunBto.getMenuId(), path(meunBto, new StringBuffer()).toString(), meunBto.getMenulink());
             data.add(menuItemBean);
         }
@@ -363,12 +363,12 @@ public class TableController {
         if (optionBto == null) {
             OptionBto optionBto2 = new OptionBto();
             optionBto2.setOptionId(optionRequest.getOptionId());
-            optionBto2.setKind(BigDecimal.valueOf(optionRequest.getKind()));
-            optionBto2.setDateType(BigDecimal.valueOf(optionRequest.getDataType()));
-            optionBto2.setMaxLength(BigDecimal.valueOf(optionRequest.getMaxLength()));
-            optionBto2.setMinLength(BigDecimal.valueOf(optionRequest.getMinLength()));
-            optionBto2.setMaxNum(BigDecimal.valueOf(optionRequest.getMaxNum()));
-            optionBto2.setMinNum(BigDecimal.valueOf(optionRequest.getMinNum()));
+            optionBto2.setKind(optionRequest.getKind());
+            optionBto2.setDateType(optionRequest.getDataType());
+            optionBto2.setMaxLength(optionRequest.getMaxLength());
+            optionBto2.setMinLength(optionRequest.getMinLength());
+            optionBto2.setMaxNum(optionRequest.getMaxNum());
+            optionBto2.setMinNum(optionRequest.getMinNum());
             optionBto2.setRegularText(optionRequest.getRegularText());
             optionBto2.setDateFormat(optionRequest.getDateFormat());
             optionBto2.setQueryFields(optionRequest.getQueryFields());
@@ -377,7 +377,7 @@ public class TableController {
                 listFilters = optionRequest.getListOfFilter();
             }
             optionBto2.setListoffilter(JSONArray.toJSONString(listFilters));
-            optionBto2.setDateSourceKind(BigDecimal.valueOf(optionRequest.getDataSourceKind()));
+            optionBto2.setDateSourceKind(optionRequest.getDataSourceKind());
             List valueList = new ArrayList<>();
             if (optionRequest.getValueRange() != null || optionRequest.getValueRange().size() != 0) {
                 valueList = optionRequest.getValueRange();
@@ -397,11 +397,11 @@ public class TableController {
                 return new ResponseBean(0, "保存失败", new TableEditResponse(0));
             }
         } else {
-            optionBto.setKind(BigDecimal.valueOf(optionRequest.getKind()));
-            optionBto.setDateType(BigDecimal.valueOf(optionRequest.getDataType()));
-            optionBto.setMaxLength(BigDecimal.valueOf(optionRequest.getMaxLength()));
-            optionBto.setMinLength(BigDecimal.valueOf(optionRequest.getMinLength()));
-            optionBto.setMaxNum(BigDecimal.valueOf(optionRequest.getMaxNum()));
+            optionBto.setKind(optionRequest.getKind());
+            optionBto.setDateType(optionRequest.getDataType());
+            optionBto.setMaxLength(optionRequest.getMaxLength());
+            optionBto.setMinLength(optionRequest.getMinLength());
+            optionBto.setMaxNum(optionRequest.getMaxNum());
             optionBto.setRegularText(optionRequest.getRegularText());
             optionBto.setDateFormat(optionRequest.getDateFormat());
             optionBto.setQueryFields(optionRequest.getQueryFields());
@@ -410,7 +410,7 @@ public class TableController {
                 listFilters = optionRequest.getListOfFilter();
             }
             optionBto.setListoffilter(JSONArray.toJSONString(listFilters));
-            optionBto.setDateSourceKind(BigDecimal.valueOf(optionRequest.getDataSourceKind()));
+            optionBto.setDateSourceKind(optionRequest.getDataSourceKind());
             List valueList = new ArrayList<>();
             if (optionRequest.getValueRange() != null || optionRequest.getValueRange().size() != 0) {
                 valueList = optionRequest.getValueRange();
@@ -477,10 +477,10 @@ public class TableController {
             columnBto.setColumnId(column.getColumnId());
             columnBto.setColumnName(column.getColumnName());
             columnBto.setDatapropertyname(column.getDataPropertyName());
-            columnBto.setOrderNum(BigDecimal.valueOf(column.getOrderNum()));
-            columnBto.setWidth(BigDecimal.valueOf(column.getWidth()));
-            columnBto.setIsshow(BigDecimal.valueOf(column.getIsShow() ? 1 : 0));
-            columnBto.setIscansort(BigDecimal.valueOf(column.getIsCanSort() ? 1 : 0));
+            columnBto.setOrderNum((short)column.getOrderNum());
+            columnBto.setWidth(column.getWidth());
+            columnBto.setIsshow((short)(column.getIsShow() ? 1 : 0));
+            columnBto.setIscansort((short)(column.getIsCanSort() ? 1 : 0));
             if (columnImpl.getColumnById(column.getColumnId()) != null) {
                 throw new CustomException("columnId已经存在！");
             }
@@ -491,17 +491,17 @@ public class TableController {
             tableColumnBto.setTablecolumnId(UUID.randomUUID() + "");
             tableColumnBto.setFkTableId(tableBto.getTableId());
             tableColumnBto.setFkColumnId(column.getColumnId());
-            tableColumnBto.setOrderNum(BigDecimal.valueOf(column.getOrderNum()));
-            tableColumnBto.setWidth(BigDecimal.valueOf(column.getWidth()));
-            tableColumnBto.setChecked(BigDecimal.valueOf(column.getIsShow() ? 1 : 0));
-            tableColumnBto.setIscansort(BigDecimal.valueOf(column.getIsCanSort() ? 1 : 0));
+            tableColumnBto.setOrderNum((short)column.getOrderNum());
+            tableColumnBto.setWidth(column.getWidth());
+            tableColumnBto.setChecked((short)(column.getIsShow() ? 1 : 0));
+            tableColumnBto.setIscansort((short)(column.getIsCanSort() ? 1 : 0));
             if (tableColumnImpl.addTableColumn(tableColumnBto) != 1) {
                 throw new CustomException("存储table_column数据失败！");
             }
         }
         ToolbarBto toolbarBto = new ToolbarBto();
         toolbarBto.setToolbarId(UUID.randomUUID() + "");
-        toolbarBto.setCharecked(BigDecimal.valueOf(tableRequest.getToolbar().isChecked() ? 1 : 0));
+        toolbarBto.setCharecked((short)(tableRequest.getToolbar().isChecked() ? 1 : 0));
         toolbarBto.setRemark(tableRequest.getRemark());
         toolbarBto.setFkTableId(tableBto.getTableId());
         if (toolbarImpl.addToolbar(toolbarBto) != 1) {
@@ -553,10 +553,10 @@ public class TableController {
             columnBto.setColumnId(column.getColumnId());
             columnBto.setColumnName(column.getColumnName());
             columnBto.setDatapropertyname(column.getDataPropertyName());
-            columnBto.setOrderNum(BigDecimal.valueOf(column.getOrderNum()));
-            columnBto.setWidth(BigDecimal.valueOf(column.getWidth()));
-            columnBto.setIsshow(BigDecimal.valueOf(column.getIsShow() ? 1 : 0));
-            columnBto.setIscansort(BigDecimal.valueOf(column.getIsCanSort() ? 1 : 0));
+            columnBto.setOrderNum((short)(column.getOrderNum()));
+            columnBto.setWidth(column.getWidth());
+            columnBto.setIsshow((short)(column.getIsShow() ? 1 : 0));
+            columnBto.setIscansort((short)(column.getIsCanSort() ? 1 : 0));
             if (columnImpl.getColumnById(column.getColumnId()) == null) {
                 if (columnImpl.addColumn(columnBto) != 1) {
                     throw new CustomException("存储column数据失败！");
@@ -565,10 +565,10 @@ public class TableController {
                 tableColumnBto.setTablecolumnId(UUID.randomUUID() + "");
                 tableColumnBto.setFkTableId(tableRequest.getTableId());
                 tableColumnBto.setFkColumnId(column.getColumnId());
-                tableColumnBto.setOrderNum(BigDecimal.valueOf(column.getOrderNum()));
-                tableColumnBto.setWidth(BigDecimal.valueOf(column.getWidth()));
-                tableColumnBto.setChecked(BigDecimal.valueOf(column.getIsShow() ? 1 : 0));
-                tableColumnBto.setIscansort(BigDecimal.valueOf(column.getIsCanSort() ? 1 : 0));
+                tableColumnBto.setOrderNum((short)(column.getOrderNum()));
+                tableColumnBto.setWidth(column.getWidth());
+                tableColumnBto.setChecked((short)(column.getIsShow() ? 1 : 0));
+                tableColumnBto.setIscansort((short)(column.getIsCanSort() ? 1 : 0));
                 if (tableColumnImpl.addTableColumn(tableColumnBto) != 1) {
                     throw new CustomException("存储table_column数据失败！");
                 }
@@ -582,7 +582,7 @@ public class TableController {
         if (toolbarBto == null) {
             throw new CustomException("您输入toolbar不存在！");
         }
-        toolbarBto.setCharecked(BigDecimal.valueOf(tableRequest.getToolbar().isChecked() ? 1 : 0));
+        toolbarBto.setCharecked((short)(tableRequest.getToolbar().isChecked() ? 1 : 0));
         if (toolbarImpl.updateToolbar(toolbarBto) != 1) {
             throw new CustomException("修改列toolbar失败！");
         }
@@ -706,11 +706,11 @@ public class TableController {
 
     }
 
-    public StringBuffer path(MeunBto meunBto, StringBuffer path) {
+    public StringBuffer path(MenuBto meunBto, StringBuffer path) {
         String name = meunBto.getMenudisplayname();
         path.insert(0, name + "/");
         if (StringUtils.isNotEmptyStr(meunBto.getFkMenuId())) {
-            MeunBto fatherMeun = meunImpl.getMeunById(meunBto.getFkMenuId());
+            MenuBto fatherMeun = meunImpl.getMeunById(meunBto.getFkMenuId());
             if (fatherMeun == null) {
                 throw new CustomException("未找到上层MenuId！");
             }

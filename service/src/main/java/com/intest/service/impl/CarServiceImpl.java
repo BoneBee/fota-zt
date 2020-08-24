@@ -4,9 +4,9 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.intest.common.result.PagerDataBaseVO;
 import com.intest.common.tableData.TableDataAnnotation;
-import com.intest.dao.entity.Car;
+import com.intest.dao.entity.CarBto;
+import com.intest.dao.mapper.CarBtoMapper;
 import com.intest.dao.mapper.CarExtendMapper;
-import com.intest.dao.mapper.CarMapper;
 import com.intest.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,7 +22,7 @@ import java.util.List;
 public class CarServiceImpl implements CarService {
 
     @Autowired
-    private CarMapper carMapper;
+    private CarBtoMapper carMapper;
 
     @Autowired
     private CarExtendMapper carExtend;
@@ -35,8 +35,8 @@ public class CarServiceImpl implements CarService {
         //List<Car> list = carMapper.selectByExample(null);
 
         PageHelper.startPage(model.getPi(), model.getPs());
-        List<Car> cars = carExtend.selectPage();
-        PageInfo pageInfo = new PageInfo<Car>(cars);
+        List<CarBto> cars = carExtend.selectPage();
+        PageInfo pageInfo = new PageInfo<CarBto>(cars);
         car.setTotal(pageInfo.getTotal());
         car.setData(cars);
 

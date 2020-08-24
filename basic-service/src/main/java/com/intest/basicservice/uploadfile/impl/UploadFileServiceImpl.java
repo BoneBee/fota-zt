@@ -1,20 +1,20 @@
 package com.intest.basicservice.uploadfile.impl;
 
+import cn.hutool.core.net.multipart.UploadFile;
 import com.intest.basicservice.uploadfile.UploadFileService;
 import com.intest.basicservice.uploadfile.ro.ChunkFileRO;
 import com.intest.basicservice.uploadfile.ro.PreUploadFileRO;
 import com.intest.basicservice.uploadfile.utils.FileComparator;
 import com.intest.basicservice.uploadfile.vo.CheckUploadFileVO;
 import com.intest.basicservice.uploadfile.vo.ChunkFileVO;
-import com.intest.dao.entity.UploadFile;
-import com.intest.dao.entity.UploadFileExample;
-import com.intest.dao.mapper.UploadFileMapper;
+import com.intest.dao.entity.UploadFileBto;
+import com.intest.dao.entity.UploadFileBtoExample;
+import com.intest.dao.mapper.UploadFileBtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
-import java.math.BigDecimal;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -29,7 +29,7 @@ import java.util.UUID;
 public class UploadFileServiceImpl implements UploadFileService {
 
     @Autowired
-    private UploadFileMapper uploadFileDao;
+    private UploadFileBtoMapper uploadFileDao;
 
     @Value("${upload-file.path-string}")
     private String path;
@@ -38,18 +38,18 @@ public class UploadFileServiceImpl implements UploadFileService {
     public CheckUploadFileVO CheckUploadFile(PreUploadFileRO model) {
         CheckUploadFileVO result = new CheckUploadFileVO();
 
-        UploadFile uploadFile = new UploadFile();
+        UploadFileBto uploadFile = new UploadFileBto();
         uploadFile.setFilesize(model.getSize());
         uploadFile.setOriginalname(model.getOriginalName());
         uploadFile.setLastmodifieddate(model.getLastModifiedDate());
 
-        UploadFileExample example = new UploadFileExample();
-        UploadFileExample.Criteria criteria = example.createCriteria();
+        UploadFileBtoExample example = new UploadFileBtoExample();
+        UploadFileBtoExample.Criteria criteria = example.createCriteria();
         criteria.andFilesizeEqualTo(model.getSize());
         criteria.andOriginalnameEqualTo(model.getOriginalName());
         criteria.andLastmodifieddateEqualTo(model.getLastModifiedDate());
 
-        List<UploadFile> list = uploadFileDao.selectByExample(example);
+        List<UploadFileBto> list = uploadFileDao.selectByExample(example);
 
         // 未匹配到续传的文件
         if (list.isEmpty()) {
@@ -63,7 +63,7 @@ public class UploadFileServiceImpl implements UploadFileService {
             result.setChunkDone(emptyArray);
         } else {
             // 已找到可续传文件
-            UploadFile uploadFile1 = list.get(0);
+            UploadFileBto uploadFile1 = list.get(0);
             result.setFileId(uploadFile1.getUploadfileId());
             File file = new File(path + uploadFile1.getUploadfileId() + "/");
             List<Integer> chunkFiles = new ArrayList<>();
@@ -85,9 +85,8 @@ public class UploadFileServiceImpl implements UploadFileService {
         return result;
     }
 
-    private int FileBlockSize(BigDecimal size) {
-        long _size = size.longValue();
-        return new Double(Math.ceil(_size / (4 * 1024 * 1024))).intValue();
+    private int FileBlockSize(long size) {
+        return new Double(Math.ceil(size / (4 * 1024 * 1024))).intValue();
     }
 
     @Override
@@ -112,25 +111,25 @@ public class UploadFileServiceImpl implements UploadFileService {
 
                 File[] files = file.listFiles(filter);
                 Arrays.sort(files, new FileComparator());
-                UploadFile uploadFile = uploadFileDao.selectByPrimaryKey(fileId);
+                UploadFileBto uploadFile = uploadFileDao.selectByPrimaryKey(fileId);
                 String extension = uploadFile.getOriginalname().substring(uploadFile.getOriginalname().indexOf("."));
                 String newPath = path + fileId + extension;
                 MergeFiles(files, newPath);
 
-                UploadFile uploadFile1 = new UploadFile();
+                UploadFileBto uploadFile1 = new UploadFileBto();
                 uploadFile1.setUpdateby("A7B3CC45-ED81-421D-A2C8-3CBD9036AE5A");
 
-                UploadFileExample example = new UploadFileExample();
-                UploadFileExample.Criteria criteria = example.createCriteria();
+                UploadFileBtoExample example = new UploadFileBtoExample();
+                UploadFileBtoExample.Criteria criteria = example.createCriteria();
                 criteria.andUploadfileIdEqualTo(fileId);
 
                 File newFile = new File(newPath);
                 if (uploadFile.getFilesize().longValue() != newFile.length()) {
-                    uploadFile1.setUploadedsuccess(new BigDecimal(2));
+                    uploadFile1.setUploadedsuccess((short)2);
                     uploadFileDao.updateByExample(uploadFile1, example);
                     result = false;
                 } else {
-                    uploadFile1.setUploadedsuccess(new BigDecimal(1));
+                    uploadFile1.setUploadedsuccess((short) 1);
                     uploadFileDao.updateByExample(uploadFile1, example);
                 }
             }

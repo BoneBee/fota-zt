@@ -2,12 +2,7 @@ package com.intest.service;
 
 
 import com.intest.common.result.PagerDataBaseVO;
-import com.intest.common.tableData.TableDataAnnotation;
-import com.intest.dao.entity.Car;
 import com.intest.service.impl.CarPage;
-import org.springframework.context.annotation.Bean;
-
-import java.util.List;
 
 /**
  * @author zhanghui

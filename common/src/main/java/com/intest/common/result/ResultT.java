@@ -1,9 +1,12 @@
 package com.intest.common.result;
 
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+
 /**
  * @author zhanghui
  * @create 2020-08-10 9:41
  */
+@JsonPropertyOrder({"success", "result"})
 public class ResultT<E> {
 
     public ResultT() {
