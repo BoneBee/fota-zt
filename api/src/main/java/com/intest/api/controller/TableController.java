@@ -165,9 +165,9 @@ public class TableController {
                 if (columnBto == null) {
                     throw new CustomException("未找到对应column！");
                 }
-                columnBto.setOrderNum((short)styleBean.getOrderNum());
+                columnBto.setOrderNum(styleBean.getOrderNum());
                 columnBto.setWidth(styleBean.getWidth());
-                columnBto.setIsshow((short)(styleBean.getIsShow() ? 1 : 0));
+                columnBto.setIsshow(styleBean.getIsShow() ? (short) 1 : (short) 0);
                 columnBto.setSort(styleBean.getSort());
                 if (columnImpl.updateColumn(columnBto) != 1) {
                     throw new CustomException("更新column失败！");
@@ -477,9 +477,9 @@ public class TableController {
             columnBto.setColumnId(column.getColumnId());
             columnBto.setColumnName(column.getColumnName());
             columnBto.setDatapropertyname(column.getDataPropertyName());
-            columnBto.setOrderNum((short)column.getOrderNum());
+            columnBto.setOrderNum(column.getOrderNum());
             columnBto.setWidth(column.getWidth());
-            columnBto.setIsshow((short)(column.getIsShow() ? 1 : 0));
+            columnBto.setIsshow((short) (column.getIsShow() ? 1 : 0));
             columnBto.setIscansort((short)(column.getIsCanSort() ? 1 : 0));
             if (columnImpl.getColumnById(column.getColumnId()) != null) {
                 throw new CustomException("columnId已经存在！");
@@ -491,17 +491,17 @@ public class TableController {
             tableColumnBto.setTablecolumnId(UUID.randomUUID() + "");
             tableColumnBto.setFkTableId(tableBto.getTableId());
             tableColumnBto.setFkColumnId(column.getColumnId());
-            tableColumnBto.setOrderNum((short)column.getOrderNum());
-            tableColumnBto.setWidth(column.getWidth());
-            tableColumnBto.setChecked((short)(column.getIsShow() ? 1 : 0));
-            tableColumnBto.setIscansort((short)(column.getIsCanSort() ? 1 : 0));
+            tableColumnBto.setOrderNum(BigDecimal.valueOf(column.getOrderNum()));
+            tableColumnBto.setWidth(BigDecimal.valueOf(column.getWidth()));
+            tableColumnBto.setChecked(BigDecimal.valueOf(column.getIsShow() ? 1 : 0));
+            tableColumnBto.setIscansort(BigDecimal.valueOf(column.getIsCanSort() ? 1 : 0));
             if (tableColumnImpl.addTableColumn(tableColumnBto) != 1) {
                 throw new CustomException("存储table_column数据失败！");
             }
         }
         ToolbarBto toolbarBto = new ToolbarBto();
         toolbarBto.setToolbarId(UUID.randomUUID() + "");
-        toolbarBto.setCharecked((short)(tableRequest.getToolbar().isChecked() ? 1 : 0));
+        toolbarBto.setCharecked(BigDecimal.valueOf(tableRequest.getToolbar().isChecked() ? 1 : 0));
         toolbarBto.setRemark(tableRequest.getRemark());
         toolbarBto.setFkTableId(tableBto.getTableId());
         if (toolbarImpl.addToolbar(toolbarBto) != 1) {
@@ -553,10 +553,10 @@ public class TableController {
             columnBto.setColumnId(column.getColumnId());
             columnBto.setColumnName(column.getColumnName());
             columnBto.setDatapropertyname(column.getDataPropertyName());
-            columnBto.setOrderNum((short)(column.getOrderNum()));
+            columnBto.setOrderNum(column.getOrderNum());
             columnBto.setWidth(column.getWidth());
-            columnBto.setIsshow((short)(column.getIsShow() ? 1 : 0));
-            columnBto.setIscansort((short)(column.getIsCanSort() ? 1 : 0));
+            columnBto.setIsshow((short) (column.getIsShow() ? 1 : 0));
+            columnBto.setIscansort((short) (column.getIsCanSort() ? 1 : 0));
             if (columnImpl.getColumnById(column.getColumnId()) == null) {
                 if (columnImpl.addColumn(columnBto) != 1) {
                     throw new CustomException("存储column数据失败！");
@@ -565,10 +565,10 @@ public class TableController {
                 tableColumnBto.setTablecolumnId(UUID.randomUUID() + "");
                 tableColumnBto.setFkTableId(tableRequest.getTableId());
                 tableColumnBto.setFkColumnId(column.getColumnId());
-                tableColumnBto.setOrderNum((short)(column.getOrderNum()));
-                tableColumnBto.setWidth(column.getWidth());
-                tableColumnBto.setChecked((short)(column.getIsShow() ? 1 : 0));
-                tableColumnBto.setIscansort((short)(column.getIsCanSort() ? 1 : 0));
+                tableColumnBto.setOrderNum(BigDecimal.valueOf(column.getOrderNum()));
+                tableColumnBto.setWidth(BigDecimal.valueOf(column.getWidth()));
+                tableColumnBto.setChecked(BigDecimal.valueOf(column.getIsShow() ? 1 : 0));
+                tableColumnBto.setIscansort(BigDecimal.valueOf(column.getIsCanSort() ? 1 : 0));
                 if (tableColumnImpl.addTableColumn(tableColumnBto) != 1) {
                     throw new CustomException("存储table_column数据失败！");
                 }
@@ -582,7 +582,7 @@ public class TableController {
         if (toolbarBto == null) {
             throw new CustomException("您输入toolbar不存在！");
         }
-        toolbarBto.setCharecked((short)(tableRequest.getToolbar().isChecked() ? 1 : 0));
+        toolbarBto.setCharecked(BigDecimal.valueOf(tableRequest.getToolbar().isChecked() ? 1 : 0));
         if (toolbarImpl.updateToolbar(toolbarBto) != 1) {
             throw new CustomException("修改列toolbar失败！");
         }

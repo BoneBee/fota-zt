@@ -64,7 +64,7 @@ public class TableRequest {
 
         private String dataPropertyName;
 
-        private int orderNum;
+        private Short orderNum;
 
         private int width;
 
@@ -75,7 +75,7 @@ public class TableRequest {
         private String fieldText;
 
 
-        public ColumnBean(String columnId, String columnName, int orderNum, int width, boolean isShow, boolean isCanSort, String fieldText,String dataPropertyName) {
+        public ColumnBean(String columnId, String columnName, Short orderNum, int width, boolean isShow, boolean isCanSort, String fieldText,String dataPropertyName) {
             this.columnId = columnId;
             this.columnName = columnName;
             this.orderNum = orderNum;
@@ -102,11 +102,11 @@ public class TableRequest {
             this.columnName = columnName;
         }
 
-        public int getOrderNum() {
+        public Short getOrderNum() {
             return orderNum;
         }
 
-        public void setOrderNum(int orderNum) {
+        public void setOrderNum(Short orderNum) {
             this.orderNum = orderNum;
         }
 

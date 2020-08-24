@@ -1,5 +1,6 @@
 package com.intest.dao.entity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -381,52 +382,52 @@ public class ColumnOptionBtoExample {
             return (Criteria) this;
         }
 
-        public Criteria andIntdexEqualTo(Short value) {
+        public Criteria andIntdexEqualTo(BigDecimal value) {
             addCriterion("INTDEX =", value, "intdex");
             return (Criteria) this;
         }
 
-        public Criteria andIntdexNotEqualTo(Short value) {
+        public Criteria andIntdexNotEqualTo(BigDecimal value) {
             addCriterion("INTDEX <>", value, "intdex");
             return (Criteria) this;
         }
 
-        public Criteria andIntdexGreaterThan(Short value) {
+        public Criteria andIntdexGreaterThan(BigDecimal value) {
             addCriterion("INTDEX >", value, "intdex");
             return (Criteria) this;
         }
 
-        public Criteria andIntdexGreaterThanOrEqualTo(Short value) {
+        public Criteria andIntdexGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("INTDEX >=", value, "intdex");
             return (Criteria) this;
         }
 
-        public Criteria andIntdexLessThan(Short value) {
+        public Criteria andIntdexLessThan(BigDecimal value) {
             addCriterion("INTDEX <", value, "intdex");
             return (Criteria) this;
         }
 
-        public Criteria andIntdexLessThanOrEqualTo(Short value) {
+        public Criteria andIntdexLessThanOrEqualTo(BigDecimal value) {
             addCriterion("INTDEX <=", value, "intdex");
             return (Criteria) this;
         }
 
-        public Criteria andIntdexIn(List<Short> values) {
+        public Criteria andIntdexIn(List<BigDecimal> values) {
             addCriterion("INTDEX in", values, "intdex");
             return (Criteria) this;
         }
 
-        public Criteria andIntdexNotIn(List<Short> values) {
+        public Criteria andIntdexNotIn(List<BigDecimal> values) {
             addCriterion("INTDEX not in", values, "intdex");
             return (Criteria) this;
         }
 
-        public Criteria andIntdexBetween(Short value1, Short value2) {
+        public Criteria andIntdexBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("INTDEX between", value1, value2, "intdex");
             return (Criteria) this;
         }
 
-        public Criteria andIntdexNotBetween(Short value1, Short value2) {
+        public Criteria andIntdexNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("INTDEX not between", value1, value2, "intdex");
             return (Criteria) this;
         }
@@ -441,52 +442,52 @@ public class ColumnOptionBtoExample {
             return (Criteria) this;
         }
 
-        public Criteria andIsdeleteEqualTo(Short value) {
+        public Criteria andIsdeleteEqualTo(BigDecimal value) {
             addCriterion("ISDELETE =", value, "isdelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsdeleteNotEqualTo(Short value) {
+        public Criteria andIsdeleteNotEqualTo(BigDecimal value) {
             addCriterion("ISDELETE <>", value, "isdelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsdeleteGreaterThan(Short value) {
+        public Criteria andIsdeleteGreaterThan(BigDecimal value) {
             addCriterion("ISDELETE >", value, "isdelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsdeleteGreaterThanOrEqualTo(Short value) {
+        public Criteria andIsdeleteGreaterThanOrEqualTo(BigDecimal value) {
             addCriterion("ISDELETE >=", value, "isdelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsdeleteLessThan(Short value) {
+        public Criteria andIsdeleteLessThan(BigDecimal value) {
             addCriterion("ISDELETE <", value, "isdelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsdeleteLessThanOrEqualTo(Short value) {
+        public Criteria andIsdeleteLessThanOrEqualTo(BigDecimal value) {
             addCriterion("ISDELETE <=", value, "isdelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsdeleteIn(List<Short> values) {
+        public Criteria andIsdeleteIn(List<BigDecimal> values) {
             addCriterion("ISDELETE in", values, "isdelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsdeleteNotIn(List<Short> values) {
+        public Criteria andIsdeleteNotIn(List<BigDecimal> values) {
             addCriterion("ISDELETE not in", values, "isdelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsdeleteBetween(Short value1, Short value2) {
+        public Criteria andIsdeleteBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("ISDELETE between", value1, value2, "isdelete");
             return (Criteria) this;
         }
 
-        public Criteria andIsdeleteNotBetween(Short value1, Short value2) {
+        public Criteria andIsdeleteNotBetween(BigDecimal value1, BigDecimal value2) {
             addCriterion("ISDELETE not between", value1, value2, "isdelete");
             return (Criteria) this;
         }

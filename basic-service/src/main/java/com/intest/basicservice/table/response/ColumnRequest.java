@@ -32,7 +32,7 @@ public class ColumnRequest {
 
     public static class StyleBean {
         private String columnId;
-        private int orderNum;
+        private Short orderNum;
         private int width;
         private boolean isShow;
         private String sort;
@@ -41,7 +41,7 @@ public class ColumnRequest {
         public StyleBean() {
         }
 
-        public StyleBean(String columnId, int orderNum, int width, boolean isShow, String sort) {
+        public StyleBean(String columnId, Short orderNum, int width, boolean isShow, String sort) {
             this.columnId = columnId;
             this.orderNum = orderNum;
             this.width = width;
@@ -58,11 +58,11 @@ public class ColumnRequest {
         }
 
 
-        public int getOrderNum() {
+        public Short getOrderNum() {
             return orderNum;
         }
 
-        public void setOrderNum(int orderNum) {
+        public void setOrderNum(Short orderNum) {
             this.orderNum = orderNum;
         }
 

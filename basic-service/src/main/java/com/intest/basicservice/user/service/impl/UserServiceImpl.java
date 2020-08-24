@@ -15,6 +15,7 @@ import com.intest.dao.mapper.UserBtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
@@ -50,17 +51,17 @@ public class UserServiceImpl implements UserService {
             vo.setIsCanLogin(2);
         } else {
             // 重试次数为0，则账号被冻结
-            if (user.getPasswordRetryCount() == 0) {
+            if (user.getPasswordRetryCount() == BigDecimal.valueOf(0)) {
                 vo.setIsCanLogin(2);
             } else {
                 // 校验密码
                 if (!BCrypt.checkpw(password, user.getLoginPassword())) {
-                    if (user.getPasswordRetryCount() == 0) {
+                    if (user.getPasswordRetryCount() == BigDecimal.valueOf(0)) {
                         vo.setIsCanLogin(3);
                     } else {
                         vo.setIsCanLogin(2);
-                        vo.setFreeNum(user.getPasswordRetryCount() - 1);
-                        updateUserByErrorPwd(user.getUserId(), user.getPasswordRetryCount());
+                        vo.setFreeNum(user.getPasswordRetryCount().intValue() - 1);
+                        updateUserByErrorPwd(user.getUserId(), user.getPasswordRetryCount().intValue());
                     }
                 } else {
                     updateUserBySuccess(user.getUserId());
@@ -97,7 +98,7 @@ public class UserServiceImpl implements UserService {
         UserBtoExample userBtoExample = new UserBtoExample();
         UserBtoExample.Criteria userBtoCriteria = userBtoExample.createCriteria();
         userBtoCriteria.andLoginNameEqualTo(userName);
-        userBtoCriteria.andIsdeleteEqualTo((short) 1);
+        userBtoCriteria.andIsdeleteEqualTo(BigDecimal.valueOf(1));
         List<UserBto> userBtos = userBtoMapper.selectByExample(userBtoExample);
         if (userBtos.size() > 0) {
             return userBtos.get(0);
@@ -111,30 +112,33 @@ public class UserServiceImpl implements UserService {
      * description: TODO
      * create time: 2020/8/22 11:07
      * 账号正确，密码错误时，更新重试次数和账号冻结状态
+     *
      * @param userId
      * @param passwordRetryCount
      * @return boolean
      */
-    private boolean updateUserByErrorPwd(String userId,int passwordRetryCount) {
+    private boolean updateUserByErrorPwd(String userId, int passwordRetryCount) {
         UserBtoExample userBtoExample = new UserBtoExample();
         UserBtoExample.Criteria userBtoCriteria = userBtoExample.createCriteria();
         userBtoCriteria.andUserIdEqualTo(userId);
-        userBtoCriteria.andIsdeleteEqualTo((short) 1);
+        userBtoCriteria.andIsdeleteEqualTo(BigDecimal.valueOf(1));
 
         UserBto user = new UserBto();
-        user.setPasswordRetryCount(passwordRetryCount - 1);
+        user.setPasswordRetryCount(BigDecimal.valueOf(passwordRetryCount - 1));
         // 如果剩余次数为零，则冻结账号
         if (passwordRetryCount == 0) {
-            user.setAccountStatus((short) 0);
+            user.setAccountStatus(BigDecimal.valueOf(0));
         }
         userBtoMapper.updateByExampleSelective(user, userBtoExample);
         return true;
     }
+
     /**
      * create by: zhanghui
      * description: TODO
      * create time: 2020/8/22 11:18
      * 登录成功，更新密码重试次数
+     *
      * @param userId
      * @return boolean
      */
@@ -142,10 +146,10 @@ public class UserServiceImpl implements UserService {
         UserBtoExample userBtoExample = new UserBtoExample();
         UserBtoExample.Criteria userBtoCriteria = userBtoExample.createCriteria();
         userBtoCriteria.andUserIdEqualTo(userId);
-        userBtoCriteria.andIsdeleteEqualTo((short) 1);
+        userBtoCriteria.andIsdeleteEqualTo(BigDecimal.valueOf(1));
 
         UserBto user = new UserBto();
-        user.setPasswordRetryCount(5);
+        user.setPasswordRetryCount(BigDecimal.valueOf(5));
         user.setLastLoginat(new Date());
 
         int count = userBtoMapper.updateByExampleSelective(user, userBtoExample);

@@ -1,7 +1,6 @@
 package com.intest.common.result;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import sun.awt.SunHints;
 
 import java.util.List;
 
