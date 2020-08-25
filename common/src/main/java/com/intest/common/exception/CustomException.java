@@ -1,7 +1,6 @@
-package com.intest.basicservice.table.exception;
+package com.intest.common.exception;
 
-
-import com.intest.basicservice.table.common.enums.ErrorCode;
+import com.intest.common.enums.ErrorCode;
 
 public class CustomException extends RuntimeException{
 

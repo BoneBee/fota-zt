@@ -1,4 +1,4 @@
-package com.intest.basicservice.table.common.enums;
+package com.intest.common.enums;
 
 public enum ErrorCode {
 

@@ -1,13 +1,12 @@
-package com.intest.basicservice.table.ro;
+package com.intest.common.ro;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author zhanghui
- * @create 2020-08-13 11:22
+ * @create 2020-08-24 14:14
  */
 public class SortRO {
-
     /*
      * 顺序
      * ascend/descend/null

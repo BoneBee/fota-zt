@@ -1,8 +1,8 @@
 package com.intest.basicservice.part.impl.service.impl;
 
 import com.intest.basicservice.part.impl.service.PartsTypeService;
-import com.intest.basicservice.table.exception.CustomException;
-import com.intest.basicservice.table.util.common.StringUtils;
+import com.intest.common.exception.CustomException;
+import com.intest.common.util.StringUtils;
 import com.intest.dao.entity.PartsTypeBto;
 import com.intest.dao.entity.PartsTypeBtoExample;
 import com.intest.dao.mapper.PartsTypeBtoMapper;

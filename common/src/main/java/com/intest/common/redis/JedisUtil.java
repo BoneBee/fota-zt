@@ -1,9 +1,9 @@
-package com.intest.basicservice.table.config.redis;
+package com.intest.common.redis;
 
-import com.intest.basicservice.table.common.constant.Constant;
-import com.intest.basicservice.table.exception.CustomException;
-import com.intest.basicservice.table.util.common.SerializableUtil;
-import com.intest.basicservice.table.util.common.StringUtils;
+
+import com.intest.common.exception.CustomException;
+import com.intest.common.util.SerializableUtil;
+import com.intest.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import redis.clients.jedis.Jedis;

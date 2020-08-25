@@ -1,16 +1,16 @@
-package com.intest.basicservice.table.config.jwt;
+package com.intest.common.jwt;
 
-
-
-import com.intest.basicservice.table.common.constant.Constant;
-import com.intest.basicservice.table.config.ExceptionAdvice;
-import com.intest.basicservice.table.config.jwt.AuthToken;
-import com.intest.basicservice.table.config.redis.JedisUtil;
-import com.intest.basicservice.table.exception.CustomException;
-import com.intest.basicservice.table.util.common.StringUtils;
+import cn.hutool.http.HttpException;
+import com.intest.common.exception.CustomException;
+import com.intest.common.exception.UnauthorizedException;
+import com.intest.common.redis.Constant;
+import com.intest.common.redis.JedisUtil;
+import com.intest.common.util.StringUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
@@ -23,7 +23,7 @@ import java.lang.reflect.Method;
 public class AuthorizationInterceptor implements HandlerInterceptor {
 
     //日志操作
-    private static Logger logger = LoggerFactory.getLogger(ExceptionAdvice.class);
+    //private static Logger logger = LoggerFactory.getLogger(ExceptionAdvice.class);
     //存放鉴权信息的Header名称，默认是Authorization
     private String httpHeaderName = "token";
 
@@ -39,19 +39,20 @@ public class AuthorizationInterceptor implements HandlerInterceptor {
         // 如果打上了AuthToken注解则需要验证token
         if (method.getAnnotation(AuthToken.class) != null || handlerMethod.getBeanType().getAnnotation(AuthToken.class) != null) {
             String token = request.getHeader(httpHeaderName);
-            logger.info(token);
+            //logger.info(token);
             Object username = "";
             if (StringUtils.isNotEmptyStr(token)) {
                 username = JedisUtil.getObject(Constant.PREFIX_SHIRO_ACCESS_TOKEN + token);
-                logger.info("username is {}", username);
+                //logger.info("username is {}", username);
                 if (username != null) {
-                    Long haveTime=JedisUtil.ttl(Constant.PREFIX_SHIRO_CACHE + username + token);
-                    if(haveTime<Constant.EXRP_HOUR){
+                    Long haveTime = JedisUtil.ttl(Constant.PREFIX_SHIRO_CACHE + username + token);
+                    if (haveTime < Constant.EXRP_HOUR) {
                         JedisUtil.setObject(Constant.PREFIX_SHIRO_CACHE + username, token, Constant.EXRP_DAY);
                         JedisUtil.setObject(Constant.PREFIX_SHIRO_ACCESS_TOKEN + token, username, Constant.EXRP_DAY);
                     }
                 } else {
-                    throw new CustomException("Token不合法(Token Failure)");
+
+                    throw new UnauthorizedException();
                 }
             } else {
                 throw new CustomException("未获取到有效Token(Token Failure)");

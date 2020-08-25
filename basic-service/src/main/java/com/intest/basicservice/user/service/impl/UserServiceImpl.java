@@ -1,14 +1,12 @@
 package com.intest.basicservice.user.service.impl;
 
 import com.intest.basicservice.menu.service.MenuService;
-import com.intest.basicservice.table.common.ResponseBean;
 import com.intest.basicservice.table.common.constant.Constant;
-import com.intest.basicservice.table.config.jwt.BcrptTokenGenerator;
-import com.intest.basicservice.table.config.redis.JedisUtil;
-import com.intest.basicservice.user.response.LoginResponse;
 import com.intest.basicservice.user.service.UserService;
-import com.intest.basicservice.user.util.BCrypt;
 import com.intest.basicservice.user.vo.LoginVO;
+import com.intest.common.jwt.BcrptTokenGenerator;
+import com.intest.common.redis.JedisUtil;
+import com.intest.common.util.BCrypt;
 import com.intest.dao.entity.UserBto;
 import com.intest.dao.entity.UserBtoExample;
 import com.intest.dao.mapper.UserBtoMapper;
@@ -51,12 +49,12 @@ public class UserServiceImpl implements UserService {
             vo.setIsCanLogin(2);
         } else {
             // 重试次数为0，则账号被冻结
-            if (user.getPasswordRetryCount() == BigDecimal.valueOf(0)) {
+            if (user.getPasswordRetryCount() == 0) {
                 vo.setIsCanLogin(2);
             } else {
                 // 校验密码
                 if (!BCrypt.checkpw(password, user.getLoginPassword())) {
-                    if (user.getPasswordRetryCount() == BigDecimal.valueOf(0)) {
+                    if (user.getPasswordRetryCount() == 0) {
                         vo.setIsCanLogin(3);
                     } else {
                         vo.setIsCanLogin(2);
@@ -70,14 +68,15 @@ public class UserServiceImpl implements UserService {
                     vo.setMenus(menuService.getMenuByUserId(user.getUserId()));
 
                     try {
-                        if (JedisUtil.exists(Constant.PREFIX_SHIRO_CACHE + userName)) {
-                            Object token = JedisUtil.getObject(Constant.PREFIX_SHIRO_CACHE + userName);
-                        } else {
-                            String token = bcrptTokenGenerator.generate(userName);
-                            JedisUtil.setObject(Constant.PREFIX_SHIRO_CACHE + userName, token, Constant.EXRP_DAY);
-                            JedisUtil.setObject(Constant.PREFIX_SHIRO_ACCESS_TOKEN + token, userName, Constant.EXRP_DAY);
-                        }
+                        //if (JedisUtil.exists(Constant.PREFIX_SHIRO_CACHE + user.getUserId())) {
+                        //    Object token = JedisUtil.getObject(Constant.PREFIX_SHIRO_CACHE + user.getUserId());
+                        //} else {
+                        //String token = bcrptTokenGenerator.generate(user.getUserId());
+                        JedisUtil.setObject(Constant.PREFIX_SHIRO_CACHE + user.getUserId(), vo.getToken(), Constant.EXRP_DAY);
+                        JedisUtil.setObject(Constant.PREFIX_SHIRO_ACCESS_TOKEN + vo.getToken(), user.getUserId(), Constant.EXRP_DAY);
+                        //}
                     } catch (Exception ex) {
+                        System.out.println(ex);
                     }
                 }
             }
@@ -98,7 +97,7 @@ public class UserServiceImpl implements UserService {
         UserBtoExample userBtoExample = new UserBtoExample();
         UserBtoExample.Criteria userBtoCriteria = userBtoExample.createCriteria();
         userBtoCriteria.andLoginNameEqualTo(userName);
-        userBtoCriteria.andIsdeleteEqualTo(BigDecimal.valueOf(1));
+        userBtoCriteria.andIsdeleteEqualTo((short) 1);
         List<UserBto> userBtos = userBtoMapper.selectByExample(userBtoExample);
         if (userBtos.size() > 0) {
             return userBtos.get(0);
@@ -121,13 +120,13 @@ public class UserServiceImpl implements UserService {
         UserBtoExample userBtoExample = new UserBtoExample();
         UserBtoExample.Criteria userBtoCriteria = userBtoExample.createCriteria();
         userBtoCriteria.andUserIdEqualTo(userId);
-        userBtoCriteria.andIsdeleteEqualTo(BigDecimal.valueOf(1));
+        userBtoCriteria.andIsdeleteEqualTo((short)1);
 
         UserBto user = new UserBto();
-        user.setPasswordRetryCount(BigDecimal.valueOf(passwordRetryCount - 1));
+        user.setPasswordRetryCount(passwordRetryCount - 1);
         // 如果剩余次数为零，则冻结账号
         if (passwordRetryCount == 0) {
-            user.setAccountStatus(BigDecimal.valueOf(0));
+            user.setAccountStatus((short) 0);
         }
         userBtoMapper.updateByExampleSelective(user, userBtoExample);
         return true;
@@ -146,14 +145,31 @@ public class UserServiceImpl implements UserService {
         UserBtoExample userBtoExample = new UserBtoExample();
         UserBtoExample.Criteria userBtoCriteria = userBtoExample.createCriteria();
         userBtoCriteria.andUserIdEqualTo(userId);
-        userBtoCriteria.andIsdeleteEqualTo(BigDecimal.valueOf(1));
+        userBtoCriteria.andIsdeleteEqualTo((short) 1);
 
         UserBto user = new UserBto();
-        user.setPasswordRetryCount(BigDecimal.valueOf(5));
+        user.setPasswordRetryCount(5);
         user.setLastLoginat(new Date());
 
         int count = userBtoMapper.updateByExampleSelective(user, userBtoExample);
         return count > 0;
+    }
+
+    /**
+     * create by: zhanghui
+     * description: 获取带token的用户信息
+     * create time: 2020/8/24 22:05
+     *
+     * @param userId
+     * @return com.intest.basicservice.user.vo.LoginVO
+     */
+    @Override
+    public LoginVO getUserLoginInfo(String userId) {
+        LoginVO vo = new LoginVO();
+        vo.setIsCanLogin(1);
+        //vo.setToken(bcrptTokenGenerator.generate(userId));
+        vo.setMenus(menuService.getMenuByUserId(userId));
+        return vo;
     }
 
     @Override

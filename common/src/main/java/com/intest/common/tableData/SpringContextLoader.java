@@ -1,5 +1,8 @@
 package com.intest.common.tableData;
 
+import com.intest.common.ro.GetDataRO;
+import com.intest.common.ro.QueryWhereRO;
+import com.intest.common.ro.SortRO;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -8,14 +11,12 @@ import org.springframework.web.context.support.WebApplicationContextUtils;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
 import javax.servlet.annotation.WebListener;
+import javax.swing.*;
+import javax.xml.crypto.Data;
 import java.lang.annotation.Annotation;
-import java.lang.reflect.Field;
-import java.lang.reflect.Method;
-import java.lang.reflect.Parameter;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.lang.reflect.*;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 /**
  * @author zhanghui
@@ -84,10 +85,14 @@ public class SpringContextLoader implements ApplicationContextAware, ServletCont
     }
 
     /**
-     * 打印注解对应的方法名
-     * @throws Exception
+     * create by: zhanghui
+     * description: 转发表格数据查询方法
+     * create time: 2020/8/24 14:16
+     *
+     * @param model
+     * @return java.lang.Object
      */
-    public static Object DoMethodName(String tableId) throws Exception {
+    public static Object DoMethodName(GetDataRO model) throws Exception {
         Object result = null;
         Map<String, Object> openClz = SpringContextLoader.getBeansWithAnnotation(TableDataAnnotation.class);
 
@@ -101,7 +106,7 @@ public class SpringContextLoader implements ApplicationContextAware, ServletCont
                     TableDataAnnotation annotation = method.getAnnotation(TableDataAnnotation.class);
                     String methodName = method.getDeclaringClass().getSimpleName() + "." + method.getName();
                     System.out.println(methodName + "tableID:" + annotation.tableId());
-                    if (annotation.tableId().equals(tableId)) {
+                    if (annotation.tableId().equals(model.getTableId())) {
                         Parameter[] parameters = method.getParameters();
                         if (parameters.length > 0) {
                             for (final Parameter p : parameters) {
@@ -109,24 +114,81 @@ public class SpringContextLoader implements ApplicationContextAware, ServletCont
                                 List<Field> fields = GetAllFields(p.getType());
 
                                 for (Field field : fields) {
-                                    if (field.getName().equals("Pi")) {
+                                    if (field.getName().equalsIgnoreCase("Pi")) {
                                         field.setAccessible(true);
-                                        field.set(obj, 1);
+                                        field.set(obj, model.getPi());
                                     }
-                                    if (field.getName().equals("Ps")) {
+                                    if (field.getName().equalsIgnoreCase("Ps")) {
                                         field.setAccessible(true);
-                                        field.set(obj, 2);
+                                        field.set(obj, model.getPs());
                                     }
-                                    if (field.getName().equals("Sort")) {
+                                    if (field.getName().equalsIgnoreCase("Sort")) {
+                                        StringBuilder builder = new StringBuilder();
+                                        if (model.getSort() != null && model.getSort().size() > 0) {
+                                            for (int i = 0; i < model.getSort().size(); i++) {
+                                                SortRO sortRo = model.getSort().get(i);
+                                                if (sortRo.getSortOrder().equalsIgnoreCase("ascend") ||
+                                                        sortRo.getSortOrder().equalsIgnoreCase("descend")) {
+                                                    builder.append(sortRo.getDataPropertyName() + " ");
+                                                    builder.append(sortRo.getSortOrder().equalsIgnoreCase("ascend") ? "ASC" : "DESC");
+                                                    if (i < model.getSort().size() - 1) {
+                                                        builder.append(",");
+                                                    }
+                                                }
+                                            }
+                                            field.setAccessible(true);
+                                            field.set(obj, builder.toString());
+                                        }
+                                    }
+                                    if (field.getName().equalsIgnoreCase("FullTextSearch")) {
                                         field.setAccessible(true);
-                                        String sort[] = new String[]{"CreateAt"};
-                                        field.set(obj, sort);
+                                        field.set(obj, model.getFullTextSearch());
                                     }
+
+                                    // 查询条件赋值
+                                    for (QueryWhereRO whereRO : model.getQueryWhere()) {
+                                        if (field.getName().equals(whereRO.getFields())) {
+                                            Type fieldType = field.getType();
+                                            if (String.class.equals(fieldType)) {
+                                                field.setAccessible(true);
+                                                field.set(obj, whereRO.getValue());
+                                            } else if (int.class.equals(fieldType)) {
+                                                int _value = Integer.parseUnsignedInt(whereRO.getValue());
+                                                field.setAccessible(true);
+                                                field.set(obj, _value);
+                                            } else if (short.class.equals(fieldType)) {
+                                                short _value = Short.parseShort(whereRO.getValue());
+                                                field.setAccessible(true);
+                                                field.set(obj, _value);
+                                            } else if (long.class.equals(fieldType)) {
+                                                long _value = Long.parseLong(whereRO.getValue());
+                                                field.setAccessible(true);
+                                                field.set(obj, _value);
+                                            } else if (float.class.equals(fieldType)) {
+                                                float _value = Float.parseFloat(whereRO.getValue());
+                                                field.setAccessible(true);
+                                                field.set(obj, _value);
+                                            } else if (double.class.equals(fieldType)) {
+                                                double _value = Double.parseDouble(whereRO.getValue());
+                                                field.setAccessible(true);
+                                                field.set(obj, _value);
+                                            } else if (Date.class.equals(fieldType)) {
+                                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                Date _value = formatter.parse(whereRO.getValue());
+                                                field.setAccessible(true);
+                                                field.set(obj, _value);
+                                            } else if (Array.class.equals(fieldType)) {
+
+                                            }
+                                        }
+                                    }
+
                                 }
 
                                 result = method.invoke(clzObj, obj);
                             }
                         }
+                        break;
                     }
                 }
             }

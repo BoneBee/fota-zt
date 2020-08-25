@@ -1,4 +1,4 @@
-package com.intest.basicservice.table.config.jwt;
+package com.intest.common.jwt;
 
 import org.springframework.stereotype.Component;
 

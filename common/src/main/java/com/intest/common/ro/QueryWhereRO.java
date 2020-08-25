@@ -1,13 +1,12 @@
-package com.intest.basicservice.table.ro;
+package com.intest.common.ro;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * @author zhanghui
- * @create 2020-08-13 11:25
+ * @create 2020-08-24 14:13
  */
 public class QueryWhereRO {
-
     /*
      * 字段
      *

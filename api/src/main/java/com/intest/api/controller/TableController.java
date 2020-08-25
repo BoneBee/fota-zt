@@ -3,11 +3,11 @@ package com.intest.api.controller;
 import com.alibaba.fastjson.JSONArray;
 import com.intest.basicservice.table.common.ResponseBean;
 import com.intest.basicservice.table.config.helper.ValidateHelper;
-import com.intest.basicservice.table.exception.CustomException;
 import com.intest.basicservice.table.response.*;
-import com.intest.basicservice.table.ro.GetDataRO;
 import com.intest.basicservice.table.service.impl.*;
-import com.intest.basicservice.table.util.common.StringUtils;
+import com.intest.common.exception.CustomException;
+import com.intest.common.ro.GetDataRO;
+import com.intest.common.util.StringUtils;
 import com.intest.dao.entity.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
@@ -721,6 +721,14 @@ public class TableController {
         }
     }
 
+    /**
+     * create by: zhanghui
+     * description: 查询表格数据
+     * create time: 2020/8/24 13:56
+     *
+     * @param model
+     * @return java.lang.Object
+     */
     @ResponseBody
     @RequestMapping(value = "/api/basic/table/getdata", method = RequestMethod.POST)
     public Object GetTableData(@RequestBody GetDataRO model) {

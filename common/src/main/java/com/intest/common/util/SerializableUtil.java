@@ -1,6 +1,7 @@
-package com.intest.basicservice.table.util.common;
+package com.intest.common.util;
 
-import com.intest.basicservice.table.exception.CustomException;
+
+import com.intest.common.exception.CustomException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

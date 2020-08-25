@@ -1,6 +1,6 @@
 package com.intest.basicservice.table.service;
 
-import com.intest.basicservice.table.ro.GetDataRO;
+import com.intest.common.ro.GetDataRO;
 
 /**
  * @author zhanghui

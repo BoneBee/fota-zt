@@ -1,7 +1,6 @@
-package com.intest.basicservice.table.config;
+package com.intest.common.exception;
 
 
-import com.intest.basicservice.table.common.ResponseBean;
 import com.intest.common.exception.CustomException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,11 +9,24 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-//@RestControllerAdvice
+@RestControllerAdvice
 public class ExceptionAdvice {
 
     //日志操作
     private static Logger logger = LoggerFactory.getLogger(ExceptionAdvice.class);
+
+    /**
+     * 捕捉其他所有自定义异常
+     *
+     * @return
+     */
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler(UnauthorizedException.class)
+    public String handle1(UnauthorizedException e) {
+//        logger.error("捕捉其他所有自定义异常:" + e.getMessage(), e);
+        return "";
+    }
+
     /**
      * 捕捉其他所有自定义异常
      *
@@ -22,8 +34,8 @@ public class ExceptionAdvice {
      */
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(CustomException.class)
-    public ResponseBean handle(CustomException e) {
+    public String handle(CustomException e) {
 //        logger.error("捕捉其他所有自定义异常:" + e.getMessage(), e);
-        return new ResponseBean(0, e.getMessage(), null);
+        return "";//new ResponseBean(0, e.getMessage(), null);
     }
 }

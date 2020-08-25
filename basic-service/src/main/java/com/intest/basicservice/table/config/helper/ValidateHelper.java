@@ -2,10 +2,9 @@ package com.intest.basicservice.table.config.helper;
 
 
 
-import com.intest.basicservice.table.common.enums.ErrorCode;
-import com.intest.basicservice.table.common.enums.ErrorCode;
-import com.intest.basicservice.table.exception.CustomException;
 import com.intest.basicservice.table.util.ReflectUtil;
+import com.intest.common.enums.ErrorCode;
+import com.intest.common.exception.CustomException;
 
 import java.util.Collection;
 import java.util.List;

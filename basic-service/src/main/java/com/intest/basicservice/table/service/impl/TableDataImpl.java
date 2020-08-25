@@ -1,8 +1,7 @@
 package com.intest.basicservice.table.service.impl;
 
-import com.intest.basicservice.table.ro.GetDataRO;
 import com.intest.basicservice.table.service.TableDataService;
-import com.intest.basicservice.table.ro.GetDataRO;
+import com.intest.common.ro.GetDataRO;
 import com.intest.common.tableData.SpringContextLoader;
 import org.springframework.stereotype.Service;
 
@@ -16,7 +15,7 @@ public class TableDataImpl implements TableDataService {
     public Object GetTableData(GetDataRO model) {
         Object result = null;
         try {
-            result = SpringContextLoader.DoMethodName(model.getTableId());
+            result = SpringContextLoader.DoMethodName(model);
         } catch (Exception e) {
             System.out.println(e);
         }

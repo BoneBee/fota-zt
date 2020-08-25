@@ -1,4 +1,4 @@
-package com.intest.basicservice.table.util.common;
+package com.intest.common.util;
 
 public class RegexStrings {
 

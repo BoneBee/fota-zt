@@ -1,7 +1,6 @@
-package com.intest.basicservice.table.config.jwt;
+package com.intest.common.jwt;
 
-import com.intest.basicservice.table.config.jwt.TokenGenerator;
-import com.intest.basicservice.user.util.BCrypt;
+import cn.hutool.crypto.digest.BCrypt;
 import org.springframework.stereotype.Component;
 
 @Component

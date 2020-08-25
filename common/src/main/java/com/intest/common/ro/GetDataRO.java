@@ -1,17 +1,15 @@
-package com.intest.basicservice.table.ro;
+package com.intest.common.ro;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.intest.basicservice.table.ro.QueryWhereRO;
-import com.intest.basicservice.table.ro.SortRO;
 
 import javax.swing.*;
+import java.util.List;
 
 /**
  * @author zhanghui
- * @create 2020-08-13 11:19
+ * @create 2020-08-24 14:12
  */
 public class GetDataRO {
-
     /*
      * 表格的主键
      */
@@ -34,14 +32,14 @@ public class GetDataRO {
     /*
      * 排序
      */
-    @JsonProperty("sortOrder")
-    private SortRO SortOrder;
+    @JsonProperty("sort")
+    private List<SortRO> Sort;
 
     /*
      * 顺序
      */
     @JsonProperty("queryWhere")
-    private QueryWhereRO QueryWhere;
+    private List<QueryWhereRO> QueryWhere;
 
     /*
      * 全文搜索
@@ -61,11 +59,11 @@ public class GetDataRO {
         return this.Ps;
     }
 
-    public SortRO getSortOrder() {
-        return this.SortOrder;
+    public List<SortRO> getSort() {
+        return this.Sort;
     }
 
-    public QueryWhereRO getQueryWhere() {
+    public List<QueryWhereRO> getQueryWhere() {
         return this.QueryWhere;
     }
 

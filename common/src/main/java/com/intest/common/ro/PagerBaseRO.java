@@ -21,7 +21,12 @@ public class PagerBaseRO {
     /*
      * 排序
      */
-    private String[] Sort;
+    private String Sort;
+
+    /*
+     * 全文搜索
+     */
+    private String FullTextSearch;
 
     /*
      * 页码
@@ -40,7 +45,14 @@ public class PagerBaseRO {
     /*
      * 排序
      */
-    public String[] getSort() {
+    public String getSort() {
         return this.Sort;
+    }
+
+    /*
+     * 全文搜索
+     */
+    public String getFullTextSearch(){
+        return this.FullTextSearch;
     }
 }

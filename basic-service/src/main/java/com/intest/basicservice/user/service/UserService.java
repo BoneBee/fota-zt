@@ -8,6 +8,8 @@ public interface UserService {
 
     LoginVO checkLogin(String userName, String password);
 
+    LoginVO getUserLoginInfo(String userId);
+
     UserBto getUserByname(String name);
 
     int addUser(UserBto person);
