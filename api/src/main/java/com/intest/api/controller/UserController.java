@@ -39,7 +39,7 @@ public class UserController {
      */
     @ResponseBody
     @ApiOperation("用户登录接口")
-    @RequestMapping(value = "/api/infota/product/inLogin", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/account/login", method = RequestMethod.POST)
     public ResultT<LoginVO> inLogin(@RequestBody UserRequest userRequest) {
         ResultT<LoginVO> result = new ResultT<LoginVO>();
         try {
@@ -66,7 +66,7 @@ public class UserController {
     @AuthToken
     @ResponseBody
     @ApiOperation("带Token的用户登录接口")
-    @RequestMapping(value = "/api/infota/product/inLogin", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/account/login", method = RequestMethod.GET)
     public ResultT<LoginVO> inLogin() {
         String token = request.getHeader("token");
         String userId = JedisUtil.getJson(Constant.PREFIX_SHIRO_ACCESS_TOKEN + token);
@@ -82,7 +82,7 @@ public class UserController {
      */
     @ApiOperation("用户登出接口")
     @ResponseBody
-    @RequestMapping(value = "/api/infota/product/exitLogin", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/account/logout", method = RequestMethod.GET)
     public ResponseBean exitLogin(HttpServletRequest request) {
         String token = request.getHeader("token");
         if (JedisUtil.exists(Constant.PREFIX_SHIRO_ACCESS_TOKEN + token)) {

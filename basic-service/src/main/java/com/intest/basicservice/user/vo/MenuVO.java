@@ -25,7 +25,7 @@ public class MenuVO {
 
     private String Text;
 
-    private String IconSkin;
+    private String Icon;
 
     private List<MenuVO> Children;
 
@@ -64,9 +64,9 @@ public class MenuVO {
         return this.Text;
     }
 
-    @JsonProperty("iconSkin")
-    public String getIconSkin() {
-        return this.IconSkin;
+    @JsonProperty("icon")
+    public String getIcon() {
+        return this.Icon;
     }
 
     @JsonProperty("children")
@@ -105,8 +105,8 @@ public class MenuVO {
         this.Text = value;
     }
 
-    public void setIconSkin(String value) {
-        this.IconSkin = value;
+    public void setIcon(String value) {
+        this.Icon = value;
     }
 
     public void setChildren(List<MenuVO> value) {

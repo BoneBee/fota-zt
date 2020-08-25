@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>com.intest</groupId>
+		<artifactId>fota-zt-web</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.intest</groupId>
+	<artifactId>tbox-api</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>tbox-api</name>
+	<description>TBox-Api project for Spring Boot</description>
+
+	<properties>
+		<java.version>1.8</java.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.intest</groupId>
+			<artifactId>tbox-api-service</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<!--2.当所依赖的其他模块，有启动类的时候，需要以下配置，指定唯一启动类-->
+				<!--由于本模块中依赖的service模块中也有启动类，因此在这里需要配置唯一启动类-->
+				<!--commons模块和dao模块没有依赖的模块，因此无需配置-->
+				<configuration>
+					<!-- 指定该Main Class为全局的唯一入口 -->
+					<mainClass>com.intest.tboxapi.ApiApplication</mainClass>
+					<layout>ZIP</layout>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

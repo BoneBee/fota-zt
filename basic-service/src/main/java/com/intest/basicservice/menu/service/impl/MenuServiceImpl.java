@@ -40,7 +40,7 @@ public class MenuServiceImpl implements MenuService {
                 menusItem.setPId(meunBto.getFkMenuId());
                 menusItem.setPermissionId("");
                 menusItem.setText(meunBto.getMenudisplayname());
-                menusItem.setIconSkin(meunBto.getIcon());
+                menusItem.setIcon(meunBto.getIcon());
                 rootList.add(menusItem);
             }
         }
@@ -56,7 +56,7 @@ public class MenuServiceImpl implements MenuService {
                     menusItem.setPId(subMeunBto.getFkMenuId());
                     menusItem.setPermissionId("");
                     menusItem.setText(subMeunBto.getMenudisplayname());
-                    menusItem.setIconSkin(subMeunBto.getIcon());
+                    menusItem.setIcon(subMeunBto.getIcon());
                     meunVO.getChildren().add(menusItem);
                 }
             }
