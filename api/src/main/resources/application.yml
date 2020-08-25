@@ -10,6 +10,8 @@ spring:
     multipart:
       max-file-size: 20MB
       max-request-size: 20MB
+  profiles:
+    active: dev
   datasource:
     url: jdbc:oracle:thin:@//192.168.1.79:1521/ney
     driver-class-name: oracle.jdbc.OracleDriver
@@ -82,3 +84,7 @@ swagger2:
 
 #basic-service 文件上传存储目录
 upload-file.path-string: /tmp/webhost/uploadFile
+
+logback:
+  logdir: /fotazt
+  appname: webApi
