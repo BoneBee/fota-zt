@@ -1,13 +1,17 @@
-package com.intest.basicservice.part.impl.service;
+package com.intest.partsservice.part.impl.service;
+
 
 import com.intest.dao.entity.PartsTypeBto;
+
+import java.util.List;
 
 public interface PartsTypeService {
 
     PartsTypeBto getPartsTypeById(String partsTypeId);
 
-    PartsTypeBto getPartsTypeByFullName(String fullName);
+    PartsTypeBto getPartsTypeByName(String partsTypeName);
 
+    List<PartsTypeBto> getPartsTypeList();
 
     int addPartsType(PartsTypeBto partsTypeBto);
 

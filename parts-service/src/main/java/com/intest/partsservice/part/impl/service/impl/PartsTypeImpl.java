@@ -1,6 +1,6 @@
-package com.intest.basicservice.part.impl.service.impl;
+package com.intest.partsservice.part.impl.service.impl;
 
-import com.intest.basicservice.part.impl.service.PartsTypeService;
+import com.intest.partsservice.part.impl.service.PartsTypeService;
 import com.intest.common.exception.CustomException;
 import com.intest.common.util.StringUtils;
 import com.intest.dao.entity.PartsTypeBto;
@@ -23,19 +23,24 @@ public class PartsTypeImpl implements PartsTypeService {
     }
 
     @Override
-    public PartsTypeBto getPartsTypeByFullName(String fullName) {
-        if (!StringUtils.isNotEmptyStr(fullName)) {
-            throw new CustomException("fullName不能为空！");
-        }
+    public PartsTypeBto getPartsTypeByName(String partsTypeName) {
         PartsTypeBtoExample partsTypeBtoExample = new PartsTypeBtoExample();
         PartsTypeBtoExample.Criteria criteria = partsTypeBtoExample.createCriteria();
-        criteria.andFullnameEqualTo(fullName);
+        criteria.andPartstypenameEqualTo(partsTypeName);
         List<PartsTypeBto> partsTypeBtos = partsTypeBtoMapper.selectByExample(partsTypeBtoExample);
-        if (partsTypeBtos != null || partsTypeBtos.size() != 0) {
+        System.out.println(partsTypeBtos.size());
+        if (partsTypeBtos.size() != 0) {
             return partsTypeBtos.get(0);
         } else {
             return null;
         }
+    }
+
+    @Override
+    public List<PartsTypeBto> getPartsTypeList() {
+        PartsTypeBtoExample partsTypeBtoExample = new PartsTypeBtoExample();
+        List<PartsTypeBto> partsTypeBtoList = partsTypeBtoMapper.selectByExample(partsTypeBtoExample);
+        return partsTypeBtoList;
     }
 
     @Override
