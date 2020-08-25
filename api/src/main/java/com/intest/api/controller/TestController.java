@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.logging.Logger;
+
 /**
  * @author zhanghui
  * @create 2020-08-05 22:31
@@ -16,6 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @Api(tags = "测试")
 public class TestController {
+
+    //private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private CarService carService;
