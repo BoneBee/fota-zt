@@ -26,6 +26,7 @@
 		<module>common</module>
 		<!-- 产品service -->
 		<module>basic-service</module>
+		<module>parts-service</module>
 	</modules>
 
 	<properties>
