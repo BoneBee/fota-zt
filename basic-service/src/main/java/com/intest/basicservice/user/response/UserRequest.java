@@ -1,27 +1,27 @@
 package com.intest.basicservice.user.response;
 
-public class UserRequest {
-    private String userName;
-    private String password;
 
-    public UserRequest(String userName, String password) {
-        this.userName = userName;
-        this.password = password;
-    }
+
+import lombok.Data;
+
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
+@Data
+public class UserRequest {
+
+    @Size(max = 20, min = 6, message = "用户名长度超过限制")
+    private String userName;
+
+    @Size(max = 16, min = 8, message = "密码长度超过限制")
+    private String password;
 
     public String getUserName() {
         return userName;
     }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
     public String getPassword() {
         return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 }

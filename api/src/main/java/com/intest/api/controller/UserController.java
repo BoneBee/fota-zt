@@ -14,10 +14,13 @@ import com.intest.common.jwt.AuthToken;
 import com.intest.common.redis.JedisUtil;
 import com.intest.common.result.ResultT;
 import com.intest.common.util.BCrypt;
+import com.intest.common.webcore.BaseController;
 import com.intest.dao.entity.UserBto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +29,7 @@ import java.util.UUID;
 
 @RestController
 @Api(tags = {"用户登陆/登出/注册接口"})
-public class UserController {
+public class UserController extends BaseController {
 
     @Autowired
     UserServiceImpl userService;
@@ -40,7 +43,9 @@ public class UserController {
     @ResponseBody
     @ApiOperation("用户登录接口")
     @RequestMapping(value = "/api/account/login", method = RequestMethod.POST)
-    public ResultT<LoginVO> inLogin(@RequestBody UserRequest userRequest) {
+    public ResultT<LoginVO> inLogin(@Validated @RequestBody UserRequest userRequest, BindingResult bindingResult) {
+        validData(bindingResult);
+
         ResultT<LoginVO> result = new ResultT<LoginVO>();
         try {
             LoginVO loginVO = userService.checkLogin(userRequest.getUserName(), userRequest.getPassword());

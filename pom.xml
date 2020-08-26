@@ -64,6 +64,17 @@
 			<version>2.9.2</version>
 		</dependency>
 
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>5.4.1.Final</version>
+		</dependency>
+
 		<!-- 辅助工具类 HuTool https://www.hutool.cn/ -->
 		<dependency>
 			<groupId>cn.hutool</groupId>
