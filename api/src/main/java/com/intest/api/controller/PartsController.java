@@ -4,8 +4,13 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.intest.common.exception.CustomException;
 import com.intest.common.util.StringUtils;
+import com.intest.dao.entity.PartsBto;
+import com.intest.dao.entity.PartsConfigBto;
 import com.intest.dao.entity.PartsTypeBto;
+import com.intest.partsservice.part.impl.service.impl.PartsConfigImpl;
+import com.intest.partsservice.part.impl.service.impl.PartsImpl;
 import com.intest.partsservice.part.impl.service.impl.PartsTypeImpl;
+import com.intest.partsservice.part.request.PartsMessageRequest;
 import com.intest.partsservice.part.request.PartsTypeRequest;
 
 import com.intest.basicservice.table.common.ResponseBean;
@@ -25,6 +30,12 @@ public class PartsController {
 
     @Autowired
     PartsTypeImpl partsTypeImpl;
+
+    @Autowired
+    PartsImpl partsImpl;
+
+    @Autowired
+    PartsConfigImpl partsConfigImpl;
 
     /**
      * 新增零部件类型
@@ -163,8 +174,54 @@ public class PartsController {
      */
     @ResponseBody
     @RequestMapping(value = "/api/basic/part/addPartMessage", method = RequestMethod.POST)
-    public ResponseBean addPartMessage() {
+    public ResponseBean addPartMessage(@RequestBody PartsMessageRequest partsMessageRequest) {
+        ValidateHelper.validateNull(partsMessageRequest, new String[]{"partsName", "fullName", "partsType"});
+        PartsBto partsBto = partsImpl.getPartsByFullName(partsMessageRequest.getFullName());
+        PartsBto partsBto2 = partsImpl.getPartsByCode(partsMessageRequest.getPartsName());
+        if (partsBto != null) {
+            throw new CustomException("fullName已经存在");
+        }
+        if (partsBto2 != null) {
+            throw new CustomException("partsName已经存在");
+        }
+        PartsBto saveParts = new PartsBto();
+        saveParts.setPartsId(UUID.randomUUID() + "");
+        saveParts.setPartsname(partsMessageRequest.getFullName());
+        saveParts.setPartscode(partsMessageRequest.getPartsName());
+        saveParts.setFkPartstypeId(partsMessageRequest.getPartsType());
+        saveParts.setOrdernum((short) 1);
+        saveParts.setIsdelete((short) 1);
+        saveParts.setCreateat(new Date());
+        saveParts.setCreateby("admin");
+        saveParts.setRemark(partsMessageRequest.getRemark());
+        if (partsImpl.addParts(saveParts) != 1) {
+            throw new CustomException("新增零部件信息失败");
+        }
+        PartsConfigBto partsConfigBto = new PartsConfigBto();
+        partsConfigBto.setPartsconfigId(UUID.randomUUID() + "");
+        partsConfigBto.setFkPartsId(saveParts.getPartsId());
+        partsConfigBto.setCreateat(new Date());
+        partsConfigBto.setCreateby("admin");
+        if (partsConfigImpl.addParts(partsConfigBto) != 1) {
+            throw new CustomException("新增零部件策略配置信息失败");
+        }
+        return new ResponseBean(1, "新增成功", null);
+
+    }
+
+    /**
+     * 新增零部件信息管理
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/basic/part/updatePartMessage", method = RequestMethod.GET)
+    public ResponseBean updatePartMessage(@ApiParam String partsName, @ApiParam String fullName, @ApiParam String partsType, @ApiParam String remark) {
+        if (!StringUtils.isNotEmptyStr(partsName) || !StringUtils.isNotEmptyStr(fullName) || !StringUtils.isNotEmptyStr(partsType)) {
+            throw new CustomException("partsName、fullName、partsType不能为空");
+        }
         return null;
+
 
     }
 
