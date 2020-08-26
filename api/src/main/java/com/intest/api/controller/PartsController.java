@@ -2,6 +2,7 @@ package com.intest.api.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.intest.basicservice.table.util.CheckPwd;
 import com.intest.common.exception.CustomException;
 import com.intest.common.util.StringUtils;
 import com.intest.dao.entity.PartsBto;
@@ -179,6 +180,12 @@ public class PartsController {
     @RequestMapping(value = "/api/basic/part/addPartMessage", method = RequestMethod.POST)
     public ResponseBean addPartMessage(@RequestBody PartsMessageRequest partsMessageRequest) {
         ValidateHelper.validateNull(partsMessageRequest, new String[]{"partsName", "fullName", "partsType"});
+        if (partsMessageRequest.getPartsName().length() > 3 || !CheckPwd.checkUpperCase(partsMessageRequest.getPartsName())) {
+            throw new CustomException("零件简称不合法");
+        }
+        if (partsMessageRequest.getFullName().length() > 20) {
+            throw new CustomException("零件全称长度超过上限");
+        }
         PartsBto partsBto = partsImpl.getPartsByFullName(partsMessageRequest.getFullName());
         PartsBto partsBto2 = partsImpl.getPartsByCode(partsMessageRequest.getPartsName());
         if (partsBto != null) {
@@ -226,6 +233,12 @@ public class PartsController {
     public ResponseBean updatePartMessage(@ApiParam String partsName, @ApiParam String fullName, @ApiParam String partsId, @ApiParam String remark) {
         if (!StringUtils.isNotEmptyStr(partsName) || !StringUtils.isNotEmptyStr(fullName) || !StringUtils.isNotEmptyStr(partsId)) {
             throw new CustomException("partsName、fullName、partsTypeId不能为空");
+        }
+        if (partsName.length() > 3 || !CheckPwd.checkUpperCase(partsName)) {
+            throw new CustomException("零件简称不合法");
+        }
+        if (fullName.length() > 20) {
+            throw new CustomException("零件全称长度超过上限");
         }
         PartsBto partsBto = new PartsBto();
         partsBto.setPartsname(fullName);
@@ -300,8 +313,10 @@ public class PartsController {
         if (!StringUtils.isNotEmptyStr(partsName)) {
             throw new CustomException("partsName不能为空");
         }
+        if (partsName.length() > 3 || !CheckPwd.checkUpperCase(partsName)) {
+            return new ResponseBean(1, "零件简称不合法", new DateResponse(2));
+        }
         PartsBto partsBto2 = partsImpl.getPartsByCode(partsName);
-
         if (partsBto2 != null) {
             return new ResponseBean(1, "该简称已存在", new DateResponse(1));
         }
@@ -309,7 +324,7 @@ public class PartsController {
     }
 
     /**
-     * 新增零部件信息管理
+     * 零件全称检测
      *
      * @return
      */
@@ -318,6 +333,9 @@ public class PartsController {
     public ResponseBean selectFullName(@ApiParam String fullName) {
         if (!StringUtils.isNotEmptyStr(fullName)) {
             throw new CustomException("fullName不能为空");
+        }
+        if (fullName.length() > 20) {
+            return new ResponseBean(1, "零件全称不合法", new DateResponse(2));
         }
         PartsBto partsBto = partsImpl.getPartsByFullName(fullName);
         if (partsBto != null) {
@@ -342,7 +360,7 @@ public class PartsController {
         }
         List<PartsTypeResponse> partsTypeListResponseList = new ArrayList<>();
         for (PartsTypeBto partsTypeBto : partsTypeBtoList) {
-            PartsTypeResponse partsTypeListResponse = new PartsTypeResponse(partsTypeBto.getPartstypeId(),partsTypeBto.getPartstypename());
+            PartsTypeResponse partsTypeListResponse = new PartsTypeResponse(partsTypeBto.getPartstypeId(), partsTypeBto.getPartstypename());
             partsTypeListResponseList.add(partsTypeListResponse);
         }
         return new ResponseBean(1, "获取成功", partsTypeListResponseList);
