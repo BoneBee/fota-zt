@@ -16,6 +16,8 @@ import com.intest.partsservice.part.request.PartsTypeRequest;
 import com.intest.basicservice.table.common.ResponseBean;
 import com.intest.basicservice.table.config.helper.ValidateHelper;
 import com.intest.partsservice.part.response.DateResponse;
+import com.intest.partsservice.part.response.PartsListResponse;
+import com.intest.partsservice.part.response.PartsTypeListResponse;
 import com.intest.partsservice.part.response.PartsTypeResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
@@ -154,15 +156,16 @@ public class PartsController {
         if (partsTypeBtoList == null || partsTypeBtoList.size() <= 0) {
             return new ResponseBean(1, "查询成功", null);
         }
-        List<PartsTypeResponse> partsTypeResponseList = new ArrayList<>();
+        List<PartsTypeListResponse> partsTypeListResponseList = new ArrayList<>();
+        PageInfo<PartsTypeBto> pageInfo = new PageInfo<PartsTypeBto>(partsTypeBtoList);
+        int index = pageInfo.getStartRow() - 1;
         for (PartsTypeBto partsTypeBto : partsTypeBtoList) {
-            PartsTypeResponse partsTypeResponse = new PartsTypeResponse(partsTypeBto.getPartstypename(), partsTypeBto.getRemark(), partsTypeBto.getCreateat(), partsTypeBto.getCreateby(), partsTypeBto.getUpdateat(), partsTypeBto.getUpdateby());
-            partsTypeResponseList.add(partsTypeResponse);
+            PartsTypeListResponse partsTypeListResponse = new PartsTypeListResponse(index += 1, partsTypeBto.getPartstypename(), partsTypeBto.getRemark(), partsTypeBto.getCreateat(), partsTypeBto.getCreateby(), partsTypeBto.getUpdateat(), partsTypeBto.getUpdateby());
+            partsTypeListResponseList.add(partsTypeListResponse);
         }
-        PageInfo<PartsTypeResponse> pageInfo = new PageInfo<PartsTypeResponse>(partsTypeResponseList);
         Map<String, Object> result = new HashMap<String, Object>(16);
         result.put("count", pageInfo.getTotal());
-        result.put("data", pageInfo.getList());
+        result.put("data", partsTypeListResponseList);
         return new ResponseBean(1, "获取成功", result);
     }
 
@@ -210,19 +213,139 @@ public class PartsController {
     }
 
     /**
+     * 修改零部件信息管理
+     *
+     * @param partsName
+     * @param fullName
+     * @param partsId
+     * @param remark
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/basic/part/updatePartMessage", method = RequestMethod.GET)
+    public ResponseBean updatePartMessage(@ApiParam String partsName, @ApiParam String fullName, @ApiParam String partsId, @ApiParam String remark) {
+        if (!StringUtils.isNotEmptyStr(partsName) || !StringUtils.isNotEmptyStr(fullName) || !StringUtils.isNotEmptyStr(partsId)) {
+            throw new CustomException("partsName、fullName、partsTypeId不能为空");
+        }
+        PartsBto partsBto = new PartsBto();
+        partsBto.setPartsname(fullName);
+        partsBto.setPartscode(partsName);
+        partsBto.setFkPartstypeId(partsId);
+        partsBto.setRemark(remark);
+        if (partsImpl.updateParts(partsBto) != 1) {
+            throw new CustomException("修改零部件信息失败");
+        }
+        return new ResponseBean(1, "修改成功", null);
+    }
+
+    /**
+     * 删除零部件信息管理
+     *
+     * @param partsId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/basic/part/deletePartMessage", method = RequestMethod.GET)
+    public ResponseBean deletePartMessage(@ApiParam String partsId) {
+        if (!StringUtils.isNotEmptyStr(partsId)) {
+            throw new CustomException("partsId不能为空");
+        }
+        if (partsImpl.deleteParts(partsId) != 1) {
+            throw new CustomException("删除零部件信息失败");
+        }
+        return new ResponseBean(1, "删除成功", null);
+    }
+
+    /**
+     * 获取零件信息管理列表
+     *
+     * @param pi
+     * @param ps
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/basic/part/getPartsMessageList", method = RequestMethod.GET)
+    public ResponseBean getPartsMessageList(@ApiParam(defaultValue = "1") int pi, @ApiParam(defaultValue = "10") int ps) {
+        if (pi <= 0 || ps <= 0) {
+            pi = 1;
+            ps = 10;
+        }
+        PageHelper.startPage(pi, ps);
+        List<PartsBto> partsList = partsImpl.getPartsList();
+        if (partsList == null || partsList.size() <= 0) {
+            return new ResponseBean(1, "查询成功", null);
+        }
+        List<PartsListResponse> partsListRespons = new ArrayList<>();
+        PageInfo<PartsBto> pageInfo = new PageInfo<PartsBto>(partsList);
+        int index = pageInfo.getStartRow() - 1;
+        for (PartsBto partsBto : partsList) {
+            PartsListResponse partsListResponse = new PartsListResponse(index += 1, partsBto.getPartscode(), partsBto.getPartsname(), partsBto.getFkPartstypeId(), partsBto.getCreateat(), partsBto.getCreateby(), partsBto.getUpdateat(), partsBto.getUpdateby(), partsBto.getRemark());
+            partsListRespons.add(partsListResponse);
+        }
+        Map<String, Object> result = new HashMap<String, Object>(16);
+        result.put("count", pageInfo.getTotal());
+        result.put("data", partsListRespons);
+        return new ResponseBean(1, "获取成功", result);
+    }
+
+    /**
+     * 零件简称检测
+     *
+     * @param partsName
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/basic/part/selectPartsName", method = RequestMethod.GET)
+    public ResponseBean selectPartsName(@ApiParam String partsName) {
+        if (!StringUtils.isNotEmptyStr(partsName)) {
+            throw new CustomException("partsName不能为空");
+        }
+        PartsBto partsBto2 = partsImpl.getPartsByCode(partsName);
+
+        if (partsBto2 != null) {
+            return new ResponseBean(1, "该简称已存在", new DateResponse(1));
+        }
+        return new ResponseBean(1, "该简称不存在", new DateResponse(0));
+    }
+
+    /**
      * 新增零部件信息管理
      *
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/basic/part/updatePartMessage", method = RequestMethod.GET)
-    public ResponseBean updatePartMessage(@ApiParam String partsName, @ApiParam String fullName, @ApiParam String partsType, @ApiParam String remark) {
-        if (!StringUtils.isNotEmptyStr(partsName) || !StringUtils.isNotEmptyStr(fullName) || !StringUtils.isNotEmptyStr(partsType)) {
-            throw new CustomException("partsName、fullName、partsType不能为空");
+    @RequestMapping(value = "/api/basic/part/selectFullName", method = RequestMethod.GET)
+    public ResponseBean selectFullName(@ApiParam String fullName) {
+        if (!StringUtils.isNotEmptyStr(fullName)) {
+            throw new CustomException("fullName不能为空");
         }
-        return null;
+        PartsBto partsBto = partsImpl.getPartsByFullName(fullName);
+        if (partsBto != null) {
+            return new ResponseBean(1, "该简称已存在", new DateResponse(1));
+        }
+        return new ResponseBean(1, "该简称不存在", new DateResponse(0));
 
+    }
 
+    /**
+     * 获取零部件类型列表
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/basic/part/getPartsType", method = RequestMethod.GET)
+    public ResponseBean getPartsType() {
+
+        List<PartsTypeBto> partsTypeBtoList = partsTypeImpl.getPartsTypeList();
+        if (partsTypeBtoList == null || partsTypeBtoList.size() <= 0) {
+            return new ResponseBean(1, "查询成功", null);
+        }
+        List<PartsTypeResponse> partsTypeListResponseList = new ArrayList<>();
+        for (PartsTypeBto partsTypeBto : partsTypeBtoList) {
+            PartsTypeResponse partsTypeListResponse = new PartsTypeResponse(partsTypeBto.getPartstypeId(),partsTypeBto.getPartstypename());
+            partsTypeListResponseList.add(partsTypeListResponse);
+        }
+        return new ResponseBean(1, "获取成功", partsTypeListResponseList);
     }
 
 
