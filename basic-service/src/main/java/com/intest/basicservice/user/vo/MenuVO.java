@@ -1,6 +1,7 @@
 package com.intest.basicservice.user.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
  * @author zhanghui
  * @create 2020-08-21 9:35
  */
+@JsonPropertyOrder({"id", "text", "icon", "isPage", "isShow", "link", "permissionId", "pId", "children"})
 public class MenuVO {
 
     private String Id;

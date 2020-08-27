@@ -85,6 +85,33 @@ swagger2:
 #basic-service 文件上传存储目录
 upload-file.path-string: /tmp/webhost/uploadFile
 
+## Logging配置 start
 logback:
   logdir: /fotazt
   appname: webApi
+## Logging配置 end
+
+## product配置 - start
+info:
+  app.name: fota-zt-web
+  company.name: intest
+  build.artifactId: $project.artifactId$
+  build.modelVersion: $project.modelVersion$
+## product配置 - end
+
+## 其它配置 - start
+config:
+  # JWT认证加密私钥(Base64加密)
+  encrypt-jwtKey: U0JBUElOENhspJrzkyNjQ1NA
+  # AccessToken过期时间(秒)
+  accessToken-expireTime: 1200
+  # RefreshToken过期时间(秒)
+  refreshToken-expireTime: 604800
+  # Shiro缓存过期时间(秒)(一般设置与AccessToken过期时间一致) 此处CustomCache读取失败，待解决
+  shiro-cache-expireTime: 600
+## 其它配置 - end
+
+## shiro - start
+shiro:
+  annotations.enabled: false
+## shiro - end

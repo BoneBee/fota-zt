@@ -11,7 +11,11 @@ import com.intest.basicservice.user.service.impl.UserServiceImpl;
 import com.intest.basicservice.user.vo.LoginVO;
 import com.intest.common.exception.CustomException;
 import com.intest.common.jwt.AuthToken;
+import com.intest.common.jwt.JwtUtil;
+import com.intest.common.jwt.constant.JwtConstant;
+import com.intest.common.jwt.constant.RedisConstant;
 import com.intest.common.redis.JedisUtil;
+import com.intest.common.result.Result;
 import com.intest.common.result.ResultT;
 import com.intest.common.util.BCrypt;
 import com.intest.common.webcore.BaseController;
@@ -25,6 +29,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.Enumeration;
 import java.util.UUID;
 
 @RestController
@@ -57,9 +62,6 @@ public class UserController extends BaseController {
         return result;
     }
 
-    @Autowired
-    HttpServletRequest request;
-
     /**
      * create by: zhanghui
      * description: 带Token的用户登录
@@ -68,15 +70,17 @@ public class UserController extends BaseController {
      * @param
      * @return com.intest.common.result.ResultT<com.intest.basicservice.user.vo.LoginVO>
      */
-    @AuthToken
     @ResponseBody
     @ApiOperation("带Token的用户登录接口")
-    @RequestMapping(value = "/api/account/login", method = RequestMethod.GET)
+    @RequestMapping(value = "/api/account/logininfo", method = RequestMethod.GET)
     public ResultT<LoginVO> inLogin() {
-        String token = request.getHeader("token");
-        String userId = JedisUtil.getJson(Constant.PREFIX_SHIRO_ACCESS_TOKEN + token);
+        String token = this.getAuthorizationToken();
+        String account = JwtUtil.getClaim(token, JwtConstant.ACCOUNT);
+
+        //String token = request.getHeader("token");
+        //String userId = JedisUtil.getJson(Constant.PREFIX_SHIRO_ACCESS_TOKEN + token);
         ResultT<LoginVO> resultT = new ResultT<>();
-        resultT.setResult(userService.getUserLoginInfo(userId));
+        resultT.setResult(userService.getUserLoginInfo(account));
         return resultT;
     }
 
@@ -88,18 +92,33 @@ public class UserController extends BaseController {
     @ApiOperation("用户登出接口")
     @ResponseBody
     @RequestMapping(value = "/api/account/logout", method = RequestMethod.GET)
-    public ResponseBean exitLogin(HttpServletRequest request) {
-        String token = request.getHeader("token");
-        if (JedisUtil.exists(Constant.PREFIX_SHIRO_ACCESS_TOKEN + token)) {
-            Object userName = JedisUtil.getObject(Constant.PREFIX_SHIRO_ACCESS_TOKEN + token);
-            JedisUtil.delKey(Constant.PREFIX_SHIRO_ACCESS_TOKEN + token);
-            JedisUtil.delKey(Constant.PREFIX_SHIRO_CACHE + userName);
-            return new ResponseBean(1, "成功退出登陆", new LoginOutResponse(1));
-        } else {
-            return new ResponseBean(0, "登出失败", new LoginOutResponse(2));
-        }
+    public Result exitLogin(HttpServletRequest request) {
+        String token = this.getAuthorizationToken();
 
+        Result result = new Result();
+        try {
+            String account = JwtUtil.getClaim(token, JwtConstant.ACCOUNT);
+            boolean isOK = userService.logout(account);
+            if (!isOK) {
+                result.setFail();
+            }
+        } catch (Exception ex) {
+            logger.error(ex);
+            result.setFail();
+        }
+        //String token = request.getHeader("token");
+        //if (JedisUtil.exists(Constant.PREFIX_SHIRO_ACCESS_TOKEN + token)) {
+        //    Object userName = JedisUtil.getObject(Constant.PREFIX_SHIRO_ACCESS_TOKEN + token);
+        //    JedisUtil.delKey(Constant.PREFIX_SHIRO_ACCESS_TOKEN + token);
+        //    JedisUtil.delKey(Constant.PREFIX_SHIRO_CACHE + userName);
+        //    return new ResponseBean(1, "成功退出登陆", new LoginOutResponse(1));
+        //} else {
+        //    return new ResponseBean(0, "登出失败", new LoginOutResponse(2));
+        //}
+        return result;
     }
+
+
 
     /**
      * 用户注册

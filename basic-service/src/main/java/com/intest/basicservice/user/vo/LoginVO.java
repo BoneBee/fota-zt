@@ -1,6 +1,7 @@
 package com.intest.basicservice.user.vo;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.List;
  * @author zhanghui
  * @create 2020-08-21 9:30
  */
+@JsonPropertyOrder({"isCanLogin", "token", "freeNum", "menus"})
 public class LoginVO {
 
     private int IsCanLogin;
@@ -46,6 +48,7 @@ public class LoginVO {
      * 1-登录成功；
      * 2-用户名或密码错误；
      * 3-账户被冻结；
+     *
      * @param value
      */
     public void setIsCanLogin(int value) {

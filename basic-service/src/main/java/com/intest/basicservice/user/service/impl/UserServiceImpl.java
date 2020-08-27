@@ -5,12 +5,17 @@ import com.intest.basicservice.table.common.constant.Constant;
 import com.intest.basicservice.user.service.UserService;
 import com.intest.basicservice.user.vo.LoginVO;
 import com.intest.common.jwt.BcrptTokenGenerator;
+import com.intest.common.jwt.JwtUtil;
+import com.intest.common.jwt.constant.RedisConstant;
 import com.intest.common.redis.JedisUtil;
 import com.intest.common.util.BCrypt;
 import com.intest.dao.entity.UserBto;
 import com.intest.dao.entity.UserBtoExample;
 import com.intest.dao.mapper.UserBtoMapper;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -20,14 +25,16 @@ import java.util.List;
 @Service
 public class UserServiceImpl implements UserService {
 
+    private Log logger = LogFactory.getLog(this.getClass());
+
+    @Value("${config.refreshToken-expireTime}")
+    private String refreshTokenExpireTime;
+
     @Autowired
     UserBtoMapper userBtoMapper;
 
     @Autowired
     MenuService menuService;
-
-    @Autowired
-    BcrptTokenGenerator bcrptTokenGenerator;
 
     /**
      * create by: zhanghui
@@ -64,7 +71,7 @@ public class UserServiceImpl implements UserService {
                 } else {
                     updateUserBySuccess(user.getUserId());
                     vo.setIsCanLogin(1);
-                    vo.setToken(bcrptTokenGenerator.generate(userName));
+                    //vo.setToken(bcrptTokenGenerator.generate(userName));
                     vo.setMenus(menuService.getMenuByUserId(user.getUserId()));
 
                     try {
@@ -72,11 +79,25 @@ public class UserServiceImpl implements UserService {
                         //    Object token = JedisUtil.getObject(Constant.PREFIX_SHIRO_CACHE + user.getUserId());
                         //} else {
                         //String token = bcrptTokenGenerator.generate(user.getUserId());
-                        JedisUtil.setObject(Constant.PREFIX_SHIRO_CACHE + user.getUserId(), vo.getToken(), Constant.EXRP_DAY);
-                        JedisUtil.setObject(Constant.PREFIX_SHIRO_ACCESS_TOKEN + vo.getToken(), user.getUserId(), Constant.EXRP_DAY);
+                        //JedisUtil.setObject(Constant.PREFIX_SHIRO_CACHE + user.getUserId(), vo.getToken(), Constant.EXRP_DAY);
+                        //JedisUtil.setObject(Constant.PREFIX_SHIRO_ACCESS_TOKEN + vo.getToken(), user.getUserId(), Constant.EXRP_DAY);
                         //}
+
+                        // 清除可能存在的shiro权限信息缓存
+                        if (JedisUtil.exists(RedisConstant.PREFIX_SHIRO_CACHE + user.getUserId())) {
+                            JedisUtil.delKey(RedisConstant.PREFIX_SHIRO_CACHE + user.getUserId());
+                        }
+
+                        // 设置RefreshToken，时间戳为当前时间戳，直接设置即可(不用先删后设，会覆盖已有的RefreshToken)
+                        String currentTimeMillis = String.valueOf(System.currentTimeMillis());
+                        JedisUtil.setJson(RedisConstant.PREFIX_SHIRO_REFRESH_TOKEN + user.getUserId(), currentTimeMillis,
+                                Integer.parseInt(refreshTokenExpireTime));
+
+                        // 从Header中Authorization返回AccessToken，时间戳为当前时间戳
+                        String token = JwtUtil.sign(user.getUserId(), currentTimeMillis);
+                        vo.setToken(token);
                     } catch (Exception ex) {
-                        System.out.println(ex);
+                        logger.error(ex);
                     }
                 }
             }
@@ -170,6 +191,19 @@ public class UserServiceImpl implements UserService {
         //vo.setToken(bcrptTokenGenerator.generate(userId));
         vo.setMenus(menuService.getMenuByUserId(userId));
         return vo;
+    }
+
+    public boolean logout(String account) {
+        Boolean result = true;
+
+        // 清除shiro权限信息缓存
+        if (JedisUtil.exists(RedisConstant.PREFIX_SHIRO_CACHE + account)) {
+            JedisUtil.delKey(RedisConstant.PREFIX_SHIRO_CACHE + account);
+        }
+        // 清除RefreshToken
+        JedisUtil.delKey(RedisConstant.PREFIX_SHIRO_REFRESH_TOKEN + account);
+
+        return result;
     }
 
     @Override
