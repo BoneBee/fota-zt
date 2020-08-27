@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.intest.dao.mapper.UpgradePackageMapper">
+    <select id="findAllUpgradePackage" resultType="com.intest.dao.entity.UpgradePackage">
+        SELECT T.PACKAGETASK_ID                 PACKAGETASKID,
+        FI.UPGRADEPACKAGEFILEINFO_ID     FILEID,
+        CT.CARTYPENAME,
+        FI.FILENAME                      PACKAGENAME,
+        FI.FILESIZE                      PACKAGESIZE,
+        TP.MAKETYPE                      PACKAGETYPE,
+        T.FK_PACKAGETASKSTATUSVALUE_CODE,
+        FI.ISPUBLISH                     PUBLISHSTATUS,
+        T.CREATEAT,
+        U.LOGIN_NAME                     CREATEBY
+        FROM F_PACKAGETASK T
+        LEFT JOIN F_PARTSUPGRADEPACKAGE PUP
+        ON T.PACKAGETASK_ID = PUP.FK_PACKAGETASK_ID
+        AND PUP.ISDELETE = 1
+        LEFT JOIN F_UPGRADEPACKAGEFILEINFO FI
+        ON PUP.FK_UPGRADEPACKAGEFILEINFO_ID = FI.UPGRADEPACKAGEFILEINFO_ID
+        AND FI.ISDELETE = 1
+        LEFT JOIN F_CARTYPE CT
+        ON T.FK_CARTYPE_ID = CT.CARTYPE_ID
+        AND CT.ISDELETE = 1
+        LEFT JOIN F_TASKORIGINALPACKAGE TP
+        ON T.PACKAGETASK_ID = TP.FK_PACKAGETASK_ID
+        LEFT JOIN F_USER U
+        ON T.CREATEBY = U.USER_ID
+        AND U.ISDELETE = 1
+    </select>
+    <select id="getPartsByCarTypeId" resultType="com.intest.dao.entity.dto.PartsTreeDto">
+        SELECT T.PARTS_ID KEY, T.PARTSNAME TITLE
+        FROM F_PARTS T
+        WHERE T.ISDELETE = 1
+        AND T.FK_CARTYPE_ID = #{carTypeId}
+    </select>
+    <select id="getPartsCode" resultType="com.intest.dao.entity.dto.ChildNode">
+        SELECT DISTINCT T.PARTNUMBER TITLE
+        FROM F_PARTSPACKAGE T
+        WHERE T.ISDELETE = 1
+        AND T.FK_PARTS_ID = #{partsId}
+    </select>
+    <select id="getVersion" resultType="String">
+        SELECT DISTINCT T.SOFTWAREVERSION VERSION
+        FROM F_PARTSPACKAGE T
+        WHERE T.ISDELETE = 1
+        AND T.PARTNUMBER = #{param1}
+        AND T.FK_PARTS_ID = #{param2}
+    </select>
+</mapper>
