@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.intest.dao.mapper.PartsPackageMapper">
+    <sql id="Base_Where_List">
+        <if test="partsPackageName != null and partsPackageName != ''">AND f.originalname LIKE '%'||#{partsPackageName}||'%'</if>
+        <if test="packageName != null and packageName != ''">AND fi.originalname LIKE '%'||#{packageName}||'%'</if>
+        <if test="carTypeName != null and carTypeName != ''">AND ct.cartypename LIKE '%'||#{carTypeName}||'%'</if>
+        <if test="partsName != null and partsName != ''">AND p.partsName LIKE '%'||#{partsName}||'%'</if>
+        <if test="partsTypeName != null and partsTypeName != ''">AND pt.partsTypeName LIKE '%'||#{partsTypeName}||'%'</if>
+    </sql>
+    <select id="partsPackageDetails" resultType="com.intest.dao.entity.dto.PartsPackageDetailsDto">
+        SELECT F.ORIGINALNAME       PARTSPACKAGENAME,
+        P.PARTSNAME,
+        PT.PARTSTYPENAME,
+        T.PARTNUMBER         PARTSCODE,
+        T.SOFTWAREVERSION    VERSION,
+        FI.ORIGINALNAME      PACKAGENAME,
+        CT.CARTYPENAME,
+        P.NETWORKSEGMENTNAME,
+        P.FUNCTIONID,
+        P.PHYICALID,
+        P.RESPONSEID
+        FROM F_PARTSPACKAGE T
+        LEFT JOIN F_PARTSBIGPACKAGE PBP
+        ON T.FK_PARTSBIGPACKAGE_ID = PBP.PARTSBIGPACKAGE_ID
+        AND PBP.ISDELETE = 1
+        LEFT JOIN F_FILE F
+        ON T.FK_FILE_ID = F.FILE_ID
+        AND F.ISDELETE = 1
+        LEFT JOIN F_FILE FI
+        ON PBP.FK_FILE_ID = FI.FILE_ID
+        AND FI.ISDELETE = 1
+        LEFT JOIN F_CARTYPE CT
+        ON PBP.FK_CARTYPE_ID = CT.CARTYPE_ID
+        AND CT.ISDELETE = 1
+        LEFT JOIN F_PARTS P
+        ON T.FK_PARTS_ID = P.PARTS_ID
+        AND P.ISDELETE = 1
+        LEFT JOIN F_PARTSTYPE PT
+        ON P.FK_PARTSTYPE_ID = PT.PARTSTYPE_ID
+        AND PT.ISDELETE = 1
+        WHERE T.ISDELETE = 1
+        AND T.PARTSPACKAGE_ID = #{partsPackageId}
+    </select>
+    <select id="findAllPartsPackage" resultType="com.intest.dao.entity.dto.PartsPackageListDto">
+        SELECT T.PARTSPACKAGE_ID PARTSPACKAGEID,
+        F.ORIGINALNAME    PARTSPACKAGENAME,
+        P.PARTSNAME,
+        PT.PARTSTYPENAME,
+        T.PARTNUMBER      PARTSCODE,
+        T.SOFTWAREVERSION VERSION,
+        FI.ORIGINALNAME   PACKAGENAME,
+        CT.CARTYPENAME,
+        T.FK_FILE_ID      FILEID,
+        ROWNUM            ID
+        FROM F_PARTSPACKAGE T
+        LEFT JOIN F_PARTSBIGPACKAGE PBP
+        ON T.FK_PARTSBIGPACKAGE_ID = PBP.PARTSBIGPACKAGE_ID
+        AND PBP.ISDELETE = 1
+        LEFT JOIN F_FILE F
+        ON T.FK_FILE_ID = F.FILE_ID
+        AND F.ISDELETE = 1
+        LEFT JOIN F_FILE FI
+        ON PBP.FK_FILE_ID = FI.FILE_ID
+        AND FI.ISDELETE = 1
+        LEFT JOIN F_CARTYPE CT
+        ON PBP.FK_CARTYPE_ID = CT.CARTYPE_ID
+        AND CT.ISDELETE = 1
+        LEFT JOIN F_PARTS P
+        ON T.FK_PARTS_ID = P.PARTS_ID
+        AND P.ISDELETE = 1
+        LEFT JOIN F_PARTSTYPE PT
+        ON P.FK_PARTSTYPE_ID = PT.PARTSTYPE_ID
+        AND PT.ISDELETE = 1
+        WHERE T.ISDELETE = 1 AND (1=1) <include refid="Base_Where_List"/>
+    </select>
+</mapper>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.intest.dao.mapper.PackageMapper">
+    <sql id="Base_Where_List">
+        <if test="packageName != null and packageName != ''">AND f.originalname LIKE '%'||#{packageName}||'%'</if>
+        <if test="carTypeName != null and carTypeName != ''">AND ct.cartypename LIKE '%'||#{carTypeName}||'%'</if>
+        <if test="uploadUser != null and uploadUser != ''">AND u.login_name LIKE '%'||#{uploadUser}||'%'</if>
+    </sql>
+    <select id="checkPartType" resultType="Integer">
+        SELECT T.CALIBRATION FROM F_PARTS T WHERE T.ISDELETE=1 AND T.PARTSNAME=#{param1} AND T.FK_CARTYPE_ID=#{param2}
+    </select>
+    <select id="checkParentFileName" resultType="Integer">
+        SELECT COUNT(1) FROM F_PARTSBIGPACKAGE PBP INNER JOIN F_FILE FI ON PBP.FK_FILE_ID=FI.FILE_ID
+        AND FI.ISDELETE=1 WHERE PBP.ISDELETE=1 AND FI.ORIGINALNAME=#{param1} AND PBP.FK_CARTYPE_ID=#{param2}
+    </select>
+    <select id="getPartsId" resultType="String">
+        SELECT T.PARTS_ID FROM F_PARTS T WHERE T.ISDELETE=1 AND T.PARTSNAME=#{param1} AND T.FK_CARTYPE_ID=#{param2}
+    </select>
+    <select id="findAllLargePackage" resultType="com.intest.dao.entity.LargePackage">
+        SELECT t.*, rownum id FROM (SELECT pbp.PARTSBIGPACKAGE_ID packageId, pbp.FK_FILE_ID fileId, pbp.FK_CARTYPE_ID carTypeId,
+        f.originalname packageName, ct.cartypename, f.filesize packageSize, f.createat uploadTime,
+        u.login_name uploadUser FROM F_PARTSBIGPACKAGE pbp
+        LEFT JOIN f_file f ON pbp.fk_file_id=f.file_id AND f.isdelete=1
+        LEFT JOIN f_cartype ct ON pbp.fk_cartype_id=ct.cartype_id AND ct.isdelete=1
+        LEFT JOIN f_user u ON f.createby=u.user_id AND u.isdelete=1
+        WHERE pbp.isdelete=1 AND (1=1) <include refid="Base_Where_List"/>
+        ORDER BY pbp.createat DESC) t
+    </select>
+    <select id="getFileById" resultType="com.intest.dao.entity.FileInfo">
+        SELECT T.FILE_ID          FILEID,
+        T.ORIGINALNAME,
+        T.SUFFIX,
+        T.FILESIZE,
+        T.MD5,
+        T.FK_VALUELIST_KEY VALUELISTKEY,
+        T.SERVERSIDEPATH,
+        T.UPLOADINGUSER,
+        T.NOTE,
+        T.CREATEBY
+        FROM F_FILE T
+        WHERE T.ISDELETE = 1
+        AND T.FILE_ID = #{fileId}
+    </select>
+    <select id="findAllCarType" resultType="com.intest.dao.entity.CarType">
+        SELECT t.cartype_id carTypeId, t.cartypename FROM f_cartype t WHERE t.isdelete=1
+    </select>
+    <select id="packageDetails" resultType="com.intest.dao.entity.LargePackage">
+        SELECT F.ORIGINALNAME PACKAGENAME,
+        CT.CARTYPENAME,
+        F.FILESIZE     PACKAGESIZE,
+        F.CREATEAT     UPLOADTIME,
+        U.LOGIN_NAME   UPLOADUSER
+        FROM F_PARTSBIGPACKAGE T
+        LEFT JOIN F_FILE F
+        ON T.FK_FILE_ID = F.FILE_ID
+        AND F.ISDELETE = 1
+        LEFT JOIN F_CARTYPE CT
+        ON T.FK_CARTYPE_ID = CT.CARTYPE_ID
+        AND CT.ISDELETE = 1
+        LEFT JOIN F_USER U
+        ON T.CREATEBY = U.USER_ID
+        AND U.ISDELETE = 1
+        WHERE T.ISDELETE = 1
+        AND T.PARTSBIGPACKAGE_ID = #{packageId}
+    </select>
+    <select id="getPartsPackage" resultType="com.intest.dao.entity.dto.PartsPackageDto">
+        SELECT F.ORIGINALNAME    PARTSPACKAGENAME,
+        F.FILESIZE        PARTSPACKAGESIZE,
+        P.PARTSNAME,
+        PT.PARTSTYPENAME,
+        T.PARTNUMBER      PARTCODE,
+        T.SOFTWAREVERSION VERSION,
+        T.FK_FILE_ID      FILEID,
+        ROWNUM            ID
+        FROM F_PARTSPACKAGE T
+        LEFT JOIN F_FILE F
+        ON T.FK_FILE_ID = F.FILE_ID
+        AND F.ISDELETE = 1
+        LEFT JOIN F_PARTS P
+        ON T.FK_PARTS_ID = P.PARTS_ID
+        AND P.ISDELETE = 1
+        LEFT JOIN F_PARTSTYPE PT
+        ON P.FK_PARTSTYPE_ID = PT.PARTSTYPE_ID
+        AND PT.ISDELETE = 1
+        WHERE T.ISDELETE = 1
+        AND T.FK_PARTSBIGPACKAGE_ID = #{packageId}
+    </select>
+    <insert id="saveLargeZipInfo" parameterType="com.intest.dao.entity.LargePackage">
+        INSERT INTO F_PARTSBIGPACKAGE(PARTSBIGPACKAGE_ID, FK_FILE_ID, FK_CARTYPE_ID,
+        REMARK, CREATEBY)
+        VALUES (#{packageId}, #{fileId}, #{carTypeId}, #{remark}, #{createBy})
+    </insert>
+    <insert id="saveZipInfo" parameterType="com.intest.dao.entity.PartsPackage">
+        INSERT INTO F_PARTSPACKAGE(PARTSPACKAGE_ID, FK_PARTSBIGPACKAGE_ID, FK_PARTS_ID, FK_FILE_ID,
+        SOFTWAREVERSION, HARDWAREVERSION, PARTNUMBER, SENDID, RECEIVEID, PARTSASSEMBLYNUMBER,
+        MD5, PROJECTCODE, CREATEBY)
+        VALUES (#{partsPackageId}, #{packageId}, #{partsId}, #{fileId}, #{softwareVersion},
+        #{hardwareVersion}, #{partNumber}, #{sendId}, #{receiveId}, #{partsAssemblyNumber},
+        #{md5}, #{projectCode}, #{createBy})
+    </insert>
+    <insert id="saveFileInfo" parameterType="com.intest.dao.entity.FileInfo">
+        INSERT INTO F_FILE(FILE_ID, ORIGINALNAME, SUFFIX, FILESIZE,
+        MD5, FK_VALUELIST_KEY, SERVERSIDEPATH, UPLOADINGUSER, NOTE, CREATEBY)
+        VALUES (#{fileId}, #{originalName}, #{suffix}, #{fileSize},
+        #{md5}, #{valueListKey}, #{serverSidePath}, #{uploadingUser}, #{note}, #{createBy})
+    </insert>
+    <insert id="savePartsPackageDetail" parameterType="com.intest.dao.entity.PartsPackageDetail">
+        INSERT INTO F_PARTSPACKAGEDETAIL
+        (PARTSPACKAGEDETAIL_ID,
+        FK_PARTSPACKAGE_ID,
+        FK_FILE_ID,
+        FILETYPE,
+        SOFTWARENUMBER,
+        CREATEBY)
+        VALUES
+        (#{partsPackageDetailId},
+        #{partsPackageId},
+        #{fileId},
+        #{fileType},
+        #{softwareNumber},
+        #{createBy})
+    </insert>
+    <delete id="deletePackage">
+        UPDATE f_partsbigpackage t SET t.isdelete=0 WHERE t.partsbigpackage_id=#{packageId}
+    </delete>
+    <delete id="deletePartsPackage">
+        UPDATE f_partspackage t SET t.isdelete=0 WHERE t.fk_partsbigpackage_id=#{packageId}
+    </delete>
+</mapper>
