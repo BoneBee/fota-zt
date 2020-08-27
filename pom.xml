@@ -28,6 +28,8 @@
 		<module>basic-service</module>
 		<module>parts-service</module>
 		<module>car-service</module>
+		<module>package-service</module>
+		<module>packageparser</module>
 	</modules>
 
 	<properties>
