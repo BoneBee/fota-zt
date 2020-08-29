@@ -87,7 +87,7 @@ upload-file.path-string: /tmp/webhost/uploadFile
 
 ## Logging配置 start
 logback:
-  logdir: /fotazt
+  logdir: /tmp/webhost/webApiLog
   appname: webApi
 ## Logging配置 end
 

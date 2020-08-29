@@ -23,12 +23,12 @@ public class ColumnImpl implements ColumnService {
 
     @Override
     public int addColumn(ColumnBto columnBto) {
-        return columnBtoMapper.insert(columnBto);
+        return columnBtoMapper.insertSelective(columnBto);
     }
 
     @Override
     public int updateColumn(ColumnBto columnBto) {
-        return columnBtoMapper.updateByPrimaryKey(columnBto);
+        return columnBtoMapper.updateByPrimaryKeySelective(columnBto);
     }
 
     @Override

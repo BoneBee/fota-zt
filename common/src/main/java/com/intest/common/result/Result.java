@@ -14,6 +14,12 @@ public class Result {
         this.Success = 1;
     }
 
+    public Result(int success, String msg)
+    {
+        this.Success = success;
+        this.Msg = msg;
+    }
+
     private int Success;
 
     private String Msg;

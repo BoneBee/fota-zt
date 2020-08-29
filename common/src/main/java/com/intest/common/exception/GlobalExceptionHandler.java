@@ -68,7 +68,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(ShiroException.class)
     public Result handle401(ShiroException e) {
-        return new Result();//(ResultCode.UNLAWFUL, "无权访问(Unauthorized):" + e.getMessage());
+        return new Result(-1, e.getMessage());//(ResultCode.UNLAWFUL, "无权访问(Unauthorized):" + e.getMessage());
     }
 
     /**
@@ -78,7 +78,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UnauthorizedException.class)
     public Result handle401(UnauthorizedException e) {
         Result result = new Result();
-        return new Result();//(ResultCode.UNLAWFUL, "无权访问(Unauthorized):当前Subject没有此请求所需权限(" + e.getMessage() + ")");
+        return new Result(-1, e.getMessage());//(ResultCode.UNLAWFUL, "无权访问(Unauthorized):当前Subject没有此请求所需权限(" + e.getMessage() + ")");
     }
 
     /**
@@ -88,7 +88,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(UnauthenticatedException.class)
     public Result handle401(UnauthenticatedException e) {
-        return new Result();//(ResultCode.UNLAWFUL, "无权访问(Unauthorized):当前Subject是匿名Subject，请先登录(This subject is anonymous.)");
+        return new Result(-1, e.getMessage());//(ResultCode.UNLAWFUL, "无权访问(Unauthorized):当前Subject是匿名Subject，请先登录(This subject is anonymous.)");
     }
 
     /**
@@ -99,7 +99,7 @@ public class GlobalExceptionHandler {
     public Result validException(BindException e) {
         List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
         Map<String, Object> error = this.getValidError(fieldErrors);
-        return new Result(); //Result(ResultCode.ERROR, error.get("errorMsg").toString(), error.get("errorList"));
+        return new Result(-1, e.getMessage()); //Result(ResultCode.ERROR, error.get("errorMsg").toString(), error.get("errorList"));
     }
 
     /**
@@ -110,7 +110,7 @@ public class GlobalExceptionHandler {
     public Result validException(MethodArgumentNotValidException e) {
         List<FieldError> fieldErrors = e.getBindingResult().getFieldErrors();
         Map<String, Object> error = this.getValidError(fieldErrors);
-        return new Result();//(ResultCode.ERROR, error.get("errorMsg").toString(), error.get("errorList"));
+        return new Result(-1, e.getMessage());//(ResultCode.ERROR, error.get("errorMsg").toString(), error.get("errorList"));
     }
 
     /**
@@ -119,7 +119,7 @@ public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(NoHandlerFoundException.class)
     public Result handle(NoHandlerFoundException e) {
-        return new Result();//(ResultCode.NOT_FOUND, e.getMessage());
+        return new Result(-1, e.getMessage());//(ResultCode.NOT_FOUND, e.getMessage());
     }
 
     /**
@@ -127,8 +127,8 @@ public class GlobalExceptionHandler {
      */
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(Exception.class)
-    public Result globalException(HttpServletRequest request, Throwable ex) {
-        return new Result();//(ResultCode.ERROR, ex.toString() + ": " + ex.getMessage());
+    public Result globalException(HttpServletRequest request, Throwable e) {
+        return new Result(-1, e.getMessage());//(ResultCode.ERROR, ex.toString() + ": " + ex.getMessage());
     }
 
     /**

@@ -46,12 +46,12 @@ public class TableColumnImpl implements TableColumnService {
 
     @Override
     public int addTableColumn(TableColumnBto tableColumnBto) {
-        return tableColumnBtoMapper.insert(tableColumnBto);
+        return tableColumnBtoMapper.insertSelective(tableColumnBto);
     }
 
     @Override
     public int updateTableColumn(TableColumnBto tableColumnBto) {
-        return tableColumnBtoMapper.updateByPrimaryKey(tableColumnBto);
+        return tableColumnBtoMapper.updateByPrimaryKeySelective(tableColumnBto);
     }
 
     @Override

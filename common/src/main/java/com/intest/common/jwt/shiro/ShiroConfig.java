@@ -71,8 +71,13 @@ public class ShiroConfig {
         // 所有请求通过我们自己的JWTFilter
         //filterRuleMap.put("/logout", "logout");
         filterRuleMap.put("/api/account/login", "anon");
+        filterRuleMap.put("/favicon.ico","anon");
         filterRuleMap.put("/swagger-ui.html", "anon");
-        filterRuleMap.put("/api/swagger-resources/**/login", "anon");
+        filterRuleMap.put("/webjars/**", "anon");
+        filterRuleMap.put("/swagger/**", "anon");
+        filterRuleMap.put("/v2/**", "anon");
+        filterRuleMap.put("/configuration/**", "anon");
+        filterRuleMap.put("/swagger-resources/**", "anon");
         filterRuleMap.put("/**", "jwtFilter");
         factoryBean.setFilterChainDefinitionMap(filterRuleMap);
         return factoryBean;

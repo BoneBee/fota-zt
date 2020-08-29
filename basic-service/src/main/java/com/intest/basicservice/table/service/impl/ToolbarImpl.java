@@ -43,12 +43,12 @@ public class ToolbarImpl implements ToolbarService {
 
     @Override
     public int addToolbar(ToolbarBto toolbarBto) {
-        return toolbarBtoMapper.insert(toolbarBto);
+        return toolbarBtoMapper.insertSelective(toolbarBto);
     }
 
     @Override
     public int updateToolbar(ToolbarBto toolbarBto) {
-        return toolbarBtoMapper.updateByPrimaryKey(toolbarBto);
+        return toolbarBtoMapper.updateByPrimaryKeySelective(toolbarBto);
     }
 
     @Override

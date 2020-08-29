@@ -20,6 +20,9 @@ public class OptionRequest {
     private List valueRange;
     private String fieldText;
 
+    public OptionRequest(){
+
+    }
 
     public OptionRequest(String columnId, String optionId, short kind, short dataType, int maxLength, int minLength, int maxNum, int minNum, String regularText, String dateFormat, String queryFields, List<ListFilter> listOfFilter, short dataSourceKind, List valueRange, String fieldText) {
         this.columnId = columnId;

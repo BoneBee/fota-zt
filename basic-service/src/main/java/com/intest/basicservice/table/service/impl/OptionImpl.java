@@ -22,12 +22,12 @@ public class OptionImpl implements OptionService {
 
     @Override
     public int addOption(OptionBto optionBto) {
-        return optionBtoMapper.insert(optionBto);
+        return optionBtoMapper.insertSelective(optionBto);
     }
 
     @Override
     public int updateOption(OptionBto optionBto) {
-        return optionBtoMapper.updateByPrimaryKey(optionBto);
+        return optionBtoMapper.updateByPrimaryKeySelective(optionBto);
     }
 
     @Override

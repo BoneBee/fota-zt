@@ -31,12 +31,12 @@ public class MeunImpl implements MeunService {
 
     @Override
     public int addMeun(MenuBto meunBto) {
-        return meunBtoMapper.insert(meunBto);
+        return meunBtoMapper.insertSelective(meunBto);
     }
 
     @Override
     public int updateMeun(MenuBto meunBto) {
-        return meunBtoMapper.updateByPrimaryKey(meunBto);
+        return meunBtoMapper.updateByPrimaryKeySelective(meunBto);
     }
 
     @Override

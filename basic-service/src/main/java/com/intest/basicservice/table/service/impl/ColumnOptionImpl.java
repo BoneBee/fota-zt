@@ -44,12 +44,12 @@ public class ColumnOptionImpl implements ColumnOptionService {
 
     @Override
     public int addColumnOption(ColumnOptionBto columnOptionBto) {
-        return columnOptionBtoMapper.insert(columnOptionBto);
+        return columnOptionBtoMapper.insertSelective(columnOptionBto);
     }
 
     @Override
     public int updateColumnOption(ColumnOptionBto columnOptionBto) {
-        return columnOptionBtoMapper.updateByPrimaryKey(columnOptionBto);
+        return columnOptionBtoMapper.updateByPrimaryKeySelective(columnOptionBto);
     }
 
     @Override

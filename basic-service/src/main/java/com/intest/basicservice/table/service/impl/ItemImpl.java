@@ -30,12 +30,12 @@ public class ItemImpl implements ItemService {
 
     @Override
     public int addItem(ItemBto itemBto) {
-        return itemBtoMapper.insert(itemBto);
+        return itemBtoMapper.insertSelective(itemBto);
     }
 
     @Override
     public int updateItem(ItemBto itemBto) {
-        return itemBtoMapper.updateByPrimaryKey(itemBto);
+        return itemBtoMapper.updateByPrimaryKeySelective(itemBto);
     }
 
     @Override

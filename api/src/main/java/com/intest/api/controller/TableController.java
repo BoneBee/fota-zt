@@ -513,7 +513,7 @@ public class TableController {
             if (itemBto == null) {
                 throw new CustomException("该itemId不存在！");
             }
-            if (itemBean.isSelect()) {//true关联
+            if (itemBean.getIsSelect()) {//true关联
                 ToolbarItemBto toolbarItemBto = new ToolbarItemBto();
                 toolbarItemBto.setToolbaritemId(UUID.randomUUID() + "");
                 toolbarItemBto.setFkToolbarId(toolbarBto.getToolbarId());
@@ -591,7 +591,7 @@ public class TableController {
             toolbarItemImpl.deleteToolbarItem(toolbarItemBto.getToolbaritemId());
         }
         for (TableRequest.ItemBean itemBean : tableRequest.getToolbar().getItems()) {
-            if (itemBean.isSelect()) {//true关联
+            if (itemBean.getIsSelect()) {//true关联
                 ToolbarItemBto toolbarItemBto = new ToolbarItemBto();
                 toolbarItemBto.setToolbaritemId(UUID.randomUUID() + "");
                 toolbarItemBto.setFkToolbarId(toolbarBto.getToolbarId());
