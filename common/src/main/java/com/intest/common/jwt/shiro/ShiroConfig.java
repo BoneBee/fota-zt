@@ -69,7 +69,6 @@ public class ShiroConfig {
         // 自定义url规则
         LinkedHashMap<String, String> filterRuleMap = new LinkedHashMap<>(16);
         // 所有请求通过我们自己的JWTFilter
-        //filterRuleMap.put("/logout", "logout");
         filterRuleMap.put("/api/account/login", "anon");
         filterRuleMap.put("/favicon.ico","anon");
         filterRuleMap.put("/swagger-ui.html", "anon");
