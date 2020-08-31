@@ -1,13 +1,10 @@
 package com.intest.dao.entity.dto;
 
-import lombok.Data;
-
 /**
  * @author ：intest
  * @description：TODO
  * @date ：2020/8/12 17:07
  */
-@Data
 public class ChildNode {
     /**
      * 零件包ID
@@ -22,4 +19,28 @@ public class ChildNode {
      * 默认值 true
      */
     private Boolean isLeaf = true;
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Boolean getLeaf() {
+        return isLeaf;
+    }
+
+    public void setLeaf(Boolean leaf) {
+        isLeaf = leaf;
+    }
 }

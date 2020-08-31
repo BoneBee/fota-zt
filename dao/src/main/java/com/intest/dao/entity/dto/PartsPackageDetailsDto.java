@@ -1,8 +1,5 @@
 package com.intest.dao.entity.dto;
 
-import lombok.Data;
-
-@Data
 public class PartsPackageDetailsDto {
     /**
      * 零件包名称
@@ -48,4 +45,92 @@ public class PartsPackageDetailsDto {
      * 响应ID
      */
     private String responseID;
+
+    public String getPartsPackageName() {
+        return partsPackageName;
+    }
+
+    public void setPartsPackageName(String partsPackageName) {
+        this.partsPackageName = partsPackageName;
+    }
+
+    public String getPartsName() {
+        return partsName;
+    }
+
+    public void setPartsName(String partsName) {
+        this.partsName = partsName;
+    }
+
+    public String getPartsTypeName() {
+        return partsTypeName;
+    }
+
+    public void setPartsTypeName(String partsTypeName) {
+        this.partsTypeName = partsTypeName;
+    }
+
+    public String getPartsCode() {
+        return partsCode;
+    }
+
+    public void setPartsCode(String partsCode) {
+        this.partsCode = partsCode;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public String getCarTypeName() {
+        return carTypeName;
+    }
+
+    public void setCarTypeName(String carTypeName) {
+        this.carTypeName = carTypeName;
+    }
+
+    public String getNetworkSegmentName() {
+        return networkSegmentName;
+    }
+
+    public void setNetworkSegmentName(String networkSegmentName) {
+        this.networkSegmentName = networkSegmentName;
+    }
+
+    public String getFunctionID() {
+        return functionID;
+    }
+
+    public void setFunctionID(String functionID) {
+        this.functionID = functionID;
+    }
+
+    public String getPhysicalID() {
+        return physicalID;
+    }
+
+    public void setPhysicalID(String physicalID) {
+        this.physicalID = physicalID;
+    }
+
+    public String getResponseID() {
+        return responseID;
+    }
+
+    public void setResponseID(String responseID) {
+        this.responseID = responseID;
+    }
 }
