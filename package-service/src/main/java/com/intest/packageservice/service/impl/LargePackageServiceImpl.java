@@ -3,6 +3,7 @@ package com.intest.packageservice.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.intest.common.result.PagerDataBaseVO;
+import com.intest.common.tableData.TableDataAnnotation;
 import com.intest.dao.entity.*;
 import com.intest.dao.entity.dto.PackageDto;
 import com.intest.dao.entity.dto.PartsPackageDto;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 
 @Component
+@TableDataAnnotation
 public class LargePackageServiceImpl implements LargePackageService {
     @Autowired
     private PackageMapper packageMapper;
@@ -42,6 +44,7 @@ public class LargePackageServiceImpl implements LargePackageService {
     }
 
     @Override
+    @TableDataAnnotation(tableId = "525760ef-cffa-4e9a-a3d2-12efa2e49cdb")
     public PagerDataBaseVO findAllLargePackage(PackageVo vo) {
         PageHelper.startPage(vo.getPi(), vo.getPs());
         List<LargePackage> list = packageMapper.findAllLargePackage(vo);
