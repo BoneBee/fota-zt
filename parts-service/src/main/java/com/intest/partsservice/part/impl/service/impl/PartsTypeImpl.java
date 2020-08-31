@@ -28,7 +28,6 @@ public class PartsTypeImpl implements PartsTypeService {
         PartsTypeBtoExample.Criteria criteria = partsTypeBtoExample.createCriteria();
         criteria.andPartstypenameEqualTo(partsTypeName);
         List<PartsTypeBto> partsTypeBtos = partsTypeBtoMapper.selectByExample(partsTypeBtoExample);
-        System.out.println(partsTypeBtos.size());
         if (partsTypeBtos.size() != 0) {
             return partsTypeBtos.get(0);
         } else {
