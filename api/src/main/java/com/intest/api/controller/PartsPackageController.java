@@ -17,7 +17,7 @@ import java.util.Map;
  * 零件包相关API接口
  * @author : intest
  */
-@Api("零件包")
+@Api(tags = {"版本管理/零件包"})
 @RequestMapping("/api/partspackage")
 @RestController
 public class PartsPackageController {

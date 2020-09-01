@@ -34,7 +34,7 @@ import java.util.Map;
  * 原始包相关API接口
  * @author : intest
  */
-@Api("原始包")
+@Api(tags = {"版本管理/原始包"})
 @RequestMapping("/api")
 @RestController
 public class PackageController {
@@ -107,44 +107,6 @@ public class PackageController {
         ResultT result = new ResultT();
         FileParser.saveToDb(largePackageService, result);
         return result;
-    }
-
-    @RequestMapping("/index")
-    public String toUpload(){
-        return "upload";
-    }
-
-    @RequestMapping("/uploadFile")
-    public String uploadFile(@RequestParam("fileName") MultipartFile file) {
-        // 判断文件是否为空
-        if(file.isEmpty()){
-            return "-1";
-        }
-
-        String fileName = file.getOriginalFilename();
-
-        // 加个时间戳，尽量避免文件名称重复
-        String path = "D:/" + new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + "_" + fileName;
-        File dest = new File(path);
-
-        // 判断文件是否已经存在
-        if(dest.exists()){
-            return "-2";
-        }
-
-        // 判断文件父目录是否存在
-        if(!dest.getParentFile().exists()){
-            dest.getParentFile().mkdir();
-        }
-
-        try{
-            // 保存文件
-            file.transferTo(dest);
-        }catch (IOException e){
-            return "-3";
-        }
-
-        return "0";
     }
 
     @ApiOperation("原始包下载")

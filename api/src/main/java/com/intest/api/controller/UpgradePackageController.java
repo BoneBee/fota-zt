@@ -15,7 +15,7 @@ import java.util.List;
  * @description：升级包相关API接口
  * @date ：2020/8/12 11:06
  */
-@Api("升级包")
+@Api(tags = {"升级包管理/升级包"})
 @RequestMapping("/api/upgradepackage")
 @RestController
 public class UpgradePackageController {
