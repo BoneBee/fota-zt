@@ -6,8 +6,11 @@ import com.intest.basicservice.table.config.helper.ValidateHelper;
 import com.intest.basicservice.table.response.*;
 import com.intest.basicservice.table.service.impl.*;
 import com.intest.common.exception.CustomException;
+import com.intest.common.result.PagerDataBaseVO;
+import com.intest.common.result.ResultT;
 import com.intest.common.ro.GetDataRO;
 import com.intest.common.util.StringUtils;
+import com.intest.common.webcore.BaseController;
 import com.intest.dao.entity.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
@@ -21,7 +24,7 @@ import java.util.UUID;
 
 @RestController
 @Api(tags = {"表格编辑"})
-public class TableController {
+public class TableController extends BaseController {
 
     @Autowired
     EditSaveTableImpl editSaveTableImpl;
@@ -293,7 +296,7 @@ public class TableController {
                         TableResponse.OptionBean optionBean = new TableResponse.OptionBean(optionBto.getOptionId(), optionBto.getKind().intValue(), optionBto.getDateType().intValue(), optionBto.getMaxLength().intValue(), optionBto.getMinLength().intValue(), optionBto.getMaxNum().intValue(), optionBto.getMinNum().intValue(), optionBto.getRegularText(), optionBto.getDateFormat(), optionBto.getQueryFields(), listItemFilterBeanList, optionBto.getDateSourceKind().intValue(), valueRangeList, optionBto.getIsdelete().intValue(), optionBto.getFieldText());
                         optionBeanList.add(optionBean);
                     }
-                    TableResponse.ColumnBean columnBean = new TableResponse.ColumnBean(columnBto.getColumnId(), columnBto.getColumnName(), columnBto.getOrderNum().intValue(), columnBto.getWidth().intValue(), columnBto.getIsshow().intValue() == 1 ? true : false, columnBto.getIscansort().intValue() == 1 ? true : false, optionBeanList, columnBto.getDatapropertyname());
+                    TableResponse.ColumnBean columnBean = new TableResponse.ColumnBean(columnBto.getColumnId(), columnBto.getColumnName(), tableColumnBto.getOrderNum().intValue(), columnBto.getWidth().intValue(), columnBto.getIsshow().intValue() == 1 ? true : false, columnBto.getIscansort().intValue() == 1 ? true : false, optionBeanList, columnBto.getDatapropertyname());
                     columnBeanList.add(columnBean);
                 }
 
@@ -379,7 +382,7 @@ public class TableController {
             optionBto2.setListoffilter(JSONArray.toJSONString(listFilters));
             optionBto2.setDateSourceKind(optionRequest.getDataSourceKind());
             List valueList = new ArrayList<>();
-            if (optionRequest.getValueRange() != null || optionRequest.getValueRange().size() != 0) {
+            if (optionRequest.getValueRange() != null && optionRequest.getValueRange().size() != 0) {
                 valueList = optionRequest.getValueRange();
             }
             optionBto2.setValueRange(JSONArray.toJSONString(valueList));
@@ -732,7 +735,14 @@ public class TableController {
     @ResponseBody
     @RequestMapping(value = "/api/basic/table/getdata", method = RequestMethod.POST)
     public Object GetTableData(@RequestBody GetDataRO model) {
-        return tableDataImpl.GetTableData(model);
+        ResultT<PagerDataBaseVO> result = new ResultT<>();
+        try {
+            result.setResult(tableDataImpl.GetTableData(model));
+        }catch (Exception ex) {
+            logger.error(ex);
+            result.setFail();
+        }
+        return result;
     }
 
 }

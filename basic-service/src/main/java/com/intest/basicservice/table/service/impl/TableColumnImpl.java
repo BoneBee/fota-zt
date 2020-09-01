@@ -3,6 +3,7 @@ package com.intest.basicservice.table.service.impl;
 
 import com.intest.basicservice.table.service.TableColumnService;
 import com.intest.basicservice.table.service.TableColumnService;
+import com.intest.dao.entity.ColumnBtoExample;
 import com.intest.dao.entity.TableColumnBto;
 import com.intest.dao.entity.TableColumnBtoExample;
 import com.intest.dao.mapper.TableColumnBtoMapper;
@@ -22,6 +23,8 @@ public class TableColumnImpl implements TableColumnService {
         TableColumnBtoExample example = new TableColumnBtoExample();
         TableColumnBtoExample.Criteria criteria = example.createCriteria();
         criteria.andFkTableIdEqualTo(tableId);
+        example.setOrderByClause("ORDER_NUM ASC");
+        criteria.andIsdeleteEqualTo((short) 1);
         return tableColumnBtoMapper.selectByExample(example);
     }
 

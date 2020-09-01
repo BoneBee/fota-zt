@@ -4,11 +4,15 @@ package com.intest.basicservice.table.service.impl;
 import com.intest.basicservice.table.service.ColumnService;
 import com.intest.basicservice.table.service.ColumnService;
 import com.intest.dao.entity.ColumnBto;
+import com.intest.dao.entity.ColumnBtoExample;
+import com.intest.dao.entity.UserBtoExample;
 import com.intest.dao.mapper.ColumnBtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Service
 public class ColumnImpl implements ColumnService {
@@ -18,7 +22,16 @@ public class ColumnImpl implements ColumnService {
 
     @Override
     public ColumnBto getColumnById(String columnId) {
-        return columnBtoMapper.selectByPrimaryKey(columnId);
+        ColumnBtoExample example = new ColumnBtoExample();
+        ColumnBtoExample.Criteria criteria = example.createCriteria();
+        criteria.andIsdeleteEqualTo(new BigDecimal(1));
+        criteria.andColumnIdEqualTo(columnId);
+        List<ColumnBto> list = columnBtoMapper.selectByExample(example);
+        if (list.size() > 0) {
+            return list.get(0);
+        } else {
+            return null;
+        }
     }
 
     @Override
