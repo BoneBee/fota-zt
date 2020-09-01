@@ -1,5 +1,6 @@
 package com.intest.packageservice.service.impl;
 
+import com.intest.common.tableData.TableDataAnnotation;
 import com.intest.dao.entity.UpgradePackage;
 import com.intest.dao.entity.dto.PartsTreeDto;
 import com.intest.dao.mapper.UpgradePackageMapper;
@@ -15,11 +16,13 @@ import java.util.List;
  * @date ：2020/8/12 11:04
  */
 @Component
+@TableDataAnnotation
 public class UpgradePackageServiceImpl implements UpgradePackageService {
     @Autowired
     private UpgradePackageMapper upgradePackageMapper;
 
     @Override
+    @TableDataAnnotation(tableId = "e1796f23-c541-4b70-9cf9-20abe3cb30af")
     public List<UpgradePackage> findAllUpgradePackage() {
         return upgradePackageMapper.findAllUpgradePackage();
     }

@@ -1,8 +1,5 @@
 package com.intest.dao.entity;
 
-import lombok.Data;
-
-@Data
 public class LargePackage {
     /**
      * 序号
@@ -48,4 +45,92 @@ public class LargePackage {
      * 创建人
      */
     private String createBy;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getPackageId() {
+        return packageId;
+    }
+
+    public void setPackageId(String packageId) {
+        this.packageId = packageId;
+    }
+
+    public String getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public String getCarTypeName() {
+        return carTypeName;
+    }
+
+    public void setCarTypeName(String carTypeName) {
+        this.carTypeName = carTypeName;
+    }
+
+    public float getPackageSize() {
+        return packageSize;
+    }
+
+    public void setPackageSize(float packageSize) {
+        this.packageSize = packageSize;
+    }
+
+    public String getUploadTime() {
+        return uploadTime;
+    }
+
+    public void setUploadTime(String uploadTime) {
+        this.uploadTime = uploadTime;
+    }
+
+    public String getUploadUser() {
+        return uploadUser;
+    }
+
+    public void setUploadUser(String uploadUser) {
+        this.uploadUser = uploadUser;
+    }
+
+    public String getCarTypeId() {
+        return carTypeId;
+    }
+
+    public void setCarTypeId(String carTypeId) {
+        this.carTypeId = carTypeId;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
 }
