@@ -4,6 +4,7 @@ import java.util.Date;
 
 public class PartsListResponse {
     private int index;
+    private String partsId;
     private String partsName;
     private String fullName;
     private String partsType;
@@ -16,8 +17,9 @@ public class PartsListResponse {
     public PartsListResponse() {
     }
 
-    public PartsListResponse(int index, String partsName, String fullName, String partsType, Date creatAt, String creatBy, Date updateBy, String updateAt, String remark) {
+    public PartsListResponse(int index, String partsId, String partsName, String fullName, String partsType, Date creatAt, String creatBy, Date updateBy, String updateAt, String remark) {
         this.index = index;
+        this.partsId = partsId;
         this.partsName = partsName;
         this.fullName = fullName;
         this.partsType = partsType;
@@ -28,13 +30,20 @@ public class PartsListResponse {
         this.remark = remark;
     }
 
-
     public int getIndex() {
         return index;
     }
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public String getPartsId() {
+        return partsId;
+    }
+
+    public void setPartsId(String partsId) {
+        this.partsId = partsId;
     }
 
     public String getPartsName() {

@@ -1,15 +1,24 @@
 package com.intest.partsservice.part.impl.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.intest.common.exception.ResponseBean;
+import com.intest.common.result.PagerDataBaseVO;
+import com.intest.common.tableData.TableDataAnnotation;
 import com.intest.dao.entity.PartsBto;
 import com.intest.dao.entity.PartsBtoExample;
 import com.intest.dao.mapper.PartsBtoMapper;
 import com.intest.partsservice.part.impl.service.PartsService;
+import com.intest.partsservice.part.response.PartPage;
+import com.intest.partsservice.part.response.PartsListResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@TableDataAnnotation
 public class PartsImpl implements PartsService {
     @Autowired
     PartsBtoMapper partsBtoMapper;
@@ -65,5 +74,25 @@ public class PartsImpl implements PartsService {
     @Override
     public int deleteParts(String partsId) {
         return partsBtoMapper.deleteByPrimaryKey(partsId);
+    }
+
+    @Override
+    @TableDataAnnotation(tableId = "5d61bc92-3c01-4e73-a786-1680de013280")
+    public PagerDataBaseVO getPartInfo(PartPage model) {
+        PagerDataBaseVO part = new PagerDataBaseVO();
+        PageHelper.startPage(model.getPi(), model.getPs());
+        PartsBtoExample partsBtoExample = new PartsBtoExample();
+        List<PartsBto> partsList = partsBtoMapper.selectByExample(partsBtoExample);
+
+        List<PartsListResponse> partsListRespons = new ArrayList<>();
+        PageInfo<PartsBto> pageInfo = new PageInfo<PartsBto>(partsList);
+        int index = pageInfo.getStartRow() - 1;
+        for (PartsBto partsBto : partsList) {
+            PartsListResponse partsListResponse = new PartsListResponse(index += 1, partsBto.getPartsId(), partsBto.getPartscode(), partsBto.getPartsname(), partsBto.getFkPartstypeId(), partsBto.getCreateat(), partsBto.getCreateby(), partsBto.getUpdateat(), partsBto.getUpdateby(), partsBto.getRemark());
+            partsListRespons.add(partsListResponse);
+        }
+        part.setTotal(pageInfo.getTotal());
+        part.setData(partsListRespons);
+        return part;
     }
 }

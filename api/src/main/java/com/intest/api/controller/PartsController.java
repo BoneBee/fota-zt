@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.intest.basicservice.table.util.CheckPwd;
 import com.intest.common.exception.CustomException;
+import com.intest.common.result.PagerDataBaseVO;
 import com.intest.common.util.StringUtils;
 import com.intest.dao.entity.PartsBto;
 import com.intest.dao.entity.PartsConfigBto;
@@ -16,10 +17,7 @@ import com.intest.partsservice.part.request.PartsTypeRequest;
 
 import com.intest.basicservice.table.common.ResponseBean;
 import com.intest.basicservice.table.config.helper.ValidateHelper;
-import com.intest.partsservice.part.response.DateResponse;
-import com.intest.partsservice.part.response.PartsListResponse;
-import com.intest.partsservice.part.response.PartsTypeListResponse;
-import com.intest.partsservice.part.response.PartsTypeResponse;
+import com.intest.partsservice.part.response.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -141,33 +139,10 @@ public class PartsController {
     /**
      * 获取零部件类型列表
      *
-     * @param pi
-     * @param ps
      * @return
      */
-    @ResponseBody
-    @RequestMapping(value = "/api/basic/part/getPartsTypeList", method = RequestMethod.GET)
-    public ResponseBean getPartsTypeList(@ApiParam(defaultValue = "1") int pi, @ApiParam(defaultValue = "10") int ps) {
-        if (pi <= 0 || ps <= 0) {
-            pi = 1;
-            ps = 10;
-        }
-        PageHelper.startPage(pi, ps);
-        List<PartsTypeBto> partsTypeBtoList = partsTypeImpl.getPartsTypeList();
-        if (partsTypeBtoList == null || partsTypeBtoList.size() <= 0) {
-            return new ResponseBean(1, "查询成功", null);
-        }
-        List<PartsTypeListResponse> partsTypeListResponseList = new ArrayList<>();
-        PageInfo<PartsTypeBto> pageInfo = new PageInfo<PartsTypeBto>(partsTypeBtoList);
-        int index = pageInfo.getStartRow() - 1;
-        for (PartsTypeBto partsTypeBto : partsTypeBtoList) {
-            PartsTypeListResponse partsTypeListResponse = new PartsTypeListResponse(index += 1, partsTypeBto.getPartstypename(), partsTypeBto.getRemark(), partsTypeBto.getCreateat(), partsTypeBto.getCreateby(), partsTypeBto.getUpdateat(), partsTypeBto.getUpdateby());
-            partsTypeListResponseList.add(partsTypeListResponse);
-        }
-        Map<String, Object> result = new HashMap<String, Object>(16);
-        result.put("count", pageInfo.getTotal());
-        result.put("data", partsTypeListResponseList);
-        return new ResponseBean(1, "获取成功", result);
+    public PagerDataBaseVO getPartsTypeList() {
+        return partsTypeImpl.getPartTypeInfo(new PartTypePage());
     }
 
 
@@ -230,9 +205,9 @@ public class PartsController {
      */
     @ResponseBody
     @RequestMapping(value = "/api/basic/part/updatePartMessage", method = RequestMethod.GET)
-    public ResponseBean updatePartMessage(@ApiParam String partsName, @ApiParam String fullName, @ApiParam String partsId, @ApiParam String remark) {
-        if (!StringUtils.isNotEmptyStr(partsName) || !StringUtils.isNotEmptyStr(fullName) || !StringUtils.isNotEmptyStr(partsId)) {
-            throw new CustomException("partsName、fullName、partsTypeId不能为空");
+    public ResponseBean updatePartMessage(@ApiParam String partsTypeId, @ApiParam String partsName, @ApiParam String fullName, @ApiParam String partsId, @ApiParam String remark) {
+        if (!StringUtils.isNotEmptyStr(partsName) || !StringUtils.isNotEmptyStr(fullName) || !StringUtils.isNotEmptyStr(partsId) || !StringUtils.isNotEmptyStr(partsTypeId)) {
+            throw new CustomException("partsName、fullName、partsTypeId、partsId不能为空");
         }
         if (partsName.length() > 3 || !CheckPwd.checkUpperCase(partsName)) {
             throw new CustomException("零件简称不合法");
@@ -240,14 +215,19 @@ public class PartsController {
         if (fullName.length() > 20) {
             throw new CustomException("零件全称长度超过上限");
         }
-        PartsBto partsBto = new PartsBto();
-        partsBto.setPartsname(fullName);
-        partsBto.setPartscode(partsName);
-        partsBto.setFkPartstypeId(partsId);
-        partsBto.setRemark(remark);
-        if (partsImpl.updateParts(partsBto) != 1) {
-            throw new CustomException("修改零部件信息失败");
+        PartsBto partsBto = partsImpl.getPartsById(partsId);
+        if (partsBto == null) {
+            throw new CustomException("未找到对应零部件信息");
+        } else {
+            partsBto.setPartsname(fullName);
+            partsBto.setPartscode(partsName);
+            partsBto.setFkPartstypeId(partsId);
+            partsBto.setRemark(remark);
+            if (partsImpl.updateParts(partsBto) != 1) {
+                throw new CustomException("修改零部件信息失败");
+            }
         }
+
         return new ResponseBean(1, "修改成功", null);
     }
 
@@ -272,33 +252,12 @@ public class PartsController {
     /**
      * 获取零件信息管理列表
      *
-     * @param pi
-     * @param ps
+
      * @return
      */
-    @ResponseBody
-    @RequestMapping(value = "/api/basic/part/getPartsMessageList", method = RequestMethod.GET)
-    public ResponseBean getPartsMessageList(@ApiParam(defaultValue = "1") int pi, @ApiParam(defaultValue = "10") int ps) {
-        if (pi <= 0 || ps <= 0) {
-            pi = 1;
-            ps = 10;
-        }
-        PageHelper.startPage(pi, ps);
-        List<PartsBto> partsList = partsImpl.getPartsList();
-        if (partsList == null || partsList.size() <= 0) {
-            return new ResponseBean(1, "查询成功", null);
-        }
-        List<PartsListResponse> partsListRespons = new ArrayList<>();
-        PageInfo<PartsBto> pageInfo = new PageInfo<PartsBto>(partsList);
-        int index = pageInfo.getStartRow() - 1;
-        for (PartsBto partsBto : partsList) {
-            PartsListResponse partsListResponse = new PartsListResponse(index += 1, partsBto.getPartscode(), partsBto.getPartsname(), partsBto.getFkPartstypeId(), partsBto.getCreateat(), partsBto.getCreateby(), partsBto.getUpdateat(), partsBto.getUpdateby(), partsBto.getRemark());
-            partsListRespons.add(partsListResponse);
-        }
-        Map<String, Object> result = new HashMap<String, Object>(16);
-        result.put("count", pageInfo.getTotal());
-        result.put("data", partsListRespons);
-        return new ResponseBean(1, "获取成功", result);
+
+    public PagerDataBaseVO getPartsMessageList() {
+        return partsImpl.getPartInfo(new PartPage());
     }
 
     /**
@@ -353,7 +312,6 @@ public class PartsController {
     @ResponseBody
     @RequestMapping(value = "/api/basic/part/getPartsType", method = RequestMethod.GET)
     public ResponseBean getPartsType() {
-
         List<PartsTypeBto> partsTypeBtoList = partsTypeImpl.getPartsTypeList();
         if (partsTypeBtoList == null || partsTypeBtoList.size() <= 0) {
             return new ResponseBean(1, "查询成功", null);
