@@ -185,6 +185,19 @@ public class PartsController {
         PartsConfigBto partsConfigBto = new PartsConfigBto();
         partsConfigBto.setPartsconfigId(UUID.randomUUID() + "");
         partsConfigBto.setFkPartsId(saveParts.getPartsId());
+        partsConfigBto.setVoltagemodel((short)1);
+        partsConfigBto.setCantype((short)1);
+        partsConfigBto.setTravelstate((short)0);
+        partsConfigBto.setGear((short)1);
+        partsConfigBto.setOrdernum((short)1);
+        partsConfigBto.setPreprogramme((short)1);
+        partsConfigBto.setInprogramme((short)1);
+        partsConfigBto.setSafetylevel((short)1);
+        partsConfigBto.setAlgorithmmask("OTA");
+        partsConfigBto.setDelay((short)1);
+        partsConfigBto.setIsalignment((short)0);
+        partsConfigBto.setAlignmentcompany((short)10);
+        partsConfigBto.setEcuwaitresettime((short)5);
         partsConfigBto.setCreateat(new Date());
         partsConfigBto.setCreateby("admin");
         if (partsConfigImpl.addParts(partsConfigBto) != 1) {
