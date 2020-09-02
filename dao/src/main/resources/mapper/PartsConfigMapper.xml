@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.intest.dao.mapper.PartsConfigMapper">
+
+    <select id="selectPartsConfig" resultType="com.intest.dao.entity.partsConfig.PartsBaseConfig" parameterType="java.lang.String">
+        select fpc.partsconfig_id    as partsConfigId,
+               fpc.fk_parts_id       as partsId,
+               fp.partsname          as partsName,
+               fpp.partstypename     as partsTypeName,
+               fct.cartypename       as carTypeName,
+               fp.networksegmentname as name,
+               fp.phyicalid          as phyicalId,
+               fp.functionid         as functionId,
+               fp.responseid         as responseId,
+               fpc.voltagemodel      as voltageModel,
+               fpc.cantype           as canType,
+               fpc.travelstate       as travelState,
+               fpc.gear              as gear,
+               fpc.ordernum          as ordernum,
+               fpc.preprogramme      as preProgramme,
+               fpc.inprogramme       as inProgramme,
+               fpc.safetylevel       as safetyLevel,
+               fpc.algorithmmask     as algorithmMask,
+               fpc.delay             as delay,
+               fpc.isalignment       as isAlignment,
+               fpc.alignmentcompany  as alignmentCompany,
+               fpc.ecuwaitresettime  as ecuWaitResetTime
+        from f_partsconfig fpc
+                 left join f_parts fp
+                           on fpc.fk_parts_id = fp.parts_id
+                 left join f_cartype fct
+                           on fp.fk_cartype_id = fct.cartype_id
+                 left join f_partstype fpp
+                           on fp.fk_partstype_id = fpp.partstype_id
+        WHERE  fp.isdelete=1 and fct.isdelete=1 and fpp.isdelete=1  and  fpc.fk_parts_id=#{partsId}
+    </select>
+
+    <update id="updatePartsConfig" parameterType="com.intest.dao.entity.partsConfig.PartsBaseConfig">
+        update F_PARTSCONFIG
+        set
+            VOLTAGEMODEL = #{voltageModel},
+            CANTYPE = #{canType},
+            TRAVELSTATE = #{travelState},
+            GEAR = #{gear},
+            ORDERNUM = #{orderNum},
+            PREPROGRAMME = #{preProgramme},
+            INPROGRAMME = #{inProgramme},
+            SAFETYLEVEL = #{safetyLevel},
+            ALGORITHMMASK = #{algorithmMask},
+            DELAY = #{delay},
+            ISALIGNMENT = #{isAlignment},
+            ALIGNMENTCOMPANY = #{alignmentCompany},
+            ECUWAITRESETTIME = #{ecuWaitResetTime},
+            UPDATEBY = #{updateBy},
+            UPDATEAT = #{updateAt}
+        where replace(fk_parts_id,' ','') = #{partsId,jdbcType=CHAR}
+    </update>
+
+    <select id="selectCarType"  resultType="com.intest.dao.entity.partsConfig.CarTypeAPartsEntity" parameterType="java.lang.String">
+        select fct.cartype_id as CarTypeId,
+               fct.cartypename as CarTypeName,
+               fp.parts_id as PartsId,
+               fp.partsname as PartsName
+        from f_cartype fct
+                 left join f_parts fp
+                           on fct.cartype_id = fp.fk_cartype_id
+        where fct.isdelete=1 and fp.isdelete=1
+        <if test=" likeStr != null and likeStr!='' " >
+            and (UPPER(fct.cartypename) like  concat(concat('%',#{likeStr}),'%') or UPPER(fp.partsname) like  concat(concat('%',#{likeStr}),'%'))
+        </if>
+    </select>
+
+
+</mapper>

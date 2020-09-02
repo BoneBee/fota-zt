@@ -30,7 +30,8 @@
 		<module>car-service</module>
 		<module>package-service</module>
 		<module>packageparser</module>
-	</modules>
+        <module>partsconfig-service</module>
+    </modules>
 
 	<properties>
 		<java.version>1.8</java.version>
