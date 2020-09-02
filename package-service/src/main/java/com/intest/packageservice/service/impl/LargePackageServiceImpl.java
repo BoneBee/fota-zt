@@ -10,6 +10,7 @@ import com.intest.dao.entity.dto.PartsPackageDto;
 import com.intest.dao.entity.vo.PackageVo;
 import com.intest.dao.mapper.PackageMapper;
 import com.intest.packageservice.service.LargePackageService;
+import com.intest.packageservice.vo.PackageCheckRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -28,8 +29,8 @@ public class LargePackageServiceImpl implements LargePackageService {
     }
 
     @Override
-    public boolean checkParentFileName(String fileName, String carTypeId) {
-        Integer result = packageMapper.checkParentFileName(fileName, carTypeId);
+    public boolean checkParentFileName(PackageCheckRequest request) {
+        Integer result = packageMapper.checkParentFileName(request.getFileName(), request.getCarTypeId());
         return result > 0;
     }
 

@@ -5,9 +5,10 @@ import com.intest.dao.entity.CarType;
 import com.intest.dao.entity.FileInfo;
 import com.intest.dao.entity.dto.PackageDto;
 import com.intest.dao.entity.vo.PackageVo;
-import com.intest.dao.entity.vo.ParserVo;
 import com.intest.packageparser.file.FileParser;
+import com.intest.packageservice.request.PackageParseRequest;
 import com.intest.packageservice.service.LargePackageService;
+import com.intest.packageservice.vo.PackageCheckRequest;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.IOUtils;
@@ -44,10 +45,10 @@ public class PackageController {
     private LargePackageService largePackageService;
 
     @ApiOperation("检查该车型下是否存在同名原始包")
-    @RequestMapping(value = "/package/exist", method = RequestMethod.GET)
-    public ResultT<Boolean> checkLargePackage(@RequestParam("fileName") String fileName, @RequestParam("carTypeId") String carTypeId){
+    @RequestMapping(value = "/package/exist", method = RequestMethod.POST)
+    public ResultT<Boolean> checkLargePackage(@RequestBody PackageCheckRequest request){
         ResultT<Boolean> result = new ResultT<>();
-        result.setResult(largePackageService.checkParentFileName(fileName, carTypeId));
+        result.setResult(largePackageService.checkParentFileName(request));
         return result;
     }
 
@@ -86,14 +87,9 @@ public class PackageController {
 
     @ApiOperation("原始包解析")
     @RequestMapping(value = "/package/parse", method = RequestMethod.POST)
-    public ResultT<List<String>> parseFile(@RequestBody ParserVo vo) {
+    public ResultT<List<String>> parseFile(@RequestBody PackageParseRequest request) {
         ResultT<List<String>> result = new ResultT();
-        //String filePath = "C:\\Users\\Peejacky2018\\Desktop\\包测试\\N60AB.zip";
-        //String newPath = "C:\\Users\\Peejacky2018\\Desktop\\tmp";
-        String filePath = File.separator + "tmp" + File.separator + "webhost" + File.separator + "uploadFile" + File.separator + "N60AB.zip";
-        String newPath = File.separator + "tmp" + File.separator + "webhost" + File.separator + "uploadFile" + File.separator + "temp";
-        // carTypeId : 53D4C2C5-1BD6-4512-B116-6EA854D1EEE6
-        FileParser.parseFile(largePackageService, vo.getFileId(), vo.getCarTypeId());
+        FileParser.parseFile(largePackageService, request.getFileId(), request.getCarTypeId());
         int success = FileParser.largeZipResult.isSuccess() ? 1 : -1;
         result.setSuccess(success);
         result.setResult(FileParser.largeZipResult.getErrors());

@@ -4,13 +4,14 @@ import com.intest.common.result.PagerDataBaseVO;
 import com.intest.dao.entity.*;
 import com.intest.dao.entity.dto.PackageDto;
 import com.intest.dao.entity.vo.PackageVo;
+import com.intest.packageservice.vo.PackageCheckRequest;
 
 import java.util.List;
 
 public interface LargePackageService {
     Integer checkPartType(String partType, String carTypeId);
 
-    boolean checkParentFileName(String fileName, String carTypeId);
+    boolean checkParentFileName(PackageCheckRequest request);
 
     String getPartsId(String partsName, String carTypeId);
 
