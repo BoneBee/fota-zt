@@ -1,5 +1,7 @@
 package com.intest.partsservice.part.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class PartsListResponse {
@@ -8,8 +10,10 @@ public class PartsListResponse {
     private String partsName;
     private String fullName;
     private String partsType;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date creatAt;
     private String creatBy;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateBy;
     private String updateAt;
     private String remark;
