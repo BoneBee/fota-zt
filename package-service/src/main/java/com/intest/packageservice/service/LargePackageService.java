@@ -23,7 +23,7 @@ public interface LargePackageService {
 
     PackageDto packageDetails(String packageId);
 
-    int deletePackage(String packageId);
+    int deletePackage(String[] ids);
 
     void saveLargeZipInfo(LargePackage largePackage);
 

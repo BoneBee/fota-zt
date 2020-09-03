@@ -95,42 +95,44 @@ public class FileParser {
                         errors.add(message);
                         largeZipResult.setSuccess(false);
                     }
+                    else{
+                        zipResult.setPartType(partsType);
+                        zipResult.setPartCode(fileName.substring(3, 12));
+                        zipResult.setTargetVersion(fileName.substring(12, 19));
+                        zipResult.setCarType(fileName.substring(19));
 
-                    zipResult.setPartType(partsType);
-                    zipResult.setPartCode(fileName.substring(3, 12));
-                    zipResult.setTargetVersion(fileName.substring(12, 19));
-                    zipResult.setCarType(fileName.substring(19));
-
-                    if(fileName.length() > 26){
-                        Matcher m = pattern.matcher(fileName.substring(19, 26));
-                        if(m.matches()){
-                            zipResult.setTargetVersion(fileName.substring(12, 26));
-                            zipResult.setCarType(fileName.substring(26));
+                        if(fileName.length() > 26){
+                            Matcher m = pattern.matcher(fileName.substring(19, 26));
+                            if(m.matches()){
+                                zipResult.setTargetVersion(fileName.substring(12, 26));
+                                zipResult.setCarType(fileName.substring(26));
+                            }
                         }
+
+                        int calibration = largePackageService.checkPartType(partsType, carTypeId);
+                        if(calibration == 0 && zipResult.getTargetVersion().length() == 14){
+                            String message = "零件【" + partsType + "】不能含标定";
+                            errors.add(message);
+                            largeZipResult.setSuccess(false);
+                        }
+                        if(calibration == 1 && zipResult.getTargetVersion().length() == 7){
+                            String message = "零件【" + partsType + "】必须含标定";
+                            errors.add(message);
+                            largeZipResult.setSuccess(false);
+                        }
+
+                        zipResult.setSuffix(suffix);
+                        zipResult.setZipSize(entry.getSize());
+                        new ZipTools().extract(newPath + File.separator + entry.getName(), newPath + File.separator + fileName);
+
+                        initFileList(zipResult);
+                        checkFileExists(newPath, fileName, zipResult);
+                        checkChildrenFileName(zipResult);
+                        readConfigFile(newPath + File.separator + fileName, zipResult);
+
+                        zipResults.add(zipResult);
                     }
 
-                    int calibration = largePackageService.checkPartType(partsType, carTypeId);
-                    if(calibration == 0 && zipResult.getTargetVersion().length() == 14){
-                        String message = "零件【" + partsType + "】不能含标定";
-                        errors.add(message);
-                        largeZipResult.setSuccess(false);
-                    }
-                    if(calibration == 1 && zipResult.getTargetVersion().length() == 7){
-                        String message = "零件【" + partsType + "】必须含标定";
-                        errors.add(message);
-                        largeZipResult.setSuccess(false);
-                    }
-
-                    zipResult.setSuffix(suffix);
-                    zipResult.setZipSize(entry.getSize());
-                    new ZipTools().extract(newPath + File.separator + entry.getName(), newPath + File.separator + fileName);
-
-                    initFileList(zipResult);
-                    checkFileExists(newPath, fileName, zipResult);
-                    checkChildrenFileName(zipResult);
-                    readConfigFile(newPath + File.separator + fileName, zipResult);
-
-                    zipResults.add(zipResult);
                 }
                 largeZipResult.setErrors(errors);
                 largeZipResult.setZipResults(zipResults);

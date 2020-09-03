@@ -24,9 +24,9 @@ public interface PackageMapper {
 
     List<PartsPackageDto> getPartsPackage(String packageId);
 
-    int deletePackage(String packageId);
+    int deletePackage(String[] ids);
 
-    int deletePartsPackage(String packageId);
+    int deletePartsPackage(String[] ids);
 
     void saveLargeZipInfo(LargePackage largePackage);
 

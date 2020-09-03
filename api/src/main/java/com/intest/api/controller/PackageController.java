@@ -6,6 +6,7 @@ import com.intest.dao.entity.FileInfo;
 import com.intest.dao.entity.dto.PackageDto;
 import com.intest.dao.entity.vo.PackageVo;
 import com.intest.packageparser.file.FileParser;
+import com.intest.packageservice.request.PackageDeleteRequest;
 import com.intest.packageservice.request.PackageParseRequest;
 import com.intest.packageservice.service.LargePackageService;
 import com.intest.packageservice.vo.PackageCheckRequest;
@@ -71,9 +72,9 @@ public class PackageController {
     @ApiOperation("删除原始包")
     @Transactional
     @RequestMapping(value = "/package/delete", method = RequestMethod.POST)
-    public ResultT deletePackage(@RequestBody Map<String, String> params){
+    public ResultT deletePackage(@RequestBody PackageDeleteRequest request){
         ResultT result = new ResultT();
-        result.setSuccess(largePackageService.deletePackage(params.get("packageId")));
+        result.setSuccess(largePackageService.deletePackage(request.getIds()));
         return result;
     }
 

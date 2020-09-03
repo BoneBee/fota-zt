@@ -121,9 +121,15 @@
         #{createBy})
     </insert>
     <delete id="deletePackage">
-        UPDATE f_partsbigpackage t SET t.isdelete=0 WHERE t.partsbigpackage_id=#{packageId}
+        UPDATE f_partsbigpackage t SET t.isdelete=0 WHERE t.partsbigpackage_id in
+        <foreach collection="array" open="(" close=")" item="item" separator=",">
+            #{item}
+        </foreach>
     </delete>
     <delete id="deletePartsPackage">
-        UPDATE f_partspackage t SET t.isdelete=0 WHERE t.fk_partsbigpackage_id=#{packageId}
+        UPDATE f_partspackage t SET t.isdelete=0 WHERE t.fk_partsbigpackage_id in
+        <foreach collection="array" open="(" close=")" item="item" separator=",">
+            #{item}
+        </foreach>
     </delete>
 </mapper>

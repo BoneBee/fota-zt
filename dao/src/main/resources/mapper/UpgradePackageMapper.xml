@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.intest.dao.mapper.UpgradePackageMapper">
-    <select id="findAllUpgradePackage" resultType="com.intest.dao.entity.UpgradePackage">
+    <sql id="Base_Where_List">
+        <if test="packageName != null and packageName != ''">AND FI.FILENAME LIKE '%'||#{packageName}||'%'</if>
+        <if test="carTypeName != null and carTypeName != ''">AND ct.cartypename LIKE '%'||#{carTypeName}||'%'</if>
+        <if test="packageType != null and packageType != ''">AND TP.MAKETYPE = #{packageType}</if>
+        <if test="publishStatus != null and publishStatus != ''">AND FI.ISPUBLISH LIKE #{publishStatus}</if>
+    </sql>
+    <select id="findAllUpgradePackage" resultType="com.intest.dao.entity.UpgradePackageExtendBto">
         SELECT T.PACKAGETASK_ID                 PACKAGETASKID,
         FI.UPGRADEPACKAGEFILEINFO_ID     FILEID,
         CT.CARTYPENAME,
@@ -11,7 +17,8 @@
         T.FK_PACKAGETASKSTATUSVALUE_CODE,
         FI.ISPUBLISH                     PUBLISHSTATUS,
         T.CREATEAT,
-        U.LOGIN_NAME                     CREATEBY
+        U.LOGIN_NAME                     CREATEBY,
+        ROWNUM            ID
         FROM F_PACKAGETASK T
         LEFT JOIN F_PARTSUPGRADEPACKAGE PUP
         ON T.PACKAGETASK_ID = PUP.FK_PACKAGETASK_ID
@@ -26,7 +33,7 @@
         ON T.PACKAGETASK_ID = TP.FK_PACKAGETASK_ID
         LEFT JOIN F_USER U
         ON T.CREATEBY = U.USER_ID
-        AND U.ISDELETE = 1
+        AND U.ISDELETE = 1 AND (1=1) <include refid="Base_Where_List"/>
     </select>
     <select id="getPartsByCarTypeId" resultType="com.intest.dao.entity.dto.PartsTreeDto">
         SELECT T.PARTS_ID KEY, T.PARTSNAME TITLE

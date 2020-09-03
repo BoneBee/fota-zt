@@ -1,6 +1,7 @@
 package com.intest.api.controller;
 
 import com.intest.common.result.ResultT;
+import com.intest.packageservice.request.UpgradePackageRequest;
 import com.intest.packageservice.service.UpgradePackageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -24,9 +25,9 @@ public class UpgradePackageController {
 
     @ApiOperation("升级包列表")
     @PostMapping("/list")
-    public ResultT findAllUpgradePackage(){
+    public ResultT findAllUpgradePackage(UpgradePackageRequest request){
         ResultT result = new ResultT();
-        result.setResult(upgradePackageService.findAllUpgradePackage());
+        result.setResult(upgradePackageService.findAllUpgradePackage(request));
         return result;
     }
 

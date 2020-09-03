@@ -1,9 +1,14 @@
 package com.intest.packageservice.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.intest.common.result.PagerDataBaseVO;
 import com.intest.common.tableData.TableDataAnnotation;
 import com.intest.dao.entity.UpgradePackage;
+import com.intest.dao.entity.UpgradePackageExtendBto;
 import com.intest.dao.entity.dto.PartsTreeDto;
 import com.intest.dao.mapper.UpgradePackageMapper;
+import com.intest.packageservice.request.UpgradePackageRequest;
 import com.intest.packageservice.service.UpgradePackageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,8 +28,20 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
 
     @Override
     @TableDataAnnotation(tableId = "e1796f23-c541-4b70-9cf9-20abe3cb30af")
-    public List<UpgradePackage> findAllUpgradePackage() {
-        return upgradePackageMapper.findAllUpgradePackage();
+    public PagerDataBaseVO findAllUpgradePackage(UpgradePackageRequest request) {
+        PageHelper.startPage(request.getPi(), request.getPs());
+        UpgradePackageExtendBto bto = new UpgradePackageExtendBto();
+        bto.setPackageName(request.getPackageName());
+        bto.setCarTypeName(request.getCarTypeName());
+        bto.setPackageType(request.getPackageType());
+        bto.setPublishStatus(request.getPublishStatus());
+
+        List<UpgradePackageExtendBto> list = upgradePackageMapper.findAllUpgradePackage(bto);
+        PageInfo pageInfo = new PageInfo<UpgradePackageExtendBto>(list);
+        PagerDataBaseVO result = new PagerDataBaseVO();
+        result.setTotal(pageInfo.getTotal());
+        result.setData(list);
+        return result;
     }
 
     @Override

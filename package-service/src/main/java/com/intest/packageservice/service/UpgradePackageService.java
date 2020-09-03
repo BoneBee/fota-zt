@@ -1,7 +1,8 @@
 package com.intest.packageservice.service;
 
-import com.intest.dao.entity.UpgradePackage;
+import com.intest.common.result.PagerDataBaseVO;
 import com.intest.dao.entity.dto.PartsTreeDto;
+import com.intest.packageservice.request.UpgradePackageRequest;
 
 import java.util.List;
 
@@ -11,7 +12,7 @@ import java.util.List;
  * @date ：2020/8/12 11:03
  */
 public interface UpgradePackageService {
-    List<UpgradePackage> findAllUpgradePackage();
+    PagerDataBaseVO findAllUpgradePackage(UpgradePackageRequest request);
 
     List<PartsTreeDto> partsTree(String carTypeId);
 

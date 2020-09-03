@@ -78,10 +78,10 @@ public class LargePackageServiceImpl implements LargePackageService {
     }
 
     @Override
-    public int deletePackage(String packageId){
+    public int deletePackage(String[] ids){
         int count = 0;
-        int packageCount = packageMapper.deletePackage(packageId);
-        int partsPackageCount = packageMapper.deletePartsPackage(packageId);
+        int packageCount = packageMapper.deletePackage(ids);
+        int partsPackageCount = packageMapper.deletePartsPackage(ids);
         if(packageCount > 0 && partsPackageCount > 0){
             count = 1;
         }
