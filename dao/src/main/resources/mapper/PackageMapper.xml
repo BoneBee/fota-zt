@@ -16,7 +16,7 @@
     <select id="getPartsId" resultType="String">
         SELECT T.PARTS_ID FROM F_PARTS T WHERE T.ISDELETE=1 AND T.PARTSNAME=#{param1} AND T.FK_CARTYPE_ID=#{param2}
     </select>
-    <select id="findAllLargePackage" resultType="com.intest.dao.entity.LargePackage">
+    <select id="findAllLargePackage" resultType="com.intest.dao.entity.PackageExtendBto">
         SELECT t.*, rownum id FROM (SELECT pbp.PARTSBIGPACKAGE_ID packageId, pbp.FK_FILE_ID fileId, pbp.FK_CARTYPE_ID carTypeId,
         f.originalname packageName, ct.cartypename, f.filesize packageSize, f.createat uploadTime,
         u.login_name uploadUser FROM F_PARTSBIGPACKAGE pbp
@@ -41,10 +41,10 @@
         WHERE T.ISDELETE = 1
         AND T.FILE_ID = #{fileId}
     </select>
-    <select id="findAllCarType" resultType="com.intest.dao.entity.CarType">
+    <select id="findAllCarType" resultType="com.intest.dao.entity.CarTypeExtendBto">
         SELECT t.cartype_id carTypeId, t.cartypename FROM f_cartype t WHERE t.isdelete=1
     </select>
-    <select id="packageDetails" resultType="com.intest.dao.entity.LargePackage">
+    <select id="packageDetails" resultType="com.intest.dao.entity.PackageExtendBto">
         SELECT F.ORIGINALNAME PACKAGENAME,
         CT.CARTYPENAME,
         F.FILESIZE     PACKAGESIZE,
@@ -63,7 +63,7 @@
         WHERE T.ISDELETE = 1
         AND T.PARTSBIGPACKAGE_ID = #{packageId}
     </select>
-    <select id="getPartsPackage" resultType="com.intest.dao.entity.dto.PartsPackageDto">
+    <select id="getPartsPackage" resultType="com.intest.dao.entity.PartsPackageExtendBto">
         SELECT F.ORIGINALNAME    PARTSPACKAGENAME,
         F.FILESIZE        PARTSPACKAGESIZE,
         P.PARTSNAME,

@@ -2,15 +2,15 @@ package com.intest.api.controller;
 
 import com.intest.common.result.ResultT;
 import com.intest.common.util.MultiDownloadUtil;
-import com.intest.dao.entity.CarType;
+import com.intest.dao.entity.CarTypeExtendBto;
 import com.intest.dao.entity.FileInfo;
-import com.intest.dao.entity.dto.PackageDto;
-import com.intest.dao.entity.vo.PackageVo;
 import com.intest.packageparser.file.FileParser;
 import com.intest.packageservice.request.PackageDeleteRequest;
 import com.intest.packageservice.request.PackageParseRequest;
+import com.intest.packageservice.request.PackageRequest;
 import com.intest.packageservice.service.LargePackageService;
 import com.intest.packageservice.vo.PackageCheckRequest;
+import com.intest.packageservice.vo.PackageVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.IOUtils;
@@ -57,16 +57,16 @@ public class PackageController {
 
     @ApiOperation("原始包列表")
     @RequestMapping(value = "/package/list", method = RequestMethod.POST)
-    public ResultT findAllLargePackage(@RequestBody PackageVo vo){
+    public ResultT findAllLargePackage(@RequestBody PackageRequest request){
         ResultT result = new ResultT();
-        result.setResult(largePackageService.findAllLargePackage(vo));
+        result.setResult(largePackageService.findAllLargePackage(request));
         return result;
     }
 
     @ApiOperation("车型下拉框")
     @RequestMapping(value = "/package/cartypecombo", method = RequestMethod.POST)
-    public ResultT<List<CarType>> findAllCarType(){
-        ResultT<List<CarType>> result = new ResultT<>();
+    public ResultT<List<CarTypeExtendBto>> findAllCarType(){
+        ResultT<List<CarTypeExtendBto>> result = new ResultT<>();
         result.setResult(largePackageService.findAllCarType());
         return result;
     }
@@ -82,8 +82,8 @@ public class PackageController {
 
     @ApiOperation("原始包详情")
     @RequestMapping(value = "/package/details", method = RequestMethod.POST)
-    public ResultT<PackageDto> packageDetails(@RequestBody Map<String, String> params){
-        ResultT<PackageDto> result = new ResultT<>();
+    public ResultT<PackageVO> packageDetails(@RequestBody Map<String, String> params){
+        ResultT<PackageVO> result = new ResultT<>();
         result.setResult(largePackageService.packageDetails(params.get("packageId")));
         return result;
     }

@@ -2,9 +2,9 @@ package com.intest.packageservice.service;
 
 import com.intest.common.result.PagerDataBaseVO;
 import com.intest.dao.entity.*;
-import com.intest.dao.entity.dto.PackageDto;
-import com.intest.dao.entity.vo.PackageVo;
+import com.intest.packageservice.request.PackageRequest;
 import com.intest.packageservice.vo.PackageCheckRequest;
+import com.intest.packageservice.vo.PackageVO;
 
 import java.util.List;
 
@@ -17,11 +17,11 @@ public interface LargePackageService {
 
     FileInfo getFileById(String fileId);
 
-    PagerDataBaseVO findAllLargePackage(PackageVo vo);
+    PagerDataBaseVO findAllLargePackage(PackageRequest request);
 
-    List<CarType> findAllCarType();
+    List<CarTypeExtendBto> findAllCarType();
 
-    PackageDto packageDetails(String packageId);
+    PackageVO packageDetails(String packageId);
 
     int deletePackage(String[] ids);
 

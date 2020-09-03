@@ -1,11 +1,11 @@
 package com.intest.packageservice.service;
 
 import com.intest.common.result.PagerDataBaseVO;
-import com.intest.dao.entity.dto.PartsPackageDetailsDto;
-import com.intest.dao.entity.vo.PartsPackageVo;
+import com.intest.packageservice.request.PartsPackageRequest;
+import com.intest.packageservice.vo.PartsPackageVO;
 
 public interface PartsPackageService {
-    PagerDataBaseVO findAllPartsPackage(PartsPackageVo vo);
+    PagerDataBaseVO findAllPartsPackage(PartsPackageRequest request);
 
-    PartsPackageDetailsDto partsPackageDetails(String partsPackageId);
+    PartsPackageVO partsPackageDetails(String partsPackageId);
 }
