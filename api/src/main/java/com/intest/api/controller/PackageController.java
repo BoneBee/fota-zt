@@ -1,6 +1,7 @@
 package com.intest.api.controller;
 
 import com.intest.common.result.ResultT;
+import com.intest.common.util.MultiDownloadUtil;
 import com.intest.dao.entity.CarType;
 import com.intest.dao.entity.FileInfo;
 import com.intest.dao.entity.dto.PackageDto;
@@ -28,6 +29,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -108,34 +110,49 @@ public class PackageController {
 
     @ApiOperation("原始包下载")
     @RequestMapping(value = "/package/download", method = RequestMethod.GET)
-    public void download(@RequestParam("fileId") String fileId, HttpServletRequest request, HttpServletResponse response){
-        FileInfo fi = largePackageService.getFileById(fileId);
-        //String fullPath = "C:\\Users\\Peejacky2018\\Desktop\\包测试\\N60AB.zip";
-        String fullPath = File.separator + "tmp" + File.separator + "webhost" + File.separator + "packageFile" + File.separator + fi.getServerSidePath();
-        File file = new File(fullPath);
-
-        ServletContext context = request.getServletContext();
-
-        String mimeType = context.getMimeType(fullPath);
-        if(mimeType == null){
-            mimeType = "application/octet-stream";
-            System.out.println("context getMimeType is null");
+    public void download(@RequestParam("ids") String[] ids, HttpServletRequest request, HttpServletResponse response){
+        List<File> files = new ArrayList<>();
+        for(String id : ids){
+            FileInfo fi = largePackageService.getFileById(id);
+            if(fi == null){
+                continue;
+            }
+            String fullPath = File.separator + "tmp" + File.separator + "webhost" + File.separator + "packageFile" + File.separator + fi.getServerSidePath();
+            File file = new File(fullPath);
+            if(file.exists()){
+                files.add(file);
+            }
         }
-        System.out.println("MIME type: " + mimeType);
-
-        response.setContentType(mimeType);
-        response.setContentLength((int)file.length());
-
-        String headerKey = "Content-Disposition";
-        String headerValue = String.format("attachment; filename=\"%s\"", file.getName());
-        response.setHeader(headerKey, headerValue);
-
-        try{
-            InputStream stream = new FileInputStream(fullPath);
-            IOUtils.copy(stream, response.getOutputStream());
-            response.flushBuffer();
-        }catch (IOException e){
-            e.printStackTrace();
+        if(files.size() >= 1){
+            String zipTmp = File.separator + "tmp" + File.separator + "webhost" + File.separator +"download" + File.separator + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + ".zip";
+            MultiDownloadUtil.zipd(zipTmp, files, response);
         }
+//        FileInfo fi = largePackageService.getFileById(ids[0]);
+//        String fullPath = File.separator + "tmp" + File.separator + "webhost" + File.separator + "packageFile" + File.separator + fi.getServerSidePath();
+//        File file = new File(fullPath);
+//
+//        ServletContext context = request.getServletContext();
+//
+//        String mimeType = context.getMimeType(fullPath);
+//        if(mimeType == null){
+//            mimeType = "application/octet-stream";
+//            System.out.println("context getMimeType is null");
+//        }
+//        System.out.println("MIME type: " + mimeType);
+//
+//        response.setContentType(mimeType);
+//        response.setContentLength((int)file.length());
+//
+//        String headerKey = "Content-Disposition";
+//        String headerValue = String.format("attachment; filename=\"%s\"", file.getName());
+//        response.setHeader(headerKey, headerValue);
+//
+//        try{
+//            InputStream stream = new FileInputStream(fullPath);
+//            IOUtils.copy(stream, response.getOutputStream());
+//            response.flushBuffer();
+//        }catch (IOException e){
+//            e.printStackTrace();
+//        }
     }
 }
