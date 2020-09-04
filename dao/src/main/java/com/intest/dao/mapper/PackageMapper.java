@@ -3,7 +3,6 @@ package com.intest.dao.mapper;
 
 import com.intest.dao.entity.*;
 import com.intest.dao.entity.dto.PartsPackageDto;
-import com.intest.dao.entity.vo.PackageVo;
 
 import java.util.List;
 
@@ -16,17 +15,17 @@ public interface PackageMapper {
 
     FileInfo getFileById(String fileId);
 
-    List<LargePackage> findAllLargePackage(PackageVo vo);
+    List<PackageExtendBto> findAllLargePackage(PackageBto bto);
 
-    List<CarType> findAllCarType();
+    List<CarTypeExtendBto> findAllCarType();
 
-    LargePackage packageDetails(String packageId);
+    PackageExtendBto packageDetails(String packageId);
 
-    List<PartsPackageDto> getPartsPackage(String packageId);
+    List<PartsPackageExtendBto> getPartsPackage(String packageId);
 
-    int deletePackage(String packageId);
+    int deletePackage(String[] ids);
 
-    int deletePartsPackage(String packageId);
+    int deletePartsPackage(String[] ids);
 
     void saveLargeZipInfo(LargePackage largePackage);
 
