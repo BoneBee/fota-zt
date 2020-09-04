@@ -7,6 +7,13 @@
         <if test="packageType != null and packageType != ''">AND TP.MAKETYPE = #{packageType}</if>
         <if test="publishStatus != null and publishStatus != ''">AND FI.ISPUBLISH LIKE #{publishStatus}</if>
     </sql>
+    <sql id="Parts_Where_List">
+        <if test="queryText != null and queryText != ''">AND T.PARTSNAME LIKE '%'||#{queryText}||'%'</if>
+    </sql>
+    <sql id="PartsCode_Where_List">
+        <if test="partsId != null and partsId != ''">AND T.FK_PARTS_ID = #{partsId}</if>
+        <if test="queryText != null and queryText != ''">AND T.PARTNUMBER LIKE '%'||#{queryText}||'%'</if>
+    </sql>
     <select id="findAllUpgradePackage" resultType="com.intest.dao.entity.UpgradePackageExtendBto">
         SELECT T.PACKAGETASK_ID                 PACKAGETASKID,
         FI.UPGRADEPACKAGEFILEINFO_ID     FILEID,
@@ -35,14 +42,14 @@
         ON T.CREATEBY = U.USER_ID
         AND U.ISDELETE = 1 AND (1=1) <include refid="Base_Where_List"/>
     </select>
-    <select id="getPartsByCarTypeId" resultType="com.intest.dao.entity.dto.PartsTreeDto">
+    <select id="getPartsByCarTypeId" resultType="com.intest.dao.entity.PartsTreeBto">
         SELECT T.PARTS_ID KEY, T.PARTSNAME TITLE
         FROM F_PARTS T
         WHERE T.ISDELETE = 1
         AND T.FK_CARTYPE_ID = #{carTypeId}
     </select>
-    <select id="getPartsCode" resultType="com.intest.dao.entity.dto.ChildNode">
-        SELECT DISTINCT T.PARTNUMBER TITLE
+    <select id="getPartsCode" resultType="com.intest.dao.entity.ChildNode">
+        SELECT DISTINCT T.FK_PARTS_ID KEY,T.PARTNUMBER TITLE
         FROM F_PARTSPACKAGE T
         WHERE T.ISDELETE = 1
         AND T.FK_PARTS_ID = #{partsId}

@@ -1,24 +1,25 @@
-package com.intest.dao.entity.dto;
+package com.intest.dao.entity;
+
+import java.util.List;
 
 /**
  * @author ：intest
  * @description：TODO
- * @date ：2020/8/12 17:07
+ * @date ：2020/9/2 9:52
  */
-public class ChildNode {
+public class PartsTreeBto {
     /**
-     * 零件包ID
+     * 零件ID
      */
     private String key;
     /**
-     * 零件号
+     * 零件名称
      */
     private String title;
     /**
-     * 是否叶子节点
-     * 默认值 true
+     * 子节点
      */
-    private Boolean isLeaf = true;
+    private List<ChildNode> children;
 
     public String getKey() {
         return key;
@@ -36,11 +37,11 @@ public class ChildNode {
         this.title = title;
     }
 
-    public Boolean getLeaf() {
-        return isLeaf;
+    public List<ChildNode> getChildren() {
+        return children;
     }
 
-    public void setLeaf(Boolean leaf) {
-        isLeaf = leaf;
+    public void setChildren(List<ChildNode> children) {
+        this.children = children;
     }
 }

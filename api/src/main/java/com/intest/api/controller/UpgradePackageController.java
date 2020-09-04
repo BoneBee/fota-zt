@@ -1,7 +1,9 @@
 package com.intest.api.controller;
 
 import com.intest.common.result.ResultT;
+import com.intest.packageservice.request.PartsTreeRequest;
 import com.intest.packageservice.request.UpgradePackageRequest;
+import com.intest.packageservice.request.VersionRequest;
 import com.intest.packageservice.service.UpgradePackageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,18 +34,18 @@ public class UpgradePackageController {
     }
 
     @ApiOperation("升级包制作-零件树")
-    @GetMapping("/partstree")
-    public ResultT partsTree(@RequestParam("carTypeId") String carTypeId){
+    @PostMapping("/partstree")
+    public ResultT partsTree(@RequestBody PartsTreeRequest request){
         ResultT result = new ResultT();
-        result.setResult(upgradePackageService.partsTree(carTypeId));
+        result.setResult(upgradePackageService.partsTree(request));
         return result;
     }
 
     @ApiOperation("升级包制作-版本列表")
-    @GetMapping("/versionlist")
-    public ResultT versionList(String partsCode, String partsId){
+    @PostMapping("/versionlist")
+    public ResultT versionList(@RequestBody VersionRequest request){
         ResultT result = new ResultT();
-        result.setResult(upgradePackageService.getVersion(partsCode, partsId));
+        result.setResult(upgradePackageService.getVersion(request));
         return result;
     }
 }

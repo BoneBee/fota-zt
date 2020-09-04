@@ -1,8 +1,8 @@
 package com.intest.dao.mapper;
 
+import com.intest.dao.entity.PartsTreeBto;
 import com.intest.dao.entity.UpgradePackageExtendBto;
-import com.intest.dao.entity.dto.ChildNode;
-import com.intest.dao.entity.dto.PartsTreeDto;
+import com.intest.dao.entity.ChildNode;
 
 import java.util.List;
 
@@ -14,7 +14,7 @@ import java.util.List;
 public interface UpgradePackageMapper {
     List<UpgradePackageExtendBto> findAllUpgradePackage(UpgradePackageExtendBto bto);
 
-    List<PartsTreeDto> getPartsByCarTypeId(String carTypeId);
+    List<PartsTreeBto> getPartsByCarTypeId(String carTypeId);
 
     List<ChildNode> getPartsCode(String partsId);
 

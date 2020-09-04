@@ -1,27 +1,24 @@
-package com.intest.dao.entity.dto;
-
-import com.intest.dao.entity.ChildNode;
-
-import java.util.List;
+package com.intest.dao.entity;
 
 /**
  * @author ：intest
  * @description：TODO
- * @date ：2020/8/12 15:02
+ * @date ：2020/8/12 17:07
  */
-public class PartsTreeDto {
+public class ChildNode {
     /**
-     * 零件ID
+     * 零件包ID
      */
     private String key;
     /**
-     * 零件名称
+     * 零件号
      */
     private String title;
     /**
-     * 子节点
+     * 是否叶子节点
+     * 默认值 true
      */
-    private List<ChildNode> children;
+    private Boolean isLeaf = true;
 
     public String getKey() {
         return key;
@@ -39,11 +36,11 @@ public class PartsTreeDto {
         this.title = title;
     }
 
-    public List<ChildNode> getChildren() {
-        return children;
+    public Boolean getLeaf() {
+        return isLeaf;
     }
 
-    public void setChildren(List<ChildNode> children) {
-        this.children = children;
+    public void setLeaf(Boolean leaf) {
+        isLeaf = leaf;
     }
 }
