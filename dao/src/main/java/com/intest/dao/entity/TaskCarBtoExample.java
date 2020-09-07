@@ -1,22 +1,23 @@
 package com.intest.dao.entity;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class CarBtoExample {
+public class TaskCarBtoExample {
     /**
-     * F_CAR
+     * F_TASKCAR
      */
     protected String orderByClause;
 
     /**
-     * F_CAR
+     * F_TASKCAR
      */
     protected boolean distinct;
 
     /**
-     * F_CAR
+     * F_TASKCAR
      */
     protected List<Criteria> oredCriteria;
 
@@ -24,7 +25,7 @@ public class CarBtoExample {
      *
      * @mbg.generated
      */
-    public CarBtoExample() {
+    public TaskCarBtoExample() {
         oredCriteria = new ArrayList<>();
     }
 
@@ -118,7 +119,7 @@ public class CarBtoExample {
     }
 
     /**
-     * F_CAR null
+     * F_TASKCAR null
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -161,143 +162,143 @@ public class CarBtoExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andCarIdIsNull() {
-            addCriterion("CAR_ID is null");
+        public Criteria andTaskcarIdIsNull() {
+            addCriterion("TASKCAR_ID is null");
             return (Criteria) this;
         }
 
-        public Criteria andCarIdIsNotNull() {
-            addCriterion("CAR_ID is not null");
+        public Criteria andTaskcarIdIsNotNull() {
+            addCriterion("TASKCAR_ID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andCarIdEqualTo(String value) {
-            addCriterion("CAR_ID =", value, "carId");
+        public Criteria andTaskcarIdEqualTo(String value) {
+            addCriterion("TASKCAR_ID =", value, "taskcarId");
             return (Criteria) this;
         }
 
-        public Criteria andCarIdNotEqualTo(String value) {
-            addCriterion("CAR_ID <>", value, "carId");
+        public Criteria andTaskcarIdNotEqualTo(String value) {
+            addCriterion("TASKCAR_ID <>", value, "taskcarId");
             return (Criteria) this;
         }
 
-        public Criteria andCarIdGreaterThan(String value) {
-            addCriterion("CAR_ID >", value, "carId");
+        public Criteria andTaskcarIdGreaterThan(String value) {
+            addCriterion("TASKCAR_ID >", value, "taskcarId");
             return (Criteria) this;
         }
 
-        public Criteria andCarIdGreaterThanOrEqualTo(String value) {
-            addCriterion("CAR_ID >=", value, "carId");
+        public Criteria andTaskcarIdGreaterThanOrEqualTo(String value) {
+            addCriterion("TASKCAR_ID >=", value, "taskcarId");
             return (Criteria) this;
         }
 
-        public Criteria andCarIdLessThan(String value) {
-            addCriterion("CAR_ID <", value, "carId");
+        public Criteria andTaskcarIdLessThan(String value) {
+            addCriterion("TASKCAR_ID <", value, "taskcarId");
             return (Criteria) this;
         }
 
-        public Criteria andCarIdLessThanOrEqualTo(String value) {
-            addCriterion("CAR_ID <=", value, "carId");
+        public Criteria andTaskcarIdLessThanOrEqualTo(String value) {
+            addCriterion("TASKCAR_ID <=", value, "taskcarId");
             return (Criteria) this;
         }
 
-        public Criteria andCarIdLike(String value) {
-            addCriterion("CAR_ID like", value, "carId");
+        public Criteria andTaskcarIdLike(String value) {
+            addCriterion("TASKCAR_ID like", value, "taskcarId");
             return (Criteria) this;
         }
 
-        public Criteria andCarIdNotLike(String value) {
-            addCriterion("CAR_ID not like", value, "carId");
+        public Criteria andTaskcarIdNotLike(String value) {
+            addCriterion("TASKCAR_ID not like", value, "taskcarId");
             return (Criteria) this;
         }
 
-        public Criteria andCarIdIn(List<String> values) {
-            addCriterion("CAR_ID in", values, "carId");
+        public Criteria andTaskcarIdIn(List<String> values) {
+            addCriterion("TASKCAR_ID in", values, "taskcarId");
             return (Criteria) this;
         }
 
-        public Criteria andCarIdNotIn(List<String> values) {
-            addCriterion("CAR_ID not in", values, "carId");
+        public Criteria andTaskcarIdNotIn(List<String> values) {
+            addCriterion("TASKCAR_ID not in", values, "taskcarId");
             return (Criteria) this;
         }
 
-        public Criteria andCarIdBetween(String value1, String value2) {
-            addCriterion("CAR_ID between", value1, value2, "carId");
+        public Criteria andTaskcarIdBetween(String value1, String value2) {
+            addCriterion("TASKCAR_ID between", value1, value2, "taskcarId");
             return (Criteria) this;
         }
 
-        public Criteria andCarIdNotBetween(String value1, String value2) {
-            addCriterion("CAR_ID not between", value1, value2, "carId");
+        public Criteria andTaskcarIdNotBetween(String value1, String value2) {
+            addCriterion("TASKCAR_ID not between", value1, value2, "taskcarId");
             return (Criteria) this;
         }
 
-        public Criteria andFkCartypeIdIsNull() {
-            addCriterion("FK_CARTYPE_ID is null");
+        public Criteria andFkTaskIdIsNull() {
+            addCriterion("FK_TASK_ID is null");
             return (Criteria) this;
         }
 
-        public Criteria andFkCartypeIdIsNotNull() {
-            addCriterion("FK_CARTYPE_ID is not null");
+        public Criteria andFkTaskIdIsNotNull() {
+            addCriterion("FK_TASK_ID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andFkCartypeIdEqualTo(String value) {
-            addCriterion("FK_CARTYPE_ID =", value, "fkCartypeId");
+        public Criteria andFkTaskIdEqualTo(String value) {
+            addCriterion("FK_TASK_ID =", value, "fkTaskId");
             return (Criteria) this;
         }
 
-        public Criteria andFkCartypeIdNotEqualTo(String value) {
-            addCriterion("FK_CARTYPE_ID <>", value, "fkCartypeId");
+        public Criteria andFkTaskIdNotEqualTo(String value) {
+            addCriterion("FK_TASK_ID <>", value, "fkTaskId");
             return (Criteria) this;
         }
 
-        public Criteria andFkCartypeIdGreaterThan(String value) {
-            addCriterion("FK_CARTYPE_ID >", value, "fkCartypeId");
+        public Criteria andFkTaskIdGreaterThan(String value) {
+            addCriterion("FK_TASK_ID >", value, "fkTaskId");
             return (Criteria) this;
         }
 
-        public Criteria andFkCartypeIdGreaterThanOrEqualTo(String value) {
-            addCriterion("FK_CARTYPE_ID >=", value, "fkCartypeId");
+        public Criteria andFkTaskIdGreaterThanOrEqualTo(String value) {
+            addCriterion("FK_TASK_ID >=", value, "fkTaskId");
             return (Criteria) this;
         }
 
-        public Criteria andFkCartypeIdLessThan(String value) {
-            addCriterion("FK_CARTYPE_ID <", value, "fkCartypeId");
+        public Criteria andFkTaskIdLessThan(String value) {
+            addCriterion("FK_TASK_ID <", value, "fkTaskId");
             return (Criteria) this;
         }
 
-        public Criteria andFkCartypeIdLessThanOrEqualTo(String value) {
-            addCriterion("FK_CARTYPE_ID <=", value, "fkCartypeId");
+        public Criteria andFkTaskIdLessThanOrEqualTo(String value) {
+            addCriterion("FK_TASK_ID <=", value, "fkTaskId");
             return (Criteria) this;
         }
 
-        public Criteria andFkCartypeIdLike(String value) {
-            addCriterion("FK_CARTYPE_ID like", value, "fkCartypeId");
+        public Criteria andFkTaskIdLike(String value) {
+            addCriterion("FK_TASK_ID like", value, "fkTaskId");
             return (Criteria) this;
         }
 
-        public Criteria andFkCartypeIdNotLike(String value) {
-            addCriterion("FK_CARTYPE_ID not like", value, "fkCartypeId");
+        public Criteria andFkTaskIdNotLike(String value) {
+            addCriterion("FK_TASK_ID not like", value, "fkTaskId");
             return (Criteria) this;
         }
 
-        public Criteria andFkCartypeIdIn(List<String> values) {
-            addCriterion("FK_CARTYPE_ID in", values, "fkCartypeId");
+        public Criteria andFkTaskIdIn(List<String> values) {
+            addCriterion("FK_TASK_ID in", values, "fkTaskId");
             return (Criteria) this;
         }
 
-        public Criteria andFkCartypeIdNotIn(List<String> values) {
-            addCriterion("FK_CARTYPE_ID not in", values, "fkCartypeId");
+        public Criteria andFkTaskIdNotIn(List<String> values) {
+            addCriterion("FK_TASK_ID not in", values, "fkTaskId");
             return (Criteria) this;
         }
 
-        public Criteria andFkCartypeIdBetween(String value1, String value2) {
-            addCriterion("FK_CARTYPE_ID between", value1, value2, "fkCartypeId");
+        public Criteria andFkTaskIdBetween(String value1, String value2) {
+            addCriterion("FK_TASK_ID between", value1, value2, "fkTaskId");
             return (Criteria) this;
         }
 
-        public Criteria andFkCartypeIdNotBetween(String value1, String value2) {
-            addCriterion("FK_CARTYPE_ID not between", value1, value2, "fkCartypeId");
+        public Criteria andFkTaskIdNotBetween(String value1, String value2) {
+            addCriterion("FK_TASK_ID not between", value1, value2, "fkTaskId");
             return (Criteria) this;
         }
 
@@ -371,203 +372,273 @@ public class CarBtoExample {
             return (Criteria) this;
         }
 
-        public Criteria andAddtypeIsNull() {
-            addCriterion("ADDTYPE is null");
+        public Criteria andFkTaskcarstatusvalueCodeIsNull() {
+            addCriterion("FK_TASKCARSTATUSVALUE_CODE is null");
             return (Criteria) this;
         }
 
-        public Criteria andAddtypeIsNotNull() {
-            addCriterion("ADDTYPE is not null");
+        public Criteria andFkTaskcarstatusvalueCodeIsNotNull() {
+            addCriterion("FK_TASKCARSTATUSVALUE_CODE is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAddtypeEqualTo(Short value) {
-            addCriterion("ADDTYPE =", value, "addtype");
+        public Criteria andFkTaskcarstatusvalueCodeEqualTo(String value) {
+            addCriterion("FK_TASKCARSTATUSVALUE_CODE =", value, "fkTaskcarstatusvalueCode");
             return (Criteria) this;
         }
 
-        public Criteria andAddtypeNotEqualTo(Short value) {
-            addCriterion("ADDTYPE <>", value, "addtype");
+        public Criteria andFkTaskcarstatusvalueCodeNotEqualTo(String value) {
+            addCriterion("FK_TASKCARSTATUSVALUE_CODE <>", value, "fkTaskcarstatusvalueCode");
             return (Criteria) this;
         }
 
-        public Criteria andAddtypeGreaterThan(Short value) {
-            addCriterion("ADDTYPE >", value, "addtype");
+        public Criteria andFkTaskcarstatusvalueCodeGreaterThan(String value) {
+            addCriterion("FK_TASKCARSTATUSVALUE_CODE >", value, "fkTaskcarstatusvalueCode");
             return (Criteria) this;
         }
 
-        public Criteria andAddtypeGreaterThanOrEqualTo(Short value) {
-            addCriterion("ADDTYPE >=", value, "addtype");
+        public Criteria andFkTaskcarstatusvalueCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("FK_TASKCARSTATUSVALUE_CODE >=", value, "fkTaskcarstatusvalueCode");
             return (Criteria) this;
         }
 
-        public Criteria andAddtypeLessThan(Short value) {
-            addCriterion("ADDTYPE <", value, "addtype");
+        public Criteria andFkTaskcarstatusvalueCodeLessThan(String value) {
+            addCriterion("FK_TASKCARSTATUSVALUE_CODE <", value, "fkTaskcarstatusvalueCode");
             return (Criteria) this;
         }
 
-        public Criteria andAddtypeLessThanOrEqualTo(Short value) {
-            addCriterion("ADDTYPE <=", value, "addtype");
+        public Criteria andFkTaskcarstatusvalueCodeLessThanOrEqualTo(String value) {
+            addCriterion("FK_TASKCARSTATUSVALUE_CODE <=", value, "fkTaskcarstatusvalueCode");
             return (Criteria) this;
         }
 
-        public Criteria andAddtypeIn(List<Short> values) {
-            addCriterion("ADDTYPE in", values, "addtype");
+        public Criteria andFkTaskcarstatusvalueCodeLike(String value) {
+            addCriterion("FK_TASKCARSTATUSVALUE_CODE like", value, "fkTaskcarstatusvalueCode");
             return (Criteria) this;
         }
 
-        public Criteria andAddtypeNotIn(List<Short> values) {
-            addCriterion("ADDTYPE not in", values, "addtype");
+        public Criteria andFkTaskcarstatusvalueCodeNotLike(String value) {
+            addCriterion("FK_TASKCARSTATUSVALUE_CODE not like", value, "fkTaskcarstatusvalueCode");
             return (Criteria) this;
         }
 
-        public Criteria andAddtypeBetween(Short value1, Short value2) {
-            addCriterion("ADDTYPE between", value1, value2, "addtype");
+        public Criteria andFkTaskcarstatusvalueCodeIn(List<String> values) {
+            addCriterion("FK_TASKCARSTATUSVALUE_CODE in", values, "fkTaskcarstatusvalueCode");
             return (Criteria) this;
         }
 
-        public Criteria andAddtypeNotBetween(Short value1, Short value2) {
-            addCriterion("ADDTYPE not between", value1, value2, "addtype");
+        public Criteria andFkTaskcarstatusvalueCodeNotIn(List<String> values) {
+            addCriterion("FK_TASKCARSTATUSVALUE_CODE not in", values, "fkTaskcarstatusvalueCode");
             return (Criteria) this;
         }
 
-        public Criteria andLicenseIsNull() {
-            addCriterion("LICENSE is null");
+        public Criteria andFkTaskcarstatusvalueCodeBetween(String value1, String value2) {
+            addCriterion("FK_TASKCARSTATUSVALUE_CODE between", value1, value2, "fkTaskcarstatusvalueCode");
             return (Criteria) this;
         }
 
-        public Criteria andLicenseIsNotNull() {
-            addCriterion("LICENSE is not null");
+        public Criteria andFkTaskcarstatusvalueCodeNotBetween(String value1, String value2) {
+            addCriterion("FK_TASKCARSTATUSVALUE_CODE not between", value1, value2, "fkTaskcarstatusvalueCode");
             return (Criteria) this;
         }
 
-        public Criteria andLicenseEqualTo(String value) {
-            addCriterion("LICENSE =", value, "license");
+        public Criteria andProgressIsNull() {
+            addCriterion("PROGRESS is null");
             return (Criteria) this;
         }
 
-        public Criteria andLicenseNotEqualTo(String value) {
-            addCriterion("LICENSE <>", value, "license");
+        public Criteria andProgressIsNotNull() {
+            addCriterion("PROGRESS is not null");
             return (Criteria) this;
         }
 
-        public Criteria andLicenseGreaterThan(String value) {
-            addCriterion("LICENSE >", value, "license");
+        public Criteria andProgressEqualTo(BigDecimal value) {
+            addCriterion("PROGRESS =", value, "progress");
             return (Criteria) this;
         }
 
-        public Criteria andLicenseGreaterThanOrEqualTo(String value) {
-            addCriterion("LICENSE >=", value, "license");
+        public Criteria andProgressNotEqualTo(BigDecimal value) {
+            addCriterion("PROGRESS <>", value, "progress");
             return (Criteria) this;
         }
 
-        public Criteria andLicenseLessThan(String value) {
-            addCriterion("LICENSE <", value, "license");
+        public Criteria andProgressGreaterThan(BigDecimal value) {
+            addCriterion("PROGRESS >", value, "progress");
             return (Criteria) this;
         }
 
-        public Criteria andLicenseLessThanOrEqualTo(String value) {
-            addCriterion("LICENSE <=", value, "license");
+        public Criteria andProgressGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("PROGRESS >=", value, "progress");
             return (Criteria) this;
         }
 
-        public Criteria andLicenseLike(String value) {
-            addCriterion("LICENSE like", value, "license");
+        public Criteria andProgressLessThan(BigDecimal value) {
+            addCriterion("PROGRESS <", value, "progress");
             return (Criteria) this;
         }
 
-        public Criteria andLicenseNotLike(String value) {
-            addCriterion("LICENSE not like", value, "license");
+        public Criteria andProgressLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("PROGRESS <=", value, "progress");
             return (Criteria) this;
         }
 
-        public Criteria andLicenseIn(List<String> values) {
-            addCriterion("LICENSE in", values, "license");
+        public Criteria andProgressIn(List<BigDecimal> values) {
+            addCriterion("PROGRESS in", values, "progress");
             return (Criteria) this;
         }
 
-        public Criteria andLicenseNotIn(List<String> values) {
-            addCriterion("LICENSE not in", values, "license");
+        public Criteria andProgressNotIn(List<BigDecimal> values) {
+            addCriterion("PROGRESS not in", values, "progress");
             return (Criteria) this;
         }
 
-        public Criteria andLicenseBetween(String value1, String value2) {
-            addCriterion("LICENSE between", value1, value2, "license");
+        public Criteria andProgressBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("PROGRESS between", value1, value2, "progress");
             return (Criteria) this;
         }
 
-        public Criteria andLicenseNotBetween(String value1, String value2) {
-            addCriterion("LICENSE not between", value1, value2, "license");
+        public Criteria andProgressNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("PROGRESS not between", value1, value2, "progress");
             return (Criteria) this;
         }
 
-        public Criteria andTerminalcodeIsNull() {
-            addCriterion("TERMINALCODE is null");
+        public Criteria andUpgradetimeIsNull() {
+            addCriterion("UPGRADETIME is null");
             return (Criteria) this;
         }
 
-        public Criteria andTerminalcodeIsNotNull() {
-            addCriterion("TERMINALCODE is not null");
+        public Criteria andUpgradetimeIsNotNull() {
+            addCriterion("UPGRADETIME is not null");
             return (Criteria) this;
         }
 
-        public Criteria andTerminalcodeEqualTo(String value) {
-            addCriterion("TERMINALCODE =", value, "terminalcode");
+        public Criteria andUpgradetimeEqualTo(String value) {
+            addCriterion("UPGRADETIME =", value, "upgradetime");
             return (Criteria) this;
         }
 
-        public Criteria andTerminalcodeNotEqualTo(String value) {
-            addCriterion("TERMINALCODE <>", value, "terminalcode");
+        public Criteria andUpgradetimeNotEqualTo(String value) {
+            addCriterion("UPGRADETIME <>", value, "upgradetime");
             return (Criteria) this;
         }
 
-        public Criteria andTerminalcodeGreaterThan(String value) {
-            addCriterion("TERMINALCODE >", value, "terminalcode");
+        public Criteria andUpgradetimeGreaterThan(String value) {
+            addCriterion("UPGRADETIME >", value, "upgradetime");
             return (Criteria) this;
         }
 
-        public Criteria andTerminalcodeGreaterThanOrEqualTo(String value) {
-            addCriterion("TERMINALCODE >=", value, "terminalcode");
+        public Criteria andUpgradetimeGreaterThanOrEqualTo(String value) {
+            addCriterion("UPGRADETIME >=", value, "upgradetime");
             return (Criteria) this;
         }
 
-        public Criteria andTerminalcodeLessThan(String value) {
-            addCriterion("TERMINALCODE <", value, "terminalcode");
+        public Criteria andUpgradetimeLessThan(String value) {
+            addCriterion("UPGRADETIME <", value, "upgradetime");
             return (Criteria) this;
         }
 
-        public Criteria andTerminalcodeLessThanOrEqualTo(String value) {
-            addCriterion("TERMINALCODE <=", value, "terminalcode");
+        public Criteria andUpgradetimeLessThanOrEqualTo(String value) {
+            addCriterion("UPGRADETIME <=", value, "upgradetime");
             return (Criteria) this;
         }
 
-        public Criteria andTerminalcodeLike(String value) {
-            addCriterion("TERMINALCODE like", value, "terminalcode");
+        public Criteria andUpgradetimeLike(String value) {
+            addCriterion("UPGRADETIME like", value, "upgradetime");
             return (Criteria) this;
         }
 
-        public Criteria andTerminalcodeNotLike(String value) {
-            addCriterion("TERMINALCODE not like", value, "terminalcode");
+        public Criteria andUpgradetimeNotLike(String value) {
+            addCriterion("UPGRADETIME not like", value, "upgradetime");
             return (Criteria) this;
         }
 
-        public Criteria andTerminalcodeIn(List<String> values) {
-            addCriterion("TERMINALCODE in", values, "terminalcode");
+        public Criteria andUpgradetimeIn(List<String> values) {
+            addCriterion("UPGRADETIME in", values, "upgradetime");
             return (Criteria) this;
         }
 
-        public Criteria andTerminalcodeNotIn(List<String> values) {
-            addCriterion("TERMINALCODE not in", values, "terminalcode");
+        public Criteria andUpgradetimeNotIn(List<String> values) {
+            addCriterion("UPGRADETIME not in", values, "upgradetime");
             return (Criteria) this;
         }
 
-        public Criteria andTerminalcodeBetween(String value1, String value2) {
-            addCriterion("TERMINALCODE between", value1, value2, "terminalcode");
+        public Criteria andUpgradetimeBetween(String value1, String value2) {
+            addCriterion("UPGRADETIME between", value1, value2, "upgradetime");
             return (Criteria) this;
         }
 
-        public Criteria andTerminalcodeNotBetween(String value1, String value2) {
-            addCriterion("TERMINALCODE not between", value1, value2, "terminalcode");
+        public Criteria andUpgradetimeNotBetween(String value1, String value2) {
+            addCriterion("UPGRADETIME not between", value1, value2, "upgradetime");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionIsNull() {
+            addCriterion("DESCRIPTION is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionIsNotNull() {
+            addCriterion("DESCRIPTION is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionEqualTo(String value) {
+            addCriterion("DESCRIPTION =", value, "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionNotEqualTo(String value) {
+            addCriterion("DESCRIPTION <>", value, "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionGreaterThan(String value) {
+            addCriterion("DESCRIPTION >", value, "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionGreaterThanOrEqualTo(String value) {
+            addCriterion("DESCRIPTION >=", value, "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionLessThan(String value) {
+            addCriterion("DESCRIPTION <", value, "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionLessThanOrEqualTo(String value) {
+            addCriterion("DESCRIPTION <=", value, "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionLike(String value) {
+            addCriterion("DESCRIPTION like", value, "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionNotLike(String value) {
+            addCriterion("DESCRIPTION not like", value, "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionIn(List<String> values) {
+            addCriterion("DESCRIPTION in", values, "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionNotIn(List<String> values) {
+            addCriterion("DESCRIPTION not in", values, "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionBetween(String value1, String value2) {
+            addCriterion("DESCRIPTION between", value1, value2, "description");
+            return (Criteria) this;
+        }
+
+        public Criteria andDescriptionNotBetween(String value1, String value2) {
+            addCriterion("DESCRIPTION not between", value1, value2, "description");
             return (Criteria) this;
         }
 
@@ -890,80 +961,10 @@ public class CarBtoExample {
             addCriterion("UPDATEBY not between", value1, value2, "updateby");
             return (Criteria) this;
         }
-
-        public Criteria andIccidIsNull() {
-            addCriterion("ICCID is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIccidIsNotNull() {
-            addCriterion("ICCID is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andIccidEqualTo(String value) {
-            addCriterion("ICCID =", value, "iccid");
-            return (Criteria) this;
-        }
-
-        public Criteria andIccidNotEqualTo(String value) {
-            addCriterion("ICCID <>", value, "iccid");
-            return (Criteria) this;
-        }
-
-        public Criteria andIccidGreaterThan(String value) {
-            addCriterion("ICCID >", value, "iccid");
-            return (Criteria) this;
-        }
-
-        public Criteria andIccidGreaterThanOrEqualTo(String value) {
-            addCriterion("ICCID >=", value, "iccid");
-            return (Criteria) this;
-        }
-
-        public Criteria andIccidLessThan(String value) {
-            addCriterion("ICCID <", value, "iccid");
-            return (Criteria) this;
-        }
-
-        public Criteria andIccidLessThanOrEqualTo(String value) {
-            addCriterion("ICCID <=", value, "iccid");
-            return (Criteria) this;
-        }
-
-        public Criteria andIccidLike(String value) {
-            addCriterion("ICCID like", value, "iccid");
-            return (Criteria) this;
-        }
-
-        public Criteria andIccidNotLike(String value) {
-            addCriterion("ICCID not like", value, "iccid");
-            return (Criteria) this;
-        }
-
-        public Criteria andIccidIn(List<String> values) {
-            addCriterion("ICCID in", values, "iccid");
-            return (Criteria) this;
-        }
-
-        public Criteria andIccidNotIn(List<String> values) {
-            addCriterion("ICCID not in", values, "iccid");
-            return (Criteria) this;
-        }
-
-        public Criteria andIccidBetween(String value1, String value2) {
-            addCriterion("ICCID between", value1, value2, "iccid");
-            return (Criteria) this;
-        }
-
-        public Criteria andIccidNotBetween(String value1, String value2) {
-            addCriterion("ICCID not between", value1, value2, "iccid");
-            return (Criteria) this;
-        }
     }
 
     /**
-     * F_CAR
+     * F_TASKCAR
      */
     public static class Criteria extends GeneratedCriteria {
         protected Criteria() {
@@ -972,7 +973,7 @@ public class CarBtoExample {
     }
 
     /**
-     * F_CAR null
+     * F_TASKCAR null
      */
     public static class Criterion {
         private String condition;

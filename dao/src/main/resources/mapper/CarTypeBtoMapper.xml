@@ -1,19 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.intest.dao.mapper.CarBtoMapper">
-  <resultMap id="BaseResultMap" type="com.intest.dao.entity.CarBto">
-    <id column="CAR_ID" jdbcType="CHAR" property="carId" />
-    <result column="FK_CARTYPE_ID" jdbcType="CHAR" property="fkCartypeId" />
-    <result column="VIN" jdbcType="CHAR" property="vin" />
-    <result column="ADDTYPE" jdbcType="NUMERIC" property="addtype" />
-    <result column="LICENSE" jdbcType="NVARCHAR" property="license" />
-    <result column="TERMINALCODE" jdbcType="NVARCHAR" property="terminalcode" />
+<mapper namespace="com.intest.dao.mapper.CarTypeBtoMapper">
+  <resultMap id="BaseResultMap" type="com.intest.dao.entity.CarTypeBto">
+    <id column="CARTYPE_ID" jdbcType="CHAR" property="cartypeId" />
+    <result column="CARTYPENAME" jdbcType="NVARCHAR" property="cartypename" />
+    <result column="REMARK" jdbcType="NVARCHAR" property="remark" />
     <result column="ISDELETE" jdbcType="NUMERIC" property="isdelete" />
     <result column="CREATEAT" jdbcType="TIMESTAMP" property="createat" />
     <result column="CREATEBY" jdbcType="CHAR" property="createby" />
     <result column="UPDATEAT" jdbcType="TIMESTAMP" property="updateat" />
     <result column="UPDATEBY" jdbcType="CHAR" property="updateby" />
-    <result column="ICCID" jdbcType="NVARCHAR" property="iccid" />
+    <result column="FK_TERMINAL_ID" jdbcType="CHAR" property="fkTerminalId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -74,16 +71,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    CAR_ID, FK_CARTYPE_ID, VIN, ADDTYPE, LICENSE, TERMINALCODE, ISDELETE, CREATEAT, CREATEBY, 
-    UPDATEAT, UPDATEBY, ICCID
+    CARTYPE_ID, CARTYPENAME, REMARK, ISDELETE, CREATEAT, CREATEBY, UPDATEAT, UPDATEBY, 
+    FK_TERMINAL_ID
   </sql>
-  <select id="selectByExample" parameterType="com.intest.dao.entity.CarBtoExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.intest.dao.entity.CarTypeBtoExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from F_CAR
+    from F_CARTYPE
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -94,51 +91,40 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from F_CAR
-    where CAR_ID = #{carId,jdbcType=CHAR}
+    from F_CARTYPE
+    where CARTYPE_ID = #{cartypeId,jdbcType=CHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from F_CAR
-    where CAR_ID = #{carId,jdbcType=CHAR}
+    delete from F_CARTYPE
+    where CARTYPE_ID = #{cartypeId,jdbcType=CHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.intest.dao.entity.CarBtoExample">
-    delete from F_CAR
+  <delete id="deleteByExample" parameterType="com.intest.dao.entity.CarTypeBtoExample">
+    delete from F_CARTYPE
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.intest.dao.entity.CarBto">
-    insert into F_CAR (CAR_ID, FK_CARTYPE_ID, VIN, 
-      ADDTYPE, LICENSE, TERMINALCODE, 
+  <insert id="insert" parameterType="com.intest.dao.entity.CarTypeBto">
+    insert into F_CARTYPE (CARTYPE_ID, CARTYPENAME, REMARK, 
       ISDELETE, CREATEAT, CREATEBY, 
-      UPDATEAT, UPDATEBY, ICCID
+      UPDATEAT, UPDATEBY, FK_TERMINAL_ID
       )
-    values (#{carId,jdbcType=CHAR}, #{fkCartypeId,jdbcType=CHAR}, #{vin,jdbcType=CHAR}, 
-      #{addtype,jdbcType=NUMERIC}, #{license,jdbcType=NVARCHAR}, #{terminalcode,jdbcType=NVARCHAR}, 
+    values (#{cartypeId,jdbcType=CHAR}, #{cartypename,jdbcType=NVARCHAR}, #{remark,jdbcType=NVARCHAR}, 
       #{isdelete,jdbcType=NUMERIC}, #{createat,jdbcType=TIMESTAMP}, #{createby,jdbcType=CHAR}, 
-      #{updateat,jdbcType=TIMESTAMP}, #{updateby,jdbcType=CHAR}, #{iccid,jdbcType=NVARCHAR}
+      #{updateat,jdbcType=TIMESTAMP}, #{updateby,jdbcType=CHAR}, #{fkTerminalId,jdbcType=CHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.intest.dao.entity.CarBto">
-    insert into F_CAR
+  <insert id="insertSelective" parameterType="com.intest.dao.entity.CarTypeBto">
+    insert into F_CARTYPE
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="carId != null">
-        CAR_ID,
+      <if test="cartypeId != null">
+        CARTYPE_ID,
       </if>
-      <if test="fkCartypeId != null">
-        FK_CARTYPE_ID,
+      <if test="cartypename != null">
+        CARTYPENAME,
       </if>
-      <if test="vin != null">
-        VIN,
-      </if>
-      <if test="addtype != null">
-        ADDTYPE,
-      </if>
-      <if test="license != null">
-        LICENSE,
-      </if>
-      <if test="terminalcode != null">
-        TERMINALCODE,
+      <if test="remark != null">
+        REMARK,
       </if>
       <if test="isdelete != null">
         ISDELETE,
@@ -155,28 +141,19 @@
       <if test="updateby != null">
         UPDATEBY,
       </if>
-      <if test="iccid != null">
-        ICCID,
+      <if test="fkTerminalId != null">
+        FK_TERMINAL_ID,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="carId != null">
-        #{carId,jdbcType=CHAR},
+      <if test="cartypeId != null">
+        #{cartypeId,jdbcType=CHAR},
       </if>
-      <if test="fkCartypeId != null">
-        #{fkCartypeId,jdbcType=CHAR},
+      <if test="cartypename != null">
+        #{cartypename,jdbcType=NVARCHAR},
       </if>
-      <if test="vin != null">
-        #{vin,jdbcType=CHAR},
-      </if>
-      <if test="addtype != null">
-        #{addtype,jdbcType=NUMERIC},
-      </if>
-      <if test="license != null">
-        #{license,jdbcType=NVARCHAR},
-      </if>
-      <if test="terminalcode != null">
-        #{terminalcode,jdbcType=NVARCHAR},
+      <if test="remark != null">
+        #{remark,jdbcType=NVARCHAR},
       </if>
       <if test="isdelete != null">
         #{isdelete,jdbcType=NUMERIC},
@@ -193,37 +170,28 @@
       <if test="updateby != null">
         #{updateby,jdbcType=CHAR},
       </if>
-      <if test="iccid != null">
-        #{iccid,jdbcType=NVARCHAR},
+      <if test="fkTerminalId != null">
+        #{fkTerminalId,jdbcType=CHAR},
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.intest.dao.entity.CarBtoExample" resultType="java.lang.Long">
-    select count(*) from F_CAR
+  <select id="countByExample" parameterType="com.intest.dao.entity.CarTypeBtoExample" resultType="java.lang.Long">
+    select count(*) from F_CARTYPE
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update F_CAR
+    update F_CARTYPE
     <set>
-      <if test="record.carId != null">
-        CAR_ID = #{record.carId,jdbcType=CHAR},
+      <if test="record.cartypeId != null">
+        CARTYPE_ID = #{record.cartypeId,jdbcType=CHAR},
       </if>
-      <if test="record.fkCartypeId != null">
-        FK_CARTYPE_ID = #{record.fkCartypeId,jdbcType=CHAR},
+      <if test="record.cartypename != null">
+        CARTYPENAME = #{record.cartypename,jdbcType=NVARCHAR},
       </if>
-      <if test="record.vin != null">
-        VIN = #{record.vin,jdbcType=CHAR},
-      </if>
-      <if test="record.addtype != null">
-        ADDTYPE = #{record.addtype,jdbcType=NUMERIC},
-      </if>
-      <if test="record.license != null">
-        LICENSE = #{record.license,jdbcType=NVARCHAR},
-      </if>
-      <if test="record.terminalcode != null">
-        TERMINALCODE = #{record.terminalcode,jdbcType=NVARCHAR},
+      <if test="record.remark != null">
+        REMARK = #{record.remark,jdbcType=NVARCHAR},
       </if>
       <if test="record.isdelete != null">
         ISDELETE = #{record.isdelete,jdbcType=NUMERIC},
@@ -240,8 +208,8 @@
       <if test="record.updateby != null">
         UPDATEBY = #{record.updateby,jdbcType=CHAR},
       </if>
-      <if test="record.iccid != null">
-        ICCID = #{record.iccid,jdbcType=NVARCHAR},
+      <if test="record.fkTerminalId != null">
+        FK_TERMINAL_ID = #{record.fkTerminalId,jdbcType=CHAR},
       </if>
     </set>
     <if test="_parameter != null">
@@ -249,40 +217,28 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update F_CAR
-    set CAR_ID = #{record.carId,jdbcType=CHAR},
-      FK_CARTYPE_ID = #{record.fkCartypeId,jdbcType=CHAR},
-      VIN = #{record.vin,jdbcType=CHAR},
-      ADDTYPE = #{record.addtype,jdbcType=NUMERIC},
-      LICENSE = #{record.license,jdbcType=NVARCHAR},
-      TERMINALCODE = #{record.terminalcode,jdbcType=NVARCHAR},
+    update F_CARTYPE
+    set CARTYPE_ID = #{record.cartypeId,jdbcType=CHAR},
+      CARTYPENAME = #{record.cartypename,jdbcType=NVARCHAR},
+      REMARK = #{record.remark,jdbcType=NVARCHAR},
       ISDELETE = #{record.isdelete,jdbcType=NUMERIC},
       CREATEAT = #{record.createat,jdbcType=TIMESTAMP},
       CREATEBY = #{record.createby,jdbcType=CHAR},
       UPDATEAT = #{record.updateat,jdbcType=TIMESTAMP},
       UPDATEBY = #{record.updateby,jdbcType=CHAR},
-      ICCID = #{record.iccid,jdbcType=NVARCHAR}
+      FK_TERMINAL_ID = #{record.fkTerminalId,jdbcType=CHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.intest.dao.entity.CarBto">
-    update F_CAR
+  <update id="updateByPrimaryKeySelective" parameterType="com.intest.dao.entity.CarTypeBto">
+    update F_CARTYPE
     <set>
-      <if test="fkCartypeId != null">
-        FK_CARTYPE_ID = #{fkCartypeId,jdbcType=CHAR},
+      <if test="cartypename != null">
+        CARTYPENAME = #{cartypename,jdbcType=NVARCHAR},
       </if>
-      <if test="vin != null">
-        VIN = #{vin,jdbcType=CHAR},
-      </if>
-      <if test="addtype != null">
-        ADDTYPE = #{addtype,jdbcType=NUMERIC},
-      </if>
-      <if test="license != null">
-        LICENSE = #{license,jdbcType=NVARCHAR},
-      </if>
-      <if test="terminalcode != null">
-        TERMINALCODE = #{terminalcode,jdbcType=NVARCHAR},
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=NVARCHAR},
       </if>
       <if test="isdelete != null">
         ISDELETE = #{isdelete,jdbcType=NUMERIC},
@@ -299,25 +255,22 @@
       <if test="updateby != null">
         UPDATEBY = #{updateby,jdbcType=CHAR},
       </if>
-      <if test="iccid != null">
-        ICCID = #{iccid,jdbcType=NVARCHAR},
+      <if test="fkTerminalId != null">
+        FK_TERMINAL_ID = #{fkTerminalId,jdbcType=CHAR},
       </if>
     </set>
-    where CAR_ID = #{carId,jdbcType=CHAR}
+    where CARTYPE_ID = #{cartypeId,jdbcType=CHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.intest.dao.entity.CarBto">
-    update F_CAR
-    set FK_CARTYPE_ID = #{fkCartypeId,jdbcType=CHAR},
-      VIN = #{vin,jdbcType=CHAR},
-      ADDTYPE = #{addtype,jdbcType=NUMERIC},
-      LICENSE = #{license,jdbcType=NVARCHAR},
-      TERMINALCODE = #{terminalcode,jdbcType=NVARCHAR},
+  <update id="updateByPrimaryKey" parameterType="com.intest.dao.entity.CarTypeBto">
+    update F_CARTYPE
+    set CARTYPENAME = #{cartypename,jdbcType=NVARCHAR},
+      REMARK = #{remark,jdbcType=NVARCHAR},
       ISDELETE = #{isdelete,jdbcType=NUMERIC},
       CREATEAT = #{createat,jdbcType=TIMESTAMP},
       CREATEBY = #{createby,jdbcType=CHAR},
       UPDATEAT = #{updateat,jdbcType=TIMESTAMP},
       UPDATEBY = #{updateby,jdbcType=CHAR},
-      ICCID = #{iccid,jdbcType=NVARCHAR}
-    where CAR_ID = #{carId,jdbcType=CHAR}
+      FK_TERMINAL_ID = #{fkTerminalId,jdbcType=CHAR}
+    where CARTYPE_ID = #{cartypeId,jdbcType=CHAR}
   </update>
 </mapper>

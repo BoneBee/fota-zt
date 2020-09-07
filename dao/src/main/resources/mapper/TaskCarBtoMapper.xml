@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.intest.dao.mapper.CarBtoMapper">
-  <resultMap id="BaseResultMap" type="com.intest.dao.entity.CarBto">
-    <id column="CAR_ID" jdbcType="CHAR" property="carId" />
-    <result column="FK_CARTYPE_ID" jdbcType="CHAR" property="fkCartypeId" />
+<mapper namespace="com.intest.dao.mapper.TaskCarBtoMapper">
+  <resultMap id="BaseResultMap" type="com.intest.dao.entity.TaskCarBto">
+    <id column="TASKCAR_ID" jdbcType="CHAR" property="taskcarId" />
+    <result column="FK_TASK_ID" jdbcType="CHAR" property="fkTaskId" />
     <result column="VIN" jdbcType="CHAR" property="vin" />
-    <result column="ADDTYPE" jdbcType="NUMERIC" property="addtype" />
-    <result column="LICENSE" jdbcType="NVARCHAR" property="license" />
-    <result column="TERMINALCODE" jdbcType="NVARCHAR" property="terminalcode" />
+    <result column="FK_TASKCARSTATUSVALUE_CODE" jdbcType="CHAR" property="fkTaskcarstatusvalueCode" />
+    <result column="PROGRESS" jdbcType="NUMERIC" property="progress" />
+    <result column="UPGRADETIME" jdbcType="CHAR" property="upgradetime" />
+    <result column="DESCRIPTION" jdbcType="NVARCHAR" property="description" />
     <result column="ISDELETE" jdbcType="NUMERIC" property="isdelete" />
     <result column="CREATEAT" jdbcType="TIMESTAMP" property="createat" />
     <result column="CREATEBY" jdbcType="CHAR" property="createby" />
     <result column="UPDATEAT" jdbcType="TIMESTAMP" property="updateat" />
     <result column="UPDATEBY" jdbcType="CHAR" property="updateby" />
-    <result column="ICCID" jdbcType="NVARCHAR" property="iccid" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -74,16 +74,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    CAR_ID, FK_CARTYPE_ID, VIN, ADDTYPE, LICENSE, TERMINALCODE, ISDELETE, CREATEAT, CREATEBY, 
-    UPDATEAT, UPDATEBY, ICCID
+    TASKCAR_ID, FK_TASK_ID, VIN, FK_TASKCARSTATUSVALUE_CODE, PROGRESS, UPGRADETIME, DESCRIPTION, 
+    ISDELETE, CREATEAT, CREATEBY, UPDATEAT, UPDATEBY
   </sql>
-  <select id="selectByExample" parameterType="com.intest.dao.entity.CarBtoExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.intest.dao.entity.TaskCarBtoExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from F_CAR
+    from F_TASKCAR
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -94,51 +94,54 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from F_CAR
-    where CAR_ID = #{carId,jdbcType=CHAR}
+    from F_TASKCAR
+    where TASKCAR_ID = #{taskcarId,jdbcType=CHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from F_CAR
-    where CAR_ID = #{carId,jdbcType=CHAR}
+    delete from F_TASKCAR
+    where TASKCAR_ID = #{taskcarId,jdbcType=CHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.intest.dao.entity.CarBtoExample">
-    delete from F_CAR
+  <delete id="deleteByExample" parameterType="com.intest.dao.entity.TaskCarBtoExample">
+    delete from F_TASKCAR
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.intest.dao.entity.CarBto">
-    insert into F_CAR (CAR_ID, FK_CARTYPE_ID, VIN, 
-      ADDTYPE, LICENSE, TERMINALCODE, 
-      ISDELETE, CREATEAT, CREATEBY, 
-      UPDATEAT, UPDATEBY, ICCID
+  <insert id="insert" parameterType="com.intest.dao.entity.TaskCarBto">
+    insert into F_TASKCAR (TASKCAR_ID, FK_TASK_ID, VIN, 
+      FK_TASKCARSTATUSVALUE_CODE, PROGRESS, UPGRADETIME, 
+      DESCRIPTION, ISDELETE, CREATEAT, 
+      CREATEBY, UPDATEAT, UPDATEBY
       )
-    values (#{carId,jdbcType=CHAR}, #{fkCartypeId,jdbcType=CHAR}, #{vin,jdbcType=CHAR}, 
-      #{addtype,jdbcType=NUMERIC}, #{license,jdbcType=NVARCHAR}, #{terminalcode,jdbcType=NVARCHAR}, 
-      #{isdelete,jdbcType=NUMERIC}, #{createat,jdbcType=TIMESTAMP}, #{createby,jdbcType=CHAR}, 
-      #{updateat,jdbcType=TIMESTAMP}, #{updateby,jdbcType=CHAR}, #{iccid,jdbcType=NVARCHAR}
+    values (#{taskcarId,jdbcType=CHAR}, #{fkTaskId,jdbcType=CHAR}, #{vin,jdbcType=CHAR}, 
+      #{fkTaskcarstatusvalueCode,jdbcType=CHAR}, #{progress,jdbcType=NUMERIC}, #{upgradetime,jdbcType=CHAR}, 
+      #{description,jdbcType=NVARCHAR}, #{isdelete,jdbcType=NUMERIC}, #{createat,jdbcType=TIMESTAMP}, 
+      #{createby,jdbcType=CHAR}, #{updateat,jdbcType=TIMESTAMP}, #{updateby,jdbcType=CHAR}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.intest.dao.entity.CarBto">
-    insert into F_CAR
+  <insert id="insertSelective" parameterType="com.intest.dao.entity.TaskCarBto">
+    insert into F_TASKCAR
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="carId != null">
-        CAR_ID,
+      <if test="taskcarId != null">
+        TASKCAR_ID,
       </if>
-      <if test="fkCartypeId != null">
-        FK_CARTYPE_ID,
+      <if test="fkTaskId != null">
+        FK_TASK_ID,
       </if>
       <if test="vin != null">
         VIN,
       </if>
-      <if test="addtype != null">
-        ADDTYPE,
+      <if test="fkTaskcarstatusvalueCode != null">
+        FK_TASKCARSTATUSVALUE_CODE,
       </if>
-      <if test="license != null">
-        LICENSE,
+      <if test="progress != null">
+        PROGRESS,
       </if>
-      <if test="terminalcode != null">
-        TERMINALCODE,
+      <if test="upgradetime != null">
+        UPGRADETIME,
+      </if>
+      <if test="description != null">
+        DESCRIPTION,
       </if>
       <if test="isdelete != null">
         ISDELETE,
@@ -155,28 +158,28 @@
       <if test="updateby != null">
         UPDATEBY,
       </if>
-      <if test="iccid != null">
-        ICCID,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="carId != null">
-        #{carId,jdbcType=CHAR},
+      <if test="taskcarId != null">
+        #{taskcarId,jdbcType=CHAR},
       </if>
-      <if test="fkCartypeId != null">
-        #{fkCartypeId,jdbcType=CHAR},
+      <if test="fkTaskId != null">
+        #{fkTaskId,jdbcType=CHAR},
       </if>
       <if test="vin != null">
         #{vin,jdbcType=CHAR},
       </if>
-      <if test="addtype != null">
-        #{addtype,jdbcType=NUMERIC},
+      <if test="fkTaskcarstatusvalueCode != null">
+        #{fkTaskcarstatusvalueCode,jdbcType=CHAR},
       </if>
-      <if test="license != null">
-        #{license,jdbcType=NVARCHAR},
+      <if test="progress != null">
+        #{progress,jdbcType=NUMERIC},
       </if>
-      <if test="terminalcode != null">
-        #{terminalcode,jdbcType=NVARCHAR},
+      <if test="upgradetime != null">
+        #{upgradetime,jdbcType=CHAR},
+      </if>
+      <if test="description != null">
+        #{description,jdbcType=NVARCHAR},
       </if>
       <if test="isdelete != null">
         #{isdelete,jdbcType=NUMERIC},
@@ -193,37 +196,37 @@
       <if test="updateby != null">
         #{updateby,jdbcType=CHAR},
       </if>
-      <if test="iccid != null">
-        #{iccid,jdbcType=NVARCHAR},
-      </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.intest.dao.entity.CarBtoExample" resultType="java.lang.Long">
-    select count(*) from F_CAR
+  <select id="countByExample" parameterType="com.intest.dao.entity.TaskCarBtoExample" resultType="java.lang.Long">
+    select count(*) from F_TASKCAR
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update F_CAR
+    update F_TASKCAR
     <set>
-      <if test="record.carId != null">
-        CAR_ID = #{record.carId,jdbcType=CHAR},
+      <if test="record.taskcarId != null">
+        TASKCAR_ID = #{record.taskcarId,jdbcType=CHAR},
       </if>
-      <if test="record.fkCartypeId != null">
-        FK_CARTYPE_ID = #{record.fkCartypeId,jdbcType=CHAR},
+      <if test="record.fkTaskId != null">
+        FK_TASK_ID = #{record.fkTaskId,jdbcType=CHAR},
       </if>
       <if test="record.vin != null">
         VIN = #{record.vin,jdbcType=CHAR},
       </if>
-      <if test="record.addtype != null">
-        ADDTYPE = #{record.addtype,jdbcType=NUMERIC},
+      <if test="record.fkTaskcarstatusvalueCode != null">
+        FK_TASKCARSTATUSVALUE_CODE = #{record.fkTaskcarstatusvalueCode,jdbcType=CHAR},
       </if>
-      <if test="record.license != null">
-        LICENSE = #{record.license,jdbcType=NVARCHAR},
+      <if test="record.progress != null">
+        PROGRESS = #{record.progress,jdbcType=NUMERIC},
       </if>
-      <if test="record.terminalcode != null">
-        TERMINALCODE = #{record.terminalcode,jdbcType=NVARCHAR},
+      <if test="record.upgradetime != null">
+        UPGRADETIME = #{record.upgradetime,jdbcType=CHAR},
+      </if>
+      <if test="record.description != null">
+        DESCRIPTION = #{record.description,jdbcType=NVARCHAR},
       </if>
       <if test="record.isdelete != null">
         ISDELETE = #{record.isdelete,jdbcType=NUMERIC},
@@ -240,49 +243,49 @@
       <if test="record.updateby != null">
         UPDATEBY = #{record.updateby,jdbcType=CHAR},
       </if>
-      <if test="record.iccid != null">
-        ICCID = #{record.iccid,jdbcType=NVARCHAR},
-      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update F_CAR
-    set CAR_ID = #{record.carId,jdbcType=CHAR},
-      FK_CARTYPE_ID = #{record.fkCartypeId,jdbcType=CHAR},
+    update F_TASKCAR
+    set TASKCAR_ID = #{record.taskcarId,jdbcType=CHAR},
+      FK_TASK_ID = #{record.fkTaskId,jdbcType=CHAR},
       VIN = #{record.vin,jdbcType=CHAR},
-      ADDTYPE = #{record.addtype,jdbcType=NUMERIC},
-      LICENSE = #{record.license,jdbcType=NVARCHAR},
-      TERMINALCODE = #{record.terminalcode,jdbcType=NVARCHAR},
+      FK_TASKCARSTATUSVALUE_CODE = #{record.fkTaskcarstatusvalueCode,jdbcType=CHAR},
+      PROGRESS = #{record.progress,jdbcType=NUMERIC},
+      UPGRADETIME = #{record.upgradetime,jdbcType=CHAR},
+      DESCRIPTION = #{record.description,jdbcType=NVARCHAR},
       ISDELETE = #{record.isdelete,jdbcType=NUMERIC},
       CREATEAT = #{record.createat,jdbcType=TIMESTAMP},
       CREATEBY = #{record.createby,jdbcType=CHAR},
       UPDATEAT = #{record.updateat,jdbcType=TIMESTAMP},
-      UPDATEBY = #{record.updateby,jdbcType=CHAR},
-      ICCID = #{record.iccid,jdbcType=NVARCHAR}
+      UPDATEBY = #{record.updateby,jdbcType=CHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.intest.dao.entity.CarBto">
-    update F_CAR
+  <update id="updateByPrimaryKeySelective" parameterType="com.intest.dao.entity.TaskCarBto">
+    update F_TASKCAR
     <set>
-      <if test="fkCartypeId != null">
-        FK_CARTYPE_ID = #{fkCartypeId,jdbcType=CHAR},
+      <if test="fkTaskId != null">
+        FK_TASK_ID = #{fkTaskId,jdbcType=CHAR},
       </if>
       <if test="vin != null">
         VIN = #{vin,jdbcType=CHAR},
       </if>
-      <if test="addtype != null">
-        ADDTYPE = #{addtype,jdbcType=NUMERIC},
+      <if test="fkTaskcarstatusvalueCode != null">
+        FK_TASKCARSTATUSVALUE_CODE = #{fkTaskcarstatusvalueCode,jdbcType=CHAR},
       </if>
-      <if test="license != null">
-        LICENSE = #{license,jdbcType=NVARCHAR},
+      <if test="progress != null">
+        PROGRESS = #{progress,jdbcType=NUMERIC},
       </if>
-      <if test="terminalcode != null">
-        TERMINALCODE = #{terminalcode,jdbcType=NVARCHAR},
+      <if test="upgradetime != null">
+        UPGRADETIME = #{upgradetime,jdbcType=CHAR},
+      </if>
+      <if test="description != null">
+        DESCRIPTION = #{description,jdbcType=NVARCHAR},
       </if>
       <if test="isdelete != null">
         ISDELETE = #{isdelete,jdbcType=NUMERIC},
@@ -299,25 +302,22 @@
       <if test="updateby != null">
         UPDATEBY = #{updateby,jdbcType=CHAR},
       </if>
-      <if test="iccid != null">
-        ICCID = #{iccid,jdbcType=NVARCHAR},
-      </if>
     </set>
-    where CAR_ID = #{carId,jdbcType=CHAR}
+    where TASKCAR_ID = #{taskcarId,jdbcType=CHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.intest.dao.entity.CarBto">
-    update F_CAR
-    set FK_CARTYPE_ID = #{fkCartypeId,jdbcType=CHAR},
+  <update id="updateByPrimaryKey" parameterType="com.intest.dao.entity.TaskCarBto">
+    update F_TASKCAR
+    set FK_TASK_ID = #{fkTaskId,jdbcType=CHAR},
       VIN = #{vin,jdbcType=CHAR},
-      ADDTYPE = #{addtype,jdbcType=NUMERIC},
-      LICENSE = #{license,jdbcType=NVARCHAR},
-      TERMINALCODE = #{terminalcode,jdbcType=NVARCHAR},
+      FK_TASKCARSTATUSVALUE_CODE = #{fkTaskcarstatusvalueCode,jdbcType=CHAR},
+      PROGRESS = #{progress,jdbcType=NUMERIC},
+      UPGRADETIME = #{upgradetime,jdbcType=CHAR},
+      DESCRIPTION = #{description,jdbcType=NVARCHAR},
       ISDELETE = #{isdelete,jdbcType=NUMERIC},
       CREATEAT = #{createat,jdbcType=TIMESTAMP},
       CREATEBY = #{createby,jdbcType=CHAR},
       UPDATEAT = #{updateat,jdbcType=TIMESTAMP},
-      UPDATEBY = #{updateby,jdbcType=CHAR},
-      ICCID = #{iccid,jdbcType=NVARCHAR}
-    where CAR_ID = #{carId,jdbcType=CHAR}
+      UPDATEBY = #{updateby,jdbcType=CHAR}
+    where TASKCAR_ID = #{taskcarId,jdbcType=CHAR}
   </update>
 </mapper>

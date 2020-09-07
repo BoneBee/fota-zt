@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.intest.dao.mapper.CarTypeExtendMapper">
+    <resultMap id="CarTypeResultMap" type="com.intest.dao.entity.CarTypeBto">
+        <id column="CARTYPE_ID" jdbcType="CHAR" property="cartypeId" />
+        <result column="CARTYPENAME" jdbcType="CHAR" property="cartypename" />
+        <result column="REMARK" jdbcType="CHAR" property="remark" />
+        <result column="FK_TERMINAL_ID" jdbcType="NUMERIC" property="fkTerminalId" />
+        <result column="ISDELETE" jdbcType="NUMERIC" property="isdelete" />
+        <result column="CREATEAT" jdbcType="TIMESTAMP" property="createat" />
+        <result column="CREATEBY" jdbcType="CHAR" property="createby" />
+        <result column="UPDATEAT" jdbcType="TIMESTAMP" property="updateat" />
+        <result column="UPDATEBY" jdbcType="CHAR" property="updateby" />
+    </resultMap>
+
+    <select id="selectPageCon" resultType="com.intest.dao.entity.CarTypeBto" >
+        select *
+        from F_CARTYPE
+    </select>
+
+    <update id="addcarupdatePart" parameterType="com.intest.dao.entity.PartsBto" keyProperty="Parts_ID">
+        update F_Parts   set FK_CarType_ID = #{fkCartypeId} where Parts_ID = #{partsId}
+    </update>
+
+    <update id="mdfcarupdatePart" parameterType="com.intest.dao.entity.PartsBto" keyProperty="Parts_ID">
+        update F_Parts   set FK_CarType_ID = #{FK_CarType_ID} where Parts_ID = #{Parts_ID}
+    </update>
+
+    <insert id="addCarType" parameterType="com.intest.dao.entity.CarTypeBto">
+        insert into F_CarType (CARTYPE_ID,CARTYPENAME,REMARK,FK_TERMINAL_ID)
+        values
+         (#{cartypeId},
+         #{cartypename},
+         #{remark},
+         #{fkTerminalId})
+    </insert>
+</mapper>
