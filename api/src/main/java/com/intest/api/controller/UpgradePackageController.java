@@ -1,9 +1,7 @@
 package com.intest.api.controller;
 
 import com.intest.common.result.ResultT;
-import com.intest.packageservice.request.PartsTreeRequest;
-import com.intest.packageservice.request.UpgradePackageRequest;
-import com.intest.packageservice.request.VersionRequest;
+import com.intest.packageservice.request.*;
 import com.intest.packageservice.service.UpgradePackageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -46,6 +44,22 @@ public class UpgradePackageController {
     public ResultT versionList(@RequestBody VersionRequest request){
         ResultT result = new ResultT();
         result.setResult(upgradePackageService.getVersion(request));
+        return result;
+    }
+
+    @ApiOperation("升级包制作")
+    @PostMapping("/make")
+    public ResultT make(@RequestBody MakeRequest request){
+        ResultT result = new ResultT();
+        result.setResult(upgradePackageService.make(request));
+        return result;
+    }
+
+    @ApiOperation("取消发布")
+    @PostMapping("/unpublish")
+    public ResultT unpublish(@RequestBody PackageDeleteRequest request){
+        ResultT result = new ResultT();
+        result.setResult(upgradePackageService.unpublish(request.getIds()));
         return result;
     }
 }

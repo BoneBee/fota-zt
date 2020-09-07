@@ -3,9 +3,12 @@ package com.intest.packageparser.file;
 //import com.alibaba.fastjson.JSON;
 import com.intest.common.result.ResultT;
 import com.intest.dao.entity.*;
+import com.intest.dao.mapper.PartsPackageBtoMapper;
 import com.intest.packageservice.service.LargePackageService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.w3c.dom.Document;
 
@@ -13,6 +16,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -23,8 +27,12 @@ import java.util.zip.ZipFile;
  * 包解析类
  * @author intest
  */
+@Component
 public class FileParser {
     private static Logger logger = LoggerFactory.getLogger(FileParser.class);
+
+//    @Autowired
+//    private PartsPackageBtoMapper partsPackageBtoMapper;
     /**
      * 错误信息集合
      */
@@ -53,7 +61,7 @@ public class FileParser {
      * 解析原始包文件
      * @param carTypeId: 车型编号
      */
-    public static void parseFile(LargePackageService largePackageService, String fileId, String carTypeId) {
+    public void parseFile(LargePackageService largePackageService, String fileId, String carTypeId) {
         FileInfo fi = largePackageService.getFileById(fileId);
         String filePath = File.separator + "tmp" + File.separator + "webhost" + File.separator + "packageFile" + File.separator + fi.getServerSidePath();
         String newPath = File.separator + "tmp" + File.separator + "webhost" + File.separator + "uploadFile" + File.separator + "temp";
@@ -470,7 +478,7 @@ public class FileParser {
      * 将成功解析的结果保存到数据库
      *
      */
-    public static void saveToDb(LargePackageService largePackageService, ResultT result) {
+    public void saveToDb(LargePackageService largePackageService, ResultT result) {
         try{
             if(!largeZipResult.isSuccess()){
                 result.setSuccess(-1);
@@ -504,7 +512,7 @@ public class FileParser {
     /**
      * 保存控制器包信息
      */
-    private static void saveZipInfo(LargePackageService largePackageService, ZipResult zipResult){
+    private void saveZipInfo(LargePackageService largePackageService, ZipResult zipResult){
         PartsPackage partsPackage = new PartsPackage();
         partsPackage.setPartsPackageId(zipResult.getZipId());
         partsPackage.setPackageId(largeZipResult.getLargeZipId());
@@ -520,6 +528,27 @@ public class FileParser {
         partsPackage.setProjectCode("N60AB");
         partsPackage.setCreateBy(UUID.randomUUID().toString());
         largePackageService.saveZipInfo(partsPackage);
+
+//        PartsPackageBto partsPackageBto = new PartsPackageBto();
+//        partsPackageBto.setPartspackageId(zipResult.getZipId());
+//        partsPackageBto.setFkPartsbigpackageId(largeZipResult.getLargeZipId());
+//        partsPackageBto.setFkPartsId(zipResult.getPartId());
+//        partsPackageBto.setFkFileId(zipResult.getFileId());
+//        partsPackageBto.setSoftwareversion(zipResult.getTargetVersion());
+//        if(!StringUtils.isEmpty(zipResult.getTargetVersion())){
+//            partsPackageBto.setPackagetype(BigDecimal.valueOf(1));
+//        }
+//        partsPackageBto.setTargetsoftwareversion(zipResult.getTargetVersion());
+//        partsPackageBto.setHardwareversion(zipResult.getTargetVersion());
+//        partsPackageBto.setPartnumber(zipResult.getPartCode());
+//        partsPackageBto.setSendid(zipResult.getResponseId());
+//        partsPackageBto.setReceiveid(zipResult.getPhysicalId());
+//        partsPackageBto.setPartsassemblynumber(zipResult.getCarType());
+//        partsPackageBto.setMd5("###########");
+//        partsPackageBto.setProjectcode("N60AB");
+//        partsPackageBto.setCreateby(UUID.randomUUID().toString());
+//        partsPackageBtoMapper.insertSelective(partsPackageBto);
+
         saveFileInfo(largePackageService, zipResult);
         savePartsPackageDetails(largePackageService, zipResult);
 

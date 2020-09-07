@@ -92,7 +92,7 @@ public class PackageController {
     @RequestMapping(value = "/package/parse", method = RequestMethod.POST)
     public ResultT<List<String>> parseFile(@RequestBody PackageParseRequest request) {
         ResultT<List<String>> result = new ResultT();
-        FileParser.parseFile(largePackageService, request.getFileId(), request.getCarTypeId());
+        new FileParser().parseFile(largePackageService, request.getFileId(), request.getCarTypeId());
         int success = FileParser.largeZipResult.isSuccess() ? 1 : -1;
         result.setSuccess(success);
         result.setResult(FileParser.largeZipResult.getErrors());
@@ -104,7 +104,7 @@ public class PackageController {
     @RequestMapping(value = "/package/save", method = RequestMethod.POST)
     public ResultT save(){
         ResultT result = new ResultT();
-        FileParser.saveToDb(largePackageService, result);
+        new FileParser().saveToDb(largePackageService, result);
         return result;
     }
 

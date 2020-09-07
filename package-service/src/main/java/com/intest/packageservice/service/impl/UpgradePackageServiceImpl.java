@@ -6,19 +6,18 @@ import com.intest.common.result.PagerDataBaseVO;
 import com.intest.common.tableData.TableDataAnnotation;
 import com.intest.common.util.StringUtils;
 import com.intest.dao.entity.*;
-import com.intest.dao.mapper.PartsBtoMapper;
-import com.intest.dao.mapper.PartsPackageBtoMapper;
-import com.intest.dao.mapper.UpgradePackageMapper;
-import com.intest.packageservice.request.PartsTreeRequest;
-import com.intest.packageservice.request.UpgradePackageRequest;
-import com.intest.packageservice.request.VersionRequest;
+import com.intest.dao.mapper.*;
+import com.intest.packageservice.request.*;
 import com.intest.packageservice.service.UpgradePackageService;
 import com.intest.packageservice.vo.VersionVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author ：intest
@@ -36,6 +35,15 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
 
     @Autowired
     private PartsBtoMapper partsBtoMapper;
+
+    @Autowired
+    private UpgradePackageFileinfoBtoMapper upgradePackageFileinfoBtoMapper;
+
+    @Autowired
+    private PackageTaskBtoMapper packageTaskBtoMapper;
+
+    @Autowired
+    private TaskOriginalPackageBtoMapper taskOriginalPackageBtoMapper;
 
     @Override
     @TableDataAnnotation(tableId = "e1796f23-c541-4b70-9cf9-20abe3cb30af")
@@ -78,7 +86,7 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
 
             PartsPackageBtoExample example = new PartsPackageBtoExample();
             example.setDistinct(true);
-            example.createCriteria().andPartnumberLike(request.getQueryText());
+            example.createCriteria().andPartnumberLike("%"+request.getQueryText()+"%");
             List<PartsPackageBto> partsPackageBtoList = partsPackageBtoMapper.selectByExample(example);
             List<String> ids = new ArrayList<>();
             for(PartsPackageBto bto : partsPackageBtoList){
@@ -91,6 +99,7 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
             partsBtoExample = new PartsBtoExample();
             partsBtoExample.createCriteria().andFkCartypeIdEqualTo(request.getCarTypeId()).andPartsIdIn(ids);
             partsBtoList = partsBtoMapper.selectByExample(partsBtoExample);
+            List<String> keys = new ArrayList<>();
             for(PartsBto bto : partsBtoList){
                 PartsTreeBto partsTreeBto = new PartsTreeBto();
                 partsTreeBto.setKey(bto.getPartsId());
@@ -98,10 +107,13 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
                 List<ChildNode> nodes = new ArrayList<>();
                 for(PartsPackageBto partsPackageBto : partsPackageBtoList){
                     if(bto.getPartsId().equals(partsPackageBto.getFkPartsId())){
-                        ChildNode node = new ChildNode();
-                        node.setKey(partsPackageBto.getFkPartsId());
-                        node.setTitle(partsPackageBto.getPartnumber());
-                        nodes.add(node);
+                        if(!keys.contains(partsPackageBto.getPartnumber())){
+                            ChildNode node = new ChildNode();
+                            node.setKey(partsPackageBto.getFkPartsId());
+                            node.setTitle(partsPackageBto.getPartnumber());
+                            nodes.add(node);
+                            keys.add(partsPackageBto.getPartnumber());
+                        }
                     }
                 }
                 partsTreeBto.setChildren(nodes);
@@ -121,10 +133,64 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
             VersionVO vo = new VersionVO();
             vo.setPartsPackageId(bto.getPartspackageId());
             vo.setVersion(bto.getSoftwareversion());
-            //vo.setTargetVersion(bto.getTarget);
-            //vo.setType(bto.getPackageType());
+            vo.setTargetVersion(bto.getTargetsoftwareversion());
+            vo.setType(bto.getPackagetype().intValue());
             list.add(vo);
         }
         return list;
+    }
+
+    @Override
+    public int make(MakeRequest request){
+        PackageTaskBto packageTaskBto = new PackageTaskBto();
+        String packageTaskId = UUID.randomUUID().toString();
+        packageTaskBto.setPackagetaskId(packageTaskId);
+        packageTaskBto.setFkPackagetaskstatusvalueCode("100");
+        packageTaskBto.setCreateby(UUID.randomUUID().toString());
+        packageTaskBto.setFkCartypeId(request.getCarTypeId());
+        packageTaskBtoMapper.insertSelective(packageTaskBto);
+
+        for(PartsRequest partsRequest : request.getPartsPackage()){
+            if(partsRequest.getType() == 0){
+                TaskOriginalPackageBto taskOriginalPackageBto = new TaskOriginalPackageBto();
+                taskOriginalPackageBto.setTaskoriginalpackageId(UUID.randomUUID().toString());
+                taskOriginalPackageBto.setFkPackagetaskId(packageTaskId);
+                taskOriginalPackageBto.setType(new BigDecimal(0));
+                taskOriginalPackageBto.setMaketype(new BigDecimal(0));
+                taskOriginalPackageBto.setFkPartspackageId(partsRequest.getBasePartsPackageId());
+                taskOriginalPackageBto.setCreateby(UUID.randomUUID().toString());
+                taskOriginalPackageBtoMapper.insertSelective(taskOriginalPackageBto);
+
+                taskOriginalPackageBto = new TaskOriginalPackageBto();
+                taskOriginalPackageBto.setTaskoriginalpackageId(UUID.randomUUID().toString());
+                taskOriginalPackageBto.setFkPackagetaskId(packageTaskId);
+                taskOriginalPackageBto.setType(new BigDecimal(1));
+                taskOriginalPackageBto.setMaketype(new BigDecimal(0));
+                taskOriginalPackageBto.setFkPartspackageId(partsRequest.getTargetPartsPackageId());
+                taskOriginalPackageBto.setCreateby(UUID.randomUUID().toString());
+                taskOriginalPackageBtoMapper.insertSelective(taskOriginalPackageBto);
+            }else if(partsRequest.getType() == 1){
+                TaskOriginalPackageBto taskOriginalPackageBto = new TaskOriginalPackageBto();
+                taskOriginalPackageBto.setTaskoriginalpackageId(UUID.randomUUID().toString());
+                taskOriginalPackageBto.setFkPackagetaskId(packageTaskId);
+                taskOriginalPackageBto.setType(new BigDecimal(2));
+                taskOriginalPackageBto.setMaketype(new BigDecimal(1));
+                taskOriginalPackageBto.setFkPartspackageId(partsRequest.getBasePartsPackageId());
+                taskOriginalPackageBto.setCreateby(UUID.randomUUID().toString());
+                taskOriginalPackageBtoMapper.insertSelective(taskOriginalPackageBto);
+            }
+        }
+
+        return 1;
+    }
+
+    @Override
+    public int unpublish(String[] ids){
+        UpgradePackageFileinfoBto bto = new UpgradePackageFileinfoBto();
+        bto.setIspublish(new BigDecimal(2));
+        UpgradePackageFileinfoBtoExample example = new UpgradePackageFileinfoBtoExample();
+        example.createCriteria().andUpgradepackagefileinfoIdIn(Arrays.asList(ids));
+        int count = upgradePackageFileinfoBtoMapper.updateByExampleSelective(bto, example);
+        return count > 0 ? 1 : 0;
     }
 }
