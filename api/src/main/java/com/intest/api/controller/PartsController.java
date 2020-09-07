@@ -1,7 +1,5 @@
 package com.intest.api.controller;
 
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import com.intest.basicservice.table.util.CheckPwd;
 import com.intest.common.exception.CustomException;
 import com.intest.common.result.PagerDataBaseVO;
@@ -17,6 +15,8 @@ import com.intest.partsservice.part.request.PartsTypeRequest;
 
 import com.intest.basicservice.table.common.ResponseBean;
 import com.intest.basicservice.table.config.helper.ValidateHelper;
+import com.intest.partsservice.part.request.UpdatePartMessageRequest;
+import com.intest.partsservice.part.request.UpdatePartsTypeRequest;
 import com.intest.partsservice.part.response.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
@@ -69,23 +69,19 @@ public class PartsController {
     /**
      * 编辑（修改）零部件类型
      *
-     * @param partsTypeName
-     * @param remark
-     * @param partsTypeId
+     * @param updatePartsTypeRequest
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/basic/part/updatePartsType", method = RequestMethod.GET)
-    public ResponseBean updatePartsType(@ApiParam String partsTypeName, @ApiParam String remark, @ApiParam String partsTypeId) {
-        if (!StringUtils.isNotEmptyStr(partsTypeName) || !StringUtils.isNotEmptyStr(partsTypeId)) {
-            throw new CustomException("partsTypeName、partsTypeId不能为空");
-        }
-        PartsTypeBto partsTypeBto = partsTypeImpl.getPartsTypeById(partsTypeId);
+    @RequestMapping(value = "/api/basic/part/updatePartsType", method = RequestMethod.POST)
+    public ResponseBean updatePartsType(@RequestBody UpdatePartsTypeRequest updatePartsTypeRequest) {
+        ValidateHelper.validateNull(updatePartsTypeRequest, new String[]{"partsTypeId","partsTypeName"});
+        PartsTypeBto partsTypeBto = partsTypeImpl.getPartsTypeById(updatePartsTypeRequest.getPartsTypeId());
         if (partsTypeBto == null) {
             throw new CustomException("未找到对应零部件类型");
         } else {
-            partsTypeBto.setPartstypename(partsTypeName);
-            partsTypeBto.setRemark(remark);
+            partsTypeBto.setPartstypename(updatePartsTypeRequest.getPartsTypeName());
+            partsTypeBto.setRemark(updatePartsTypeRequest.getRemark());
             if (partsTypeImpl.updatePartsType(partsTypeBto) != 1) {
                 throw new CustomException("修改零部件类型失败！");
             }
@@ -210,32 +206,27 @@ public class PartsController {
     /**
      * 修改零部件信息管理
      *
-     * @param partsName
-     * @param fullName
-     * @param partsId
-     * @param remark
+     * @param request
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/basic/part/updatePartMessage", method = RequestMethod.GET)
-    public ResponseBean updatePartMessage(@ApiParam String partsTypeId, @ApiParam String partsName, @ApiParam String fullName, @ApiParam String partsId, @ApiParam String remark) {
-        if (!StringUtils.isNotEmptyStr(partsName) || !StringUtils.isNotEmptyStr(fullName) || !StringUtils.isNotEmptyStr(partsId) || !StringUtils.isNotEmptyStr(partsTypeId)) {
-            throw new CustomException("partsName、fullName、partsTypeId、partsId不能为空");
-        }
-        if (partsName.length() > 3 || !CheckPwd.checkUpperCase(partsName)) {
+    @RequestMapping(value = "/api/basic/part/updatePartMessage", method = RequestMethod.POST)
+    public ResponseBean updatePartMessage(@RequestBody UpdatePartMessageRequest request) {
+        ValidateHelper.validateNull(request, new String[]{"partsName", "fullName", "partsTypeId","partsId"});
+        if (request.getPartsName().length() > 3 || !CheckPwd.checkUpperCase(request.getPartsName())) {
             throw new CustomException("零件简称不合法");
         }
-        if (fullName.length() > 20) {
+        if (request.getFullName().length() > 20) {
             throw new CustomException("零件全称长度超过上限");
         }
-        PartsBto partsBto = partsImpl.getPartsById(partsId);
+        PartsBto partsBto = partsImpl.getPartsById(request.getPartsId());
         if (partsBto == null) {
             throw new CustomException("未找到对应零部件信息");
         } else {
-            partsBto.setPartsname(fullName);
-            partsBto.setPartscode(partsName);
-            partsBto.setFkPartstypeId(partsId);
-            partsBto.setRemark(remark);
+            partsBto.setPartsname(request.getFullName());
+            partsBto.setPartscode(request.getPartsName());
+            partsBto.setFkPartstypeId(request.getPartsId());
+            partsBto.setRemark(request.getRemark());
             if (partsImpl.updateParts(partsBto) != 1) {
                 throw new CustomException("修改零部件信息失败");
             }

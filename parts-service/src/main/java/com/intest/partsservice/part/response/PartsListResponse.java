@@ -9,7 +9,8 @@ public class PartsListResponse {
     private String partsId;
     private String partsName;
     private String fullName;
-    private String partsType;
+    private String partsTypeId;
+    private String partsTypeName;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date creatAt;
     private String creatBy;
@@ -21,12 +22,13 @@ public class PartsListResponse {
     public PartsListResponse() {
     }
 
-    public PartsListResponse(int index, String partsId, String partsName, String fullName, String partsType, Date creatAt, String creatBy, Date updateBy, String updateAt, String remark) {
+    public PartsListResponse(int index, String partsId, String partsName, String fullName, String partsTypeId, String partsTypeName, Date creatAt, String creatBy, Date updateBy, String updateAt, String remark) {
         this.index = index;
         this.partsId = partsId;
         this.partsName = partsName;
         this.fullName = fullName;
-        this.partsType = partsType;
+        this.partsTypeId = partsTypeId;
+        this.partsTypeName = partsTypeName;
         this.creatAt = creatAt;
         this.creatBy = creatBy;
         this.updateBy = updateBy;
@@ -66,12 +68,20 @@ public class PartsListResponse {
         this.fullName = fullName;
     }
 
-    public String getPartsType() {
-        return partsType;
+    public String getPartsTypeId() {
+        return partsTypeId;
     }
 
-    public void setPartsType(String partsType) {
-        this.partsType = partsType;
+    public void setPartsTypeId(String partsTypeId) {
+        this.partsTypeId = partsTypeId;
+    }
+
+    public String getPartsTypeName() {
+        return partsTypeName;
+    }
+
+    public void setPartsTypeName(String partsTypeName) {
+        this.partsTypeName = partsTypeName;
     }
 
     public Date getCreatAt() {
