@@ -30,4 +30,8 @@ public class CarTypeAPartsEntity {
     零部件名称
    */
     public String PartsName;
+    /*
+    零件升级顺序
+     */
+    public String OrderNum;
 }

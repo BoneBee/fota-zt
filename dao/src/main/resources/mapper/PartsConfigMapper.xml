@@ -2,10 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.intest.dao.mapper.PartsConfigMapper">
 
-    <select id="selectPartsConfig" resultType="com.intest.dao.entity.partsConfig.PartsBaseConfig" parameterType="java.lang.String">
+    <select id="selectPartsConfig" resultType="com.intest.dao.entity.partsConfig.PartsBaseConfig"
+            parameterType="java.lang.String">
         select fpc.partsconfig_id    as partsConfigId,
                fpc.fk_parts_id       as partsId,
-               fp.partsname          as partsName,
+               fp.partscode          as partsName,
                fpp.partstypename     as partsTypeName,
                fct.cartypename       as carTypeName,
                fp.networksegmentname as name,
@@ -32,41 +33,49 @@
                            on fp.fk_cartype_id = fct.cartype_id
                  left join f_partstype fpp
                            on fp.fk_partstype_id = fpp.partstype_id
-        WHERE  fp.isdelete=1 and fct.isdelete=1 and fpp.isdelete=1  and  fpc.fk_parts_id=#{partsId}
+        WHERE fp.isdelete = 1
+          and fct.isdelete = 1
+          and fpp.isdelete = 1
+          and fpc.fk_parts_id = #{partsId}
     </select>
 
     <update id="updatePartsConfig" parameterType="com.intest.dao.entity.partsConfig.PartsBaseConfig">
         update F_PARTSCONFIG
-        set
-            VOLTAGEMODEL = #{voltageModel},
-            CANTYPE = #{canType},
-            TRAVELSTATE = #{travelState},
-            GEAR = #{gear},
-            ORDERNUM = #{orderNum},
-            PREPROGRAMME = #{preProgramme},
-            INPROGRAMME = #{inProgramme},
-            SAFETYLEVEL = #{safetyLevel},
-            ALGORITHMMASK = #{algorithmMask},
-            DELAY = #{delay},
-            ISALIGNMENT = #{isAlignment},
+        set VOLTAGEMODEL     = #{voltageModel},
+            CANTYPE          = #{canType},
+            TRAVELSTATE      = #{travelState},
+            GEAR             = #{gear},
+            ORDERNUM         = #{orderNum},
+            PREPROGRAMME     = #{preProgramme},
+            INPROGRAMME      = #{inProgramme},
+            SAFETYLEVEL      = #{safetyLevel},
+            ALGORITHMMASK    = #{algorithmMask},
+            DELAY            = #{delay},
+            ISALIGNMENT      = #{isAlignment},
             ALIGNMENTCOMPANY = #{alignmentCompany},
             ECUWAITRESETTIME = #{ecuWaitResetTime},
-            UPDATEBY = #{updateBy},
-            UPDATEAT = #{updateAt}
-        where replace(fk_parts_id,' ','') = #{partsId,jdbcType=CHAR}
+            UPDATEBY         = #{updateBy},
+            UPDATEAT         = #{updateAt}
+        where replace(fk_parts_id, ' ', '') = #{partsId,jdbcType=CHAR}
     </update>
 
-    <select id="selectCarType"  resultType="com.intest.dao.entity.partsConfig.CarTypeAPartsEntity" parameterType="java.lang.String">
+    <select id="selectCarType" resultType="com.intest.dao.entity.partsConfig.CarTypeAPartsEntity"
+            parameterType="java.lang.String">
         select fct.cartype_id as CarTypeId,
-               fct.cartypename as CarTypeName,
-               fp.parts_id as PartsId,
-               fp.partsname as PartsName
+        fct.cartypename as CarTypeName,
+        fp.parts_id as PartsId,
+        fp.partscode as PartsName,
+        fpc.ordernum as OrderNum
         from f_cartype fct
-                 left join f_parts fp
-                           on fct.cartype_id = fp.fk_cartype_id
+        left join f_parts fp
+        on fct.cartype_id = fp.fk_cartype_id
+        left join f_partsconfig fpc
+        on fp.parts_id=fpc.fk_parts_id
+
         where fct.isdelete=1 and fp.isdelete=1
-        <if test=" likeStr != null and likeStr!='' " >
-            and (UPPER(fct.cartypename) like  concat(concat('%',#{likeStr}),'%') or UPPER(fp.partsname) like  concat(concat('%',#{likeStr}),'%'))
+        <if test=" likeStr != null and likeStr!='' ">
+            and (UPPER(fct.cartypename) like concat(concat('%',#{likeStr}),'%') or UPPER(fp.partscode) like
+            concat(concat('%',#{likeStr}),'%'))
         </if>
     </select>
 
