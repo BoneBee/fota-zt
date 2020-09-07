@@ -103,9 +103,13 @@ public class PartsConfigController {
                     carTypeBaseInfoEntity.children=new ArrayList<>();
                     for (CarTypeAPartsEntity item:_lst){
                         PartsBaseInfoEntity partsBaseInfoEntity=new PartsBaseInfoEntity();
+
                         partsBaseInfoEntity.setKey(item.getPartsId());
+
                         partsBaseInfoEntity.setTitle(item.getPartsName());
+
                         partsBaseInfoEntity.setOrderNum(item.getOrderNum());
+
                         carTypeBaseInfoEntity.children.add(partsBaseInfoEntity);
                     }
                     lst.add(carTypeBaseInfoEntity);

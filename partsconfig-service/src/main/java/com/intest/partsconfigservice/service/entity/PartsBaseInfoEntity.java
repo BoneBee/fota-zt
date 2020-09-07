@@ -14,15 +14,15 @@ import lombok.Setter;
 @Getter
 @Setter
 public class PartsBaseInfoEntity {
-    /*
+    /**
     零部件名称
      */
     public String title;
-    /*
+    /**
     零部件信息ID
      */
     public String key;
-    /*
+    /**
     零部件升级顺序
      */
     public String orderNum;

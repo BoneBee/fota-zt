@@ -34,9 +34,9 @@
                  left join f_partstype fpp
                            on fp.fk_partstype_id = fpp.partstype_id
         WHERE fp.isdelete = 1
-          and fct.isdelete = 1
-          and fpp.isdelete = 1
-          and fpc.fk_parts_id = #{partsId}
+            and fct.isdelete = 1
+           and fpp.isdelete = 1
+           and fpc.fk_parts_id = #{partsId}
     </select>
 
     <update id="updatePartsConfig" parameterType="com.intest.dao.entity.partsConfig.PartsBaseConfig">
