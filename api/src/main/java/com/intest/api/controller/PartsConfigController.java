@@ -9,7 +9,6 @@ import com.intest.partsconfigservice.service.entity.PartsBaseInfoEntity;
 import com.intest.partsconfigservice.service.impl.PartsConfigServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,6 +86,9 @@ public class PartsConfigController {
     public ResponseBean getCarTypeParts(String likeStr) {
         logger.info("接收到获取车型零部件信息请求，请求参数："+likeStr);
         try {
+            if(likeStr==null){
+                likeStr="";
+            }
             List<CarTypeAPartsEntity> carTypeAPartsEntities = partsConfigServiceImpl.selectCarType(likeStr.toUpperCase());
             if (carTypeAPartsEntities.size() > 0) {
                 List<CarTypeBaseInfoEntity> lst = new ArrayList<>();
@@ -101,8 +103,13 @@ public class PartsConfigController {
                     carTypeBaseInfoEntity.children=new ArrayList<>();
                     for (CarTypeAPartsEntity item:_lst){
                         PartsBaseInfoEntity partsBaseInfoEntity=new PartsBaseInfoEntity();
+
                         partsBaseInfoEntity.setKey(item.getPartsId());
+
                         partsBaseInfoEntity.setTitle(item.getPartsName());
+
+                        partsBaseInfoEntity.setOrderNum(item.getOrderNum());
+
                         carTypeBaseInfoEntity.children.add(partsBaseInfoEntity);
                     }
                     lst.add(carTypeBaseInfoEntity);
