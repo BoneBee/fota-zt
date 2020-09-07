@@ -1,6 +1,7 @@
 package com.intest.basicservice.table.service.impl;
 
 import com.intest.basicservice.table.service.TableDataService;
+import com.intest.common.result.PagerDataBaseVO;
 import com.intest.common.ro.GetDataRO;
 import com.intest.common.tableData.SpringContextLoader;
 import org.springframework.stereotype.Service;
@@ -12,10 +13,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class TableDataImpl implements TableDataService {
     @Override
-    public Object GetTableData(GetDataRO model) {
-        Object result = null;
+    public PagerDataBaseVO GetTableData(GetDataRO model) {
+        PagerDataBaseVO result = null;
         try {
-            result = SpringContextLoader.DoMethodName(model);
+            result = (PagerDataBaseVO) SpringContextLoader.DoMethodName(model);
         } catch (Exception e) {
             System.out.println(e);
         }

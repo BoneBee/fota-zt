@@ -1,13 +1,10 @@
 package com.intest.dao.entity;
 
-import lombok.Data;
-
 /**
  * @author ：intest
  * @description：零件包详细信息实体
  * @date ：2020/8/11 17:18
  */
-@Data
 public class PartsPackageDetail {
     /**
      * 零件包详细信息ID
@@ -34,4 +31,52 @@ public class PartsPackageDetail {
      * 创建人
      */
     private String createBy;
+
+    public String getPartsPackageDetailId() {
+        return partsPackageDetailId;
+    }
+
+    public void setPartsPackageDetailId(String partsPackageDetailId) {
+        this.partsPackageDetailId = partsPackageDetailId;
+    }
+
+    public String getPartsPackageId() {
+        return partsPackageId;
+    }
+
+    public void setPartsPackageId(String partsPackageId) {
+        this.partsPackageId = partsPackageId;
+    }
+
+    public String getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
+    }
+
+    public Integer getFileType() {
+        return fileType;
+    }
+
+    public void setFileType(Integer fileType) {
+        this.fileType = fileType;
+    }
+
+    public Integer getSoftwareNumber() {
+        return softwareNumber;
+    }
+
+    public void setSoftwareNumber(Integer softwareNumber) {
+        this.softwareNumber = softwareNumber;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
 }

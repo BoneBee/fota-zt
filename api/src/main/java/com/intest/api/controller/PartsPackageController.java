@@ -4,7 +4,9 @@ import com.intest.common.result.ResultT;
 import com.intest.dao.entity.dto.PartsPackageDetailsDto;
 import com.intest.dao.entity.dto.PartsPackageListDto;
 import com.intest.dao.entity.vo.PartsPackageVo;
+import com.intest.packageservice.request.PartsPackageRequest;
 import com.intest.packageservice.service.PartsPackageService;
+import com.intest.packageservice.vo.PartsPackageVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +19,7 @@ import java.util.Map;
  * 零件包相关API接口
  * @author : intest
  */
-@Api("零件包")
+@Api(tags = {"版本管理/零件包"})
 @RequestMapping("/api/partspackage")
 @RestController
 public class PartsPackageController {
@@ -26,16 +28,16 @@ public class PartsPackageController {
 
     @ApiOperation("零件包列表")
     @RequestMapping(value = "/list", method = RequestMethod.POST)
-    public ResultT partsPackageList(@RequestBody PartsPackageVo vo){
+    public ResultT partsPackageList(@RequestBody PartsPackageRequest request){
         ResultT result = new ResultT<>();
-        result.setResult(partsPackageService.findAllPartsPackage(vo));
+        result.setResult(partsPackageService.findAllPartsPackage(request));
         return result;
     }
 
     @ApiOperation("零件包详情")
     @RequestMapping(value = "/details", method = RequestMethod.POST)
-    public ResultT<PartsPackageDetailsDto> partsPackageDetails(@RequestBody Map<String, String> params){
-        ResultT<PartsPackageDetailsDto> result = new ResultT<>();
+    public ResultT<PartsPackageVO> partsPackageDetails(@RequestBody Map<String, String> params){
+        ResultT<PartsPackageVO> result = new ResultT<>();
         result.setResult(partsPackageService.partsPackageDetails(params.get("partsPackageId")));
         return result;
     }

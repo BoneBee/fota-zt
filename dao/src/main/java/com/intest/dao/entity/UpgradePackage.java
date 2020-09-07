@@ -1,13 +1,10 @@
 package com.intest.dao.entity;
 
-import lombok.Data;
-
 /**
  * @author ：intest
  * @description：升级包信息实体
  * @date ：2020/8/12 9:33
  */
-@Data
 public class UpgradePackage {
     /**
      * 升级包制作任务ID
@@ -49,4 +46,84 @@ public class UpgradePackage {
      * 文件ID
      */
     private String fileId;
+
+    public String getPackageTaskId() {
+        return packageTaskId;
+    }
+
+    public void setPackageTaskId(String packageTaskId) {
+        this.packageTaskId = packageTaskId;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public String getCarTypeName() {
+        return carTypeName;
+    }
+
+    public void setCarTypeName(String carTypeName) {
+        this.carTypeName = carTypeName;
+    }
+
+    public Integer getPackageType() {
+        return packageType;
+    }
+
+    public void setPackageType(Integer packageType) {
+        this.packageType = packageType;
+    }
+
+    public Float getPackageSize() {
+        return packageSize;
+    }
+
+    public void setPackageSize(Float packageSize) {
+        this.packageSize = packageSize;
+    }
+
+    public Integer getPackageStatus() {
+        return packageStatus;
+    }
+
+    public void setPackageStatus(Integer packageStatus) {
+        this.packageStatus = packageStatus;
+    }
+
+    public Integer getPublishStatus() {
+        return publishStatus;
+    }
+
+    public void setPublishStatus(Integer publishStatus) {
+        this.publishStatus = publishStatus;
+    }
+
+    public String getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(String createAt) {
+        this.createAt = createAt;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+    public String getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
+    }
 }

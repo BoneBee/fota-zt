@@ -3,18 +3,22 @@ package com.intest.packageservice.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.intest.common.result.PagerDataBaseVO;
+import com.intest.common.tableData.TableDataAnnotation;
 import com.intest.dao.entity.*;
-import com.intest.dao.entity.dto.PackageDto;
-import com.intest.dao.entity.dto.PartsPackageDto;
-import com.intest.dao.entity.vo.PackageVo;
 import com.intest.dao.mapper.PackageMapper;
+import com.intest.packageservice.request.PackageRequest;
 import com.intest.packageservice.service.LargePackageService;
+import com.intest.packageservice.vo.PackageCheckRequest;
+import com.intest.packageservice.vo.PackageVO;
+import com.intest.packageservice.vo.PartsPackageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
+@TableDataAnnotation
 public class LargePackageServiceImpl implements LargePackageService {
     @Autowired
     private PackageMapper packageMapper;
@@ -26,8 +30,8 @@ public class LargePackageServiceImpl implements LargePackageService {
     }
 
     @Override
-    public boolean checkParentFileName(String fileName, String carTypeId) {
-        Integer result = packageMapper.checkParentFileName(fileName, carTypeId);
+    public boolean checkParentFileName(PackageCheckRequest request) {
+        Integer result = packageMapper.checkParentFileName(request.getFileName(), request.getCarTypeId());
         return result > 0;
     }
 
@@ -42,10 +46,16 @@ public class LargePackageServiceImpl implements LargePackageService {
     }
 
     @Override
-    public PagerDataBaseVO findAllLargePackage(PackageVo vo) {
-        PageHelper.startPage(vo.getPi(), vo.getPs());
-        List<LargePackage> list = packageMapper.findAllLargePackage(vo);
-        PageInfo pageInfo = new PageInfo<LargePackage>(list);
+    @TableDataAnnotation(tableId = "525760ef-cffa-4e9a-a3d2-12efa2e49cdb")
+    public PagerDataBaseVO findAllLargePackage(PackageRequest request) {
+        PageHelper.startPage(request.getPi(), request.getPs());
+        PackageBto bto = new PackageBto();
+        bto.setPackageName(request.getPackageName());
+        bto.setCarTypeName(request.getCarTypeName());
+        bto.setUploadUser(request.getUploadUser());
+
+        List<PackageExtendBto> list = packageMapper.findAllLargePackage(bto);
+        PageInfo pageInfo = new PageInfo<PackageExtendBto>(list);
         PagerDataBaseVO result = new PagerDataBaseVO();
         result.setTotal(pageInfo.getTotal());
         result.setData(list);
@@ -53,31 +63,44 @@ public class LargePackageServiceImpl implements LargePackageService {
     }
 
     @Override
-    public List<CarType> findAllCarType(){
+    public List<CarTypeExtendBto> findAllCarType(){
         return packageMapper.findAllCarType();
     }
 
     @Override
-    public PackageDto packageDetails(String packageId){
-        PackageDto dto = new PackageDto();
-        LargePackage lp = packageMapper.packageDetails(packageId);
-        if(lp != null){
-            dto.setPackageName(lp.getPackageName());
-            dto.setCarTypeName(lp.getCarTypeName());
-            dto.setPackageSize(lp.getPackageSize());
-            dto.setUploadTime(lp.getUploadTime());
-            dto.setUploadUser(lp.getUploadUser());
-            List<PartsPackageDto> list = packageMapper.getPartsPackage(packageId);
-            dto.setPartsPackage(list);
+    public PackageVO packageDetails(String packageId){
+        PackageVO vo = new PackageVO();
+        PackageExtendBto bto = packageMapper.packageDetails(packageId);
+        if(bto != null){
+            vo.setPackageName(bto.getPackageName());
+            vo.setCarTypeName(bto.getCarTypeName());
+            vo.setPackageSize(bto.getPackageSize());
+            vo.setUploadTime(bto.getUploadTime());
+            vo.setUploadUser(bto.getUploadUser());
+            List<PartsPackageVO> partsPackages = new ArrayList<>();
+            List<PartsPackageExtendBto> list = packageMapper.getPartsPackage(packageId);
+            for(PartsPackageExtendBto pbto : list){
+                PartsPackageVO ppvo = new PartsPackageVO();
+                ppvo.setFileId(pbto.getFileId());
+                ppvo.setId(pbto.getId());
+                ppvo.setPartCode(pbto.getPartCode());
+                ppvo.setPartsName(pbto.getPartsName());
+                ppvo.setPartsPackageName(pbto.getPartsPackageName());
+                ppvo.setPartsPackageSize(pbto.getPartsPackageSize());
+                ppvo.setPartsTypeName(pbto.getPartsTypeName());
+                ppvo.setVersion(pbto.getVersion());
+                partsPackages.add(ppvo);
+            }
+            vo.setPartsPackage(partsPackages);
         }
-        return dto;
+        return vo;
     }
 
     @Override
-    public int deletePackage(String packageId){
+    public int deletePackage(String[] ids){
         int count = 0;
-        int packageCount = packageMapper.deletePackage(packageId);
-        int partsPackageCount = packageMapper.deletePartsPackage(packageId);
+        int packageCount = packageMapper.deletePackage(ids);
+        int partsPackageCount = packageMapper.deletePartsPackage(ids);
         if(packageCount > 0 && partsPackageCount > 0){
             count = 1;
         }

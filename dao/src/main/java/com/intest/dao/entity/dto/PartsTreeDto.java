@@ -1,6 +1,6 @@
 package com.intest.dao.entity.dto;
 
-import lombok.Data;
+import com.intest.dao.entity.ChildNode;
 
 import java.util.List;
 
@@ -9,7 +9,6 @@ import java.util.List;
  * @description：TODO
  * @date ：2020/8/12 15:02
  */
-@Data
 public class PartsTreeDto {
     /**
      * 零件ID
@@ -23,4 +22,28 @@ public class PartsTreeDto {
      * 子节点
      */
     private List<ChildNode> children;
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public List<ChildNode> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<ChildNode> children) {
+        this.children = children;
+    }
 }

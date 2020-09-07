@@ -1,21 +1,27 @@
 package com.intest.partsservice.part.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class PartsTypeListResponse {
     private int index;
+    private String partsTypeId;
     private String fullName;
     private String remark;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date creatAt;
     private String creatBy;
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date updateAt;
     private String updateBy;
 
     public PartsTypeListResponse() {
     }
 
-    public PartsTypeListResponse(int index, String fullName, String remark, Date creatAt, String creatBy, Date updateAt, String updateBy) {
+    public PartsTypeListResponse(int index, String partsTypeId, String fullName, String remark, Date creatAt, String creatBy, Date updateAt, String updateBy) {
         this.index = index;
+        this.partsTypeId = partsTypeId;
         this.fullName = fullName;
         this.remark = remark;
         this.creatAt = creatAt;
@@ -30,6 +36,14 @@ public class PartsTypeListResponse {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public String getPartsTypeId() {
+        return partsTypeId;
+    }
+
+    public void setPartsTypeId(String partsTypeId) {
+        this.partsTypeId = partsTypeId;
     }
 
     public String getFullName() {

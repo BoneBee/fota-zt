@@ -8,7 +8,7 @@
         <if test="partsName != null and partsName != ''">AND p.partsName LIKE '%'||#{partsName}||'%'</if>
         <if test="partsTypeName != null and partsTypeName != ''">AND pt.partsTypeName LIKE '%'||#{partsTypeName}||'%'</if>
     </sql>
-    <select id="partsPackageDetails" resultType="com.intest.dao.entity.dto.PartsPackageDetailsDto">
+    <select id="partsPackageDetails" resultType="com.intest.dao.entity.PartsPackageExtendBto">
         SELECT F.ORIGINALNAME       PARTSPACKAGENAME,
         P.PARTSNAME,
         PT.PARTSTYPENAME,
@@ -42,7 +42,7 @@
         WHERE T.ISDELETE = 1
         AND T.PARTSPACKAGE_ID = #{partsPackageId}
     </select>
-    <select id="findAllPartsPackage" resultType="com.intest.dao.entity.dto.PartsPackageListDto">
+    <select id="findAllPartsPackage" resultType="com.intest.dao.entity.PartsPackageExtendBto">
         SELECT T.PARTSPACKAGE_ID PARTSPACKAGEID,
         F.ORIGINALNAME    PARTSPACKAGENAME,
         P.PARTSNAME,
