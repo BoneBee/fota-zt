@@ -5,6 +5,20 @@ import java.util.List;
 public class CarRespone {
 
     public int index;
+    public String carTypeName;
+    public String terminal;
+    //public String pCompany;
+    public String terminalCode;
+    public String vin;
+    public String createAt;
+    public String createBy;
+    public String addType;
+    public CarTask taskMsg;
+    public String carId;
+    public String operator;
+    public List<CarEcu> ecus;
+    public String ICCID;
+    public String simNumber;
 
     public String getCarTypeName() {
         return carTypeName;
@@ -14,15 +28,6 @@ public class CarRespone {
         this.carTypeName = carTypeName;
     }
 
-    public String carTypeName;
-    public String terminal;
-
-    public String pCompany;
-
-    public String terminalCode;
-    public String vin;
-    public String createAt;
-
     public String getCreateBy() {
         return createBy;
     }
@@ -31,22 +36,12 @@ public class CarRespone {
         this.createBy = createBy;
     }
 
-    public String createBy;
-
     public int getIndex() {
         return index;
     }
 
     public void setIndex(int index) {
         this.index = index;
-    }
-
-    public String getpCompany() {
-        return pCompany;
-    }
-
-    public void setpCompany(String pCompany) {
-        this.pCompany = pCompany;
     }
 
     public String getTerminalCode() {
@@ -105,13 +100,6 @@ public class CarRespone {
         this.addType = addType;
     }
 
-    public String addType;
-
-
-    public CarTask taskMsg;
-    public String carId;
-
-
     public List<CarEcu> getEcus() {
         return ecus;
     }
@@ -120,9 +108,13 @@ public class CarRespone {
         this.ecus = ecus;
     }
 
-    public List<CarEcu> ecus;
-
-    public String ICCID;
+//    public String getpCompany() {
+//        return pCompany;
+//    }
+//
+//    public void setpCompany(String pCompany) {
+//        this.pCompany = pCompany;
+//    }
 
     public String getICCID() {
         return ICCID;
@@ -140,8 +132,6 @@ public class CarRespone {
         this.simNumber = simNumber;
     }
 
-    public String simNumber;
-
     public String getOperator() {
         return operator;
     }
@@ -149,6 +139,4 @@ public class CarRespone {
     public void setOperator(String operator) {
         this.operator = operator;
     }
-
-    public String operator;
 }

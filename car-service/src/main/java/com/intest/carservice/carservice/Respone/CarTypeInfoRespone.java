@@ -6,6 +6,13 @@ public class CarTypeInfoRespone {
 
     public String carTypeId;
     public String carTypeName;
+    public String terminalId;
+    public String terminal;
+    public String createAt;
+    public String createBy;
+    public String remark;
+    public String updateBy;
+    public List<CarTypeEcus> ecus;
 
     public String getTerminalId() {
         return terminalId;
@@ -14,10 +21,6 @@ public class CarTypeInfoRespone {
     public void setTerminalId(String terminalId) {
         this.terminalId = terminalId;
     }
-
-    public String terminalId;
-    public String terminal;
-    public String createAt;
 
     public String getCarTypeId() {
         return carTypeId;
@@ -75,9 +78,11 @@ public class CarTypeInfoRespone {
         this.ecus = ecus;
     }
 
-    public String createBy;
-    public String remark;
-    public List<CarTypeEcus> ecus;
+    public String getUpdateBy() {
+        return updateBy;
+    }
 
-
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy;
+    }
 }

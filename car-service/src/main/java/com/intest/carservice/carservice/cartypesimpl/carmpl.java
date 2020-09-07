@@ -48,7 +48,7 @@ public class carmpl implements CarService {
     @Autowired
     PartsPackageBtoMapper ppmp;
 
-    /*
+    /* 删除车型时用到：查询车型下是否有车辆
     根据车型ID获取车辆
      */
     @Override
@@ -106,9 +106,7 @@ public class carmpl implements CarService {
         PageHelper.startPage(pageindex, pagesize);
         List<CarBto> cars = new ArrayList<>();
         try {
-
             CarBtoExample carExample = new CarBtoExample();
-
             String sort = carTools.replaceCharacter(carq.getSort());
             carExample.setOrderByClause(sort);
             cars = carmp.selectByExample(carExample);
@@ -179,7 +177,9 @@ public class carmpl implements CarService {
             //把车辆添加到车辆集合里面，然后一起返回
             carRespones.add(crp);
         }
-        carsVO.setTotal(carRespones.size());
+
+        PageInfo pageInfo = new PageInfo<CarRespone>(carRespones);
+        carsVO.setTotal(pageInfo.getTotal());
         carsVO.setData(carRespones);
         return carsVO;
     }
@@ -194,7 +194,7 @@ public class carmpl implements CarService {
         try {
             car = carmp.selectByPrimaryKey(carId);
         } catch (Exception carEx) {
-
+            return new PagerDataBaseVO();
         }
         List<CarRespone> carRespones = new ArrayList<>();
         //时间格式
@@ -265,7 +265,6 @@ public class carmpl implements CarService {
                 te.setPartVersion(ppbto.getSoftwareversion());
                 te.setUpdateAt(ft.format(ppbto.getUpdateat()));
             }
-
             ecus.add(te);
         }
 
@@ -273,7 +272,8 @@ public class carmpl implements CarService {
         carRespones.add(crp);
         //返回对象
         PagerDataBaseVO carVO = new PagerDataBaseVO();
-        carVO.setTotal(carRespones.size());
+        PageInfo pageInfo = new PageInfo<CarRespone>(carRespones);
+        carVO.setTotal(pageInfo.getTotal());
         carVO.setData(carRespones);
         return carVO;
     }
@@ -304,6 +304,9 @@ public class carmpl implements CarService {
         return carcount;
     }
 
+    /*
+    修改车辆
+     */
     @Override
     public int mdfCar(addCar pcar) {
         CarBto cb = new CarBto();
@@ -347,8 +350,9 @@ public class carmpl implements CarService {
         }
 
         PagerDataBaseVO cartypeVO = new PagerDataBaseVO();
+        PageInfo pageInfo = new PageInfo<CarTypeRespone>(cartyperps);
         cartypeVO.setData(cartyperps);
-        cartypeVO.setTotal(cartyperps.size());
+        cartypeVO.setTotal(pageInfo.getTotal());
 
         return cartypeVO;
     }

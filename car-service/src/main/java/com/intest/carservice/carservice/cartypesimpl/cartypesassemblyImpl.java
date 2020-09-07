@@ -3,10 +3,7 @@ package com.intest.carservice.carservice.cartypesimpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.intest.carservice.carservice.Request.addCarType;
-import com.intest.carservice.carservice.Respone.CarTypeEcus;
-import com.intest.carservice.carservice.Respone.CarTypeInfoRespone;
-import com.intest.carservice.carservice.Respone.CarTypeRespone;
-import com.intest.carservice.carservice.Respone.delCarTypeRespone;
+import com.intest.carservice.carservice.Respone.*;
 import com.intest.carservice.carservice.carTypeTool.carTools;
 import com.intest.common.result.PagerDataBaseVO;
 import com.intest.common.tableData.TableDataAnnotation;
@@ -83,9 +80,9 @@ public class cartypesassemblyImpl implements CarTypesService {
             String sort = carTools.replaceCharacter(request.getSort());
             btoExample.setOrderByClause(sort);
             carTypes = cartypeMapper.selectByExample(btoExample);
-            //carTypes = extendMapper.selectPageCon();
-        } catch (Exception ex) {
 
+        } catch (Exception ex) {
+            return new PagerDataBaseVO();
         }
 
         List<CarTypeRespone> ctRespones = new ArrayList<>();
@@ -177,6 +174,7 @@ public class cartypesassemblyImpl implements CarTypesService {
         TypeInfo.setTerminal(tmnBto.getTerminalname());
         TypeInfo.setCreateAt(ctb.getCreateat() == null ? "" : ft.format(ctb.getCreateat()));
         TypeInfo.setCreateBy(ctb.getCreateby() == null ? "" : ctb.getCreateby());
+        TypeInfo.setUpdateBy(ctb.getUpdateby() == null ? "" : ctb.getUpdateby());
         TypeInfo.setRemark(ctb.getRemark());
         TypeInfo.setEcus(ecus);
 
@@ -199,29 +197,47 @@ public class cartypesassemblyImpl implements CarTypesService {
         TerminalBtoExample terminalBtoExample = new TerminalBtoExample();
         List<TerminalBto> tmnBtos = tmMapper.selectByExample(terminalBtoExample);
 
+        List<CarTypeResponeTerminal> terminals = new ArrayList<>();
+
+        for (TerminalBto bto : tmnBtos) {
+            CarTypeResponeTerminal terminal = new CarTypeResponeTerminal();
+            terminal.setTerminalId(bto.getTerminalId());
+            terminal.setTerminalName(bto.getTerminalname());
+            terminals.add(terminal);
+        }
+
         PagerDataBaseVO TerminalVO = new PagerDataBaseVO();
-        PageInfo pageInfo = new PageInfo<TerminalBto>(tmnBtos);
+        PageInfo pageInfo = new PageInfo<CarTypeResponeTerminal>(terminals);
         TerminalVO.setTotal(pageInfo.getTotal());
-        TerminalVO.setData(tmnBtos);
+        TerminalVO.setData(terminals);
 
         return TerminalVO;
     }
 
     /*
-    添加车型时，获取所有零件类型
+    添加车型时，获取所有零件
      */
     @Override
     public PagerDataBaseVO getPartTypes() {
-        PartsTypeBtoExample partsTypeBtoExample = new PartsTypeBtoExample();
+        PartsBtoExample partsBtoExample = new PartsBtoExample();
 
-        List<PartsTypeBto> tmnBtos = partsTypeBtoMapper.selectByExample(partsTypeBtoExample);
+        List<PartsBto> tmnBtos = partMapper.selectByExample(partsBtoExample);
 
-        PagerDataBaseVO partsTypeVO = new PagerDataBaseVO();
-        PageInfo pageInfo = new PageInfo<PartsTypeBto>(tmnBtos);
-        partsTypeVO.setTotal(pageInfo.getTotal());
-        partsTypeVO.setData(tmnBtos);
+        List<CarTypeResponeEcu> ecus = new ArrayList<>();
+        for (PartsBto pbto : tmnBtos) {
+            CarTypeResponeEcu ecu = new CarTypeResponeEcu();
 
-        return partsTypeVO;
+            ecu.setPartId(pbto.getPartsId());
+            ecu.setPartName(pbto.getPartsname());
+            ecus.add(ecu);
+        }
+
+        PagerDataBaseVO partsVO = new PagerDataBaseVO();
+        PageInfo pageInfo = new PageInfo<CarTypeResponeEcu>(ecus);
+        partsVO.setTotal(pageInfo.getTotal());
+        partsVO.setData(ecus);
+
+        return partsVO;
     }
 
 
@@ -247,7 +263,7 @@ public class cartypesassemblyImpl implements CarTypesService {
                 //更新删除字段
                 cartype.setIsdelete((short) 0);
                 //更新车型删除状态
-                 delcount+= cartypeMapper.updateByPrimaryKey(cartype);
+                delcount += cartypeMapper.updateByPrimaryKey(cartype);
             }
         }
         rep.setSuccessCount(delcount);
@@ -282,9 +298,7 @@ public class cartypesassemblyImpl implements CarTypesService {
             tbto.setPartsId(pId);
             tbto.setFkCartypeId(carId);
             //添加车型相关的零件
-
             int partcount = extendMapper.addcarupdatePart(tbto);
-            //int partcount = partMapper.updateByPrimaryKey(tbto);
         }
 
         return addcarTypeVO;

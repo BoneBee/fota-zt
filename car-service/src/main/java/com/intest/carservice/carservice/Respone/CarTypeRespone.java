@@ -3,13 +3,14 @@ package com.intest.carservice.carservice.Respone;
 public class CarTypeRespone {
 
     private int index;
-    private String cartypeName;
+    private String carTypeName;
     private String terminal;
     private String remark;
     private String createAt;
     private String createBy;
     private String updateAt;
-
+    private String updateBy;
+    private String carTypeId;
 
     public int getIndex() {
         return index;
@@ -20,11 +21,11 @@ public class CarTypeRespone {
     }
 
     public String getCartypeName() {
-        return cartypeName;
+        return carTypeName;
     }
 
     public void setCartypeName(String cartypeName) {
-        this.cartypeName = cartypeName;
+        this.carTypeName = cartypeName;
     }
 
     public String getTerminal() {
@@ -76,43 +77,43 @@ public class CarTypeRespone {
     }
 
     public String getCartypeId() {
-        return cartypeId;
+        return carTypeId;
     }
 
     public void setCartypeId(String cartypeId) {
-        this.cartypeId = cartypeId;
+        this.carTypeId = cartypeId;
     }
 
-    private String updateBy;
-    private String cartypeId;
+
 
     public CarTypeRespone(){
 
     }
-    public CarTypeRespone(int total, int index, String cartypeName, String terminal, String remark, String createAt, String createBy, String updateAt,
-                          String updateBy, String cartypeId) {
+
+    public CarTypeRespone(int total, int index, String carTypeName, String terminal, String remark, String createAt, String createBy, String updateAt,
+                          String updateBy, String carTypeId) {
         this.index = index;
-        this.cartypeName = cartypeName;
+        this.carTypeName = carTypeName;
         this.terminal = terminal;
         this.remark = remark;
         this.createAt = createAt;
         this.createBy = createBy;
         this.updateAt = updateAt;
         this.updateBy = updateBy;
-        this.cartypeId = cartypeId;
+        this.carTypeId = carTypeId;
 
     }
 
-    public CarTypeRespone(String cartypeName, String terminal, String remark, String createAt, String createBy, String updateAt,
-                          String updateBy, String cartypeId) {
-        this.cartypeName = cartypeName;
+    public CarTypeRespone(String carTypeName, String terminal, String remark, String createAt, String createBy, String updateAt,
+                          String updateBy, String carTypeId) {
+        this.carTypeName = carTypeName;
         this.terminal = terminal;
         this.remark = remark;
         this.createAt = createAt;
         this.createBy = createBy;
         this.updateAt = updateAt;
         this.updateBy = updateBy;
-        this.cartypeId = cartypeId;
+        this.carTypeId = carTypeId;
 
     }
 
