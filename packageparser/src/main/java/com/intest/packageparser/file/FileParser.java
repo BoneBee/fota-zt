@@ -1,10 +1,8 @@
 package com.intest.packageparser.file;
 
-//import com.alibaba.fastjson.JSON;
 import com.intest.common.result.ResultT;
 import com.intest.dao.entity.*;
-import com.intest.dao.mapper.PartsPackageBtoMapper;
-import com.intest.packageservice.service.LargePackageService;
+import com.intest.dao.mapper.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +28,21 @@ import java.util.zip.ZipFile;
 @Component
 public class FileParser {
     private static Logger logger = LoggerFactory.getLogger(FileParser.class);
+
+    @Autowired
+    private PackageMapper packageMapper;
+
+    @Autowired
+    private FileBtoMapper fileBtoMapper;
+
+    @Autowired
+    private PartsBigPackageBtoMapper partsBigPackageBtoMapper;
+
+    @Autowired
+    private PartsPackageBtoMapper partsPackageBtoMapper;
+
+    @Autowired
+    private PartsPackageDetailBtoMapper partsPackageDetailBtoMapper;
 
 //    @Autowired
 //    private PartsPackageBtoMapper partsPackageBtoMapper;
@@ -61,9 +74,9 @@ public class FileParser {
      * 解析原始包文件
      * @param carTypeId: 车型编号
      */
-    public void parseFile(LargePackageService largePackageService, String fileId, String carTypeId) {
-        FileInfo fi = largePackageService.getFileById(fileId);
-        String filePath = File.separator + "tmp" + File.separator + "webhost" + File.separator + "packageFile" + File.separator + fi.getServerSidePath();
+    public void parseFile(String fileId, String carTypeId) {
+        FileBto fi = getFileById(fileId);
+        String filePath = File.separator + "tmp" + File.separator + "webhost" + File.separator + "packageFile" + File.separator + fi.getServersidepath();
         String newPath = File.separator + "tmp" + File.separator + "webhost" + File.separator + "uploadFile" + File.separator + "temp";
         File f = new File(filePath);
         ZipFile zipFile = null;
@@ -89,14 +102,14 @@ public class FileParser {
                 while (entries.hasMoreElements()) {
                     ZipEntry entry = entries.nextElement();
                     String fileName = entry.getName().substring(0, entry.getName().length() - 4);
-                    checkFileName(largePackageService, fileName);
+                    checkFileName(fileName);
                     String suffix = entry.getName().substring(entry.getName().length() - 3);
                     ZipResult zipResult = new ZipResult();
                     zipResult.setFileId(UUID.randomUUID().toString());
                     zipResult.setZipId(UUID.randomUUID().toString());
                     zipResult.setZipName(fileName);
                     String partsType = fileName.substring(0, 3);
-                    String partsId = largePackageService.getPartsId(partsType, carTypeId);
+                    String partsId = getPartsId(partsType, carTypeId);
                     zipResult.setPartId(partsId);
                     if(StringUtils.isEmpty(partsId)){
                         String message = "零件【" + partsType + "】不存在";
@@ -117,17 +130,17 @@ public class FileParser {
                             }
                         }
 
-                        int calibration = largePackageService.checkPartType(partsType, carTypeId);
-                        if(calibration == 0 && zipResult.getTargetVersion().length() == 14){
-                            String message = "零件【" + partsType + "】不能含标定";
-                            errors.add(message);
-                            largeZipResult.setSuccess(false);
-                        }
-                        if(calibration == 1 && zipResult.getTargetVersion().length() == 7){
-                            String message = "零件【" + partsType + "】必须含标定";
-                            errors.add(message);
-                            largeZipResult.setSuccess(false);
-                        }
+//                        int calibration = checkPartType(partsType, carTypeId);
+//                        if(calibration == 0 && zipResult.getTargetVersion().length() == 14){
+//                            String message = "零件【" + partsType + "】不能含标定";
+//                            errors.add(message);
+//                            largeZipResult.setSuccess(false);
+//                        }
+//                        if(calibration == 1 && zipResult.getTargetVersion().length() == 7){
+//                            String message = "零件【" + partsType + "】必须含标定";
+//                            errors.add(message);
+//                            largeZipResult.setSuccess(false);
+//                        }
 
                         zipResult.setSuffix(suffix);
                         zipResult.setZipSize(entry.getSize());
@@ -179,14 +192,6 @@ public class FileParser {
     }
 
     /**
-     * 检查该车型下是否存在该控制器
-      * @param partType 控制器
-     * @param carTypeId 车型ID
-     * @return
-     */
-    private boolean checkPartType(String partType, String carTypeId){ return true; }
-
-    /**
      * 获取并设置控制器是否标定
      * @param partType 控制器
      * @param carTypeId 车型ID
@@ -199,7 +204,7 @@ public class FileParser {
      * @param fileName
      * @return
      */
-    private static void checkFileName(LargePackageService largePackageService, String fileName){
+    private void checkFileName(String fileName){
         Matcher m = packagePattern.matcher(fileName);
         Matcher am = calibrationPattern.matcher(fileName);
         if(!m.matches() && !am.matches()){
@@ -475,26 +480,56 @@ public class FileParser {
     }
 
     /**
+     * 检查零件类型是否存在
+     * @param partType : 零件类型
+     * @param carTypeId : 车型ID
+     * @return
+     */
+    private Integer checkPartType(String partType, String carTypeId) {
+        Integer result = packageMapper.checkPartType(partType, carTypeId);
+        return result;
+    }
+
+    /**
+     * 通过文件ID获取文件信息
+     * @param fileId : 文件ID
+     * @return
+     */
+    private FileBto getFileById(String fileId){
+        return fileBtoMapper.selectByPrimaryKey(fileId);
+    }
+
+    /**
+     * 获取零件ID
+     * @param partsName : 零件类型
+     * @param carTypeId : 车型ID
+     * @return
+     */
+    private String getPartsId(String partsName, String carTypeId){
+        return packageMapper.getPartsId(partsName, carTypeId);
+    }
+
+    /**
      * 将成功解析的结果保存到数据库
      *
      */
-    public void saveToDb(LargePackageService largePackageService, ResultT result) {
+    public void saveToDb(ResultT result) {
         try{
             if(!largeZipResult.isSuccess()){
                 result.setSuccess(-1);
                 //result.("原始包解析后存在错误信息，无法保存");
                 return;
             }
-            LargePackage largePackage = new LargePackage();
-            largePackage.setPackageId(largeZipResult.getLargeZipId());
-            largePackage.setFileId(largeZipResult.getFileId());
-            largePackage.setCarTypeId(largeZipResult.getCarTypeId());
-            largePackage.setRemark("");
-            largePackage.setCreateBy(UUID.randomUUID().toString());
-            largePackageService.saveLargeZipInfo(largePackage);
+            PartsBigPackageBto bto = new PartsBigPackageBto();
+            bto.setPartsbigpackageId(largeZipResult.getLargeZipId());
+            bto.setFkFileId(largeZipResult.getFileId());
+            bto.setFkCartypeId(largeZipResult.getCarTypeId());
+            bto.setRemark("");
+            bto.setCreateby(UUID.randomUUID().toString());
+            partsBigPackageBtoMapper.insertSelective(bto);
 
             for(ZipResult zipResult : largeZipResult.getZipResults()){
-                saveZipInfo(largePackageService, zipResult);
+                saveZipInfo(zipResult);
             }
         }catch (Exception e){
             e.printStackTrace();
@@ -512,107 +547,82 @@ public class FileParser {
     /**
      * 保存控制器包信息
      */
-    private void saveZipInfo(LargePackageService largePackageService, ZipResult zipResult){
-        PartsPackage partsPackage = new PartsPackage();
-        partsPackage.setPartsPackageId(zipResult.getZipId());
-        partsPackage.setPackageId(largeZipResult.getLargeZipId());
-        partsPackage.setPartsId(zipResult.getPartId());
-        partsPackage.setFileId(zipResult.getFileId());
-        partsPackage.setSoftwareVersion(zipResult.getTargetVersion());
-        partsPackage.setHardwareVersion(zipResult.getTargetVersion());
-        partsPackage.setPartNumber(zipResult.getPartCode());
-        partsPackage.setSendId(zipResult.getResponseId());
-        partsPackage.setReceiveId(zipResult.getPhysicalId());
-        partsPackage.setPartsAssemblyNumber(zipResult.getCarType());
-        partsPackage.setMd5("###########");
-        partsPackage.setProjectCode("N60AB");
-        partsPackage.setCreateBy(UUID.randomUUID().toString());
-        largePackageService.saveZipInfo(partsPackage);
+    private void saveZipInfo(ZipResult zipResult){
+        PartsPackageBto bto = new PartsPackageBto();
+        bto.setPartspackageId(zipResult.getZipId());
+        bto.setFkPartsbigpackageId(largeZipResult.getLargeZipId());
+        bto.setFkPartsId(zipResult.getPartId());
+        bto.setFkFileId(zipResult.getFileId());
+        bto.setSoftwareversion(zipResult.getTargetVersion());
+        bto.setHardwareversion(zipResult.getTargetVersion());
+        bto.setPartnumber(zipResult.getPartCode());
+        bto.setSendid(zipResult.getResponseId());
+        bto.setReceiveid(zipResult.getPhysicalId());
+        bto.setPartsassemblynumber(zipResult.getCarType());
+        bto.setMd5("###########");
+        bto.setProjectcode("N60AB");
+        bto.setCreateby(UUID.randomUUID().toString());
+        partsPackageBtoMapper.insertSelective(bto);
 
-//        PartsPackageBto partsPackageBto = new PartsPackageBto();
-//        partsPackageBto.setPartspackageId(zipResult.getZipId());
-//        partsPackageBto.setFkPartsbigpackageId(largeZipResult.getLargeZipId());
-//        partsPackageBto.setFkPartsId(zipResult.getPartId());
-//        partsPackageBto.setFkFileId(zipResult.getFileId());
-//        partsPackageBto.setSoftwareversion(zipResult.getTargetVersion());
-//        if(!StringUtils.isEmpty(zipResult.getTargetVersion())){
-//            partsPackageBto.setPackagetype(BigDecimal.valueOf(1));
-//        }
-//        partsPackageBto.setTargetsoftwareversion(zipResult.getTargetVersion());
-//        partsPackageBto.setHardwareversion(zipResult.getTargetVersion());
-//        partsPackageBto.setPartnumber(zipResult.getPartCode());
-//        partsPackageBto.setSendid(zipResult.getResponseId());
-//        partsPackageBto.setReceiveid(zipResult.getPhysicalId());
-//        partsPackageBto.setPartsassemblynumber(zipResult.getCarType());
-//        partsPackageBto.setMd5("###########");
-//        partsPackageBto.setProjectcode("N60AB");
-//        partsPackageBto.setCreateby(UUID.randomUUID().toString());
-//        partsPackageBtoMapper.insertSelective(partsPackageBto);
-
-        saveFileInfo(largePackageService, zipResult);
-        savePartsPackageDetails(largePackageService, zipResult);
+        saveFileInfo(zipResult);
+        savePartsPackageDetails(zipResult);
 
         for(FileResult fileResult : zipResult.getFiles()){
-            saveFileInfo(largePackageService, fileResult);
+            saveFileInfo(fileResult);
         }
     }
 
     /**
      * 保存控制器包详细信息
      */
-    private static void savePartsPackageDetails(LargePackageService largePackageService, ZipResult zipResult){
+    private void savePartsPackageDetails(ZipResult zipResult){
         for(FileResult fileResult : zipResult.getFiles()){
             if(!fileResult.isFileExist()){
                 continue;
             }
-            PartsPackageDetail partsPackageDetail = new PartsPackageDetail();
-            partsPackageDetail.setPartsPackageDetailId(UUID.randomUUID().toString());
-            partsPackageDetail.setPartsPackageId(zipResult.getZipId());
-            partsPackageDetail.setFileId(fileResult.getFileId());
-            partsPackageDetail.setFileType(Integer.parseInt(fileResult.getKey()));
+            PartsPackageDetailBto bto = new PartsPackageDetailBto();
+            bto.setPartspackagedetailId(UUID.randomUUID().toString());
+            bto.setFkPartspackageId(zipResult.getZipId());
+            bto.setFkFileId(fileResult.getFileId());
+            bto.setFiletype(new BigDecimal(fileResult.getKey()));
             String softwareOrderNum = fileResult.getSoftwareOrderNum().replace('A', ' ').replace('C', ' ').trim();
-            partsPackageDetail.setSoftwareNumber(Integer.parseInt(softwareOrderNum));
-            partsPackageDetail.setCreateBy(UUID.randomUUID().toString());
-
-            largePackageService.savePartsPackageDetail(partsPackageDetail);
+            bto.setSoftwarenumber(new BigDecimal(softwareOrderNum));
+            bto.setCreateby(UUID.randomUUID().toString());
+            partsPackageDetailBtoMapper.insertSelective(bto);
         }
     }
 
     /**
      * 保存控制器包文件信息
      */
-    private static void saveFileInfo(LargePackageService largePackageService, ZipResult zipResult){
-        FileInfo fileInfo = new FileInfo();
-        fileInfo.setFileId(zipResult.getFileId());
-        fileInfo.setOriginalName(zipResult.getZipName());
-        fileInfo.setSuffix(zipResult.getSuffix());
-        fileInfo.setFileSize(zipResult.getZipSize());
-        fileInfo.setMd5("********");
-        fileInfo.setValueListKey("EcuPackage");
-        fileInfo.setServerSidePath("package");
-        fileInfo.setUploadingUser(UUID.randomUUID().toString());
-        fileInfo.setNote("");
-        fileInfo.setCreateBy(UUID.randomUUID().toString());
-        largePackageService.saveFileInfo(fileInfo);
+    private void saveFileInfo(ZipResult zipResult){
+        FileBto bto = new FileBto();
+        bto.setFileId(zipResult.getFileId());
+        bto.setOriginalname(zipResult.getZipName());
+        bto.setSuffix(zipResult.getSuffix());
+        bto.setFilesize(BigDecimal.valueOf(zipResult.getZipSize()));
+        bto.setMd5("********");
+        bto.setServersidepath("package");
+        bto.setUploadinguser(UUID.randomUUID().toString());
+        bto.setCreateby(UUID.randomUUID().toString());
+        fileBtoMapper.insertSelective(bto);
     }
 
     /**
      * 保存控制器包1-到12-文件信息
      */
-    private static void saveFileInfo(LargePackageService largePackageService, FileResult fileResult){
+    private void saveFileInfo(FileResult fileResult){
         if(fileResult.isFileExist()){
-            FileInfo fileInfo = new FileInfo();
-            fileInfo.setFileId(fileResult.getFileId());
-            fileInfo.setOriginalName(fileResult.getFileName());
-            fileInfo.setSuffix(fileResult.getSuffix());
-            fileInfo.setFileSize(fileResult.getFileSize());
-            fileInfo.setMd5("********");
-            fileInfo.setValueListKey("EcuPackage");
-            fileInfo.setServerSidePath("package");
-            fileInfo.setUploadingUser(UUID.randomUUID().toString());
-            fileInfo.setNote("");
-            fileInfo.setCreateBy(UUID.randomUUID().toString());
-            largePackageService.saveFileInfo(fileInfo);
+            FileBto bto = new FileBto();
+            bto.setFileId(fileResult.getFileId());
+            bto.setOriginalname(fileResult.getFileName());
+            bto.setSuffix(fileResult.getSuffix());
+            bto.setFilesize(BigDecimal.valueOf(fileResult.getFileSize()));
+            bto.setMd5("********");
+            bto.setServersidepath("package");
+            bto.setUploadinguser(UUID.randomUUID().toString());
+            bto.setCreateby(UUID.randomUUID().toString());
+            fileBtoMapper.insertSelective(bto);
         }
     }
 

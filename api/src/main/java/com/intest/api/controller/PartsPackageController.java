@@ -1,9 +1,6 @@
 package com.intest.api.controller;
 
 import com.intest.common.result.ResultT;
-import com.intest.dao.entity.dto.PartsPackageDetailsDto;
-import com.intest.dao.entity.dto.PartsPackageListDto;
-import com.intest.dao.entity.vo.PartsPackageVo;
 import com.intest.packageservice.request.PartsPackageRequest;
 import com.intest.packageservice.service.PartsPackageService;
 import com.intest.packageservice.vo.PartsPackageVO;

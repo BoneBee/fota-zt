@@ -3,6 +3,7 @@ package com.intest.api.controller;
 import com.intest.common.result.ResultT;
 import com.intest.common.util.MultiDownloadUtil;
 import com.intest.dao.entity.CarTypeExtendBto;
+import com.intest.dao.entity.FileBto;
 import com.intest.dao.entity.FileInfo;
 import com.intest.packageparser.file.FileParser;
 import com.intest.packageservice.request.PackageDeleteRequest;
@@ -46,6 +47,9 @@ public class PackageController {
     private static Logger logger = LoggerFactory.getLogger(PackageController.class);
     @Autowired
     private LargePackageService largePackageService;
+
+    @Autowired
+    private FileParser fileParser;
 
     @ApiOperation("检查该车型下是否存在同名原始包")
     @RequestMapping(value = "/package/exist", method = RequestMethod.POST)
@@ -92,7 +96,7 @@ public class PackageController {
     @RequestMapping(value = "/package/parse", method = RequestMethod.POST)
     public ResultT<List<String>> parseFile(@RequestBody PackageParseRequest request) {
         ResultT<List<String>> result = new ResultT();
-        new FileParser().parseFile(largePackageService, request.getFileId(), request.getCarTypeId());
+        fileParser.parseFile(request.getFileId(), request.getCarTypeId());
         int success = FileParser.largeZipResult.isSuccess() ? 1 : -1;
         result.setSuccess(success);
         result.setResult(FileParser.largeZipResult.getErrors());
@@ -104,7 +108,7 @@ public class PackageController {
     @RequestMapping(value = "/package/save", method = RequestMethod.POST)
     public ResultT save(){
         ResultT result = new ResultT();
-        new FileParser().saveToDb(largePackageService, result);
+        fileParser.saveToDb(result);
         return result;
     }
 
@@ -113,11 +117,11 @@ public class PackageController {
     public void download(@RequestParam("ids") String[] ids, HttpServletRequest request, HttpServletResponse response){
         List<File> files = new ArrayList<>();
         for(String id : ids){
-            FileInfo fi = largePackageService.getFileById(id);
+            FileBto fi = largePackageService.getFileById(id);
             if(fi == null){
                 continue;
             }
-            String fullPath = File.separator + "tmp" + File.separator + "webhost" + File.separator + "packageFile" + File.separator + fi.getServerSidePath();
+            String fullPath = File.separator + "tmp" + File.separator + "webhost" + File.separator + "packageFile" + File.separator + fi.getServersidepath();
             File file = new File(fullPath);
             if(file.exists()){
                 files.add(file);
