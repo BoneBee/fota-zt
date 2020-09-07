@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.intest.dao.mapper.TaskBtoMapper">
+  <resultMap id="BaseResultMap" type="com.intest.dao.entity.TaskBto">
+    <id column="TASK_ID" jdbcType="CHAR" property="taskId" />
+    <result column="TASKNAME" jdbcType="NVARCHAR" property="taskname" />
+    <result column="UPGRADETIME" jdbcType="TIMESTAMP" property="upgradetime" />
+    <result column="PLANSTARTTIME" jdbcType="TIMESTAMP" property="planstarttime" />
+    <result column="PLANENDTIME" jdbcType="TIMESTAMP" property="planendtime" />
+    <result column="TASKNOTE" jdbcType="NVARCHAR" property="tasknote" />
+    <result column="TASKSTRATEGY" jdbcType="NUMERIC" property="taskstrategy" />
+    <result column="FK_TASKSTATUSVALUE_CODE" jdbcType="CHAR" property="fkTaskstatusvalueCode" />
+    <result column="FK_PACKAGETASK_ID" jdbcType="CHAR" property="fkPackagetaskId" />
+    <result column="FK_CARTYPE_ID" jdbcType="CHAR" property="fkCartypeId" />
+    <result column="ISDELETE" jdbcType="NUMERIC" property="isdelete" />
+    <result column="CREATEAT" jdbcType="TIMESTAMP" property="createat" />
+    <result column="CREATEBY" jdbcType="CHAR" property="createby" />
+    <result column="UPDATEAT" jdbcType="TIMESTAMP" property="updateat" />
+    <result column="UPDATEBY" jdbcType="CHAR" property="updateby" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    TASK_ID, TASKNAME, UPGRADETIME, PLANSTARTTIME, PLANENDTIME, TASKNOTE, TASKSTRATEGY, 
+    FK_TASKSTATUSVALUE_CODE, FK_PACKAGETASK_ID, FK_CARTYPE_ID, ISDELETE, CREATEAT, CREATEBY, 
+    UPDATEAT, UPDATEBY
+  </sql>
+  <select id="selectByExample" parameterType="com.intest.dao.entity.TaskBtoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from F_TASK
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from F_TASK
+    where TASK_ID = #{taskId,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from F_TASK
+    where TASK_ID = #{taskId,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.intest.dao.entity.TaskBtoExample">
+    delete from F_TASK
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.intest.dao.entity.TaskBto">
+    insert into F_TASK (TASK_ID, TASKNAME, UPGRADETIME, 
+      PLANSTARTTIME, PLANENDTIME, TASKNOTE, 
+      TASKSTRATEGY, FK_TASKSTATUSVALUE_CODE, FK_PACKAGETASK_ID, 
+      FK_CARTYPE_ID, ISDELETE, CREATEAT, 
+      CREATEBY, UPDATEAT, UPDATEBY
+      )
+    values (#{taskId,jdbcType=CHAR}, #{taskname,jdbcType=NVARCHAR}, #{upgradetime,jdbcType=TIMESTAMP}, 
+      #{planstarttime,jdbcType=TIMESTAMP}, #{planendtime,jdbcType=TIMESTAMP}, #{tasknote,jdbcType=NVARCHAR}, 
+      #{taskstrategy,jdbcType=NUMERIC}, #{fkTaskstatusvalueCode,jdbcType=CHAR}, #{fkPackagetaskId,jdbcType=CHAR}, 
+      #{fkCartypeId,jdbcType=CHAR}, #{isdelete,jdbcType=NUMERIC}, #{createat,jdbcType=TIMESTAMP}, 
+      #{createby,jdbcType=CHAR}, #{updateat,jdbcType=TIMESTAMP}, #{updateby,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.intest.dao.entity.TaskBto">
+    insert into F_TASK
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="taskId != null">
+        TASK_ID,
+      </if>
+      <if test="taskname != null">
+        TASKNAME,
+      </if>
+      <if test="upgradetime != null">
+        UPGRADETIME,
+      </if>
+      <if test="planstarttime != null">
+        PLANSTARTTIME,
+      </if>
+      <if test="planendtime != null">
+        PLANENDTIME,
+      </if>
+      <if test="tasknote != null">
+        TASKNOTE,
+      </if>
+      <if test="taskstrategy != null">
+        TASKSTRATEGY,
+      </if>
+      <if test="fkTaskstatusvalueCode != null">
+        FK_TASKSTATUSVALUE_CODE,
+      </if>
+      <if test="fkPackagetaskId != null">
+        FK_PACKAGETASK_ID,
+      </if>
+      <if test="fkCartypeId != null">
+        FK_CARTYPE_ID,
+      </if>
+      <if test="isdelete != null">
+        ISDELETE,
+      </if>
+      <if test="createat != null">
+        CREATEAT,
+      </if>
+      <if test="createby != null">
+        CREATEBY,
+      </if>
+      <if test="updateat != null">
+        UPDATEAT,
+      </if>
+      <if test="updateby != null">
+        UPDATEBY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="taskId != null">
+        #{taskId,jdbcType=CHAR},
+      </if>
+      <if test="taskname != null">
+        #{taskname,jdbcType=NVARCHAR},
+      </if>
+      <if test="upgradetime != null">
+        #{upgradetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planstarttime != null">
+        #{planstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planendtime != null">
+        #{planendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tasknote != null">
+        #{tasknote,jdbcType=NVARCHAR},
+      </if>
+      <if test="taskstrategy != null">
+        #{taskstrategy,jdbcType=NUMERIC},
+      </if>
+      <if test="fkTaskstatusvalueCode != null">
+        #{fkTaskstatusvalueCode,jdbcType=CHAR},
+      </if>
+      <if test="fkPackagetaskId != null">
+        #{fkPackagetaskId,jdbcType=CHAR},
+      </if>
+      <if test="fkCartypeId != null">
+        #{fkCartypeId,jdbcType=CHAR},
+      </if>
+      <if test="isdelete != null">
+        #{isdelete,jdbcType=NUMERIC},
+      </if>
+      <if test="createat != null">
+        #{createat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null">
+        #{createby,jdbcType=CHAR},
+      </if>
+      <if test="updateat != null">
+        #{updateat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null">
+        #{updateby,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.intest.dao.entity.TaskBtoExample" resultType="java.lang.Long">
+    select count(*) from F_TASK
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update F_TASK
+    <set>
+      <if test="record.taskId != null">
+        TASK_ID = #{record.taskId,jdbcType=CHAR},
+      </if>
+      <if test="record.taskname != null">
+        TASKNAME = #{record.taskname,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.upgradetime != null">
+        UPGRADETIME = #{record.upgradetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.planstarttime != null">
+        PLANSTARTTIME = #{record.planstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.planendtime != null">
+        PLANENDTIME = #{record.planendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.tasknote != null">
+        TASKNOTE = #{record.tasknote,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.taskstrategy != null">
+        TASKSTRATEGY = #{record.taskstrategy,jdbcType=NUMERIC},
+      </if>
+      <if test="record.fkTaskstatusvalueCode != null">
+        FK_TASKSTATUSVALUE_CODE = #{record.fkTaskstatusvalueCode,jdbcType=CHAR},
+      </if>
+      <if test="record.fkPackagetaskId != null">
+        FK_PACKAGETASK_ID = #{record.fkPackagetaskId,jdbcType=CHAR},
+      </if>
+      <if test="record.fkCartypeId != null">
+        FK_CARTYPE_ID = #{record.fkCartypeId,jdbcType=CHAR},
+      </if>
+      <if test="record.isdelete != null">
+        ISDELETE = #{record.isdelete,jdbcType=NUMERIC},
+      </if>
+      <if test="record.createat != null">
+        CREATEAT = #{record.createat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createby != null">
+        CREATEBY = #{record.createby,jdbcType=CHAR},
+      </if>
+      <if test="record.updateat != null">
+        UPDATEAT = #{record.updateat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateby != null">
+        UPDATEBY = #{record.updateby,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update F_TASK
+    set TASK_ID = #{record.taskId,jdbcType=CHAR},
+      TASKNAME = #{record.taskname,jdbcType=NVARCHAR},
+      UPGRADETIME = #{record.upgradetime,jdbcType=TIMESTAMP},
+      PLANSTARTTIME = #{record.planstarttime,jdbcType=TIMESTAMP},
+      PLANENDTIME = #{record.planendtime,jdbcType=TIMESTAMP},
+      TASKNOTE = #{record.tasknote,jdbcType=NVARCHAR},
+      TASKSTRATEGY = #{record.taskstrategy,jdbcType=NUMERIC},
+      FK_TASKSTATUSVALUE_CODE = #{record.fkTaskstatusvalueCode,jdbcType=CHAR},
+      FK_PACKAGETASK_ID = #{record.fkPackagetaskId,jdbcType=CHAR},
+      FK_CARTYPE_ID = #{record.fkCartypeId,jdbcType=CHAR},
+      ISDELETE = #{record.isdelete,jdbcType=NUMERIC},
+      CREATEAT = #{record.createat,jdbcType=TIMESTAMP},
+      CREATEBY = #{record.createby,jdbcType=CHAR},
+      UPDATEAT = #{record.updateat,jdbcType=TIMESTAMP},
+      UPDATEBY = #{record.updateby,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.intest.dao.entity.TaskBto">
+    update F_TASK
+    <set>
+      <if test="taskname != null">
+        TASKNAME = #{taskname,jdbcType=NVARCHAR},
+      </if>
+      <if test="upgradetime != null">
+        UPGRADETIME = #{upgradetime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planstarttime != null">
+        PLANSTARTTIME = #{planstarttime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="planendtime != null">
+        PLANENDTIME = #{planendtime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tasknote != null">
+        TASKNOTE = #{tasknote,jdbcType=NVARCHAR},
+      </if>
+      <if test="taskstrategy != null">
+        TASKSTRATEGY = #{taskstrategy,jdbcType=NUMERIC},
+      </if>
+      <if test="fkTaskstatusvalueCode != null">
+        FK_TASKSTATUSVALUE_CODE = #{fkTaskstatusvalueCode,jdbcType=CHAR},
+      </if>
+      <if test="fkPackagetaskId != null">
+        FK_PACKAGETASK_ID = #{fkPackagetaskId,jdbcType=CHAR},
+      </if>
+      <if test="fkCartypeId != null">
+        FK_CARTYPE_ID = #{fkCartypeId,jdbcType=CHAR},
+      </if>
+      <if test="isdelete != null">
+        ISDELETE = #{isdelete,jdbcType=NUMERIC},
+      </if>
+      <if test="createat != null">
+        CREATEAT = #{createat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null">
+        CREATEBY = #{createby,jdbcType=CHAR},
+      </if>
+      <if test="updateat != null">
+        UPDATEAT = #{updateat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null">
+        UPDATEBY = #{updateby,jdbcType=CHAR},
+      </if>
+    </set>
+    where TASK_ID = #{taskId,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.intest.dao.entity.TaskBto">
+    update F_TASK
+    set TASKNAME = #{taskname,jdbcType=NVARCHAR},
+      UPGRADETIME = #{upgradetime,jdbcType=TIMESTAMP},
+      PLANSTARTTIME = #{planstarttime,jdbcType=TIMESTAMP},
+      PLANENDTIME = #{planendtime,jdbcType=TIMESTAMP},
+      TASKNOTE = #{tasknote,jdbcType=NVARCHAR},
+      TASKSTRATEGY = #{taskstrategy,jdbcType=NUMERIC},
+      FK_TASKSTATUSVALUE_CODE = #{fkTaskstatusvalueCode,jdbcType=CHAR},
+      FK_PACKAGETASK_ID = #{fkPackagetaskId,jdbcType=CHAR},
+      FK_CARTYPE_ID = #{fkCartypeId,jdbcType=CHAR},
+      ISDELETE = #{isdelete,jdbcType=NUMERIC},
+      CREATEAT = #{createat,jdbcType=TIMESTAMP},
+      CREATEBY = #{createby,jdbcType=CHAR},
+      UPDATEAT = #{updateat,jdbcType=TIMESTAMP},
+      UPDATEBY = #{updateby,jdbcType=CHAR}
+    where TASK_ID = #{taskId,jdbcType=CHAR}
+  </update>
+</mapper>

@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.intest.dao.mapper.CarTypeBtoMapper">
+  <resultMap id="BaseResultMap" type="com.intest.dao.entity.CarTypeBto">
+    <id column="CARTYPE_ID" jdbcType="CHAR" property="cartypeId" />
+    <result column="CARTYPENAME" jdbcType="NVARCHAR" property="cartypename" />
+    <result column="REMARK" jdbcType="NVARCHAR" property="remark" />
+    <result column="ISDELETE" jdbcType="NUMERIC" property="isdelete" />
+    <result column="CREATEAT" jdbcType="TIMESTAMP" property="createat" />
+    <result column="CREATEBY" jdbcType="CHAR" property="createby" />
+    <result column="UPDATEAT" jdbcType="TIMESTAMP" property="updateat" />
+    <result column="UPDATEBY" jdbcType="CHAR" property="updateby" />
+    <result column="FK_TERMINAL_ID" jdbcType="CHAR" property="fkTerminalId" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    CARTYPE_ID, CARTYPENAME, REMARK, ISDELETE, CREATEAT, CREATEBY, UPDATEAT, UPDATEBY, 
+    FK_TERMINAL_ID
+  </sql>
+  <select id="selectByExample" parameterType="com.intest.dao.entity.CarTypeBtoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from F_CARTYPE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from F_CARTYPE
+    where CARTYPE_ID = #{cartypeId,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from F_CARTYPE
+    where CARTYPE_ID = #{cartypeId,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.intest.dao.entity.CarTypeBtoExample">
+    delete from F_CARTYPE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.intest.dao.entity.CarTypeBto">
+    insert into F_CARTYPE (CARTYPE_ID, CARTYPENAME, REMARK, 
+      ISDELETE, CREATEAT, CREATEBY, 
+      UPDATEAT, UPDATEBY, FK_TERMINAL_ID
+      )
+    values (#{cartypeId,jdbcType=CHAR}, #{cartypename,jdbcType=NVARCHAR}, #{remark,jdbcType=NVARCHAR}, 
+      #{isdelete,jdbcType=NUMERIC}, #{createat,jdbcType=TIMESTAMP}, #{createby,jdbcType=CHAR}, 
+      #{updateat,jdbcType=TIMESTAMP}, #{updateby,jdbcType=CHAR}, #{fkTerminalId,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.intest.dao.entity.CarTypeBto">
+    insert into F_CARTYPE
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="cartypeId != null">
+        CARTYPE_ID,
+      </if>
+      <if test="cartypename != null">
+        CARTYPENAME,
+      </if>
+      <if test="remark != null">
+        REMARK,
+      </if>
+      <if test="isdelete != null">
+        ISDELETE,
+      </if>
+      <if test="createat != null">
+        CREATEAT,
+      </if>
+      <if test="createby != null">
+        CREATEBY,
+      </if>
+      <if test="updateat != null">
+        UPDATEAT,
+      </if>
+      <if test="updateby != null">
+        UPDATEBY,
+      </if>
+      <if test="fkTerminalId != null">
+        FK_TERMINAL_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="cartypeId != null">
+        #{cartypeId,jdbcType=CHAR},
+      </if>
+      <if test="cartypename != null">
+        #{cartypename,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null">
+        #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="isdelete != null">
+        #{isdelete,jdbcType=NUMERIC},
+      </if>
+      <if test="createat != null">
+        #{createat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null">
+        #{createby,jdbcType=CHAR},
+      </if>
+      <if test="updateat != null">
+        #{updateat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null">
+        #{updateby,jdbcType=CHAR},
+      </if>
+      <if test="fkTerminalId != null">
+        #{fkTerminalId,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.intest.dao.entity.CarTypeBtoExample" resultType="java.lang.Long">
+    select count(*) from F_CARTYPE
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update F_CARTYPE
+    <set>
+      <if test="record.cartypeId != null">
+        CARTYPE_ID = #{record.cartypeId,jdbcType=CHAR},
+      </if>
+      <if test="record.cartypename != null">
+        CARTYPENAME = #{record.cartypename,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.remark != null">
+        REMARK = #{record.remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.isdelete != null">
+        ISDELETE = #{record.isdelete,jdbcType=NUMERIC},
+      </if>
+      <if test="record.createat != null">
+        CREATEAT = #{record.createat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createby != null">
+        CREATEBY = #{record.createby,jdbcType=CHAR},
+      </if>
+      <if test="record.updateat != null">
+        UPDATEAT = #{record.updateat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateby != null">
+        UPDATEBY = #{record.updateby,jdbcType=CHAR},
+      </if>
+      <if test="record.fkTerminalId != null">
+        FK_TERMINAL_ID = #{record.fkTerminalId,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update F_CARTYPE
+    set CARTYPE_ID = #{record.cartypeId,jdbcType=CHAR},
+      CARTYPENAME = #{record.cartypename,jdbcType=NVARCHAR},
+      REMARK = #{record.remark,jdbcType=NVARCHAR},
+      ISDELETE = #{record.isdelete,jdbcType=NUMERIC},
+      CREATEAT = #{record.createat,jdbcType=TIMESTAMP},
+      CREATEBY = #{record.createby,jdbcType=CHAR},
+      UPDATEAT = #{record.updateat,jdbcType=TIMESTAMP},
+      UPDATEBY = #{record.updateby,jdbcType=CHAR},
+      FK_TERMINAL_ID = #{record.fkTerminalId,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.intest.dao.entity.CarTypeBto">
+    update F_CARTYPE
+    <set>
+      <if test="cartypename != null">
+        CARTYPENAME = #{cartypename,jdbcType=NVARCHAR},
+      </if>
+      <if test="remark != null">
+        REMARK = #{remark,jdbcType=NVARCHAR},
+      </if>
+      <if test="isdelete != null">
+        ISDELETE = #{isdelete,jdbcType=NUMERIC},
+      </if>
+      <if test="createat != null">
+        CREATEAT = #{createat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null">
+        CREATEBY = #{createby,jdbcType=CHAR},
+      </if>
+      <if test="updateat != null">
+        UPDATEAT = #{updateat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null">
+        UPDATEBY = #{updateby,jdbcType=CHAR},
+      </if>
+      <if test="fkTerminalId != null">
+        FK_TERMINAL_ID = #{fkTerminalId,jdbcType=CHAR},
+      </if>
+    </set>
+    where CARTYPE_ID = #{cartypeId,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.intest.dao.entity.CarTypeBto">
+    update F_CARTYPE
+    set CARTYPENAME = #{cartypename,jdbcType=NVARCHAR},
+      REMARK = #{remark,jdbcType=NVARCHAR},
+      ISDELETE = #{isdelete,jdbcType=NUMERIC},
+      CREATEAT = #{createat,jdbcType=TIMESTAMP},
+      CREATEBY = #{createby,jdbcType=CHAR},
+      UPDATEAT = #{updateat,jdbcType=TIMESTAMP},
+      UPDATEBY = #{updateby,jdbcType=CHAR},
+      FK_TERMINAL_ID = #{fkTerminalId,jdbcType=CHAR}
+    where CARTYPE_ID = #{cartypeId,jdbcType=CHAR}
+  </update>
+</mapper>
