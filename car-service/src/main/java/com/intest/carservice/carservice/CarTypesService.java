@@ -1,6 +1,5 @@
-package com.intest.carservice;
+package com.intest.carservice.carservice;;
 
-import com.intest.carservice.Respone.CarTypeRespone;
 import com.intest.carservice.Request.CarTypeRequest;
 import com.intest.carservice.carservice.Request.addCarType;
 import com.intest.common.result.PagerDataBaseVO;

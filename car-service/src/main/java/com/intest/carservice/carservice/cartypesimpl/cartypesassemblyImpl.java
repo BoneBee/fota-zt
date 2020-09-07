@@ -2,13 +2,13 @@ package com.intest.carservice.carservice.cartypesimpl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.intest.carservice.carservice.CarTypesService;
 import com.intest.carservice.carservice.Request.addCarType;
 import com.intest.carservice.carservice.Respone.*;
 import com.intest.carservice.carservice.carTypeTool.carTools;
 import com.intest.common.result.PagerDataBaseVO;
 import com.intest.common.tableData.TableDataAnnotation;
 import com.intest.dao.entity.*;
-import com.intest.carservice.CarTypesService;
 import com.intest.dao.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
