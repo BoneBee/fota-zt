@@ -1,4 +1,4 @@
-package com.intest.basicservice.user.response;
+package com.intest.basicservice.user.request;
 
 
 

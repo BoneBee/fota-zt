@@ -2,13 +2,11 @@ package com.intest.partsservice.part.impl.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.intest.common.exception.ResponseBean;
 import com.intest.common.result.PagerDataBaseVO;
 import com.intest.common.tableData.TableDataAnnotation;
 import com.intest.dao.entity.PartsBto;
 import com.intest.dao.entity.PartsBtoExample;
 import com.intest.dao.entity.PartsTypeBto;
-import com.intest.dao.entity.PartsTypeBtoExample;
 import com.intest.dao.mapper.PartsBtoMapper;
 import com.intest.dao.mapper.PartsTypeBtoMapper;
 import com.intest.partsservice.part.impl.service.PartsService;
@@ -19,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Logger;
 
 @Service
 @TableDataAnnotation
@@ -94,8 +91,12 @@ public class PartsImpl implements PartsService {
         PageInfo<PartsBto> pageInfo = new PageInfo<PartsBto>(partsList);
         int index = pageInfo.getStartRow() - 1;
         for (PartsBto partsBto : partsList) {
+            String partTypeName = "";
             PartsTypeBto partsTypeBto = partsTypeBtoMapper.selectByPrimaryKey(partsBto.getFkPartstypeId());
-            PartsListResponse partsListResponse = new PartsListResponse(index += 1, partsBto.getPartsId(), partsBto.getPartscode(), partsBto.getPartsname(), partsBto.getFkPartstypeId(), partsTypeBto.getPartstypename(), partsBto.getCreateat(), partsBto.getCreateby(), partsBto.getUpdateat(), partsBto.getUpdateby(), partsBto.getRemark());
+            if (partsTypeBto != null) {
+                partTypeName = partsTypeBto.getPartstypename();
+            }
+            PartsListResponse partsListResponse = new PartsListResponse(index += 1, partsBto.getPartsId(), partsBto.getPartscode(), partsBto.getPartsname(), partsBto.getFkPartstypeId(), partTypeName, partsBto.getCreateat(), partsBto.getCreateby(), partsBto.getUpdateat(), partsBto.getUpdateby(), partsBto.getRemark());
             partsListRespons.add(partsListResponse);
         }
         part.setTotal(pageInfo.getTotal());
