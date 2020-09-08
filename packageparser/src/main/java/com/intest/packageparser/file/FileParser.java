@@ -1,6 +1,7 @@
 package com.intest.packageparser.file;
 
 import com.intest.common.result.ResultT;
+import com.intest.common.util.FtpClientUtil;
 import com.intest.dao.entity.*;
 import com.intest.dao.mapper.*;
 import org.slf4j.Logger;
@@ -13,6 +14,7 @@ import org.w3c.dom.Document;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
@@ -108,7 +110,7 @@ public class FileParser {
                     zipResult.setFileId(UUID.randomUUID().toString());
                     zipResult.setZipId(UUID.randomUUID().toString());
                     zipResult.setZipName(fileName);
-                    String partsType = fileName.substring(0, 3);
+                    String partsType = fileName.substring(0, 4);
                     String partsId = getPartsId(partsType, carTypeId);
                     zipResult.setPartId(partsId);
                     if(StringUtils.isEmpty(partsId)){
@@ -118,15 +120,15 @@ public class FileParser {
                     }
                     else{
                         zipResult.setPartType(partsType);
-                        zipResult.setPartCode(fileName.substring(3, 12));
-                        zipResult.setTargetVersion(fileName.substring(12, 19));
-                        zipResult.setCarType(fileName.substring(19));
+                        zipResult.setPartCode(fileName.substring(4, 13));
+                        zipResult.setTargetVersion(fileName.substring(13, 20));
+                        zipResult.setCarType(fileName.substring(20));
 
-                        if(fileName.length() > 26){
-                            Matcher m = pattern.matcher(fileName.substring(19, 26));
+                        if(fileName.length() > 27){
+                            Matcher m = pattern.matcher(fileName.substring(20, 27));
                             if(m.matches()){
-                                zipResult.setTargetVersion(fileName.substring(12, 26));
-                                zipResult.setCarType(fileName.substring(26));
+                                zipResult.setTargetVersion(fileName.substring(13, 27));
+                                zipResult.setCarType(fileName.substring(27));
                             }
                         }
 
@@ -164,7 +166,7 @@ public class FileParser {
                 if (zipFile != null) {
                     try {
                         zipFile.close();
-                        deleteUncompressFiles(newPath);
+                        //deleteUncompressFiles(newPath);
                     } catch (IOException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
@@ -208,7 +210,7 @@ public class FileParser {
         Matcher m = packagePattern.matcher(fileName);
         Matcher am = calibrationPattern.matcher(fileName);
         if(!m.matches() && !am.matches()){
-            String message = "零件包【" + fileName + "】名称不正确，正确格式：控制器（三位大写英文字母）+零件号（大写字母A-Z和数据0-9组成，9个字符长度）+软版本（含标定：S开头+三位数字的主软件版本+三位数字次软件版本+C开头+三位数字的主软件版本+三位数字次软件版本；不含标定：S开头+三位数字的主软件版本+三位数字次软件版本）";
+            String message = "零件包【" + fileName + "】名称不正确，正确格式：零件类型（四位大写英文字母）+零件号（大写字母A-Z和数据0-9组成，9个字符长度）+软版本（含标定：S开头+三位数字的主软件版本+三位数字次软件版本+C开头+三位数字的主软件版本+三位数字次软件版本；不含标定：S开头+三位数字的主软件版本+三位数字次软件版本）";
             errors.add(message);
             largeZipResult.setSuccess(false);
         }
@@ -248,7 +250,7 @@ public class FileParser {
     private static String checkFileExists(String rootPath, String fileName, ZipResult result){
         String message = "";
         List<String> prefixes = new ArrayList<>();
-        String partType = fileName.substring(0, 3);
+        String partType = fileName.substring(0, 4);
         File dir = new File(rootPath + File.separator + fileName);
         File[] files = dir.listFiles();
         for(File file : files) {
@@ -322,11 +324,11 @@ public class FileParser {
             String versionOrderNum = "0";
             fileResult.setSoftwareOrderNum(versionOrderNum);
             if("2".equals(key)){
-                versionOrderNum = fileName.substring(21, 24);
+                versionOrderNum = fileName.substring(22, 25);
                 fileResult.setSoftwareOrderNum(versionOrderNum);
             }
             if("7".equals(key)){
-                versionOrderNum = fileName.substring(21, 24);
+                versionOrderNum = fileName.substring(22, 25);
                 fileResult.setSoftwareOrderNum(versionOrderNum);
             }
             if(result.getTargetVersion().length() == 7){
@@ -348,7 +350,7 @@ public class FileParser {
                 String fileName = item.getFileName();
                 String fixedValue = "零件包【" + result.getZipName() + "】中的文件【" + fileName + "】名称错误";
                 if("1".equals(key)){
-                    String partType = fileName.substring(2, 5);
+                    String partType = fileName.substring(2, 6);
                     if(!partType.equals(result.getPartType())){
                         message = "【" + fileName + "】文件的零件名称与【" + result.getZipName() + "】不一致";
                         errors.add(message);
@@ -356,9 +358,9 @@ public class FileParser {
                     }
                 }
                 else if("2".equals(key)){
-                    String partType = fileName.split("-")[1].substring(0, 3);
-                    String partCode = fileName.split("-")[1].substring(3, 12);
-                    String version = fileName.split("-")[1].substring(12, 19);
+                    String partType = fileName.split("-")[1].substring(0, 4);
+                    String partCode = fileName.split("-")[1].substring(4, 13);
+                    String version = fileName.split("-")[1].substring(13, 20);
                     if(!partType.equals(result.getPartType())){
                         message = "【" + fileName + "】文件的零件名称与【" + result.getZipName() + "】不一致";
                         errors.add(message);
@@ -379,9 +381,9 @@ public class FileParser {
                     if(result.getCalibration() == 0){
                         continue;
                     }
-                    String partType = fileName.split("-")[1].substring(0, 3);
-                    String partCode = fileName.split("-")[1].substring(3, 12);
-                    String version = fileName.split("-")[1].substring(12, 19);
+                    String partType = fileName.split("-")[1].substring(0, 4);
+                    String partCode = fileName.split("-")[1].substring(4, 13);
+                    String version = fileName.split("-")[1].substring(13, 20);
                     if(!partType.equals(result.getPartType())){
                         message = "【" + fileName + "】文件的零件名称与【" + result.getZipName() + "】不一致";
                         errors.add(message);
@@ -531,6 +533,8 @@ public class FileParser {
             for(ZipResult zipResult : largeZipResult.getZipResults()){
                 saveZipInfo(zipResult);
             }
+
+            uploadToFtp();
         }catch (Exception e){
             e.printStackTrace();
             result.setSuccess(-1);
@@ -631,6 +635,28 @@ public class FileParser {
      */
     private static void savePartDetailInfo(){
 
+    }
+
+    /**
+     * 将原始包及零件包上传到FTP服务器
+     */
+    private void uploadToFtp(){
+        String path = File.separator + "tmp" + File.separator + "webhost" + File.separator + "packageFile";
+        String packagePath = path + File.separator + largeZipResult.getFileId() + ".zip";
+        File file = new File(packagePath);
+        try{
+            FtpClientUtil.uploadFile(largeZipResult.getFileId() + ".zip", new FileInputStream(file));
+            for(ZipResult result : largeZipResult.getZipResults()){
+                path = File.separator + "tmp" + File.separator + "webhost" + File.separator + "uploadFile" + File.separator + "temp";
+                String partsPackagePath = path + File.separator + result.getZipName() + ".zip";
+                file = new File(partsPackagePath);
+                FtpClientUtil.uploadFile(result.getFileId() + ".zip", new FileInputStream(file));
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            deleteUncompressFiles(path);
+        }
     }
 
     public static void main(String[] args) {
