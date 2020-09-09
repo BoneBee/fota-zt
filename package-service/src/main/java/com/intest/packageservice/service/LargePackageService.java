@@ -15,7 +15,7 @@ public interface LargePackageService {
 
     String getPartsId(String partsName, String carTypeId);
 
-    FileInfo getFileById(String fileId);
+    FileBto getFileById(String fileId);
 
     PagerDataBaseVO findAllLargePackage(PackageRequest request);
 

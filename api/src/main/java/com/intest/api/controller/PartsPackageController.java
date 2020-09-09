@@ -1,9 +1,6 @@
 package com.intest.api.controller;
 
 import com.intest.common.result.ResultT;
-import com.intest.dao.entity.dto.PartsPackageDetailsDto;
-import com.intest.dao.entity.dto.PartsPackageListDto;
-import com.intest.dao.entity.vo.PartsPackageVo;
 import com.intest.packageservice.request.PartsPackageRequest;
 import com.intest.packageservice.service.PartsPackageService;
 import com.intest.packageservice.vo.PartsPackageVO;
@@ -30,7 +27,12 @@ public class PartsPackageController {
     @RequestMapping(value = "/list", method = RequestMethod.POST)
     public ResultT partsPackageList(@RequestBody PartsPackageRequest request){
         ResultT result = new ResultT<>();
-        result.setResult(partsPackageService.findAllPartsPackage(request));
+        try{
+            result.setResult(partsPackageService.findAllPartsPackage(request));
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setFail();
+        }
         return result;
     }
 
@@ -38,7 +40,12 @@ public class PartsPackageController {
     @RequestMapping(value = "/details", method = RequestMethod.POST)
     public ResultT<PartsPackageVO> partsPackageDetails(@RequestBody Map<String, String> params){
         ResultT<PartsPackageVO> result = new ResultT<>();
-        result.setResult(partsPackageService.partsPackageDetails(params.get("partsPackageId")));
+        try{
+            result.setResult(partsPackageService.partsPackageDetails(params.get("partsPackageId")));
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setFail();
+        }
         return result;
     }
 }
