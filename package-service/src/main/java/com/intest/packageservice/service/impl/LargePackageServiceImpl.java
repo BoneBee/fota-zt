@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.intest.common.result.PagerDataBaseVO;
 import com.intest.common.tableData.TableDataAnnotation;
 import com.intest.dao.entity.*;
+import com.intest.dao.mapper.FileBtoMapper;
 import com.intest.dao.mapper.PackageMapper;
 import com.intest.packageservice.request.PackageRequest;
 import com.intest.packageservice.service.LargePackageService;
@@ -22,6 +23,9 @@ import java.util.List;
 public class LargePackageServiceImpl implements LargePackageService {
     @Autowired
     private PackageMapper packageMapper;
+
+    @Autowired
+    private FileBtoMapper fileBtoMapper;
 
     @Override
     public Integer checkPartType(String partType, String carTypeId) {
@@ -41,8 +45,8 @@ public class LargePackageServiceImpl implements LargePackageService {
     }
 
     @Override
-    public FileInfo getFileById(String fileId){
-        return packageMapper.getFileById(fileId);
+    public FileBto getFileById(String fileId){
+        return fileBtoMapper.selectByPrimaryKey(fileId);
     }
 
     @Override

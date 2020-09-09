@@ -1,9 +1,7 @@
 package com.intest.api.controller;
 
 import com.intest.common.result.ResultT;
-import com.intest.packageservice.request.PartsTreeRequest;
-import com.intest.packageservice.request.UpgradePackageRequest;
-import com.intest.packageservice.request.VersionRequest;
+import com.intest.packageservice.request.*;
 import com.intest.packageservice.service.UpgradePackageService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -29,7 +27,12 @@ public class UpgradePackageController {
     @PostMapping("/list")
     public ResultT findAllUpgradePackage(UpgradePackageRequest request){
         ResultT result = new ResultT();
-        result.setResult(upgradePackageService.findAllUpgradePackage(request));
+        try{
+            result.setResult(upgradePackageService.findAllUpgradePackage(request));
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setFail();
+        }
         return result;
     }
 
@@ -37,7 +40,12 @@ public class UpgradePackageController {
     @PostMapping("/partstree")
     public ResultT partsTree(@RequestBody PartsTreeRequest request){
         ResultT result = new ResultT();
-        result.setResult(upgradePackageService.partsTree(request));
+        try{
+            result.setResult(upgradePackageService.partsTree(request));
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setFail();
+        }
         return result;
     }
 
@@ -45,7 +53,51 @@ public class UpgradePackageController {
     @PostMapping("/versionlist")
     public ResultT versionList(@RequestBody VersionRequest request){
         ResultT result = new ResultT();
-        result.setResult(upgradePackageService.getVersion(request));
+        try{
+            result.setResult(upgradePackageService.getVersion(request));
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setFail();
+        }
+        return result;
+    }
+
+    @ApiOperation("升级包制作")
+    @PostMapping("/make")
+    public ResultT make(@RequestBody MakeRequest request){
+        ResultT result = new ResultT();
+        try{
+            result.setResult(upgradePackageService.make(request));
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setFail();
+        }
+        return result;
+    }
+
+    @ApiOperation("取消发布")
+    @PostMapping("/unpublish")
+    public ResultT unpublish(@RequestBody PackageDeleteRequest request){
+        ResultT result = new ResultT();
+        try{
+            result.setResult(upgradePackageService.unpublish(request.getIds()));
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setFail();
+        }
+        return result;
+    }
+
+    @ApiOperation("升级包详情")
+    @PostMapping("/details")
+    public ResultT upgradePackageDetails(@RequestBody UpgradePackageDetailRequest request){
+        ResultT result = new ResultT();
+        try{
+            result.setResult(upgradePackageService.upgradePackageDetails(request.getPackageTaskId()));
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setFail();
+        }
         return result;
     }
 }
