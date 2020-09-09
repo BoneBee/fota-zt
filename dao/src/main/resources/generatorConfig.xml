@@ -48,12 +48,12 @@
         </javaClientGenerator>
 
         <!-- 生成完Table后，需要注释已生成的Table -->
-                <!--<table tableName="F_Car" domainObjectName="CarBto">-->
-                    <!--<property name="useActualColumnNames" value="false"/>-->
-                    <!--&lt;!&ndash; 插入时是否自动生成主键 &ndash;&gt;-->
-                    <!--&lt;!&ndash; <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
-                    <!--&lt;!&ndash; <columnOverride column="content" jdbcType="VARCHAR" />&ndash;&gt;-->
-                <!--</table>-->
+        <!--<table tableName="F_Car" domainObjectName="CarBto">-->
+        <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--&lt;!&ndash; 插入时是否自动生成主键 &ndash;&gt;-->
+        <!--&lt;!&ndash; <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
+        <!--&lt;!&ndash; <columnOverride column="content" jdbcType="VARCHAR" />&ndash;&gt;-->
+        <!--</table>-->
 
         <!--        <table tableName="F_UploadFile" domainObjectName="UploadFileBto">-->
         <!--            <property name="useActualColumnNames" value="false"/>-->
@@ -153,19 +153,19 @@
         <!--                    &lt;!&ndash; <columnOverride column="content" jdbcType="VARCHAR" />&ndash;&gt;-->
         <!--                </table>-->
 
-                        <!--<table tableName="F_Task" domainObjectName="TaskBto">-->
-                            <!--<property name="useActualColumnNames" value="false"/>-->
-                            <!--&lt;!&ndash; 插入时是否自动生成主键 &ndash;&gt;-->
-                            <!--&lt;!&ndash; <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
-                            <!--&lt;!&ndash; <columnOverride column="content" jdbcType="VARCHAR" />&ndash;&gt;-->
-                        <!--</table>-->
+        <!--<table tableName="F_Task" domainObjectName="TaskBto">-->
+        <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--&lt;!&ndash; 插入时是否自动生成主键 &ndash;&gt;-->
+        <!--&lt;!&ndash; <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
+        <!--&lt;!&ndash; <columnOverride column="content" jdbcType="VARCHAR" />&ndash;&gt;-->
+        <!--</table>-->
 
-                        <!--<table tableName="F_TaskCar" domainObjectName="TaskCarBto">-->
-                            <!--<property name="useActualColumnNames" value="false"/>-->
-                            <!--&lt;!&ndash; 插入时是否自动生成主键 &ndash;&gt;-->
-                            <!--&lt;!&ndash; <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
-                            <!--&lt;!&ndash; <columnOverride column="content" jdbcType="VARCHAR" />&ndash;&gt;-->
-                        <!--</table>-->
+        <!--<table tableName="F_TaskCar" domainObjectName="TaskCarBto">-->
+        <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--&lt;!&ndash; 插入时是否自动生成主键 &ndash;&gt;-->
+        <!--&lt;!&ndash; <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
+        <!--&lt;!&ndash; <columnOverride column="content" jdbcType="VARCHAR" />&ndash;&gt;-->
+        <!--</table>-->
 
         <!--<table tableName="F_PartsPackage" domainObjectName="PartsPackageBto">-->
         <!--<property name="useActualColumnNames" value="false"/>-->
@@ -174,11 +174,25 @@
         <!--&lt;!&ndash; <columnOverride column="content" jdbcType="VARCHAR" />&ndash;&gt;-->
         <!--</table>-->
 
-        <table tableName="F_Car" domainObjectName="CarBto">
+        <!--        <table tableName="F_Car" domainObjectName="CarBto">-->
+        <!--        <property name="useActualColumnNames" value="false"/>-->
+        <!--        &lt;!&ndash; 插入时是否自动生成主键 &ndash;&gt;-->
+        <!--        &lt;!&ndash; <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
+        <!--        &lt;!&ndash; <columnOverride column="content" jdbcType="VARCHAR" />&ndash;&gt;-->
+        <!--        </table>-->
+
+        <table tableName="F_TASKREVIEWTMP" domainObjectName="TaskReviewTmpBto">
         <property name="useActualColumnNames" value="false"/>
         <!-- 插入时是否自动生成主键 -->
         <!-- <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
         <!-- <columnOverride column="content" jdbcType="VARCHAR" />-->
+        </table>
+
+        <table tableName="F_TASKREVIEWTMPDETAILE" domainObjectName="TaskReviewTmpDetileBto">
+            <property name="useActualColumnNames" value="false"/>
+            <!-- 插入时是否自动生成主键 -->
+            <!-- <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!-- <columnOverride column="content" jdbcType="VARCHAR" />-->
         </table>
 
     </context>
