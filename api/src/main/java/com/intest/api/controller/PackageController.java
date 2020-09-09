@@ -4,7 +4,6 @@ import com.intest.common.result.ResultT;
 import com.intest.common.util.MultiDownloadUtil;
 import com.intest.dao.entity.CarTypeExtendBto;
 import com.intest.dao.entity.FileBto;
-import com.intest.dao.entity.FileInfo;
 import com.intest.packageparser.file.FileParser;
 import com.intest.packageservice.request.PackageDeleteRequest;
 import com.intest.packageservice.request.PackageParseRequest;
@@ -14,21 +13,15 @@ import com.intest.packageservice.vo.PackageCheckRequest;
 import com.intest.packageservice.vo.PackageVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -55,7 +48,12 @@ public class PackageController {
     @RequestMapping(value = "/package/exist", method = RequestMethod.POST)
     public ResultT<Boolean> checkLargePackage(@RequestBody PackageCheckRequest request){
         ResultT<Boolean> result = new ResultT<>();
-        result.setResult(largePackageService.checkParentFileName(request));
+        try{
+            result.setResult(largePackageService.checkParentFileName(request));
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setFail();
+        }
         return result;
     }
 
@@ -63,7 +61,12 @@ public class PackageController {
     @RequestMapping(value = "/package/list", method = RequestMethod.POST)
     public ResultT findAllLargePackage(@RequestBody PackageRequest request){
         ResultT result = new ResultT();
-        result.setResult(largePackageService.findAllLargePackage(request));
+        try{
+            result.setResult(largePackageService.findAllLargePackage(request));
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setFail();
+        }
         return result;
     }
 
@@ -71,7 +74,12 @@ public class PackageController {
     @RequestMapping(value = "/package/cartypecombo", method = RequestMethod.POST)
     public ResultT<List<CarTypeExtendBto>> findAllCarType(){
         ResultT<List<CarTypeExtendBto>> result = new ResultT<>();
-        result.setResult(largePackageService.findAllCarType());
+        try{
+            result.setResult(largePackageService.findAllCarType());
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setFail();
+        }
         return result;
     }
 
@@ -80,7 +88,12 @@ public class PackageController {
     @RequestMapping(value = "/package/delete", method = RequestMethod.POST)
     public ResultT deletePackage(@RequestBody PackageDeleteRequest request){
         ResultT result = new ResultT();
-        result.setSuccess(largePackageService.deletePackage(request.getIds()));
+        try{
+            result.setSuccess(largePackageService.deletePackage(request.getIds()));
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setFail();
+        }
         return result;
     }
 
@@ -88,7 +101,12 @@ public class PackageController {
     @RequestMapping(value = "/package/details", method = RequestMethod.POST)
     public ResultT<PackageVO> packageDetails(@RequestBody Map<String, String> params){
         ResultT<PackageVO> result = new ResultT<>();
-        result.setResult(largePackageService.packageDetails(params.get("packageId")));
+        try{
+            result.setResult(largePackageService.packageDetails(params.get("packageId")));
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setFail();
+        }
         return result;
     }
 
@@ -96,10 +114,15 @@ public class PackageController {
     @RequestMapping(value = "/package/parse", method = RequestMethod.POST)
     public ResultT<List<String>> parseFile(@RequestBody PackageParseRequest request) {
         ResultT<List<String>> result = new ResultT();
-        fileParser.parseFile(request.getFileId(), request.getCarTypeId());
-        int success = FileParser.largeZipResult.isSuccess() ? 1 : -1;
-        result.setSuccess(success);
-        result.setResult(FileParser.largeZipResult.getErrors());
+        try{
+            fileParser.parseFile(request.getFileId(), request.getCarTypeId());
+            int success = FileParser.largeZipResult.isSuccess() ? 1 : -1;
+            result.setSuccess(success);
+            result.setResult(FileParser.largeZipResult.getErrors());
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setFail();
+        }
         return result;
     }
 
@@ -108,7 +131,12 @@ public class PackageController {
     @RequestMapping(value = "/package/save", method = RequestMethod.POST)
     public ResultT save(){
         ResultT result = new ResultT();
-        fileParser.saveToDb(result);
+        try{
+            fileParser.saveToDb(result);
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setFail();
+        }
         return result;
     }
 

@@ -27,7 +27,12 @@ public class UpgradePackageController {
     @PostMapping("/list")
     public ResultT findAllUpgradePackage(UpgradePackageRequest request){
         ResultT result = new ResultT();
-        result.setResult(upgradePackageService.findAllUpgradePackage(request));
+        try{
+            result.setResult(upgradePackageService.findAllUpgradePackage(request));
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setFail();
+        }
         return result;
     }
 
@@ -35,7 +40,12 @@ public class UpgradePackageController {
     @PostMapping("/partstree")
     public ResultT partsTree(@RequestBody PartsTreeRequest request){
         ResultT result = new ResultT();
-        result.setResult(upgradePackageService.partsTree(request));
+        try{
+            result.setResult(upgradePackageService.partsTree(request));
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setFail();
+        }
         return result;
     }
 
@@ -43,7 +53,12 @@ public class UpgradePackageController {
     @PostMapping("/versionlist")
     public ResultT versionList(@RequestBody VersionRequest request){
         ResultT result = new ResultT();
-        result.setResult(upgradePackageService.getVersion(request));
+        try{
+            result.setResult(upgradePackageService.getVersion(request));
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setFail();
+        }
         return result;
     }
 
@@ -51,7 +66,12 @@ public class UpgradePackageController {
     @PostMapping("/make")
     public ResultT make(@RequestBody MakeRequest request){
         ResultT result = new ResultT();
-        result.setResult(upgradePackageService.make(request));
+        try{
+            result.setResult(upgradePackageService.make(request));
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setFail();
+        }
         return result;
     }
 
@@ -59,7 +79,25 @@ public class UpgradePackageController {
     @PostMapping("/unpublish")
     public ResultT unpublish(@RequestBody PackageDeleteRequest request){
         ResultT result = new ResultT();
-        result.setResult(upgradePackageService.unpublish(request.getIds()));
+        try{
+            result.setResult(upgradePackageService.unpublish(request.getIds()));
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setFail();
+        }
+        return result;
+    }
+
+    @ApiOperation("升级包详情")
+    @PostMapping("/details")
+    public ResultT upgradePackageDetails(@RequestBody UpgradePackageDetailRequest request){
+        ResultT result = new ResultT();
+        try{
+            result.setResult(upgradePackageService.upgradePackageDetails(request.getPackageTaskId()));
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setFail();
+        }
         return result;
     }
 }
