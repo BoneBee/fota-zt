@@ -6,11 +6,11 @@ import com.intest.common.result.PagerDataBaseVO;
 import com.intest.common.tableData.TableDataAnnotation;
 import com.intest.dao.entity.CarBto;
 import com.intest.dao.mapper.CarBtoMapper;
-import com.intest.dao.mapper.CarExtendMapper;
 import com.intest.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -21,11 +21,6 @@ import java.util.List;
 @TableDataAnnotation
 public class CarServiceImpl implements CarService {
 
-    @Autowired
-    private CarBtoMapper carMapper;
-
-    @Autowired
-    private CarExtendMapper carExtend;
 
     @Override
     @TableDataAnnotation(tableId = "123")
@@ -35,7 +30,8 @@ public class CarServiceImpl implements CarService {
         //List<Car> list = carMapper.selectByExample(null);
 
         PageHelper.startPage(model.getPi(), model.getPs());
-        List<CarBto> cars = carExtend.selectPage();
+        //List<CarBto> cars = carExtend.selectPage();
+        List<CarBto> cars = new ArrayList<>();
         PageInfo pageInfo = new PageInfo<CarBto>(cars);
         car.setTotal(pageInfo.getTotal());
         car.setData(cars);

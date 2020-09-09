@@ -38,12 +38,12 @@ public class EditSaveTableImpl implements EditSaveTableService {
 
     @Override
     public int addTable(TableBto tableBto) {
-        return tableBtoMapper.insert(tableBto);
+        return tableBtoMapper.insertSelective(tableBto);
     }
 
     @Override
     public int updateTable(TableBto tableBto) {
-        return tableBtoMapper.updateByPrimaryKey(tableBto);
+        return tableBtoMapper.updateByPrimaryKeySelective(tableBto);
     }
 
     @Override

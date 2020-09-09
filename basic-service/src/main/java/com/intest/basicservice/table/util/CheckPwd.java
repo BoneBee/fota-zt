@@ -4,19 +4,30 @@ import com.intest.basicservice.table.util.Config;
 
 public class CheckPwd {
 
+
+    public static boolean checkUpperCase(String partName) {
+        for (int i = 0; i < partName.length(); i++) {
+            char c = partName.charAt(i);
+            if (Character.isLowerCase(c)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
-     * @brief   检测密码中字符长度
+     * @return 符合长度要求 返回true
+     * @brief 检测密码中字符长度
      * @param[in] password            密码字符串
-     * @return  符合长度要求 返回true
      */
     public static boolean checkPasswordLength(String password) {
-        boolean flag =false;
+        boolean flag = false;
 
-        if("".equals(Config.MAX_LENGTH)) {
+        if ("".equals(Config.MAX_LENGTH)) {
             if (password.length() >= Integer.parseInt(Config.MIN_LENGTH)) {
                 flag = true;
             }
-        }else{
+        } else {
             if (password.length() >= Integer.parseInt(Config.MIN_LENGTH) &&
                     password.length() <= Integer.parseInt(Config.MAX_LENGTH)) {
                 flag = true;
@@ -164,11 +175,10 @@ public class CheckPwd {
     }
 
 
-
     /**
-     * @brief   键盘规则匹配器 横向连续检测
+     * @return 含有横向连续字符串 返回true
+     * @brief 键盘规则匹配器 横向连续检测
      * @param[in] password            密码字符串
-     * @return  含有横向连续字符串 返回true
      */
     public static boolean checkLateralKeyboardSite(String password) {
         String t_password = new String(password);
@@ -180,13 +190,13 @@ public class CheckPwd {
          */
         boolean flag = false;
         int arrLen = Config.KEYBOARD_HORIZONTAL_ARR.length;
-        int limit_num = Integer.parseInt(Config.LIMIT_HORIZONTAL_NUM_KEY) ;
+        int limit_num = Integer.parseInt(Config.LIMIT_HORIZONTAL_NUM_KEY);
 
-        for(int i=0; i+limit_num<=n; i++) {
-            String str = t_password.substring(i, i+limit_num);
-            String distinguishStr = password.substring(i, i+limit_num);
+        for (int i = 0; i + limit_num <= n; i++) {
+            String str = t_password.substring(i, i + limit_num);
+            String distinguishStr = password.substring(i, i + limit_num);
 
-            for(int j=0; j<arrLen; j++) {
+            for (int j = 0; j < arrLen; j++) {
                 String configStr = Config.KEYBOARD_HORIZONTAL_ARR[j];
                 String revOrderStr = new StringBuffer(Config.KEYBOARD_HORIZONTAL_ARR[j]).reverse().toString();
 
@@ -194,23 +204,23 @@ public class CheckPwd {
                 if ("enable".equals(Config.CHECK_DISTINGGUISH_CASE)) {
                     //考虑 大写键盘匹配的情况
                     String UpperStr = Config.KEYBOARD_HORIZONTAL_ARR[j].toUpperCase();
-                    if((configStr.indexOf(distinguishStr) != -1) || (UpperStr.indexOf(distinguishStr) != -1)) {
+                    if ((configStr.indexOf(distinguishStr) != -1) || (UpperStr.indexOf(distinguishStr) != -1)) {
                         flag = true;
                         return flag;
                     }
                     //考虑逆序输入情况下 连续输入
                     String revUpperStr = new StringBuffer(UpperStr).reverse().toString();
-                    if((revOrderStr.indexOf(distinguishStr) != -1) || (revUpperStr.indexOf(distinguishStr) != -1)) {
+                    if ((revOrderStr.indexOf(distinguishStr) != -1) || (revUpperStr.indexOf(distinguishStr) != -1)) {
                         flag = true;
                         return flag;
                     }
-                }else {
-                    if(configStr.indexOf(str) != -1) {
+                } else {
+                    if (configStr.indexOf(str) != -1) {
                         flag = true;
                         return flag;
                     }
                     //考虑逆序输入情况下 连续输入
-                    if(revOrderStr.indexOf(str) != -1) {
+                    if (revOrderStr.indexOf(str) != -1) {
                         flag = true;
                         return flag;
                     }

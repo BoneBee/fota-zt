@@ -371,6 +371,66 @@ public class CarBtoExample {
             return (Criteria) this;
         }
 
+        public Criteria andAddtypeIsNull() {
+            addCriterion("ADDTYPE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddtypeIsNotNull() {
+            addCriterion("ADDTYPE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddtypeEqualTo(Short value) {
+            addCriterion("ADDTYPE =", value, "addtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddtypeNotEqualTo(Short value) {
+            addCriterion("ADDTYPE <>", value, "addtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddtypeGreaterThan(Short value) {
+            addCriterion("ADDTYPE >", value, "addtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddtypeGreaterThanOrEqualTo(Short value) {
+            addCriterion("ADDTYPE >=", value, "addtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddtypeLessThan(Short value) {
+            addCriterion("ADDTYPE <", value, "addtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddtypeLessThanOrEqualTo(Short value) {
+            addCriterion("ADDTYPE <=", value, "addtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddtypeIn(List<Short> values) {
+            addCriterion("ADDTYPE in", values, "addtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddtypeNotIn(List<Short> values) {
+            addCriterion("ADDTYPE not in", values, "addtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddtypeBetween(Short value1, Short value2) {
+            addCriterion("ADDTYPE between", value1, value2, "addtype");
+            return (Criteria) this;
+        }
+
+        public Criteria andAddtypeNotBetween(Short value1, Short value2) {
+            addCriterion("ADDTYPE not between", value1, value2, "addtype");
+            return (Criteria) this;
+        }
+
         public Criteria andLicenseIsNull() {
             addCriterion("LICENSE is null");
             return (Criteria) this;
@@ -508,76 +568,6 @@ public class CarBtoExample {
 
         public Criteria andTerminalcodeNotBetween(String value1, String value2) {
             addCriterion("TERMINALCODE not between", value1, value2, "terminalcode");
-            return (Criteria) this;
-        }
-
-        public Criteria andFkSimcardIdIsNull() {
-            addCriterion("FK_SIMCARD_ID is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andFkSimcardIdIsNotNull() {
-            addCriterion("FK_SIMCARD_ID is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andFkSimcardIdEqualTo(String value) {
-            addCriterion("FK_SIMCARD_ID =", value, "fkSimcardId");
-            return (Criteria) this;
-        }
-
-        public Criteria andFkSimcardIdNotEqualTo(String value) {
-            addCriterion("FK_SIMCARD_ID <>", value, "fkSimcardId");
-            return (Criteria) this;
-        }
-
-        public Criteria andFkSimcardIdGreaterThan(String value) {
-            addCriterion("FK_SIMCARD_ID >", value, "fkSimcardId");
-            return (Criteria) this;
-        }
-
-        public Criteria andFkSimcardIdGreaterThanOrEqualTo(String value) {
-            addCriterion("FK_SIMCARD_ID >=", value, "fkSimcardId");
-            return (Criteria) this;
-        }
-
-        public Criteria andFkSimcardIdLessThan(String value) {
-            addCriterion("FK_SIMCARD_ID <", value, "fkSimcardId");
-            return (Criteria) this;
-        }
-
-        public Criteria andFkSimcardIdLessThanOrEqualTo(String value) {
-            addCriterion("FK_SIMCARD_ID <=", value, "fkSimcardId");
-            return (Criteria) this;
-        }
-
-        public Criteria andFkSimcardIdLike(String value) {
-            addCriterion("FK_SIMCARD_ID like", value, "fkSimcardId");
-            return (Criteria) this;
-        }
-
-        public Criteria andFkSimcardIdNotLike(String value) {
-            addCriterion("FK_SIMCARD_ID not like", value, "fkSimcardId");
-            return (Criteria) this;
-        }
-
-        public Criteria andFkSimcardIdIn(List<String> values) {
-            addCriterion("FK_SIMCARD_ID in", values, "fkSimcardId");
-            return (Criteria) this;
-        }
-
-        public Criteria andFkSimcardIdNotIn(List<String> values) {
-            addCriterion("FK_SIMCARD_ID not in", values, "fkSimcardId");
-            return (Criteria) this;
-        }
-
-        public Criteria andFkSimcardIdBetween(String value1, String value2) {
-            addCriterion("FK_SIMCARD_ID between", value1, value2, "fkSimcardId");
-            return (Criteria) this;
-        }
-
-        public Criteria andFkSimcardIdNotBetween(String value1, String value2) {
-            addCriterion("FK_SIMCARD_ID not between", value1, value2, "fkSimcardId");
             return (Criteria) this;
         }
 
@@ -898,6 +888,76 @@ public class CarBtoExample {
 
         public Criteria andUpdatebyNotBetween(String value1, String value2) {
             addCriterion("UPDATEBY not between", value1, value2, "updateby");
+            return (Criteria) this;
+        }
+
+        public Criteria andIccidIsNull() {
+            addCriterion("ICCID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIccidIsNotNull() {
+            addCriterion("ICCID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andIccidEqualTo(String value) {
+            addCriterion("ICCID =", value, "iccid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIccidNotEqualTo(String value) {
+            addCriterion("ICCID <>", value, "iccid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIccidGreaterThan(String value) {
+            addCriterion("ICCID >", value, "iccid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIccidGreaterThanOrEqualTo(String value) {
+            addCriterion("ICCID >=", value, "iccid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIccidLessThan(String value) {
+            addCriterion("ICCID <", value, "iccid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIccidLessThanOrEqualTo(String value) {
+            addCriterion("ICCID <=", value, "iccid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIccidLike(String value) {
+            addCriterion("ICCID like", value, "iccid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIccidNotLike(String value) {
+            addCriterion("ICCID not like", value, "iccid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIccidIn(List<String> values) {
+            addCriterion("ICCID in", values, "iccid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIccidNotIn(List<String> values) {
+            addCriterion("ICCID not in", values, "iccid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIccidBetween(String value1, String value2) {
+            addCriterion("ICCID between", value1, value2, "iccid");
+            return (Criteria) this;
+        }
+
+        public Criteria andIccidNotBetween(String value1, String value2) {
+            addCriterion("ICCID not between", value1, value2, "iccid");
             return (Criteria) this;
         }
     }

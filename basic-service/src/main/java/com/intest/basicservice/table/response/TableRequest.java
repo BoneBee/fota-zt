@@ -9,6 +9,10 @@ public class TableRequest {
     private List<ColumnBean> column;
     private ToolbarBean toolbar;
 
+    public TableRequest(){
+
+    }
+
     public TableRequest(String menuId, String tableId, String remark, List<ColumnBean> column, ToolbarBean toolbar) {
         this.menuId = menuId;
         this.tableId = tableId;
@@ -74,6 +78,9 @@ public class TableRequest {
 
         private String fieldText;
 
+        public ColumnBean(){
+
+        }
 
         public ColumnBean(String columnId, String columnName, Short orderNum, int width, boolean isShow, boolean isCanSort, String fieldText,String dataPropertyName) {
             this.columnId = columnId;
@@ -155,6 +162,10 @@ public class TableRequest {
         private boolean checked;
         private List<ItemBean> items;
 
+        public ToolbarBean(){
+
+        }
+
         public ToolbarBean(boolean checked, List<ItemBean> items) {
             this.checked = checked;
             this.items = items;
@@ -181,6 +192,10 @@ public class TableRequest {
         private String itemId;
         private boolean isSelect;
 
+        public ItemBean(){
+
+        }
+
         public ItemBean(String itemId, boolean isSelect) {
             this.itemId = itemId;
             this.isSelect = isSelect;
@@ -194,11 +209,11 @@ public class TableRequest {
             this.itemId = itemId;
         }
 
-        public boolean isSelect() {
+        public boolean getIsSelect() {
             return isSelect;
         }
 
-        public void setSelect(boolean select) {
+        public void setIsSelect(boolean select) {
             isSelect = select;
         }
     }

@@ -5,14 +5,15 @@
     <id column="CAR_ID" jdbcType="CHAR" property="carId" />
     <result column="FK_CARTYPE_ID" jdbcType="CHAR" property="fkCartypeId" />
     <result column="VIN" jdbcType="CHAR" property="vin" />
+    <result column="ADDTYPE" jdbcType="NUMERIC" property="addtype" />
     <result column="LICENSE" jdbcType="NVARCHAR" property="license" />
-    <result column="TERMINALCODE" jdbcType="VARCHAR" property="terminalcode" />
-    <result column="FK_SIMCARD_ID" jdbcType="CHAR" property="fkSimcardId" />
+    <result column="TERMINALCODE" jdbcType="NVARCHAR" property="terminalcode" />
     <result column="ISDELETE" jdbcType="NUMERIC" property="isdelete" />
     <result column="CREATEAT" jdbcType="TIMESTAMP" property="createat" />
     <result column="CREATEBY" jdbcType="CHAR" property="createby" />
     <result column="UPDATEAT" jdbcType="TIMESTAMP" property="updateat" />
     <result column="UPDATEBY" jdbcType="CHAR" property="updateby" />
+    <result column="ICCID" jdbcType="NVARCHAR" property="iccid" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -73,8 +74,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    CAR_ID, FK_CARTYPE_ID, VIN, LICENSE, TERMINALCODE, FK_SIMCARD_ID, ISDELETE, CREATEAT, 
-    CREATEBY, UPDATEAT, UPDATEBY
+    CAR_ID, FK_CARTYPE_ID, VIN, ADDTYPE, LICENSE, TERMINALCODE, ISDELETE, CREATEAT, CREATEBY, 
+    UPDATEAT, UPDATEBY, ICCID
   </sql>
   <select id="selectByExample" parameterType="com.intest.dao.entity.CarBtoExample" resultMap="BaseResultMap">
     select
@@ -108,13 +109,15 @@
   </delete>
   <insert id="insert" parameterType="com.intest.dao.entity.CarBto">
     insert into F_CAR (CAR_ID, FK_CARTYPE_ID, VIN, 
-      LICENSE, TERMINALCODE, FK_SIMCARD_ID, 
+      ADDTYPE, LICENSE, TERMINALCODE, 
       ISDELETE, CREATEAT, CREATEBY, 
-      UPDATEAT, UPDATEBY)
+      UPDATEAT, UPDATEBY, ICCID
+      )
     values (#{carId,jdbcType=CHAR}, #{fkCartypeId,jdbcType=CHAR}, #{vin,jdbcType=CHAR}, 
-      #{license,jdbcType=NVARCHAR}, #{terminalcode,jdbcType=VARCHAR}, #{fkSimcardId,jdbcType=CHAR}, 
+      #{addtype,jdbcType=NUMERIC}, #{license,jdbcType=NVARCHAR}, #{terminalcode,jdbcType=NVARCHAR}, 
       #{isdelete,jdbcType=NUMERIC}, #{createat,jdbcType=TIMESTAMP}, #{createby,jdbcType=CHAR}, 
-      #{updateat,jdbcType=TIMESTAMP}, #{updateby,jdbcType=CHAR})
+      #{updateat,jdbcType=TIMESTAMP}, #{updateby,jdbcType=CHAR}, #{iccid,jdbcType=NVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.intest.dao.entity.CarBto">
     insert into F_CAR
@@ -128,14 +131,14 @@
       <if test="vin != null">
         VIN,
       </if>
+      <if test="addtype != null">
+        ADDTYPE,
+      </if>
       <if test="license != null">
         LICENSE,
       </if>
       <if test="terminalcode != null">
         TERMINALCODE,
-      </if>
-      <if test="fkSimcardId != null">
-        FK_SIMCARD_ID,
       </if>
       <if test="isdelete != null">
         ISDELETE,
@@ -152,6 +155,9 @@
       <if test="updateby != null">
         UPDATEBY,
       </if>
+      <if test="iccid != null">
+        ICCID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="carId != null">
@@ -163,14 +169,14 @@
       <if test="vin != null">
         #{vin,jdbcType=CHAR},
       </if>
+      <if test="addtype != null">
+        #{addtype,jdbcType=NUMERIC},
+      </if>
       <if test="license != null">
         #{license,jdbcType=NVARCHAR},
       </if>
       <if test="terminalcode != null">
-        #{terminalcode,jdbcType=VARCHAR},
-      </if>
-      <if test="fkSimcardId != null">
-        #{fkSimcardId,jdbcType=CHAR},
+        #{terminalcode,jdbcType=NVARCHAR},
       </if>
       <if test="isdelete != null">
         #{isdelete,jdbcType=NUMERIC},
@@ -186,6 +192,9 @@
       </if>
       <if test="updateby != null">
         #{updateby,jdbcType=CHAR},
+      </if>
+      <if test="iccid != null">
+        #{iccid,jdbcType=NVARCHAR},
       </if>
     </trim>
   </insert>
@@ -207,14 +216,14 @@
       <if test="record.vin != null">
         VIN = #{record.vin,jdbcType=CHAR},
       </if>
+      <if test="record.addtype != null">
+        ADDTYPE = #{record.addtype,jdbcType=NUMERIC},
+      </if>
       <if test="record.license != null">
         LICENSE = #{record.license,jdbcType=NVARCHAR},
       </if>
       <if test="record.terminalcode != null">
-        TERMINALCODE = #{record.terminalcode,jdbcType=VARCHAR},
-      </if>
-      <if test="record.fkSimcardId != null">
-        FK_SIMCARD_ID = #{record.fkSimcardId,jdbcType=CHAR},
+        TERMINALCODE = #{record.terminalcode,jdbcType=NVARCHAR},
       </if>
       <if test="record.isdelete != null">
         ISDELETE = #{record.isdelete,jdbcType=NUMERIC},
@@ -231,6 +240,9 @@
       <if test="record.updateby != null">
         UPDATEBY = #{record.updateby,jdbcType=CHAR},
       </if>
+      <if test="record.iccid != null">
+        ICCID = #{record.iccid,jdbcType=NVARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -241,14 +253,15 @@
     set CAR_ID = #{record.carId,jdbcType=CHAR},
       FK_CARTYPE_ID = #{record.fkCartypeId,jdbcType=CHAR},
       VIN = #{record.vin,jdbcType=CHAR},
+      ADDTYPE = #{record.addtype,jdbcType=NUMERIC},
       LICENSE = #{record.license,jdbcType=NVARCHAR},
-      TERMINALCODE = #{record.terminalcode,jdbcType=VARCHAR},
-      FK_SIMCARD_ID = #{record.fkSimcardId,jdbcType=CHAR},
+      TERMINALCODE = #{record.terminalcode,jdbcType=NVARCHAR},
       ISDELETE = #{record.isdelete,jdbcType=NUMERIC},
       CREATEAT = #{record.createat,jdbcType=TIMESTAMP},
       CREATEBY = #{record.createby,jdbcType=CHAR},
       UPDATEAT = #{record.updateat,jdbcType=TIMESTAMP},
-      UPDATEBY = #{record.updateby,jdbcType=CHAR}
+      UPDATEBY = #{record.updateby,jdbcType=CHAR},
+      ICCID = #{record.iccid,jdbcType=NVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -262,14 +275,14 @@
       <if test="vin != null">
         VIN = #{vin,jdbcType=CHAR},
       </if>
+      <if test="addtype != null">
+        ADDTYPE = #{addtype,jdbcType=NUMERIC},
+      </if>
       <if test="license != null">
         LICENSE = #{license,jdbcType=NVARCHAR},
       </if>
       <if test="terminalcode != null">
-        TERMINALCODE = #{terminalcode,jdbcType=VARCHAR},
-      </if>
-      <if test="fkSimcardId != null">
-        FK_SIMCARD_ID = #{fkSimcardId,jdbcType=CHAR},
+        TERMINALCODE = #{terminalcode,jdbcType=NVARCHAR},
       </if>
       <if test="isdelete != null">
         ISDELETE = #{isdelete,jdbcType=NUMERIC},
@@ -286,6 +299,9 @@
       <if test="updateby != null">
         UPDATEBY = #{updateby,jdbcType=CHAR},
       </if>
+      <if test="iccid != null">
+        ICCID = #{iccid,jdbcType=NVARCHAR},
+      </if>
     </set>
     where CAR_ID = #{carId,jdbcType=CHAR}
   </update>
@@ -293,14 +309,15 @@
     update F_CAR
     set FK_CARTYPE_ID = #{fkCartypeId,jdbcType=CHAR},
       VIN = #{vin,jdbcType=CHAR},
+      ADDTYPE = #{addtype,jdbcType=NUMERIC},
       LICENSE = #{license,jdbcType=NVARCHAR},
-      TERMINALCODE = #{terminalcode,jdbcType=VARCHAR},
-      FK_SIMCARD_ID = #{fkSimcardId,jdbcType=CHAR},
+      TERMINALCODE = #{terminalcode,jdbcType=NVARCHAR},
       ISDELETE = #{isdelete,jdbcType=NUMERIC},
       CREATEAT = #{createat,jdbcType=TIMESTAMP},
       CREATEBY = #{createby,jdbcType=CHAR},
       UPDATEAT = #{updateat,jdbcType=TIMESTAMP},
-      UPDATEBY = #{updateby,jdbcType=CHAR}
+      UPDATEBY = #{updateby,jdbcType=CHAR},
+      ICCID = #{iccid,jdbcType=NVARCHAR}
     where CAR_ID = #{carId,jdbcType=CHAR}
   </update>
 </mapper>

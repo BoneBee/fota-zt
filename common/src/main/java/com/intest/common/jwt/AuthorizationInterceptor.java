@@ -1,6 +1,5 @@
 package com.intest.common.jwt;
 
-import cn.hutool.http.HttpException;
 import com.intest.common.exception.CustomException;
 import com.intest.common.exception.UnauthorizedException;
 import com.intest.common.redis.Constant;
@@ -23,7 +22,7 @@ import java.lang.reflect.Method;
 public class AuthorizationInterceptor implements HandlerInterceptor {
 
     //日志操作
-    //private static Logger logger = LoggerFactory.getLogger(ExceptionAdvice.class);
+    private static Logger logger = LoggerFactory.getLogger(AuthorizationInterceptor.class);
     //存放鉴权信息的Header名称，默认是Authorization
     private String httpHeaderName = "token";
 

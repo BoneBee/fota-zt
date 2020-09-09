@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.intest.dao.mapper.PartsConfigBtoMapper">
+  <resultMap id="BaseResultMap" type="com.intest.dao.entity.PartsConfigBto">
+    <id column="PARTSCONFIG_ID" jdbcType="CHAR" property="partsconfigId" />
+    <result column="FK_PARTS_ID" jdbcType="CHAR" property="fkPartsId" />
+    <result column="VOLTAGEMODEL" jdbcType="NUMERIC" property="voltagemodel" />
+    <result column="CANTYPE" jdbcType="NUMERIC" property="cantype" />
+    <result column="TRAVELSTATE" jdbcType="NUMERIC" property="travelstate" />
+    <result column="GEAR" jdbcType="NUMERIC" property="gear" />
+    <result column="ORDERNUM" jdbcType="NUMERIC" property="ordernum" />
+    <result column="PREPROGRAMME" jdbcType="NUMERIC" property="preprogramme" />
+    <result column="INPROGRAMME" jdbcType="NUMERIC" property="inprogramme" />
+    <result column="SAFETYLEVEL" jdbcType="NUMERIC" property="safetylevel" />
+    <result column="ALGORITHMMASK" jdbcType="NVARCHAR" property="algorithmmask" />
+    <result column="DELAY" jdbcType="NUMERIC" property="delay" />
+    <result column="ISALIGNMENT" jdbcType="NUMERIC" property="isalignment" />
+    <result column="ALIGNMENTCOMPANY" jdbcType="NUMERIC" property="alignmentcompany" />
+    <result column="ECUWAITRESETTIME" jdbcType="NUMERIC" property="ecuwaitresettime" />
+    <result column="CREATEAT" jdbcType="TIMESTAMP" property="createat" />
+    <result column="CREATEBY" jdbcType="CHAR" property="createby" />
+    <result column="UPDATEAT" jdbcType="TIMESTAMP" property="updateat" />
+    <result column="UPDATEBY" jdbcType="CHAR" property="updateby" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    PARTSCONFIG_ID, FK_PARTS_ID, VOLTAGEMODEL, CANTYPE, TRAVELSTATE, GEAR, ORDERNUM, 
+    PREPROGRAMME, INPROGRAMME, SAFETYLEVEL, ALGORITHMMASK, DELAY, ISALIGNMENT, ALIGNMENTCOMPANY, 
+    ECUWAITRESETTIME, CREATEAT, CREATEBY, UPDATEAT, UPDATEBY
+  </sql>
+  <select id="selectByExample" parameterType="com.intest.dao.entity.PartsConfigBtoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from F_PARTSCONFIG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from F_PARTSCONFIG
+    where PARTSCONFIG_ID = #{partsconfigId,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from F_PARTSCONFIG
+    where PARTSCONFIG_ID = #{partsconfigId,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.intest.dao.entity.PartsConfigBtoExample">
+    delete from F_PARTSCONFIG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.intest.dao.entity.PartsConfigBto">
+    insert into F_PARTSCONFIG (PARTSCONFIG_ID, FK_PARTS_ID, VOLTAGEMODEL, 
+      CANTYPE, TRAVELSTATE, GEAR, 
+      ORDERNUM, PREPROGRAMME, INPROGRAMME, 
+      SAFETYLEVEL, ALGORITHMMASK, DELAY, 
+      ISALIGNMENT, ALIGNMENTCOMPANY, ECUWAITRESETTIME, 
+      CREATEAT, CREATEBY, UPDATEAT, 
+      UPDATEBY)
+    values (#{partsconfigId,jdbcType=CHAR}, #{fkPartsId,jdbcType=CHAR}, #{voltagemodel,jdbcType=NUMERIC}, 
+      #{cantype,jdbcType=NUMERIC}, #{travelstate,jdbcType=NUMERIC}, #{gear,jdbcType=NUMERIC}, 
+      #{ordernum,jdbcType=NUMERIC}, #{preprogramme,jdbcType=NUMERIC}, #{inprogramme,jdbcType=NUMERIC}, 
+      #{safetylevel,jdbcType=NUMERIC}, #{algorithmmask,jdbcType=NVARCHAR}, #{delay,jdbcType=NUMERIC}, 
+      #{isalignment,jdbcType=NUMERIC}, #{alignmentcompany,jdbcType=NUMERIC}, #{ecuwaitresettime,jdbcType=NUMERIC}, 
+      #{createat,jdbcType=TIMESTAMP}, #{createby,jdbcType=CHAR}, #{updateat,jdbcType=TIMESTAMP}, 
+      #{updateby,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.intest.dao.entity.PartsConfigBto">
+    insert into F_PARTSCONFIG
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="partsconfigId != null">
+        PARTSCONFIG_ID,
+      </if>
+      <if test="fkPartsId != null">
+        FK_PARTS_ID,
+      </if>
+      <if test="voltagemodel != null">
+        VOLTAGEMODEL,
+      </if>
+      <if test="cantype != null">
+        CANTYPE,
+      </if>
+      <if test="travelstate != null">
+        TRAVELSTATE,
+      </if>
+      <if test="gear != null">
+        GEAR,
+      </if>
+      <if test="ordernum != null">
+        ORDERNUM,
+      </if>
+      <if test="preprogramme != null">
+        PREPROGRAMME,
+      </if>
+      <if test="inprogramme != null">
+        INPROGRAMME,
+      </if>
+      <if test="safetylevel != null">
+        SAFETYLEVEL,
+      </if>
+      <if test="algorithmmask != null">
+        ALGORITHMMASK,
+      </if>
+      <if test="delay != null">
+        DELAY,
+      </if>
+      <if test="isalignment != null">
+        ISALIGNMENT,
+      </if>
+      <if test="alignmentcompany != null">
+        ALIGNMENTCOMPANY,
+      </if>
+      <if test="ecuwaitresettime != null">
+        ECUWAITRESETTIME,
+      </if>
+      <if test="createat != null">
+        CREATEAT,
+      </if>
+      <if test="createby != null">
+        CREATEBY,
+      </if>
+      <if test="updateat != null">
+        UPDATEAT,
+      </if>
+      <if test="updateby != null">
+        UPDATEBY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="partsconfigId != null">
+        #{partsconfigId,jdbcType=CHAR},
+      </if>
+      <if test="fkPartsId != null">
+        #{fkPartsId,jdbcType=CHAR},
+      </if>
+      <if test="voltagemodel != null">
+        #{voltagemodel,jdbcType=NUMERIC},
+      </if>
+      <if test="cantype != null">
+        #{cantype,jdbcType=NUMERIC},
+      </if>
+      <if test="travelstate != null">
+        #{travelstate,jdbcType=NUMERIC},
+      </if>
+      <if test="gear != null">
+        #{gear,jdbcType=NUMERIC},
+      </if>
+      <if test="ordernum != null">
+        #{ordernum,jdbcType=NUMERIC},
+      </if>
+      <if test="preprogramme != null">
+        #{preprogramme,jdbcType=NUMERIC},
+      </if>
+      <if test="inprogramme != null">
+        #{inprogramme,jdbcType=NUMERIC},
+      </if>
+      <if test="safetylevel != null">
+        #{safetylevel,jdbcType=NUMERIC},
+      </if>
+      <if test="algorithmmask != null">
+        #{algorithmmask,jdbcType=NVARCHAR},
+      </if>
+      <if test="delay != null">
+        #{delay,jdbcType=NUMERIC},
+      </if>
+      <if test="isalignment != null">
+        #{isalignment,jdbcType=NUMERIC},
+      </if>
+      <if test="alignmentcompany != null">
+        #{alignmentcompany,jdbcType=NUMERIC},
+      </if>
+      <if test="ecuwaitresettime != null">
+        #{ecuwaitresettime,jdbcType=NUMERIC},
+      </if>
+      <if test="createat != null">
+        #{createat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null">
+        #{createby,jdbcType=CHAR},
+      </if>
+      <if test="updateat != null">
+        #{updateat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null">
+        #{updateby,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.intest.dao.entity.PartsConfigBtoExample" resultType="java.lang.Long">
+    select count(*) from F_PARTSCONFIG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update F_PARTSCONFIG
+    <set>
+      <if test="record.partsconfigId != null">
+        PARTSCONFIG_ID = #{record.partsconfigId,jdbcType=CHAR},
+      </if>
+      <if test="record.fkPartsId != null">
+        FK_PARTS_ID = #{record.fkPartsId,jdbcType=CHAR},
+      </if>
+      <if test="record.voltagemodel != null">
+        VOLTAGEMODEL = #{record.voltagemodel,jdbcType=NUMERIC},
+      </if>
+      <if test="record.cantype != null">
+        CANTYPE = #{record.cantype,jdbcType=NUMERIC},
+      </if>
+      <if test="record.travelstate != null">
+        TRAVELSTATE = #{record.travelstate,jdbcType=NUMERIC},
+      </if>
+      <if test="record.gear != null">
+        GEAR = #{record.gear,jdbcType=NUMERIC},
+      </if>
+      <if test="record.ordernum != null">
+        ORDERNUM = #{record.ordernum,jdbcType=NUMERIC},
+      </if>
+      <if test="record.preprogramme != null">
+        PREPROGRAMME = #{record.preprogramme,jdbcType=NUMERIC},
+      </if>
+      <if test="record.inprogramme != null">
+        INPROGRAMME = #{record.inprogramme,jdbcType=NUMERIC},
+      </if>
+      <if test="record.safetylevel != null">
+        SAFETYLEVEL = #{record.safetylevel,jdbcType=NUMERIC},
+      </if>
+      <if test="record.algorithmmask != null">
+        ALGORITHMMASK = #{record.algorithmmask,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.delay != null">
+        DELAY = #{record.delay,jdbcType=NUMERIC},
+      </if>
+      <if test="record.isalignment != null">
+        ISALIGNMENT = #{record.isalignment,jdbcType=NUMERIC},
+      </if>
+      <if test="record.alignmentcompany != null">
+        ALIGNMENTCOMPANY = #{record.alignmentcompany,jdbcType=NUMERIC},
+      </if>
+      <if test="record.ecuwaitresettime != null">
+        ECUWAITRESETTIME = #{record.ecuwaitresettime,jdbcType=NUMERIC},
+      </if>
+      <if test="record.createat != null">
+        CREATEAT = #{record.createat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createby != null">
+        CREATEBY = #{record.createby,jdbcType=CHAR},
+      </if>
+      <if test="record.updateat != null">
+        UPDATEAT = #{record.updateat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateby != null">
+        UPDATEBY = #{record.updateby,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update F_PARTSCONFIG
+    set PARTSCONFIG_ID = #{record.partsconfigId,jdbcType=CHAR},
+      FK_PARTS_ID = #{record.fkPartsId,jdbcType=CHAR},
+      VOLTAGEMODEL = #{record.voltagemodel,jdbcType=NUMERIC},
+      CANTYPE = #{record.cantype,jdbcType=NUMERIC},
+      TRAVELSTATE = #{record.travelstate,jdbcType=NUMERIC},
+      GEAR = #{record.gear,jdbcType=NUMERIC},
+      ORDERNUM = #{record.ordernum,jdbcType=NUMERIC},
+      PREPROGRAMME = #{record.preprogramme,jdbcType=NUMERIC},
+      INPROGRAMME = #{record.inprogramme,jdbcType=NUMERIC},
+      SAFETYLEVEL = #{record.safetylevel,jdbcType=NUMERIC},
+      ALGORITHMMASK = #{record.algorithmmask,jdbcType=NVARCHAR},
+      DELAY = #{record.delay,jdbcType=NUMERIC},
+      ISALIGNMENT = #{record.isalignment,jdbcType=NUMERIC},
+      ALIGNMENTCOMPANY = #{record.alignmentcompany,jdbcType=NUMERIC},
+      ECUWAITRESETTIME = #{record.ecuwaitresettime,jdbcType=NUMERIC},
+      CREATEAT = #{record.createat,jdbcType=TIMESTAMP},
+      CREATEBY = #{record.createby,jdbcType=CHAR},
+      UPDATEAT = #{record.updateat,jdbcType=TIMESTAMP},
+      UPDATEBY = #{record.updateby,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.intest.dao.entity.PartsConfigBto">
+    update F_PARTSCONFIG
+    <set>
+      <if test="fkPartsId != null">
+        FK_PARTS_ID = #{fkPartsId,jdbcType=CHAR},
+      </if>
+      <if test="voltagemodel != null">
+        VOLTAGEMODEL = #{voltagemodel,jdbcType=NUMERIC},
+      </if>
+      <if test="cantype != null">
+        CANTYPE = #{cantype,jdbcType=NUMERIC},
+      </if>
+      <if test="travelstate != null">
+        TRAVELSTATE = #{travelstate,jdbcType=NUMERIC},
+      </if>
+      <if test="gear != null">
+        GEAR = #{gear,jdbcType=NUMERIC},
+      </if>
+      <if test="ordernum != null">
+        ORDERNUM = #{ordernum,jdbcType=NUMERIC},
+      </if>
+      <if test="preprogramme != null">
+        PREPROGRAMME = #{preprogramme,jdbcType=NUMERIC},
+      </if>
+      <if test="inprogramme != null">
+        INPROGRAMME = #{inprogramme,jdbcType=NUMERIC},
+      </if>
+      <if test="safetylevel != null">
+        SAFETYLEVEL = #{safetylevel,jdbcType=NUMERIC},
+      </if>
+      <if test="algorithmmask != null">
+        ALGORITHMMASK = #{algorithmmask,jdbcType=NVARCHAR},
+      </if>
+      <if test="delay != null">
+        DELAY = #{delay,jdbcType=NUMERIC},
+      </if>
+      <if test="isalignment != null">
+        ISALIGNMENT = #{isalignment,jdbcType=NUMERIC},
+      </if>
+      <if test="alignmentcompany != null">
+        ALIGNMENTCOMPANY = #{alignmentcompany,jdbcType=NUMERIC},
+      </if>
+      <if test="ecuwaitresettime != null">
+        ECUWAITRESETTIME = #{ecuwaitresettime,jdbcType=NUMERIC},
+      </if>
+      <if test="createat != null">
+        CREATEAT = #{createat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null">
+        CREATEBY = #{createby,jdbcType=CHAR},
+      </if>
+      <if test="updateat != null">
+        UPDATEAT = #{updateat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null">
+        UPDATEBY = #{updateby,jdbcType=CHAR},
+      </if>
+    </set>
+    where PARTSCONFIG_ID = #{partsconfigId,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.intest.dao.entity.PartsConfigBto">
+    update F_PARTSCONFIG
+    set FK_PARTS_ID = #{fkPartsId,jdbcType=CHAR},
+      VOLTAGEMODEL = #{voltagemodel,jdbcType=NUMERIC},
+      CANTYPE = #{cantype,jdbcType=NUMERIC},
+      TRAVELSTATE = #{travelstate,jdbcType=NUMERIC},
+      GEAR = #{gear,jdbcType=NUMERIC},
+      ORDERNUM = #{ordernum,jdbcType=NUMERIC},
+      PREPROGRAMME = #{preprogramme,jdbcType=NUMERIC},
+      INPROGRAMME = #{inprogramme,jdbcType=NUMERIC},
+      SAFETYLEVEL = #{safetylevel,jdbcType=NUMERIC},
+      ALGORITHMMASK = #{algorithmmask,jdbcType=NVARCHAR},
+      DELAY = #{delay,jdbcType=NUMERIC},
+      ISALIGNMENT = #{isalignment,jdbcType=NUMERIC},
+      ALIGNMENTCOMPANY = #{alignmentcompany,jdbcType=NUMERIC},
+      ECUWAITRESETTIME = #{ecuwaitresettime,jdbcType=NUMERIC},
+      CREATEAT = #{createat,jdbcType=TIMESTAMP},
+      CREATEBY = #{createby,jdbcType=CHAR},
+      UPDATEAT = #{updateat,jdbcType=TIMESTAMP},
+      UPDATEBY = #{updateby,jdbcType=CHAR}
+    where PARTSCONFIG_ID = #{partsconfigId,jdbcType=CHAR}
+  </update>
+</mapper>

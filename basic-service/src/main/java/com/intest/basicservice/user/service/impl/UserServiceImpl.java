@@ -1,33 +1,50 @@
 package com.intest.basicservice.user.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.intest.basicservice.menu.service.MenuService;
 import com.intest.basicservice.table.common.constant.Constant;
+import com.intest.basicservice.user.response.UserPage;
+import com.intest.basicservice.user.response.UserResponse;
 import com.intest.basicservice.user.service.UserService;
 import com.intest.basicservice.user.vo.LoginVO;
 import com.intest.common.jwt.BcrptTokenGenerator;
+import com.intest.common.jwt.JwtUtil;
+import com.intest.common.jwt.constant.RedisConstant;
 import com.intest.common.redis.JedisUtil;
+import com.intest.common.result.PagerDataBaseVO;
+import com.intest.common.tableData.TableDataAnnotation;
 import com.intest.common.util.BCrypt;
+import com.intest.dao.entity.PartsBto;
+import com.intest.dao.entity.PartsTypeBto;
 import com.intest.dao.entity.UserBto;
 import com.intest.dao.entity.UserBtoExample;
 import com.intest.dao.mapper.UserBtoMapper;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Service
+@TableDataAnnotation
 public class UserServiceImpl implements UserService {
+
+    private Log logger = LogFactory.getLog(this.getClass());
+
+    @Value("${config.refreshToken-expireTime}")
+    private String refreshTokenExpireTime;
 
     @Autowired
     UserBtoMapper userBtoMapper;
 
     @Autowired
     MenuService menuService;
-
-    @Autowired
-    BcrptTokenGenerator bcrptTokenGenerator;
 
     /**
      * create by: zhanghui
@@ -64,7 +81,7 @@ public class UserServiceImpl implements UserService {
                 } else {
                     updateUserBySuccess(user.getUserId());
                     vo.setIsCanLogin(1);
-                    vo.setToken(bcrptTokenGenerator.generate(userName));
+                    //vo.setToken(bcrptTokenGenerator.generate(userName));
                     vo.setMenus(menuService.getMenuByUserId(user.getUserId()));
 
                     try {
@@ -72,11 +89,25 @@ public class UserServiceImpl implements UserService {
                         //    Object token = JedisUtil.getObject(Constant.PREFIX_SHIRO_CACHE + user.getUserId());
                         //} else {
                         //String token = bcrptTokenGenerator.generate(user.getUserId());
-                        JedisUtil.setObject(Constant.PREFIX_SHIRO_CACHE + user.getUserId(), vo.getToken(), Constant.EXRP_DAY);
-                        JedisUtil.setObject(Constant.PREFIX_SHIRO_ACCESS_TOKEN + vo.getToken(), user.getUserId(), Constant.EXRP_DAY);
+                        //JedisUtil.setObject(Constant.PREFIX_SHIRO_CACHE + user.getUserId(), vo.getToken(), Constant.EXRP_DAY);
+                        //JedisUtil.setObject(Constant.PREFIX_SHIRO_ACCESS_TOKEN + vo.getToken(), user.getUserId(), Constant.EXRP_DAY);
                         //}
+
+                        // 清除可能存在的shiro权限信息缓存
+                        if (JedisUtil.exists(RedisConstant.PREFIX_SHIRO_CACHE + user.getUserId())) {
+                            JedisUtil.delKey(RedisConstant.PREFIX_SHIRO_CACHE + user.getUserId());
+                        }
+
+                        // 设置RefreshToken，时间戳为当前时间戳，直接设置即可(不用先删后设，会覆盖已有的RefreshToken)
+                        String currentTimeMillis = String.valueOf(System.currentTimeMillis());
+                        JedisUtil.setJson(RedisConstant.PREFIX_SHIRO_REFRESH_TOKEN + user.getUserId(), currentTimeMillis,
+                                Integer.parseInt(refreshTokenExpireTime));
+
+                        // 从Header中Authorization返回AccessToken，时间戳为当前时间戳
+                        String token = JwtUtil.sign(user.getUserId(), currentTimeMillis);
+                        vo.setToken(token);
                     } catch (Exception ex) {
-                        System.out.println(ex);
+                        logger.error(ex);
                     }
                 }
             }
@@ -120,7 +151,7 @@ public class UserServiceImpl implements UserService {
         UserBtoExample userBtoExample = new UserBtoExample();
         UserBtoExample.Criteria userBtoCriteria = userBtoExample.createCriteria();
         userBtoCriteria.andUserIdEqualTo(userId);
-        userBtoCriteria.andIsdeleteEqualTo((short)1);
+        userBtoCriteria.andIsdeleteEqualTo((short) 1);
 
         UserBto user = new UserBto();
         user.setPasswordRetryCount(passwordRetryCount - 1);
@@ -172,6 +203,19 @@ public class UserServiceImpl implements UserService {
         return vo;
     }
 
+    public boolean logout(String account) {
+        Boolean result = true;
+
+        // 清除shiro权限信息缓存
+        if (JedisUtil.exists(RedisConstant.PREFIX_SHIRO_CACHE + account)) {
+            JedisUtil.delKey(RedisConstant.PREFIX_SHIRO_CACHE + account);
+        }
+        // 清除RefreshToken
+        JedisUtil.delKey(RedisConstant.PREFIX_SHIRO_REFRESH_TOKEN + account);
+
+        return result;
+    }
+
     @Override
     public UserBto getUserByname(String loginName) {
         UserBtoExample example = new UserBtoExample();
@@ -186,6 +230,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserBto getUserByUserId(String userId) {
+        return userBtoMapper.selectByPrimaryKey(userId);
+    }
+
+    @Override
     public int addUser(UserBto userBto) {
         return userBtoMapper.insert(userBto);
     }
@@ -196,7 +245,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean deleteUser(String name) {
-        return false;
+    public int deleteUser(String userId) {
+        return userBtoMapper.deleteByPrimaryKey(userId);
+    }
+
+    @Override
+    @TableDataAnnotation(tableId = "262c1a6f-a568-42a8-92c1-30fdceded241")
+    public PagerDataBaseVO getUserInfo(UserPage model) {
+        PagerDataBaseVO user = new PagerDataBaseVO();
+        PageHelper.startPage(model.getPi(), model.getPs());
+        List<UserBto> userBtos = userBtoMapper.selectByExample(null);
+        List<UserResponse> userResponseList = new ArrayList<>();
+        PageInfo<UserBto> pageInfo = new PageInfo<UserBto>(userBtos);
+        int index = pageInfo.getStartRow() - 1;
+        for (UserBto userBto : userBtos) {
+            UserResponse userResponse = new UserResponse(index += 1, userBto.getUserId(), userBto.getLoginName(), userBto.getRealName(), userBto.getJobNumber(), userBto.getMobile(), userBto.getCompanyEmail(), userBto.getSex()==1?"男":"女", userBto.getNote(), userBto.getAccountKind()==1?"系统用户账户":"服务账户", userBto.getLastLoginat(), userBto.getAccountStatus()==1?"启用":"冻结", userBto.getCreateat(), userBto.getCreateby());
+            userResponseList.add(userResponse);
+        }
+        user.setTotal(pageInfo.getTotal());
+        user.setData(userResponseList);
+        return user;
     }
 }

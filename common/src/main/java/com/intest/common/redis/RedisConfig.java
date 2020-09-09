@@ -1,4 +1,4 @@
-package com.intest.basicservice.table.config;
+package com.intest.common.redis;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;

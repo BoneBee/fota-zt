@@ -16,11 +16,10 @@
 	<description>common project for Spring Boot</description>
 
 	<dependencies>
-		<!-- https://mvnrepository.com/artifact/commons-net/commons-net -->
 		<dependency>
-			<groupId>commons-net</groupId>
-			<artifactId>commons-net</artifactId>
-			<version>3.3</version>
+			<groupId>com.intest.web</groupId>
+			<artifactId>dao</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 

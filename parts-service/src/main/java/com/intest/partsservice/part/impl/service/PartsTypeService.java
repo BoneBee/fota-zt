@@ -1,7 +1,9 @@
 package com.intest.partsservice.part.impl.service;
 
 
+import com.intest.common.result.PagerDataBaseVO;
 import com.intest.dao.entity.PartsTypeBto;
+import com.intest.partsservice.part.response.PartTypePage;
 
 import java.util.List;
 
@@ -18,4 +20,6 @@ public interface PartsTypeService {
     int updatePartsType(PartsTypeBto partsTypeBto);
 
     int deletePartsType(String partsTypeId);
+
+    PagerDataBaseVO getPartTypeInfo(PartTypePage model);
 }

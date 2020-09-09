@@ -4,7 +4,7 @@ import java.util.Date;
 
 public class CarBto {
     /**
-     * 主键，车辆编号 CAR_ID
+     * 主键 CAR_ID
      */
     private String carId;
 
@@ -19,6 +19,11 @@ public class CarBto {
     private String vin;
 
     /**
+     * 添加来源 1-手动添加 2-Excel导入 ADDTYPE
+     */
+    private Short addtype;
+
+    /**
      * 车牌号码 LICENSE
      */
     private String license;
@@ -29,12 +34,7 @@ public class CarBto {
     private String terminalcode;
 
     /**
-     * SIM卡主键 FK_SIMCARD_ID
-     */
-    private String fkSimcardId;
-
-    /**
-     * 是否删除 ISDELETE
+     * 1-未删除，0-已删除； ISDELETE
      */
     private Short isdelete;
 
@@ -59,20 +59,25 @@ public class CarBto {
     private String updateby;
 
     /**
-     * 主键，车辆编号
-     * @author 张辉
-     * @date 2020-08-23 00:24:30
-     * @return CAR_ID 主键，车辆编号
+     * iccid ICCID
+     */
+    private String iccid;
+
+    /**
+     * 主键
+     * @author intest
+     * @date 2020-09-05 14:43:47
+     * @return CAR_ID 主键
      */
     public String getCarId() {
         return carId;
     }
 
     /**
-     * 主键，车辆编号
-     * @author 张辉
-     * @date 2020-08-23 00:24:30
-     * @param carId 主键，车辆编号
+     * 主键
+     * @author intest
+     * @date 2020-09-05 14:43:47
+     * @param carId 主键
      */
     public void setCarId(String carId) {
         this.carId = carId == null ? null : carId.trim();
@@ -80,8 +85,8 @@ public class CarBto {
 
     /**
      * 外键，车型表主键
-     * @author 张辉
-     * @date 2020-08-23 00:24:30
+     * @author intest
+     * @date 2020-09-05 14:43:47
      * @return FK_CARTYPE_ID 外键，车型表主键
      */
     public String getFkCartypeId() {
@@ -90,8 +95,8 @@ public class CarBto {
 
     /**
      * 外键，车型表主键
-     * @author 张辉
-     * @date 2020-08-23 00:24:30
+     * @author intest
+     * @date 2020-09-05 14:43:47
      * @param fkCartypeId 外键，车型表主键
      */
     public void setFkCartypeId(String fkCartypeId) {
@@ -100,8 +105,8 @@ public class CarBto {
 
     /**
      * VIN码
-     * @author 张辉
-     * @date 2020-08-23 00:24:30
+     * @author intest
+     * @date 2020-09-05 14:43:47
      * @return VIN VIN码
      */
     public String getVin() {
@@ -110,8 +115,8 @@ public class CarBto {
 
     /**
      * VIN码
-     * @author 张辉
-     * @date 2020-08-23 00:24:30
+     * @author intest
+     * @date 2020-09-05 14:43:47
      * @param vin VIN码
      */
     public void setVin(String vin) {
@@ -119,9 +124,29 @@ public class CarBto {
     }
 
     /**
+     * 添加来源 1-手动添加 2-Excel导入
+     * @author intest
+     * @date 2020-09-05 14:43:47
+     * @return ADDTYPE 添加来源 1-手动添加 2-Excel导入
+     */
+    public Short getAddtype() {
+        return addtype;
+    }
+
+    /**
+     * 添加来源 1-手动添加 2-Excel导入
+     * @author intest
+     * @date 2020-09-05 14:43:47
+     * @param addtype 添加来源 1-手动添加 2-Excel导入
+     */
+    public void setAddtype(Short addtype) {
+        this.addtype = addtype;
+    }
+
+    /**
      * 车牌号码
-     * @author 张辉
-     * @date 2020-08-23 00:24:30
+     * @author intest
+     * @date 2020-09-05 14:43:47
      * @return LICENSE 车牌号码
      */
     public String getLicense() {
@@ -130,8 +155,8 @@ public class CarBto {
 
     /**
      * 车牌号码
-     * @author 张辉
-     * @date 2020-08-23 00:24:30
+     * @author intest
+     * @date 2020-09-05 14:43:47
      * @param license 车牌号码
      */
     public void setLicense(String license) {
@@ -140,8 +165,8 @@ public class CarBto {
 
     /**
      * 终端编号
-     * @author 张辉
-     * @date 2020-08-23 00:24:30
+     * @author intest
+     * @date 2020-09-05 14:43:47
      * @return TERMINALCODE 终端编号
      */
     public String getTerminalcode() {
@@ -150,8 +175,8 @@ public class CarBto {
 
     /**
      * 终端编号
-     * @author 张辉
-     * @date 2020-08-23 00:24:30
+     * @author intest
+     * @date 2020-09-05 14:43:47
      * @param terminalcode 终端编号
      */
     public void setTerminalcode(String terminalcode) {
@@ -159,40 +184,20 @@ public class CarBto {
     }
 
     /**
-     * SIM卡主键
-     * @author 张辉
-     * @date 2020-08-23 00:24:30
-     * @return FK_SIMCARD_ID SIM卡主键
-     */
-    public String getFkSimcardId() {
-        return fkSimcardId;
-    }
-
-    /**
-     * SIM卡主键
-     * @author 张辉
-     * @date 2020-08-23 00:24:30
-     * @param fkSimcardId SIM卡主键
-     */
-    public void setFkSimcardId(String fkSimcardId) {
-        this.fkSimcardId = fkSimcardId == null ? null : fkSimcardId.trim();
-    }
-
-    /**
-     * 是否删除
-     * @author 张辉
-     * @date 2020-08-23 00:24:30
-     * @return ISDELETE 是否删除
+     * 1-未删除，0-已删除；
+     * @author intest
+     * @date 2020-09-05 14:43:47
+     * @return ISDELETE 1-未删除，0-已删除；
      */
     public Short getIsdelete() {
         return isdelete;
     }
 
     /**
-     * 是否删除
-     * @author 张辉
-     * @date 2020-08-23 00:24:30
-     * @param isdelete 是否删除
+     * 1-未删除，0-已删除；
+     * @author intest
+     * @date 2020-09-05 14:43:47
+     * @param isdelete 1-未删除，0-已删除；
      */
     public void setIsdelete(Short isdelete) {
         this.isdelete = isdelete;
@@ -200,8 +205,8 @@ public class CarBto {
 
     /**
      * 创建时间
-     * @author 张辉
-     * @date 2020-08-23 00:24:30
+     * @author intest
+     * @date 2020-09-05 14:43:47
      * @return CREATEAT 创建时间
      */
     public Date getCreateat() {
@@ -210,8 +215,8 @@ public class CarBto {
 
     /**
      * 创建时间
-     * @author 张辉
-     * @date 2020-08-23 00:24:30
+     * @author intest
+     * @date 2020-09-05 14:43:47
      * @param createat 创建时间
      */
     public void setCreateat(Date createat) {
@@ -220,8 +225,8 @@ public class CarBto {
 
     /**
      * 创建人
-     * @author 张辉
-     * @date 2020-08-23 00:24:30
+     * @author intest
+     * @date 2020-09-05 14:43:47
      * @return CREATEBY 创建人
      */
     public String getCreateby() {
@@ -230,8 +235,8 @@ public class CarBto {
 
     /**
      * 创建人
-     * @author 张辉
-     * @date 2020-08-23 00:24:30
+     * @author intest
+     * @date 2020-09-05 14:43:47
      * @param createby 创建人
      */
     public void setCreateby(String createby) {
@@ -240,8 +245,8 @@ public class CarBto {
 
     /**
      * 修改时间
-     * @author 张辉
-     * @date 2020-08-23 00:24:30
+     * @author intest
+     * @date 2020-09-05 14:43:47
      * @return UPDATEAT 修改时间
      */
     public Date getUpdateat() {
@@ -250,8 +255,8 @@ public class CarBto {
 
     /**
      * 修改时间
-     * @author 张辉
-     * @date 2020-08-23 00:24:30
+     * @author intest
+     * @date 2020-09-05 14:43:47
      * @param updateat 修改时间
      */
     public void setUpdateat(Date updateat) {
@@ -260,8 +265,8 @@ public class CarBto {
 
     /**
      * 修改人
-     * @author 张辉
-     * @date 2020-08-23 00:24:30
+     * @author intest
+     * @date 2020-09-05 14:43:47
      * @return UPDATEBY 修改人
      */
     public String getUpdateby() {
@@ -270,11 +275,31 @@ public class CarBto {
 
     /**
      * 修改人
-     * @author 张辉
-     * @date 2020-08-23 00:24:30
+     * @author intest
+     * @date 2020-09-05 14:43:47
      * @param updateby 修改人
      */
     public void setUpdateby(String updateby) {
         this.updateby = updateby == null ? null : updateby.trim();
+    }
+
+    /**
+     * iccid
+     * @author intest
+     * @date 2020-09-05 14:43:47
+     * @return ICCID iccid
+     */
+    public String getIccid() {
+        return iccid;
+    }
+
+    /**
+     * iccid
+     * @author intest
+     * @date 2020-09-05 14:43:47
+     * @param iccid iccid
+     */
+    public void setIccid(String iccid) {
+        this.iccid = iccid == null ? null : iccid.trim();
     }
 }

@@ -44,12 +44,12 @@ public class ToolbarItemImpl implements ToolbarItemService {
 
     @Override
     public int addToolbarItem(ToolbarItemBto toolbarItemBto) {
-        return toolbarItemBtoMapper.insert(toolbarItemBto);
+        return toolbarItemBtoMapper.insertSelective(toolbarItemBto);
     }
 
     @Override
     public int updateToolbarItem(ToolbarItemBto toolbarItemBto) {
-        return toolbarItemBtoMapper.updateByPrimaryKey(toolbarItemBto);
+        return toolbarItemBtoMapper.updateByPrimaryKeySelective(toolbarItemBto);
     }
 
     @Override
