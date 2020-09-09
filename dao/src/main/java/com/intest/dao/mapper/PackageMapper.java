@@ -2,7 +2,6 @@ package com.intest.dao.mapper;
 
 
 import com.intest.dao.entity.*;
-import com.intest.dao.entity.dto.PartsPackageDto;
 
 import java.util.List;
 
