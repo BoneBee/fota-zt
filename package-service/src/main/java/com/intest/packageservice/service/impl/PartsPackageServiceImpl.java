@@ -48,7 +48,7 @@ public class PartsPackageServiceImpl implements PartsPackageService {
         vo.setPartsPackageSize(bto.getPartsPackageSize());
         vo.setPartsPackageName(bto.getPartsPackageName());
         vo.setPartsName(bto.getPartsName());
-        vo.setPartCode(bto.getPartCode());
+        vo.setPartsCode(bto.getPartsCode());
         vo.setId(bto.getId());
         vo.setFileId(bto.getFileId());
         return vo;
