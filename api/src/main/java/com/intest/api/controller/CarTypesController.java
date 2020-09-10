@@ -1,18 +1,19 @@
 package com.intest.api.controller;
 
-import com.intest.carservice.Request.CarTypeRequest;
-import com.intest.carservice.carservice.Request.*;
-import com.intest.carservice.carservice.cartypesimpl.carmpl;
-import com.intest.carservice.carservice.cartypesimpl.cartypesassemblyImpl;
 
+import com.intest.carservice.Respone.delCarRespone;
+import com.intest.carservice.cartypesimpl.carmpl;
+import com.intest.carservice.Request.*;
+import com.intest.carservice.cartypesimpl.cartypesassemblyImpl;
 import com.intest.common.result.PagerDataBaseVO;
+import com.intest.common.result.Result;
 import com.intest.common.result.ResultT;
-import com.intest.dao.entity.CarTypeBto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -25,13 +26,28 @@ public class CarTypesController {
     @Autowired
     carmpl mpl;
 
+    @ApiOperation("获取所有车型")
+    @RequestMapping(value = "/api/cartypes/getCarTypes", method = RequestMethod.POST)
+    public ResultT<PagerDataBaseVO> getCarTypes(@RequestBody CarTypeRequest ctRequest) {
+        ResultT<PagerDataBaseVO> result = new ResultT<>();
+        try {
+//            PagerDataBaseVO pgVO = cartypesTypeImpl.getCarInfo(ctRequest.getPi(), ctRequest.getPs(), 1, ctRequest.getDataName());
+            PagerDataBaseVO pgVO = cartypesTypeImpl.getCarTypes(ctRequest);
+            result.setResult(pgVO);
+            result.setSuccess(1);
+        } catch (Exception ex) {
+            result.setSuccess(0);
+        }
+        return result;
+    }
+
     @ApiOperation("获取车型详情")
     @RequestMapping(value = "/api/cartypes/getTypeDetail", method = RequestMethod.POST)
-    public ResultT<PagerDataBaseVO> getCarTypeInfo(String carTypeId) {
+    public ResultT<PagerDataBaseVO> getCarTypeInfo(@RequestBody RequestCarTypebyId CarTypebyId) {
 
         ResultT<PagerDataBaseVO> result = new ResultT<>();
         try {
-            PagerDataBaseVO pgVO = cartypesTypeImpl.getCarTypeInfo(carTypeId);
+            PagerDataBaseVO pgVO = cartypesTypeImpl.getCarTypeInfo(CarTypebyId);
             result.setResult(pgVO);
             result.setSuccess(1);
         } catch (Exception ex) {
@@ -73,14 +89,17 @@ public class CarTypesController {
 
     @ApiOperation("删除车型")
     @RequestMapping(value = "/api/cartypes/delCarType", method = RequestMethod.POST)
-    public ResultT<PagerDataBaseVO> delCarType(List<CarTypeBto> carTypes) {
+    public Result delCarType(@RequestBody List<RequestDelCarTypebyId> carTypes) {
 
-        ResultT<PagerDataBaseVO> result = new ResultT<>();
+        Result result = new Result();
         try {
-            PagerDataBaseVO pgVO = cartypesTypeImpl.delCarType(carTypes);
-            result.setResult(pgVO);
+            StringBuffer buf = new StringBuffer();
+            PagerDataBaseVO pgVO = new PagerDataBaseVO();
+            String ErrMsg = cartypesTypeImpl.delCarType(carTypes, buf);
+            result.setMsg(ErrMsg);
             result.setSuccess(1);
         } catch (Exception ex) {
+            result.setMsg(ex.getMessage());
             result.setSuccess(0);
         }
         return result;
@@ -88,43 +107,43 @@ public class CarTypesController {
 
     @ApiOperation("新增车型")
     @RequestMapping(value = "/api/cartypes/addCarType", method = RequestMethod.POST)
-    public ResultT<PagerDataBaseVO> addCarType(@RequestBody addCarType addcartype) {
+    public Result addCarType(@RequestBody addCarType addcartype) {
 
-        ResultT<PagerDataBaseVO> result = new ResultT<>();
+        Result result = new Result();
         StringBuffer buffer = new StringBuffer();
         try {
-            PagerDataBaseVO pgVO = cartypesTypeImpl.addCarType(addcartype);
-            result.setResult(pgVO);
-            result.setSuccess(1);
+            int i = cartypesTypeImpl.addCarType(addcartype);
+            result.setSuccess(i);
 
         } catch (Exception ex) {
             result.setSuccess(0);
+            result.setMsg(ex.getMessage());
             ex.printStackTrace();
         }
-        return null;
+        return result;
     }
 
     @ApiOperation("修改车型")
     @RequestMapping(value = "/api/cartypes/mdfCarType", method = RequestMethod.POST)
-    public ResultT<PagerDataBaseVO> mdfCarType(String carTypeId, String carTypeName, String terminalId, List<String> partTypes, String remark) {
-        ResultT<PagerDataBaseVO> result = new ResultT<>();
+    public Result mdfCarType(@RequestBody addCarType addcartype) {
+        Result result = new Result();
         try {
-            PagerDataBaseVO pgVO = cartypesTypeImpl.mdfCarType(carTypeId, carTypeName, terminalId, partTypes, remark);
-            result.setResult(pgVO);
-            result.setSuccess(1);
+            int i = cartypesTypeImpl.mdfCarType(addcartype);
+            result.setSuccess(i);
         } catch (Exception ex) {
             result.setSuccess(0);
+            result.setMsg(ex.getMessage());
         }
         return result;
     }
 
     @ApiOperation("删除车辆")
     @RequestMapping(value = "/api/cars/delCar", method = RequestMethod.POST)
-    public ResultT<PagerDataBaseVO> delCars(List<carsEx> carArr) {
-        ResultT<PagerDataBaseVO> result = new ResultT<>();
+    public Result delCars(@RequestBody List<carsEx> carArr) {
+        Result result = new Result();
         try {
-            PagerDataBaseVO pgVO = mpl.delCars(carArr);
-            result.setResult(pgVO);
+            delCarRespone dels = mpl.delCars(carArr);
+            result.setMsg(dels.getSuccessMsg());
             result.setSuccess(1);
         } catch (Exception ex) {
             result.setSuccess(0);
@@ -133,8 +152,8 @@ public class CarTypesController {
     }
 
     @ApiOperation("获取车辆")
-    @RequestMapping(value = "/api/cars/getcars", method = RequestMethod.POST)
-    public ResultT<PagerDataBaseVO> getCars(CarRequest carq) {
+    @RequestMapping(value = "/api/cars/getCars", method = RequestMethod.POST)
+    public ResultT<PagerDataBaseVO> getCars(@RequestBody CarRequest carq) {
         ResultT<PagerDataBaseVO> result = new ResultT<>();
         try {
             PagerDataBaseVO pgVO = mpl.getCars(carq);
@@ -147,11 +166,11 @@ public class CarTypesController {
     }
 
     @ApiOperation("获取车辆详情")
-    @RequestMapping(value = "/api/cars/getcardetail", method = RequestMethod.POST)
-    public ResultT<PagerDataBaseVO> getCarsInfo(String carId) {
+    @RequestMapping(value = "/api/cars/getCarDetail", method = RequestMethod.POST)
+    public ResultT<PagerDataBaseVO> getCarDetail(@RequestBody RequestCarInfobyId CarInfobyId) {
         ResultT<PagerDataBaseVO> result = new ResultT<>();
         try {
-            PagerDataBaseVO pgVO = mpl.getCarInfo(carId);
+            PagerDataBaseVO pgVO = mpl.getCarDetail(CarInfobyId.getCarId());
             result.setResult(pgVO);
             result.setSuccess(1);
         } catch (Exception ex) {
@@ -161,12 +180,10 @@ public class CarTypesController {
     }
 
     @ApiOperation("新增车辆")
-    @RequestMapping(value = "/api/cars/addcar", method = RequestMethod.POST)
-    public ResultT<PagerDataBaseVO> addnewcar(@RequestBody addCar pcar) {
-        ResultT<PagerDataBaseVO> result = new ResultT<>();
+    @RequestMapping(value = "/api/cars/addCar", method = RequestMethod.POST)
+    public Result addnewcar(@RequestBody addCar pcar) {
+        Result result = new Result();
         try {
-            PagerDataBaseVO pgVO = new PagerDataBaseVO();
-            result.setResult(pgVO);
             int i = mpl.addCar(pcar);
             if (i == 1) {
                 result.setSuccess(1);
@@ -176,6 +193,7 @@ public class CarTypesController {
             }
         } catch (Exception ex) {
             result.setSuccess(0);
+            result.setMsg(ex.getMessage());
         }
         return result;
     }
@@ -183,12 +201,10 @@ public class CarTypesController {
 
     @ApiOperation("修改车辆")
     @RequestMapping(value = "/api/cars/mdfCar", method = RequestMethod.POST)
-    public ResultT<PagerDataBaseVO> mdfCar(@RequestBody addCar pcar) {
-        ResultT<PagerDataBaseVO> result = new ResultT<>();
+    public Result mdfCar(@RequestBody addCar pcar) {
+        Result result = new Result();
         try {
             int i = mpl.mdfCar(pcar);
-            PagerDataBaseVO pgVO = new PagerDataBaseVO();
-            result.setResult(pgVO);
             if (i == 1) {
                 result.setSuccess(1);
             }
@@ -197,17 +213,18 @@ public class CarTypesController {
             }
         } catch (Exception ex) {
             result.setSuccess(0);
+            result.setMsg(ex.getMessage());
         }
         return result;
     }
 
 
     @ApiOperation("新增车辆获取车型")
-    @RequestMapping(value = "/api/cars/getcartypes", method = RequestMethod.POST)
-    public ResultT<PagerDataBaseVO> getcartypes(){
+    @RequestMapping(value = "/api/cars/getAddCarTypes", method = RequestMethod.POST)
+    public ResultT<PagerDataBaseVO> getAddCarTypes() {
         ResultT<PagerDataBaseVO> result = new ResultT<>();
         try {
-            PagerDataBaseVO pgVO = mpl.getCarTypes();
+            PagerDataBaseVO pgVO = mpl.getAddCarTypes();
             result.setResult(pgVO);
             result.setSuccess(1);
         } catch (Exception ex) {
@@ -216,4 +233,16 @@ public class CarTypesController {
         return result;
     }
 
+    @ApiOperation("检测VIN")
+    @RequestMapping(value = "/api/cars/checkVin", method = RequestMethod.POST)
+    public Result checkVin(@RequestBody RequestCheckVin cVin) {
+        Result result = new Result();
+        try {
+            result.setMsg(mpl.checkVin(cVin));
+            result.setSuccess(1);
+        } catch (Exception ex) {
+            result.setSuccess(0);
+        }
+        return result;
+    }
 }
