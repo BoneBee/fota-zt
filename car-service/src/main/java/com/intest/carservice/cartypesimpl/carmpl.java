@@ -82,10 +82,10 @@ public class carmpl implements CarService {
         delCarRespone carrsp = new delCarRespone();
         for (carsEx car : carArr) {
             //根据车辆ID删除车辆
-            CarBto cbto=new CarBto();
+            CarBto cbto = new CarBto();
             cbto.setCarId(car.getCarid());
             cbto.setVin(car.getVin());
-            cbto.setIsdelete((short)0);
+            cbto.setIsdelete((short) 0);
             int i = carmp.updateByPrimaryKey(cbto);
             if (i == 0) {
                 errMsg += String.format("车辆VIN：%s  删除失败！\r\n", car.getVin());
@@ -113,11 +113,15 @@ public class carmpl implements CarService {
         //查询条件
         PageHelper.startPage(pageindex, pagesize);
         List<CarBto> cars = new ArrayList<>();
+
+        //封装排序对象
+        CarBtoExample carExample = new CarBtoExample();
+
         try {
-            //封装排序对象
-            CarBtoExample carExample = new CarBtoExample();
-            String sort = carTools.replaceCharacter(carq.getSort());
-            carExample.setOrderByClause(sort);
+            if (!carq.getSort().equals("") || carq.getSort() != null) {
+                String sort = carTools.replaceCharacter(carq.getSort());
+                carExample.setOrderByClause(sort);
+            }
             cars = carmp.selectByExample(carExample);
         } catch (Exception carEx) {
 

@@ -73,11 +73,15 @@ public class cartypesassemblyImpl implements CarTypesService {
 
         PageHelper.startPage(pageindex, pagesize);
         List<CarTypeBto> carTypes = new ArrayList<>();
-        try {
-            CarTypeBtoExample btoExample = new CarTypeBtoExample();
 
-            String sort = carTools.replaceCharacter(request.getSort());
-            btoExample.setOrderByClause(sort);
+        CarTypeBtoExample btoExample = new CarTypeBtoExample();
+
+        try {
+            if(!request.getSort().equals("")||request.getSort()!=null){
+                String sort = carTools.replaceCharacter(request.getSort());
+                btoExample.setOrderByClause(sort);
+            }
+
             carTypes = cartypeMapper.selectByExample(btoExample);
 
         } catch (Exception ex) {
@@ -156,7 +160,7 @@ public class cartypesassemblyImpl implements CarTypesService {
             //零件类型名
             ecu.setTypeName(ptbto.getPartstypename());
             //零件类型全名
-            ecu.setFullName(ptbto.getFullname());
+            ecu.setFullName(ptbto.getPartstypename());
             //零件名
             ecu.setPartName(pbto.getPartsname());
             //零件index
