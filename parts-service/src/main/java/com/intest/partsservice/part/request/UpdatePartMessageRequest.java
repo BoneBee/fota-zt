@@ -5,17 +5,15 @@ import io.swagger.annotations.ApiParam;
 public class UpdatePartMessageRequest {
     private String partsTypeId;
     private String partsName;
-    private String fullName;
     private String partsId;
     private String remark;
 
     public UpdatePartMessageRequest() {
     }
 
-    public UpdatePartMessageRequest(String partsTypeId, String partsName, String fullName, String partsId, String remark) {
+    public UpdatePartMessageRequest(String partsTypeId, String partsName, String partsId, String remark) {
         this.partsTypeId = partsTypeId;
         this.partsName = partsName;
-        this.fullName = fullName;
         this.partsId = partsId;
         this.remark = remark;
     }
@@ -36,13 +34,6 @@ public class UpdatePartMessageRequest {
         this.partsName = partsName;
     }
 
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
 
     public String getPartsId() {
         return partsId;

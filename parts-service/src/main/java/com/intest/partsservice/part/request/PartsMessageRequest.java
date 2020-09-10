@@ -2,8 +2,7 @@ package com.intest.partsservice.part.request;
 
 public class PartsMessageRequest {
     private String partsName;
-    private String fullName;
-    private String partsType;
+    private String partsTypeId;
     private String remark;
 
     public String getPartsName() {
@@ -14,20 +13,12 @@ public class PartsMessageRequest {
         this.partsName = partsName;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getPartsTypeId() {
+        return partsTypeId;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
-    }
-
-    public String getPartsType() {
-        return partsType;
-    }
-
-    public void setPartsType(String partsType) {
-        this.partsType = partsType;
+    public void setPartsTypeId(String partsTypeId) {
+        this.partsTypeId = partsTypeId;
     }
 
     public String getRemark() {

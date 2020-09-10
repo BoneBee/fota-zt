@@ -2,8 +2,6 @@ package com.intest.dao.mapper;
 
 import com.intest.dao.entity.CarTypeBto;
 import com.intest.dao.entity.PartsBto;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
