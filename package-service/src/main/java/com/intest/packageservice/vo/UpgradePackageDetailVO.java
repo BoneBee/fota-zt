@@ -16,14 +16,6 @@ public class UpgradePackageDetailVO {
      * 描述内容
      */
     private String content;
-    /**
-     * 升级包信息
-     */
-    private List<UpgradePackageVO> upgradePackages;
-    /**
-     * 升级零件
-     */
-    private List<PartsVO> parts;
 
     public String getTitle() {
         return title;
@@ -39,21 +31,5 @@ public class UpgradePackageDetailVO {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public List<UpgradePackageVO> getUpgradePackages() {
-        return upgradePackages;
-    }
-
-    public void setUpgradePackages(List<UpgradePackageVO> upgradePackages) {
-        this.upgradePackages = upgradePackages;
-    }
-
-    public List<PartsVO> getParts() {
-        return parts;
-    }
-
-    public void setParts(List<PartsVO> parts) {
-        this.parts = parts;
     }
 }

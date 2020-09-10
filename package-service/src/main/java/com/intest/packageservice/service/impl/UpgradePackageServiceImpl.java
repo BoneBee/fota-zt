@@ -208,11 +208,16 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
     }
 
     @Override
-    public UpgradePackageDetailVO upgradePackageDetails(String packageTaskId){
+    public UpgradePackageDetailVO upgradePackageDesc(String packageTaskId){
         UpgradePackageDetailVO vo = new UpgradePackageDetailVO();
         PackageTaskBto bto = packageTaskBtoMapper.selectByPrimaryKey(packageTaskId);
         vo.setTitle(bto.getTitle());
         vo.setContent(bto.getContent());
+        return vo;
+    }
+
+    @Override
+    public List<PartsVO> getParts(String packageTaskId){
         TaskOriginalPackageBtoExample example = new TaskOriginalPackageBtoExample();
         example.createCriteria().andFkPackagetaskIdEqualTo(packageTaskId);
         List<TaskOriginalPackageBto> tops = taskOriginalPackageBtoMapper.selectByExample(example);
@@ -262,8 +267,11 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
                 plist.add(pvo);
             }
         }
-        vo.setParts(plist);
+        return plist;
+    }
 
+    @Override
+    public List<UpgradePackageVO> getUpgradePackage(String packageTaskId){
         PartsUpgradePackageBtoExample partsUpgradePackageBtoExample = new PartsUpgradePackageBtoExample();
         partsUpgradePackageBtoExample.createCriteria().andFkPackagetaskIdEqualTo(packageTaskId);
         List<PartsUpgradePackageBto> pups = partsUpgradePackageBtoMapper.selectByExample(partsUpgradePackageBtoExample);
@@ -283,8 +291,6 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
             upvo.setType(1);
             uplist.add(upvo);
         }
-        vo.setUpgradePackages(uplist);
-
-        return vo;
+        return uplist;
     }
 }
