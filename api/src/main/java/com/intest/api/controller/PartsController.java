@@ -75,7 +75,7 @@ public class PartsController {
     @ResponseBody
     @RequestMapping(value = "/api/basic/part/updatePartsType", method = RequestMethod.POST)
     public ResponseBean updatePartsType(@RequestBody UpdatePartsTypeRequest updatePartsTypeRequest) {
-        ValidateHelper.validateNull(updatePartsTypeRequest, new String[]{"partsTypeId","partsTypeName"});
+        ValidateHelper.validateNull(updatePartsTypeRequest, new String[]{"partsTypeId", "partsTypeName"});
         PartsTypeBto partsTypeBto = partsTypeImpl.getPartsTypeById(updatePartsTypeRequest.getPartsTypeId());
         if (partsTypeBto == null) {
             throw new CustomException("未找到对应零部件类型");
@@ -150,26 +150,19 @@ public class PartsController {
     @ResponseBody
     @RequestMapping(value = "/api/basic/part/addPartMessage", method = RequestMethod.POST)
     public ResponseBean addPartMessage(@RequestBody PartsMessageRequest partsMessageRequest) {
-        ValidateHelper.validateNull(partsMessageRequest, new String[]{"partsName", "fullName", "partsType"});
-        if (partsMessageRequest.getPartsName().length() > 3 || !CheckPwd.checkUpperCase(partsMessageRequest.getPartsName())) {
-            throw new CustomException("零件简称不合法");
+        ValidateHelper.validateNull(partsMessageRequest, new String[]{"partsName", "partsType"});
+        if (partsMessageRequest.getPartsName().length() > 10 || partsMessageRequest.getPartsName().length() < 5 || !CheckPwd.checkUpperCase(partsMessageRequest.getPartsName())) {
+            throw new CustomException("零部件信息名称不合法");
         }
-        if (partsMessageRequest.getFullName().length() > 20) {
-            throw new CustomException("零件全称长度超过上限");
-        }
-        PartsBto partsBto = partsImpl.getPartsByFullName(partsMessageRequest.getFullName());
+
         PartsBto partsBto2 = partsImpl.getPartsByCode(partsMessageRequest.getPartsName());
-        if (partsBto != null) {
-            throw new CustomException("fullName已经存在");
-        }
         if (partsBto2 != null) {
             throw new CustomException("partsName已经存在");
         }
         PartsBto saveParts = new PartsBto();
         saveParts.setPartsId(UUID.randomUUID() + "");
-        saveParts.setPartsname(partsMessageRequest.getFullName());
-        saveParts.setPartscode(partsMessageRequest.getPartsName());
-        saveParts.setFkPartstypeId(partsMessageRequest.getPartsType());
+        saveParts.setPartsname(partsMessageRequest.getPartsName());
+        saveParts.setFkPartstypeId(partsMessageRequest.getPartsTypeId());
         saveParts.setOrdernum((short) 1);
         saveParts.setIsdelete((short) 1);
         saveParts.setCreateat(new Date());
@@ -181,19 +174,19 @@ public class PartsController {
         PartsConfigBto partsConfigBto = new PartsConfigBto();
         partsConfigBto.setPartsconfigId(UUID.randomUUID() + "");
         partsConfigBto.setFkPartsId(saveParts.getPartsId());
-        partsConfigBto.setVoltagemodel((short)1);
-        partsConfigBto.setCantype((short)1);
-        partsConfigBto.setTravelstate((short)0);
-        partsConfigBto.setGear((short)1);
-        partsConfigBto.setOrdernum((short)1);
-        partsConfigBto.setPreprogramme((short)1);
-        partsConfigBto.setInprogramme((short)1);
-        partsConfigBto.setSafetylevel((short)1);
+        partsConfigBto.setVoltagemodel((short) 1);
+        partsConfigBto.setCantype((short) 1);
+        partsConfigBto.setTravelstate((short) 0);
+        partsConfigBto.setGear((short) 1);
+        partsConfigBto.setOrdernum((short) 1);
+        partsConfigBto.setPreprogramme((short) 1);
+        partsConfigBto.setInprogramme((short) 1);
+        partsConfigBto.setSafetylevel((short) 1);
         partsConfigBto.setAlgorithmmask("OTA");
-        partsConfigBto.setDelay((short)1);
-        partsConfigBto.setIsalignment((short)0);
-        partsConfigBto.setAlignmentcompany((short)10);
-        partsConfigBto.setEcuwaitresettime((short)5);
+        partsConfigBto.setDelay((short) 1);
+        partsConfigBto.setIsalignment((short) 0);
+        partsConfigBto.setAlignmentcompany((short) 10);
+        partsConfigBto.setEcuwaitresettime((short) 5);
         partsConfigBto.setCreateat(new Date());
         partsConfigBto.setCreateby("admin");
         if (partsConfigImpl.addParts(partsConfigBto) != 1) {
@@ -212,19 +205,15 @@ public class PartsController {
     @ResponseBody
     @RequestMapping(value = "/api/basic/part/updatePartMessage", method = RequestMethod.POST)
     public ResponseBean updatePartMessage(@RequestBody UpdatePartMessageRequest request) {
-        ValidateHelper.validateNull(request, new String[]{"partsName", "fullName", "partsTypeId","partsId"});
-        if (request.getPartsName().length() > 3 || !CheckPwd.checkUpperCase(request.getPartsName())) {
+        ValidateHelper.validateNull(request, new String[]{"partsName", "partsTypeId", "partsId"});
+        if (request.getPartsName().length() > 10 || request.getPartsName().length() < 5) {
             throw new CustomException("零件简称不合法");
-        }
-        if (request.getFullName().length() > 20) {
-            throw new CustomException("零件全称长度超过上限");
         }
         PartsBto partsBto = partsImpl.getPartsById(request.getPartsId());
         if (partsBto == null) {
             throw new CustomException("未找到对应零部件信息");
         } else {
-            partsBto.setPartsname(request.getFullName());
-            partsBto.setPartscode(request.getPartsName());
+            partsBto.setPartsname(request.getPartsName());
             partsBto.setFkPartstypeId(request.getPartsId());
             partsBto.setRemark(request.getRemark());
             if (partsImpl.updateParts(partsBto) != 1) {
@@ -256,7 +245,6 @@ public class PartsController {
     /**
      * 获取零件信息管理列表
      *
-
      * @return
      */
 

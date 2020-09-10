@@ -4,14 +4,14 @@ import java.util.Date;
 
 public class PartsTypeResponse {
     private String partsTypeId;
-    private String fullName;
+    private String partsTypeName;
 
     public PartsTypeResponse() {
     }
 
-    public PartsTypeResponse(String partsTypeId, String fullName) {
+    public PartsTypeResponse(String partsTypeId, String partsTypeName) {
         this.partsTypeId = partsTypeId;
-        this.fullName = fullName;
+        this.partsTypeName = partsTypeName;
     }
 
     public String getPartsTypeId() {
@@ -22,11 +22,11 @@ public class PartsTypeResponse {
         this.partsTypeId = partsTypeId;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getPartsTypeName() {
+        return partsTypeName;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setPartsTypeName(String partsTypeName) {
+        this.partsTypeName = partsTypeName;
     }
 }
