@@ -73,11 +73,15 @@ public class cartypesassemblyImpl implements CarTypesService {
 
         PageHelper.startPage(pageindex, pagesize);
         List<CarTypeBto> carTypes = new ArrayList<>();
-        try {
-            CarTypeBtoExample btoExample = new CarTypeBtoExample();
 
-            String sort = carTools.replaceCharacter(request.getSort());
-            btoExample.setOrderByClause(sort);
+        CarTypeBtoExample btoExample = new CarTypeBtoExample();
+
+        try {
+            if(!request.getSort().equals("")||request.getSort()!=null){
+                String sort = carTools.replaceCharacter(request.getSort());
+                btoExample.setOrderByClause(sort);
+            }
+
             carTypes = cartypeMapper.selectByExample(btoExample);
 
         } catch (Exception ex) {
