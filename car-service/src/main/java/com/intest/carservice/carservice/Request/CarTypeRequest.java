@@ -1,4 +1,4 @@
-package com.intest.carservice.Request;
+package com.intest.carservice.carservice.Request;
 
 import com.intest.common.ro.PagerBaseRO;
 
