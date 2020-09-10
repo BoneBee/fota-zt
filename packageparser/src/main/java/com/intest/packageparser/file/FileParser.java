@@ -46,8 +46,6 @@ public class FileParser {
     @Autowired
     private PartsPackageDetailBtoMapper partsPackageDetailBtoMapper;
 
-//    @Autowired
-//    private PartsPackageBtoMapper partsPackageBtoMapper;
     /**
      * 错误信息集合
      */
@@ -110,16 +108,16 @@ public class FileParser {
                     zipResult.setFileId(UUID.randomUUID().toString());
                     zipResult.setZipId(UUID.randomUUID().toString());
                     zipResult.setZipName(fileName);
-                    String partsType = fileName.substring(0, 4);
-                    String partsId = getPartsId(partsType, carTypeId);
+                    String partsTypeName = fileName.substring(0, 4);
+                    String partsId = getPartsId(partsTypeName, carTypeId);
                     zipResult.setPartId(partsId);
                     if(StringUtils.isEmpty(partsId)){
-                        String message = "零件【" + partsType + "】不存在";
+                        String message = "零件类型【" + partsTypeName + "】不存在";
                         errors.add(message);
                         largeZipResult.setSuccess(false);
                     }
                     else{
-                        zipResult.setPartType(partsType);
+                        zipResult.setPartType(partsTypeName);
                         zipResult.setPartCode(fileName.substring(4, 13));
                         zipResult.setTargetVersion(fileName.substring(13, 20));
                         zipResult.setCarType(fileName.substring(20));
@@ -131,18 +129,6 @@ public class FileParser {
                                 zipResult.setCarType(fileName.substring(27));
                             }
                         }
-
-//                        int calibration = checkPartType(partsType, carTypeId);
-//                        if(calibration == 0 && zipResult.getTargetVersion().length() == 14){
-//                            String message = "零件【" + partsType + "】不能含标定";
-//                            errors.add(message);
-//                            largeZipResult.setSuccess(false);
-//                        }
-//                        if(calibration == 1 && zipResult.getTargetVersion().length() == 7){
-//                            String message = "零件【" + partsType + "】必须含标定";
-//                            errors.add(message);
-//                            largeZipResult.setSuccess(false);
-//                        }
 
                         zipResult.setSuffix(suffix);
                         zipResult.setZipSize(entry.getSize());
@@ -194,14 +180,6 @@ public class FileParser {
     }
 
     /**
-     * 获取并设置控制器是否标定
-     * @param partType 控制器
-     * @param carTypeId 车型ID
-     * @param result 控制器结果实体
-     */
-    private void setCalibration(String partType, String carTypeId, ZipResult result){}
-
-    /**
      * 检查控制器包名称是否符合规范
      * @param fileName
      * @return
@@ -210,7 +188,7 @@ public class FileParser {
         Matcher m = packagePattern.matcher(fileName);
         Matcher am = calibrationPattern.matcher(fileName);
         if(!m.matches() && !am.matches()){
-            String message = "零件包【" + fileName + "】名称不正确，正确格式：零件类型（四位大写英文字母）+零件号（大写字母A-Z和数据0-9组成，9个字符长度）+软版本（含标定：S开头+三位数字的主软件版本+三位数字次软件版本+C开头+三位数字的主软件版本+三位数字次软件版本；不含标定：S开头+三位数字的主软件版本+三位数字次软件版本）";
+            String message = "零件包【" + fileName + "】名称不正确，正确格式：零件类型（四位大写英文字母）+零件号（大写字母A-Z和数据0-9组成，9个字符长度）+软版本（S开头+三位数字的主软件版本+三位数字次软件版本）";
             errors.add(message);
             largeZipResult.setSuccess(false);
         }
@@ -246,7 +224,6 @@ public class FileParser {
      * @param fileName 控制器包名称
      * @return
      */
-    // boolean isEmbedded
     private static String checkFileExists(String rootPath, String fileName, ZipResult result){
         String message = "";
         List<String> prefixes = new ArrayList<>();
@@ -292,11 +269,6 @@ public class FileParser {
                 errors.add(message);
                 largeZipResult.setSuccess(false);
             }
-            else if(!prefixes.contains(PrefixType.NINE.toString())){
-                message = fileName + "缺少9-文件";
-                errors.add(message);
-                largeZipResult.setSuccess(false);
-            }
         }
         return message;
     }
@@ -327,10 +299,6 @@ public class FileParser {
                 versionOrderNum = fileName.substring(22, 25);
                 fileResult.setSoftwareOrderNum(versionOrderNum);
             }
-            if("7".equals(key)){
-                versionOrderNum = fileName.substring(22, 25);
-                fileResult.setSoftwareOrderNum(versionOrderNum);
-            }
             if(result.getTargetVersion().length() == 7){
                 fileResult.setSoftwareOrderNum("0");
             }
@@ -352,7 +320,7 @@ public class FileParser {
                 if("1".equals(key)){
                     String partType = fileName.substring(2, 6);
                     if(!partType.equals(result.getPartType())){
-                        message = "【" + fileName + "】文件的零件名称与【" + result.getZipName() + "】不一致";
+                        message = "【" + fileName + "】文件的零件类型与【" + result.getZipName() + "】不一致";
                         errors.add(message);
                         largeZipResult.setSuccess(false);
                     }
@@ -362,7 +330,7 @@ public class FileParser {
                     String partCode = fileName.split("-")[1].substring(4, 13);
                     String version = fileName.split("-")[1].substring(13, 20);
                     if(!partType.equals(result.getPartType())){
-                        message = "【" + fileName + "】文件的零件名称与【" + result.getZipName() + "】不一致";
+                        message = "【" + fileName + "】文件的零件类型与【" + result.getZipName() + "】不一致";
                         errors.add(message);
                         largeZipResult.setSuccess(false);
                     }
@@ -385,7 +353,7 @@ public class FileParser {
                     String partCode = fileName.split("-")[1].substring(4, 13);
                     String version = fileName.split("-")[1].substring(13, 20);
                     if(!partType.equals(result.getPartType())){
-                        message = "【" + fileName + "】文件的零件名称与【" + result.getZipName() + "】不一致";
+                        message = "【" + fileName + "】文件的零件类型与【" + result.getZipName() + "】不一致";
                         errors.add(message);
                         largeZipResult.setSuccess(false);
                     }
@@ -435,7 +403,7 @@ public class FileParser {
             files.add(new FileResult("6","dll",false,"6-安全算法文件"));
             files.add(new FileResult("7","s19|hex",false,"7-标定文件"));
             files.add(new FileResult("8","txt",false,"8-零件软件版本及刷写说明"));
-            files.add(new FileResult("9","bin|so",true,"9-安全算法文件"));
+            files.add(new FileResult("9","bin|so",false,"9-安全算法文件"));
             files.add(new FileResult("10","",false,"10-整车低压引导安全算法"));
             files.add(new FileResult("11","dll",false,"11-压缩算法文件"));
             files.add(new FileResult("12","",false,"12-签名文件"));
@@ -503,12 +471,12 @@ public class FileParser {
 
     /**
      * 获取零件ID
-     * @param partsName : 零件类型
+     * @param partsTypeName : 零件类型
      * @param carTypeId : 车型ID
      * @return
      */
-    private String getPartsId(String partsName, String carTypeId){
-        return packageMapper.getPartsId(partsName, carTypeId);
+    private String getPartsId(String partsTypeName, String carTypeId){
+        return packageMapper.getPartsId(partsTypeName, carTypeId);
     }
 
     /**

@@ -14,7 +14,14 @@
         AND FI.ISDELETE=1 WHERE PBP.ISDELETE=1 AND FI.ORIGINALNAME=#{param1} AND PBP.FK_CARTYPE_ID=#{param2}
     </select>
     <select id="getPartsId" resultType="String">
-        SELECT T.PARTS_ID FROM F_PARTS T WHERE T.ISDELETE=1 AND T.PARTSNAME=#{param1} AND T.FK_CARTYPE_ID=#{param2}
+        SELECT P.PARTS_ID
+        FROM F_PARTS P
+        LEFT JOIN F_PARTSTYPE PT
+        ON P.FK_PARTSTYPE_ID = PT.PARTSTYPE_ID
+        AND PT.ISDELETE = 1
+        WHERE P.ISDELETE = 1
+        AND PT.PARTSTYPENAME = #{param1}
+        AND P.FK_CARTYPE_ID = #{param2}
     </select>
     <select id="findAllLargePackage" resultType="com.intest.dao.entity.PackageExtendBto">
         SELECT t.*, rownum id FROM (SELECT pbp.PARTSBIGPACKAGE_ID packageId, pbp.FK_FILE_ID fileId, pbp.FK_CARTYPE_ID carTypeId,
