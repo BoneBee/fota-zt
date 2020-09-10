@@ -159,8 +159,6 @@ public class cartypesassemblyImpl implements CarTypesService {
             PartsTypeBto ptbto = partsTypeBtoMapper.selectByPrimaryKey(pbto.getFkPartstypeId());
             //零件类型名
             ecu.setTypeName(ptbto.getPartstypename());
-            //零件类型全名
-            ecu.setFullName(ptbto.getPartstypename());
             //零件名
             ecu.setPartName(pbto.getPartsname());
             //零件index

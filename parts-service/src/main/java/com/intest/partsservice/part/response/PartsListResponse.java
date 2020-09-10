@@ -8,7 +8,6 @@ public class PartsListResponse {
     private int index;
     private String partsId;
     private String partsName;
-    private String fullName;
     private String partsTypeId;
     private String partsTypeName;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
@@ -22,11 +21,10 @@ public class PartsListResponse {
     public PartsListResponse() {
     }
 
-    public PartsListResponse(int index, String partsId, String partsName, String fullName, String partsTypeId, String partsTypeName, Date creatAt, String creatBy, Date updateBy, String updateAt, String remark) {
+    public PartsListResponse(int index, String partsId, String partsName,  String partsTypeId, String partsTypeName, Date creatAt, String creatBy, Date updateBy, String updateAt, String remark) {
         this.index = index;
         this.partsId = partsId;
         this.partsName = partsName;
-        this.fullName = fullName;
         this.partsTypeId = partsTypeId;
         this.partsTypeName = partsTypeName;
         this.creatAt = creatAt;
@@ -58,14 +56,6 @@ public class PartsListResponse {
 
     public void setPartsName(String partsName) {
         this.partsName = partsName;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
     }
 
     public String getPartsTypeId() {

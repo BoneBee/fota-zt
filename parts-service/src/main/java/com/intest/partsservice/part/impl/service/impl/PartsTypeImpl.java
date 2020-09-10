@@ -2,15 +2,12 @@ package com.intest.partsservice.part.impl.service.impl;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.intest.common.exception.ResponseBean;
 import com.intest.common.result.PagerDataBaseVO;
 import com.intest.common.tableData.TableDataAnnotation;
-import com.intest.partsservice.part.impl.service.PartsTypeService;
-import com.intest.common.exception.CustomException;
-import com.intest.common.util.StringUtils;
 import com.intest.dao.entity.PartsTypeBto;
 import com.intest.dao.entity.PartsTypeBtoExample;
 import com.intest.dao.mapper.PartsTypeBtoMapper;
+import com.intest.partsservice.part.impl.service.PartsTypeService;
 import com.intest.partsservice.part.response.PartTypePage;
 import com.intest.partsservice.part.response.PartsTypeListResponse;
 import org.springframework.beans.factory.annotation.Autowired;

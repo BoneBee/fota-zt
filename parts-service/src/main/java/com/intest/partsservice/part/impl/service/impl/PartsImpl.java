@@ -96,7 +96,7 @@ public class PartsImpl implements PartsService {
             if (partsTypeBto != null) {
                 partTypeName = partsTypeBto.getPartstypename();
             }
-            PartsListResponse partsListResponse = new PartsListResponse(index += 1, partsBto.getPartsId(), partsBto.getPartscode(), partsBto.getPartsname(), partsBto.getFkPartstypeId(), partTypeName, partsBto.getCreateat(), partsBto.getCreateby(), partsBto.getUpdateat(), partsBto.getUpdateby(), partsBto.getRemark());
+            PartsListResponse partsListResponse = new PartsListResponse(index += 1, partsBto.getPartsId(), partsBto.getPartsname(), partsBto.getFkPartstypeId(), partTypeName, partsBto.getCreateat(), partsBto.getCreateby(), partsBto.getUpdateat(), partsBto.getUpdateby(), partsBto.getRemark());
             partsListRespons.add(partsListResponse);
         }
         part.setTotal(pageInfo.getTotal());
