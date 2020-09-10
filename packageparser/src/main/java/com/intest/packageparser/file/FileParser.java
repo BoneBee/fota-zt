@@ -47,6 +47,9 @@ public class FileParser {
     @Autowired
     private PartsPackageDetailBtoMapper partsPackageDetailBtoMapper;
 
+    @Autowired
+    private PartsBtoMapper partsBtoMapper;
+
     /**
      * 错误信息集合
      */
@@ -495,16 +498,11 @@ public class FileParser {
                 //result.("原始包解析后存在错误信息，无法保存");
                 return;
             }
-            PartsBigPackageBto bto = new PartsBigPackageBto();
-            bto.setPartsbigpackageId(largeZipResult.getLargeZipId());
-            bto.setFkFileId(largeZipResult.getFileId());
-            bto.setFkCartypeId(largeZipResult.getCarTypeId());
-            bto.setRemark("");
-            bto.setCreateby(UUID.randomUUID().toString());
-            partsBigPackageBtoMapper.insertSelective(bto);
+            saveLargeZipInfo();
 
             for(ZipResult zipResult : largeZipResult.getZipResults()){
                 saveZipInfo(zipResult);
+                updatePartsParams(zipResult);
             }
 
             uploadToFtp();
@@ -517,8 +515,14 @@ public class FileParser {
     /**
      * 保存原始包信息
      */
-    private static void saveLargeZipInfo(){
-
+    private void saveLargeZipInfo(){
+        PartsBigPackageBto bto = new PartsBigPackageBto();
+        bto.setPartsbigpackageId(largeZipResult.getLargeZipId());
+        bto.setFkFileId(largeZipResult.getFileId());
+        bto.setFkCartypeId(largeZipResult.getCarTypeId());
+        bto.setRemark("");
+        bto.setCreateby(UUID.randomUUID().toString());
+        partsBigPackageBtoMapper.insertSelective(bto);
     }
 
     /**
@@ -604,10 +608,20 @@ public class FileParser {
     }
 
     /**
-     * 保存控制器详细信息
+     * 更新零件相关四个参数
+     * networkSegmentName
+     * functionID
+     * physicalID
+     * responseID
      */
-    private static void savePartDetailInfo(){
-
+    private void updatePartsParams(ZipResult zipResult){
+        PartsBto bto = new PartsBto();
+        bto.setPartsId(zipResult.getPartId());
+        bto.setNetworksegmentname(zipResult.getSegmentName());
+        bto.setFunctionid(zipResult.getFunctionalId());
+        bto.setPhyicalid(zipResult.getPhysicalId());
+        bto.setResponseid(zipResult.getResponseId());
+        partsBtoMapper.updateByPrimaryKeySelective(bto);
     }
 
     /**

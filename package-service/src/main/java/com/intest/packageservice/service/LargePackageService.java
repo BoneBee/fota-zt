@@ -24,14 +24,4 @@ public interface LargePackageService {
     PackageVO packageDetails(String packageId);
 
     int deletePackage(String[] ids);
-
-    void saveLargeZipInfo(LargePackage largePackage);
-
-    void saveZipInfo(PartsPackage partsPackage);
-
-    void saveFileInfo(FileInfo fileInfo);
-
-    void savePartsPackageDetail(PartsPackageDetail partsPackageDetail);
-
-    void savePartDetailInfo();
 }

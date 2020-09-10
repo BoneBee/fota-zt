@@ -9,12 +9,10 @@ import com.intest.dao.entity.*;
 import com.intest.dao.mapper.*;
 import com.intest.packageservice.request.*;
 import com.intest.packageservice.service.UpgradePackageService;
-import com.intest.packageservice.vo.PartsVO;
-import com.intest.packageservice.vo.UpgradePackageDetailVO;
-import com.intest.packageservice.vo.UpgradePackageVO;
-import com.intest.packageservice.vo.VersionVO;
+import com.intest.packageservice.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -199,6 +197,7 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int unpublish(String[] ids){
         UpgradePackageFileinfoBto bto = new UpgradePackageFileinfoBto();
         bto.setIspublish(new BigDecimal(2));

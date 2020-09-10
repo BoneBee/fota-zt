@@ -88,7 +88,7 @@ public class LargePackageServiceImpl implements LargePackageService {
                 PartsPackageVO ppvo = new PartsPackageVO();
                 ppvo.setFileId(pbto.getFileId());
                 ppvo.setId(pbto.getId());
-                ppvo.setPartCode(pbto.getPartCode());
+                ppvo.setPartsCode(pbto.getPartsCode());
                 ppvo.setPartsName(pbto.getPartsName());
                 ppvo.setPartsPackageName(pbto.getPartsPackageName());
                 ppvo.setPartsPackageSize(pbto.getPartsPackageSize());
@@ -113,26 +113,4 @@ public class LargePackageServiceImpl implements LargePackageService {
         return count;
     }
 
-    @Override
-    public void saveLargeZipInfo(LargePackage largePackage) {
-        packageMapper.saveLargeZipInfo(largePackage);
-    }
-
-    @Override
-    public void saveZipInfo(PartsPackage partsPackage) {
-        packageMapper.saveZipInfo(partsPackage);
-    }
-
-    @Override
-    public void saveFileInfo(FileInfo fileInfo) {
-        packageMapper.saveFileInfo(fileInfo);
-    }
-
-    @Override
-    public void savePartsPackageDetail(PartsPackageDetail partsPackageDetail){packageMapper.savePartsPackageDetail(partsPackageDetail);}
-
-    @Override
-    public void savePartDetailInfo() {
-        packageMapper.savePartDetailInfo();
-    }
 }
