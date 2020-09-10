@@ -2,6 +2,7 @@ package com.intest.packageparser.file;
 
 import com.intest.common.result.ResultT;
 import com.intest.common.util.FtpClientUtil;
+import com.intest.common.util.Md5CaculateUtil;
 import com.intest.dao.entity.*;
 import com.intest.dao.mapper.*;
 import org.slf4j.Logger;
@@ -63,12 +64,12 @@ public class FileParser {
      * 零件包名称正则表达式
      * 不含标定
      */
-    private static Pattern packagePattern = Pattern.compile("([A-Z]{3}E\\d{8}S\\d{6}[A-Za-z0-9-]*)");
+    private static Pattern packagePattern = Pattern.compile("([A-Z]{4}E\\d{8}S\\d{6}[A-Za-z0-9-]*)");
     /**
      * 零件包名称正则表达式
      * 含标定
      */
-    private static Pattern calibrationPattern = Pattern.compile("([A-Z]{3}E\\d{8}S\\d{6}C\\d{6}[A-Za-z0-9-]*)");
+    private static Pattern calibrationPattern = Pattern.compile("([A-Z]{4}E\\d{8}S\\d{6}C\\d{6}[A-Za-z0-9-]*)");
 
     /**
      * 解析原始包文件
@@ -132,6 +133,8 @@ public class FileParser {
 
                         zipResult.setSuffix(suffix);
                         zipResult.setZipSize(entry.getSize());
+                        String md5 = Md5CaculateUtil.getMD5(new File(newPath + File.separator + entry.getName()));
+                        zipResult.setMd5(md5);
                         new ZipTools().extract(newPath + File.separator + entry.getName(), newPath + File.separator + fileName);
 
                         initFileList(zipResult);
@@ -292,6 +295,8 @@ public class FileParser {
             String suffix = fileName.substring(fileName.lastIndexOf(".") + 1);
             fileResult.setSuffix(suffix);
             fileResult.setFileSize(file.length());
+            String md5 = Md5CaculateUtil.getMD5(file);
+            fileResult.setMd5(md5);
             fileResult.setFileExist(true);
             String versionOrderNum = "0";
             fileResult.setSoftwareOrderNum(versionOrderNum);
@@ -531,7 +536,7 @@ public class FileParser {
         bto.setSendid(zipResult.getResponseId());
         bto.setReceiveid(zipResult.getPhysicalId());
         bto.setPartsassemblynumber(zipResult.getCarType());
-        bto.setMd5("###########");
+        bto.setMd5(zipResult.getMd5());
         bto.setProjectcode("N60AB");
         bto.setCreateby(UUID.randomUUID().toString());
         partsPackageBtoMapper.insertSelective(bto);
@@ -573,7 +578,7 @@ public class FileParser {
         bto.setOriginalname(zipResult.getZipName());
         bto.setSuffix(zipResult.getSuffix());
         bto.setFilesize(BigDecimal.valueOf(zipResult.getZipSize()));
-        bto.setMd5("********");
+        bto.setMd5(zipResult.getMd5());
         bto.setServersidepath("package");
         bto.setUploadinguser(UUID.randomUUID().toString());
         bto.setCreateby(UUID.randomUUID().toString());
@@ -590,7 +595,7 @@ public class FileParser {
             bto.setOriginalname(fileResult.getFileName());
             bto.setSuffix(fileResult.getSuffix());
             bto.setFilesize(BigDecimal.valueOf(fileResult.getFileSize()));
-            bto.setMd5("********");
+            bto.setMd5(fileResult.getMd5());
             bto.setServersidepath("package");
             bto.setUploadinguser(UUID.randomUUID().toString());
             bto.setCreateby(UUID.randomUUID().toString());

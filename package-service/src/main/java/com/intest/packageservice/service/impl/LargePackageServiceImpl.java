@@ -14,6 +14,7 @@ import com.intest.packageservice.vo.PackageVO;
 import com.intest.packageservice.vo.PartsPackageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -101,6 +102,7 @@ public class LargePackageServiceImpl implements LargePackageService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int deletePackage(String[] ids){
         int count = 0;
         int packageCount = packageMapper.deletePackage(ids);
