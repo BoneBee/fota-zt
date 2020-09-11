@@ -1,4 +1,6 @@
-package com.intest.packageservice.vo;
+package com.intest.packageservice.request;
+
+import javax.validation.constraints.Size;
 
 /**
  * @author ：intest
@@ -13,6 +15,7 @@ public class PackageCheckRequest {
     /**
      * 车型ID
      */
+    @Size(min = 36, max = 36, message = "车型ID长度必须为36")
     private String carTypeId;
 
     public String getFileName() {

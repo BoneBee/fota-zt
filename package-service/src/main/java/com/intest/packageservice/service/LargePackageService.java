@@ -2,8 +2,8 @@ package com.intest.packageservice.service;
 
 import com.intest.common.result.PagerDataBaseVO;
 import com.intest.dao.entity.*;
+import com.intest.packageservice.request.PackageCheckRequest;
 import com.intest.packageservice.request.PackageRequest;
-import com.intest.packageservice.vo.PackageCheckRequest;
 import com.intest.packageservice.vo.PackageVO;
 
 import java.util.List;
