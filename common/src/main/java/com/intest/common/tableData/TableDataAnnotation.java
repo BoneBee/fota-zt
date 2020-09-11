@@ -7,6 +7,7 @@ import java.lang.annotation.*;
  * @create 2020-08-13 12:58
  */
 @Documented
+@Inherited
 @Target({ ElementType.METHOD ,ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface TableDataAnnotation {

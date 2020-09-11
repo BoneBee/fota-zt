@@ -77,7 +77,7 @@ public class cartypesassemblyImpl implements CarTypesService {
         CarTypeBtoExample btoExample = new CarTypeBtoExample();
 
         try {
-            if(!request.getSort().equals("")||request.getSort()!=null){
+            if(request.getSort()!=null && !request.getSort().equals("") ){
                 String sort = carTools.replaceCharacter(request.getSort());
                 btoExample.setOrderByClause(sort);
             }
@@ -107,7 +107,7 @@ public class cartypesassemblyImpl implements CarTypesService {
                 break;
             }
 
-            if (index > rownumstar && index <= rownumend) {
+            if (index > rownumstar && index <= rownumend && ctb.getFkTerminalId()!=null) {
                 TerminalBto tmnBto = tmMapper.selectByPrimaryKey(ctb.getFkTerminalId());
                 CarTypeRespone respone = new CarTypeRespone();
                 respone.setIndex(index);
