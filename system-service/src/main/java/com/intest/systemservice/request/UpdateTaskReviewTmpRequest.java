@@ -59,16 +59,16 @@ public class UpdateTaskReviewTmpRequest {
     }
 
     public static class TaskUserBean {
-        private String taskDetileId;
+        private String id;
         private String userId;
         private int level;
 
-        public String getTaskDetileId() {
-            return taskDetileId;
+        public String getId() {
+            return id;
         }
 
-        public void setTaskDetileId(String taskDetileId) {
-            this.taskDetileId = taskDetileId;
+        public void setId(String id) {
+            this.id = id;
         }
 
         public String getUserId() {

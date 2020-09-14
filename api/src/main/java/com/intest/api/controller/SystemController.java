@@ -95,7 +95,7 @@ public class SystemController {
             throw new CustomException("taskReviewTmpBto更新失败");
         }
         for (UpdateTaskReviewTmpRequest.TaskUserBean userBean : request.getTaskUserIds()) {
-            TaskReviewTmpDetileBto taskReviewTmpDetileBto = taskReviewTmpDetileImpl.getTaskReviewTmpDetileById(userBean.getTaskDetileId());
+            TaskReviewTmpDetileBto taskReviewTmpDetileBto = taskReviewTmpDetileImpl.getTaskReviewTmpDetileById(userBean.getId());
             if (taskReviewTmpDetileBto == null) {
                 throw new CustomException("找不到taskReviewTmpDetileBto数据");
             }
