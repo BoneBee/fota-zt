@@ -106,7 +106,8 @@ public class TaskReviewTmpImpl implements TaskReviewTmpService {
             List<TaskReviewTmpResponse.DetailBean> detailBeans = new ArrayList<>();
             for (TaskReviewTmpDetileBto bto : detileBtos) {
                 TaskReviewTmpResponse.DetailBean detailBean = new TaskReviewTmpResponse.DetailBean();
-                detailBean.setIds(bto.getTaskreviewtmpdetaileId());
+                detailBean.setId(bto.getTaskreviewtmpdetaileId());
+                detailBean.setUserId(bto.getFkUserId());
                 detailBean.setLevel(bto.getReviewLevel());
                 detailBeans.add(detailBean);
             }

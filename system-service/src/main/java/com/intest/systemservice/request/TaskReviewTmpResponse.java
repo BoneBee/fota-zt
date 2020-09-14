@@ -109,15 +109,24 @@ public class TaskReviewTmpResponse {
     }
 
     public static class DetailBean {
-        private String ids;
+        private String id;
+        private String userId;
         private int level;
 
-        public String getIds() {
-            return ids;
+        public String getId() {
+            return id;
         }
 
-        public void setIds(String ids) {
-            this.ids = ids;
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getUserId() {
+            return userId;
+        }
+
+        public void setUserId(String userId) {
+            this.userId = userId;
         }
 
         public int getLevel() {
