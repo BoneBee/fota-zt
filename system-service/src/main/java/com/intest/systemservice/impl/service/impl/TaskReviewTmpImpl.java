@@ -13,7 +13,7 @@ import com.intest.dao.mapper.TaskReviewTmpBtoMapper;
 import com.intest.dao.mapper.TaskReviewTmpDetileBtoMapper;
 import com.intest.systemservice.impl.service.TaskReviewTmpPage;
 import com.intest.systemservice.impl.service.TaskReviewTmpService;
-import com.intest.systemservice.request.TaskReviewTmpResponse;
+import com.intest.systemservice.response.TaskReviewTmpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +32,19 @@ public class TaskReviewTmpImpl implements TaskReviewTmpService {
     @Override
     public TaskReviewTmpBto getTaskReviewTmpById(String taskreviewtmpId) {
         return mapper.selectByPrimaryKey(taskreviewtmpId);
+    }
+
+    @Override
+    public TaskReviewTmpBto getTaskReviewTmpByName(String taskTmpName) {
+        TaskReviewTmpBtoExample example = new TaskReviewTmpBtoExample();
+        TaskReviewTmpBtoExample.Criteria criteria = example.createCriteria();
+        criteria.andTaskReviewtmpNameEqualTo(taskTmpName);
+        List<TaskReviewTmpBto> tmpBtoList = mapper.selectByExample(example);
+        if (tmpBtoList == null || tmpBtoList.size() <= 0) {
+            return null;
+        } else {
+            return tmpBtoList.get(0);
+        }
     }
 
     @Override

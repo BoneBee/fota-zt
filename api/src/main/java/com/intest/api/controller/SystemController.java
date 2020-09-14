@@ -2,22 +2,27 @@ package com.intest.api.controller;
 
 import com.intest.basicservice.table.common.ResponseBean;
 import com.intest.basicservice.table.config.helper.ValidateHelper;
+import com.intest.basicservice.user.service.impl.UserServiceImpl;
 import com.intest.common.exception.CustomException;
 import com.intest.common.result.PagerDataBaseVO;
 import com.intest.common.util.StringUtils;
 import com.intest.dao.entity.TaskReviewTmpBto;
 import com.intest.dao.entity.TaskReviewTmpDetileBto;
+import com.intest.dao.entity.UserBto;
+import com.intest.partsservice.part.response.DateResponse;
 import com.intest.systemservice.impl.service.TaskReviewTmpPage;
 import com.intest.systemservice.impl.service.impl.TaskReviewTmpDetileImpl;
 import com.intest.systemservice.impl.service.impl.TaskReviewTmpImpl;
 import com.intest.systemservice.request.AddTaskReviewTmpRequest;
 import com.intest.systemservice.request.DeleteTaskReviewTmpRequest;
 import com.intest.systemservice.request.UpdateTaskReviewTmpRequest;
+import com.intest.systemservice.response.TaskUserResopnse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -31,6 +36,8 @@ public class SystemController {
     @Autowired
     TaskReviewTmpDetileImpl taskReviewTmpDetileImpl;
 
+    @Autowired
+    UserServiceImpl userService;
 
     /**
      * 新增审核流程
@@ -95,7 +102,7 @@ public class SystemController {
             throw new CustomException("taskReviewTmpBto更新失败");
         }
         for (UpdateTaskReviewTmpRequest.TaskUserBean userBean : request.getTaskUserIds()) {
-            TaskReviewTmpDetileBto taskReviewTmpDetileBto = taskReviewTmpDetileImpl.getTaskReviewTmpDetileById(userBean.getTaskDetileId());
+            TaskReviewTmpDetileBto taskReviewTmpDetileBto = taskReviewTmpDetileImpl.getTaskReviewTmpDetileById(userBean.getId());
             if (taskReviewTmpDetileBto == null) {
                 throw new CustomException("找不到taskReviewTmpDetileBto数据");
             }
@@ -139,7 +146,6 @@ public class SystemController {
     /**
      * 获取审核流程列表
      *
-
      * @return
      */
     public PagerDataBaseVO getTaskReviewTmpList() {
@@ -179,5 +185,42 @@ public class SystemController {
             throw new CustomException("修改taskReviewTmpBto失败！");
         }
         return new ResponseBean(1, "修改状态成功", null);
+    }
+
+    /**
+     * 检测审核名称接口
+     *
+     * @param taskTmpName
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/basic/system/selectTaskTmpName", method = RequestMethod.GET)
+    public ResponseBean selectTaskTmpName(@ApiParam String taskTmpName) {
+        TaskReviewTmpBto taskReviewTmpBto = taskReviewTmpImpl.getTaskReviewTmpByName(taskTmpName);
+        if (taskReviewTmpBto != null) {
+            return new ResponseBean(1, "该审核名称已存在", new DateResponse(1));
+        } else {
+            return new ResponseBean(1, "该审核名称不存在", new DateResponse(0));
+        }
+    }
+
+    /**
+     * 获取审核用户列表
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/basic/system/getTaskUserList", method = RequestMethod.GET)
+    public ResponseBean getTaskUserList() {
+        List<UserBto> userBtos = userService.getUserList();
+        List<TaskUserResopnse> taskUserResopnseList = new ArrayList<>();
+        for (UserBto userBto : userBtos) {
+            TaskUserResopnse taskUserResopnse = new TaskUserResopnse();
+            taskUserResopnse.setUserId(userBto.getUserId());
+            taskUserResopnse.setName(userBto.getLoginName());
+            taskUserResopnseList.add(taskUserResopnse);
+        }
+        return new ResponseBean(1, "", taskUserResopnseList);
+
     }
 }
