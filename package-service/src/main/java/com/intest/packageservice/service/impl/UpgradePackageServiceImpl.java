@@ -156,6 +156,7 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
             packageTaskBto.setTitle(request.getTitle());
             packageTaskBto.setContent(request.getContent());
             packageTaskBto.setPackagename(request.getPackageName());
+            packageTaskBto.setMaketype(new BigDecimal(request.getPackageType()));
             packageTaskBtoMapper.insertSelective(packageTaskBto);
 
             for(PartsRequest partsRequest : request.getPartsPackage()){
@@ -164,7 +165,6 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
                     taskOriginalPackageBto.setTaskoriginalpackageId(UUID.randomUUID().toString());
                     taskOriginalPackageBto.setFkPackagetaskId(packageTaskId);
                     taskOriginalPackageBto.setType(new BigDecimal(0));
-                    taskOriginalPackageBto.setMaketype(new BigDecimal(0));
                     taskOriginalPackageBto.setFkPartspackageId(partsRequest.getBasePartsPackageId());
                     taskOriginalPackageBto.setCreateby(UUID.randomUUID().toString());
                     taskOriginalPackageBtoMapper.insertSelective(taskOriginalPackageBto);
@@ -173,7 +173,6 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
                     taskOriginalPackageBto.setTaskoriginalpackageId(UUID.randomUUID().toString());
                     taskOriginalPackageBto.setFkPackagetaskId(packageTaskId);
                     taskOriginalPackageBto.setType(new BigDecimal(1));
-                    taskOriginalPackageBto.setMaketype(new BigDecimal(0));
                     taskOriginalPackageBto.setFkPartspackageId(partsRequest.getTargetPartsPackageId());
                     taskOriginalPackageBto.setCreateby(UUID.randomUUID().toString());
                     taskOriginalPackageBtoMapper.insertSelective(taskOriginalPackageBto);
@@ -182,7 +181,6 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
                     taskOriginalPackageBto.setTaskoriginalpackageId(UUID.randomUUID().toString());
                     taskOriginalPackageBto.setFkPackagetaskId(packageTaskId);
                     taskOriginalPackageBto.setType(new BigDecimal(2));
-                    taskOriginalPackageBto.setMaketype(new BigDecimal(1));
                     taskOriginalPackageBto.setFkPartspackageId(partsRequest.getBasePartsPackageId());
                     taskOriginalPackageBto.setCreateby(UUID.randomUUID().toString());
                     taskOriginalPackageBtoMapper.insertSelective(taskOriginalPackageBto);
