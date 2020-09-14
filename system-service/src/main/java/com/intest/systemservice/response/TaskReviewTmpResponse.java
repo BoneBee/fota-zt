@@ -1,4 +1,4 @@
-package com.intest.systemservice.request;
+package com.intest.systemservice.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
