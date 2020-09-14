@@ -7,18 +7,18 @@ import java.util.List;
 
 public class TaskReviewTmpResponse {
     private int index;
-    private String taskreviewtmpId;
+    private String taskTmpId;
     private List<DetailBean> detaileIDs;
-    private String taskReviewtmpName;
+    private String taskTmpName;
     private int tmpType;
     private int state;
-    private Short tasknum;
+    private Short taskNum;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date createat;
-    private String createby;
+    private Date createAt;
+    private String createBy;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date updateat;
-    private String updateby;
+    private Date updateAt;
+    private String updateBy;
 
     public int getIndex() {
         return index;
@@ -28,12 +28,12 @@ public class TaskReviewTmpResponse {
         this.index = index;
     }
 
-    public String getTaskreviewtmpId() {
-        return taskreviewtmpId;
+    public String getTaskTmpId() {
+        return taskTmpId;
     }
 
-    public void setTaskreviewtmpId(String taskreviewtmpId) {
-        this.taskreviewtmpId = taskreviewtmpId;
+    public void setTaskTmpId(String taskTmpId) {
+        this.taskTmpId = taskTmpId;
     }
 
     public List<DetailBean> getDetaileIDs() {
@@ -44,12 +44,12 @@ public class TaskReviewTmpResponse {
         this.detaileIDs = detaileIDs;
     }
 
-    public String getTaskReviewtmpName() {
-        return taskReviewtmpName;
+    public String getTaskTmpName() {
+        return taskTmpName;
     }
 
-    public void setTaskReviewtmpName(String taskReviewtmpName) {
-        this.taskReviewtmpName = taskReviewtmpName;
+    public void setTaskTmpName(String taskTmpName) {
+        this.taskTmpName = taskTmpName;
     }
 
     public int getTmpType() {
@@ -68,44 +68,44 @@ public class TaskReviewTmpResponse {
         this.state = state;
     }
 
-    public Short getTasknum() {
-        return tasknum;
+    public Short getTaskNum() {
+        return taskNum;
     }
 
-    public void setTasknum(Short tasknum) {
-        this.tasknum = tasknum;
+    public void setTaskNum(Short taskNum) {
+        this.taskNum = taskNum;
     }
 
-    public Date getCreateat() {
-        return createat;
+    public Date getCreateAt() {
+        return createAt;
     }
 
-    public void setCreateat(Date createat) {
-        this.createat = createat;
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
     }
 
-    public String getCreateby() {
-        return createby;
+    public String getCreateBy() {
+        return createBy;
     }
 
-    public void setCreateby(String createby) {
-        this.createby = createby;
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
     }
 
-    public Date getUpdateat() {
-        return updateat;
+    public Date getUpdateAt() {
+        return updateAt;
     }
 
-    public void setUpdateat(Date updateat) {
-        this.updateat = updateat;
+    public void setUpdateAt(Date updateAt) {
+        this.updateAt = updateAt;
     }
 
-    public String getUpdateby() {
-        return updateby;
+    public String getUpdateBy() {
+        return updateBy;
     }
 
-    public void setUpdateby(String updateby) {
-        this.updateby = updateby;
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy;
     }
 
     public static class DetailBean {

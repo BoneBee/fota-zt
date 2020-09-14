@@ -41,10 +41,10 @@ public class SystemController {
     @ResponseBody
     @RequestMapping(value = "/api/basic/system/addTaskReviewTmp", method = RequestMethod.POST)
     public ResponseBean addTaskReviewTmp(@RequestBody AddTaskReviewTmpRequest request) {
-        ValidateHelper.validateNull(request, new String[]{"taskReviewtmpName", "tmpType", "taskNum", "state", "taskUserIds"});
+        ValidateHelper.validateNull(request, new String[]{"taskTmpName", "tmpType", "taskNum", "state", "taskUserIds"});
         TaskReviewTmpBto taskReviewTmpBto = new TaskReviewTmpBto();
         taskReviewTmpBto.setTaskreviewtmpId(UUID.randomUUID() + "");
-        taskReviewTmpBto.setTaskReviewtmpName(request.getTaskReviewtmpName());
+        taskReviewTmpBto.setTaskReviewtmpName(request.getTaskTmpName());
         taskReviewTmpBto.setState((short) request.getState());
         taskReviewTmpBto.setTmpType((short) request.getTmpType());
         taskReviewTmpBto.setIsdelete((short) 1);
@@ -80,12 +80,12 @@ public class SystemController {
     @ResponseBody
     @RequestMapping(value = "/api/basic/system/updateTaskReviewTmp", method = RequestMethod.POST)
     public ResponseBean updateTaskReviewTmp(@RequestBody UpdateTaskReviewTmpRequest request) {
-        ValidateHelper.validateNull(request, new String[]{"taskReviewtmpName", "taskReviewtmpId", "tmpType", "taskNum", "state", "taskUserIds"});
-        TaskReviewTmpBto taskReviewTmpBto = taskReviewTmpImpl.getTaskReviewTmpById(request.getTaskReviewtmpId());
+        ValidateHelper.validateNull(request, new String[]{"taskTmpName", "taskTmpId", "tmpType", "taskNum", "state", "taskUserIds"});
+        TaskReviewTmpBto taskReviewTmpBto = taskReviewTmpImpl.getTaskReviewTmpById(request.getTaskTmpId());
         if (taskReviewTmpBto == null) {
             throw new CustomException("找不到taskReviewTmpBto数据");
         }
-        taskReviewTmpBto.setTaskReviewtmpName(request.getTaskReviewtmpName());
+        taskReviewTmpBto.setTaskReviewtmpName(request.getTaskTmpName());
         taskReviewTmpBto.setTmpType((short) request.getTmpType());
         taskReviewTmpBto.setState((short) request.getState());
         taskReviewTmpBto.setTasknum((short) request.getTaskNum());
@@ -95,7 +95,7 @@ public class SystemController {
             throw new CustomException("taskReviewTmpBto更新失败");
         }
         for (UpdateTaskReviewTmpRequest.TaskUserBean userBean : request.getTaskUserIds()) {
-            TaskReviewTmpDetileBto taskReviewTmpDetileBto = taskReviewTmpDetileImpl.getTaskReviewTmpDetileById(userBean.getTaskReviewTmpDetileId());
+            TaskReviewTmpDetileBto taskReviewTmpDetileBto = taskReviewTmpDetileImpl.getTaskReviewTmpDetileById(userBean.getTaskDetileId());
             if (taskReviewTmpDetileBto == null) {
                 throw new CustomException("找不到taskReviewTmpDetileBto数据");
             }
@@ -124,11 +124,11 @@ public class SystemController {
             throw new CustomException("请输入要删除的ID数据");
         }
         for (DeleteTaskReviewTmpRequest.DeleteTaskReviewTmpIdBean deleteTaskReviewTmpIdBean : request.getDeleteDates()) {
-            if (taskReviewTmpImpl.deleteTaskReviewTmp(deleteTaskReviewTmpIdBean.getTaskReviewtmpId()) != 1) {
+            if (taskReviewTmpImpl.deleteTaskReviewTmp(deleteTaskReviewTmpIdBean.getTaskTmpId()) != 1) {
                 throw new CustomException("删除taskReviewTmpBto失败");
             }
-            for (DeleteTaskReviewTmpRequest.DeleteTaskIdBean deleteTaskIdBean : deleteTaskReviewTmpIdBean.getDeleteDate()) {
-                if (taskReviewTmpDetileImpl.deleteTaskReviewTmpDetile(deleteTaskIdBean.getTaskReviewTmpDetileId()) != 1) {
+            for (DeleteTaskReviewTmpRequest.DeleteTaskIdBean deleteTaskIdBean : deleteTaskReviewTmpIdBean.getDeleteMessage()) {
+                if (taskReviewTmpDetileImpl.deleteTaskReviewTmpDetile(deleteTaskIdBean.getId()) != 1) {
                     throw new CustomException("删除taskReviewTmpDetileBto失败");
                 }
             }
@@ -136,6 +136,12 @@ public class SystemController {
         return new ResponseBean(1, "删除成功", null);
     }
 
+    /**
+     * 获取审核流程列表
+     *
+
+     * @return
+     */
     public PagerDataBaseVO getTaskReviewTmpList() {
         return taskReviewTmpImpl.getTaskReviewTmpInfo(new TaskReviewTmpPage());
     }

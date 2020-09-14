@@ -112,16 +112,16 @@ public class TaskReviewTmpImpl implements TaskReviewTmpService {
             }
             TaskReviewTmpResponse response = new TaskReviewTmpResponse();
             response.setIndex(index += 1);
-            response.setTaskreviewtmpId(taskReviewTmpBto.getTaskreviewtmpId());
-            response.setTaskReviewtmpName(taskReviewTmpBto.getTaskReviewtmpName());
+            response.setTaskTmpId(taskReviewTmpBto.getTaskreviewtmpId());
+            response.setTaskTmpName(taskReviewTmpBto.getTaskReviewtmpName());
             response.setTmpType(taskReviewTmpBto.getTmpType());
             response.setState(taskReviewTmpBto.getState());
-            response.setTasknum(taskReviewTmpBto.getTasknum());
+            response.setTaskNum(taskReviewTmpBto.getTasknum());
             response.setDetaileIDs(detailBeans);
-            response.setCreateby(taskReviewTmpBto.getCreateby());
-            response.setCreateat(taskReviewTmpBto.getCreateat());
-            response.setUpdateat(taskReviewTmpBto.getUpdateat());
-            response.setUpdateby(taskReviewTmpBto.getUpdateby());
+            response.setCreateBy(taskReviewTmpBto.getCreateby());
+            response.setCreateAt(taskReviewTmpBto.getCreateat());
+            response.setUpdateAt(taskReviewTmpBto.getUpdateat());
+            response.setUpdateBy(taskReviewTmpBto.getUpdateby());
             taskReviewTmpResponses.add(response);
         }
         task.setTotal(pageInfo.getTotal());
