@@ -218,6 +218,7 @@ public class SystemController {
             TaskUserResopnse taskUserResopnse = new TaskUserResopnse();
             taskUserResopnse.setUserId(userBto.getUserId());
             taskUserResopnse.setName(userBto.getLoginName());
+            taskUserResopnse.setRealName(userBto.getRealName());
             taskUserResopnseList.add(taskUserResopnse);
         }
         return new ResponseBean(1, "", taskUserResopnseList);
