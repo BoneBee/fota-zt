@@ -52,7 +52,7 @@ public interface UpgradePackageService {
      * @param ids
      * @return
      */
-    int unpublish(String[] ids);
+    int unpublish(String packageTaskId);
 
     /**
      * 升级包描述

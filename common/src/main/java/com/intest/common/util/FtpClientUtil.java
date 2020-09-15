@@ -138,8 +138,10 @@ public class FtpClientUtil {
         FTPClient ftp = null;
         try{
             ftp = connect();
+            ftp.enterLocalPassiveMode();
+            ftp.setFileType(FTPClient.BINARY_FILE_TYPE);
             // 切换FTP目录
-            ftp.changeWorkingDirectory(FTP_BASEPATH);
+            ftp.changeWorkingDirectory("pktest/packagedone/");
             // 此处为demo方法，正常应该到数据库中查询fileName
             FTPFile[] ftpFiles = ftp.listFiles();
             for (FTPFile file : ftpFiles){

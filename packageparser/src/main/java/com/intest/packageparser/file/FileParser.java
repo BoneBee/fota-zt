@@ -150,10 +150,6 @@ public class FileParser {
                             zipResult.setCarType(carTypeName);
                             zipResult.setVersion(version);
                         }
-//                        Matcher matcher = diffPackagePattern.matcher(fileName);
-//                        if(matcher.matches()){
-//                            zipResult.setVersion(fileName.substring(fileName.length() - 7, fileName.length()));
-//                        }
 
                         zipResult.setSuffix(suffix);
                         zipResult.setZipSize(entry.getSize());
@@ -561,6 +557,7 @@ public class FileParser {
             bto.setSoftwareversion(zipResult.getVersion());
             bto.setHardwareversion(zipResult.getVersion());
             bto.setTargetsoftwareversion(zipResult.getTargetVersion());
+            bto.setPackagetype((short)1);
         }
         bto.setPartnumber(zipResult.getPartCode());
         bto.setSendid(zipResult.getResponseId());
