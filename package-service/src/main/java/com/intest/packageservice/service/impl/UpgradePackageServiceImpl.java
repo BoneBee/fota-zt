@@ -57,7 +57,6 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
         bto.setPackageName(request.getPackageName());
         bto.setCarTypeName(request.getCarTypeName());
         bto.setPackageType(request.getPackageType());
-        bto.setPublishStatus(request.getPublishStatus());
 
         List<UpgradePackageExtendBto> list = upgradePackageMapper.findAllUpgradePackage(bto);
         PageInfo pageInfo = new PageInfo<UpgradePackageExtendBto>(list);
@@ -196,12 +195,11 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int unpublish(String[] ids){
-        UpgradePackageFileinfoBto bto = new UpgradePackageFileinfoBto();
-        bto.setIspublish(new BigDecimal(2));
-        UpgradePackageFileinfoBtoExample example = new UpgradePackageFileinfoBtoExample();
-        example.createCriteria().andUpgradepackagefileinfoIdIn(Arrays.asList(ids));
-        int count = upgradePackageFileinfoBtoMapper.updateByExampleSelective(bto, example);
+    public int unpublish(String packageTaskId){
+        PackageTaskBto bto = new PackageTaskBto();
+        bto.setFkPackagetaskstatusvalueCode("104");
+        bto.setPackagetaskId(packageTaskId);
+        int count = packageTaskBtoMapper.updateByPrimaryKeySelective(bto);
         return count > 0 ? 1 : -1;
     }
 

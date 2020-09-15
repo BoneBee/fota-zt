@@ -1,6 +1,14 @@
 package com.intest.api.controller;
 
 import com.intest.common.result.ResultT;
+import com.intest.common.util.FtpClientUtil;
+import com.intest.common.util.MultiDownloadUtil;
+import com.intest.dao.entity.FileBto;
+import com.intest.dao.entity.PartsUpgradePackageBto;
+import com.intest.dao.entity.PartsUpgradePackageBtoExample;
+import com.intest.dao.entity.UpgradePackageFileinfoBto;
+import com.intest.dao.mapper.PartsUpgradePackageBtoMapper;
+import com.intest.dao.mapper.UpgradePackageFileinfoBtoMapper;
 import com.intest.packageservice.request.*;
 import com.intest.packageservice.service.UpgradePackageService;
 import io.swagger.annotations.Api;
@@ -8,6 +16,12 @@ import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,6 +36,12 @@ import java.util.List;
 public class UpgradePackageController {
     @Autowired
     private UpgradePackageService upgradePackageService;
+
+    @Autowired
+    private PartsUpgradePackageBtoMapper partsUpgradePackageBtoMapper;
+
+    @Autowired
+    private UpgradePackageFileinfoBtoMapper upgradePackageFileinfoBtoMapper;
 
     @ApiOperation("升级包列表")
     @PostMapping("/list")
@@ -77,10 +97,10 @@ public class UpgradePackageController {
 
     @ApiOperation("取消发布")
     @PostMapping("/unpublish")
-    public ResultT unpublish(@RequestBody PackageDeleteRequest request){
+    public ResultT unpublish(@RequestBody UpgradePackageDetailRequest request){
         ResultT result = new ResultT();
         try{
-            result.setResult(upgradePackageService.unpublish(request.getIds()));
+            result.setResult(upgradePackageService.unpublish(request.getPackageTaskId()));
         }catch (Exception e){
             e.printStackTrace();
             result.setFail();
@@ -125,5 +145,37 @@ public class UpgradePackageController {
             result.setFail();
         }
         return result;
+    }
+
+    @ApiOperation("下载")
+    @GetMapping("/download")
+    public void download(@RequestParam("packageTaskId") String packageTaskId, HttpServletRequest request, HttpServletResponse response){
+        List<File> files = new ArrayList<>();
+        PartsUpgradePackageBtoExample example = new PartsUpgradePackageBtoExample();
+        example.createCriteria().andFkPackagetaskIdEqualTo(packageTaskId);
+        List<PartsUpgradePackageBto> list = partsUpgradePackageBtoMapper.selectByExample(example);
+        String localPath = File.separator + "tmp" + File.separator + "webhost" + File.separator + "download";
+
+        for(PartsUpgradePackageBto bto : list){
+            UpgradePackageFileinfoBto fi = upgradePackageFileinfoBtoMapper.selectByPrimaryKey(bto.getFkUpgradepackagefileinfoId());
+            try {
+                String fileName = fi.getFilename().substring(fi.getFilename().lastIndexOf("/") + 1);
+                FtpClientUtil.downloadFile(fileName, localPath);
+                File file = new File(localPath + File.separator + fileName);
+                if(file.exists()){
+                    files.add(file);
+                }
+                fi = upgradePackageFileinfoBtoMapper.selectByPrimaryKey(bto.getFkUpgradepackagefileinfoIdB());
+                fileName = fi.getFilename().substring(fi.getFilename().lastIndexOf("/") + 1);
+                FtpClientUtil.downloadFile(fileName, localPath);
+                file = new File(localPath + File.separator + fileName);
+                if(file.exists()){
+                    files.add(file);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        MultiDownloadUtil.zipd(localPath + File.separator + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + ".zip", files, response);
     }
 }
