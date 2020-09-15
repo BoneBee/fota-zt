@@ -14,35 +14,35 @@ public class DeleteTaskReviewTmpRequest {
     }
 
     public static class DeleteTaskReviewTmpIdBean{
-        private String taskReviewtmpId;
-        private List<DeleteTaskIdBean> deleteDate;
+        private String taskTmpId;
+        private List<DeleteTaskIdBean> deleteMessage;
 
-        public String getTaskReviewtmpId() {
-            return taskReviewtmpId;
+        public String getTaskTmpId() {
+            return taskTmpId;
         }
 
-        public void setTaskReviewtmpId(String taskReviewtmpId) {
-            this.taskReviewtmpId = taskReviewtmpId;
+        public void setTaskTmpId(String taskTmpId) {
+            this.taskTmpId = taskTmpId;
         }
 
-        public List<DeleteTaskIdBean> getDeleteDate() {
-            return deleteDate;
+        public List<DeleteTaskIdBean> getDeleteMessage() {
+            return deleteMessage;
         }
 
-        public void setDeleteDate(List<DeleteTaskIdBean> deleteDate) {
-            this.deleteDate = deleteDate;
+        public void setDeleteMessage(List<DeleteTaskIdBean> deleteMessage) {
+            this.deleteMessage = deleteMessage;
         }
     }
 
     public static class DeleteTaskIdBean {
-        private String taskReviewTmpDetileId;
+        private String id;
 
-        public String getTaskReviewTmpDetileId() {
-            return taskReviewTmpDetileId;
+        public String getId() {
+            return id;
         }
 
-        public void setTaskReviewTmpDetileId(String taskReviewTmpDetileId) {
-            this.taskReviewTmpDetileId = taskReviewTmpDetileId;
+        public void setId(String id) {
+            this.id = id;
         }
     }
 }

@@ -36,11 +36,11 @@ public class ChildNode {
         this.title = title;
     }
 
-    public Boolean getLeaf() {
+    public Boolean getIsLeaf() {
         return isLeaf;
     }
 
-    public void setLeaf(Boolean leaf) {
-        isLeaf = leaf;
+    public void setIsLeaf(Boolean isLeaf) {
+        isLeaf = isLeaf;
     }
 }
