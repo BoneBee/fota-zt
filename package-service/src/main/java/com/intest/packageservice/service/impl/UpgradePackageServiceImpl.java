@@ -222,6 +222,9 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
         for(TaskOriginalPackageBto top : tops){
             PartsPackageBto ppbto = partsPackageBtoMapper.selectByPrimaryKey(top.getFkPartspackageId());
             PartsBto pbto = partsBtoMapper.selectByPrimaryKey(ppbto.getFkPartsId());
+            if(pbto == null){
+                continue;
+            }
             PartsVO pvo = new PartsVO();
             pvo.setId(index++);
             if(top.getType().intValue() == 0){
