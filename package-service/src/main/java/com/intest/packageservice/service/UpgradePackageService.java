@@ -6,7 +6,9 @@ import com.intest.packageservice.request.MakeRequest;
 import com.intest.packageservice.request.PartsTreeRequest;
 import com.intest.packageservice.request.UpgradePackageRequest;
 import com.intest.packageservice.request.VersionRequest;
+import com.intest.packageservice.vo.PartsVO;
 import com.intest.packageservice.vo.UpgradePackageDetailVO;
+import com.intest.packageservice.vo.UpgradePackageVO;
 import com.intest.packageservice.vo.VersionVO;
 
 import java.util.List;
@@ -53,9 +55,23 @@ public interface UpgradePackageService {
     int unpublish(String[] ids);
 
     /**
-     * 升级包详情
+     * 升级包描述
      * @param packageTaskId
      * @return
      */
-    UpgradePackageDetailVO upgradePackageDetails(String packageTaskId);
+    UpgradePackageDetailVO upgradePackageDesc(String packageTaskId);
+
+    /**
+     * 获取升级零件
+     * @param packageTaskId
+     * @return
+     */
+    List<PartsVO> getParts(String packageTaskId);
+
+    /**
+     * 获取升级包信息
+     * @param packageTaskId
+     * @return
+     */
+    List<UpgradePackageVO> getUpgradePackage(String packageTaskId);
 }

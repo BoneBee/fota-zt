@@ -4,7 +4,6 @@ package com.intest.partsservice.part.impl.service;
 import com.intest.common.result.PagerDataBaseVO;
 import com.intest.dao.entity.PartsBto;
 import com.intest.partsservice.part.response.PartPage;
-import com.intest.partsservice.part.response.PartTypePage;
 
 import java.util.List;
 

@@ -14,6 +14,7 @@ import com.intest.packageservice.vo.PackageVO;
 import com.intest.packageservice.vo.PartsPackageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,7 +88,7 @@ public class LargePackageServiceImpl implements LargePackageService {
                 PartsPackageVO ppvo = new PartsPackageVO();
                 ppvo.setFileId(pbto.getFileId());
                 ppvo.setId(pbto.getId());
-                ppvo.setPartCode(pbto.getPartCode());
+                ppvo.setPartsCode(pbto.getPartsCode());
                 ppvo.setPartsName(pbto.getPartsName());
                 ppvo.setPartsPackageName(pbto.getPartsPackageName());
                 ppvo.setPartsPackageSize(pbto.getPartsPackageSize());
@@ -101,6 +102,7 @@ public class LargePackageServiceImpl implements LargePackageService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int deletePackage(String[] ids){
         int count = 0;
         int packageCount = packageMapper.deletePackage(ids);
@@ -111,26 +113,4 @@ public class LargePackageServiceImpl implements LargePackageService {
         return count;
     }
 
-    @Override
-    public void saveLargeZipInfo(LargePackage largePackage) {
-        packageMapper.saveLargeZipInfo(largePackage);
-    }
-
-    @Override
-    public void saveZipInfo(PartsPackage partsPackage) {
-        packageMapper.saveZipInfo(partsPackage);
-    }
-
-    @Override
-    public void saveFileInfo(FileInfo fileInfo) {
-        packageMapper.saveFileInfo(fileInfo);
-    }
-
-    @Override
-    public void savePartsPackageDetail(PartsPackageDetail partsPackageDetail){packageMapper.savePartsPackageDetail(partsPackageDetail);}
-
-    @Override
-    public void savePartDetailInfo() {
-        packageMapper.savePartDetailInfo();
-    }
 }

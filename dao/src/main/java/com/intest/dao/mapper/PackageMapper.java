@@ -12,8 +12,6 @@ public interface PackageMapper {
 
     String getPartsId(String partsName, String carTypeId);
 
-    FileInfo getFileById(String fileId);
-
     List<PackageExtendBto> findAllLargePackage(PackageBto bto);
 
     List<CarTypeExtendBto> findAllCarType();
@@ -25,14 +23,4 @@ public interface PackageMapper {
     int deletePackage(String[] ids);
 
     int deletePartsPackage(String[] ids);
-
-    void saveLargeZipInfo(LargePackage largePackage);
-
-    void saveZipInfo(PartsPackage partsPackage);
-
-    void saveFileInfo(FileInfo fileInfo);
-
-    void savePartsPackageDetail(PartsPackageDetail partsPackageDetail);
-
-    void savePartDetailInfo();
 }

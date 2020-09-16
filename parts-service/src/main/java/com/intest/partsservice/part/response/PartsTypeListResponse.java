@@ -7,7 +7,7 @@ import java.util.Date;
 public class PartsTypeListResponse {
     private int index;
     private String partsTypeId;
-    private String fullName;
+    private String partsTypeName;
     private String remark;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date creatAt;
@@ -19,10 +19,10 @@ public class PartsTypeListResponse {
     public PartsTypeListResponse() {
     }
 
-    public PartsTypeListResponse(int index, String partsTypeId, String fullName, String remark, Date creatAt, String creatBy, Date updateAt, String updateBy) {
+    public PartsTypeListResponse(int index, String partsTypeId, String partsTypeName, String remark, Date creatAt, String creatBy, Date updateAt, String updateBy) {
         this.index = index;
         this.partsTypeId = partsTypeId;
-        this.fullName = fullName;
+        this.partsTypeName = partsTypeName;
         this.remark = remark;
         this.creatAt = creatAt;
         this.creatBy = creatBy;
@@ -46,12 +46,12 @@ public class PartsTypeListResponse {
         this.partsTypeId = partsTypeId;
     }
 
-    public String getFullName() {
-        return fullName;
+    public String getPartsTypeName() {
+        return partsTypeName;
     }
 
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
+    public void setPartsTypeName(String partsTypeName) {
+        this.partsTypeName = partsTypeName;
     }
 
     public String getRemark() {

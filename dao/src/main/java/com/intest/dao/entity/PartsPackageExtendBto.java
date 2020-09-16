@@ -28,7 +28,7 @@ public class PartsPackageExtendBto {
     /**
      * 零件号
      */
-    private String partCode;
+    private String partsCode;
     /**
      * 零部版本
      */

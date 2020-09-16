@@ -88,12 +88,38 @@ public class UpgradePackageController {
         return result;
     }
 
-    @ApiOperation("升级包详情")
-    @PostMapping("/details")
+    @ApiOperation("升级包详情/升级包描述")
+    @PostMapping("/describe")
     public ResultT upgradePackageDetails(@RequestBody UpgradePackageDetailRequest request){
         ResultT result = new ResultT();
         try{
-            result.setResult(upgradePackageService.upgradePackageDetails(request.getPackageTaskId()));
+            result.setResult(upgradePackageService.upgradePackageDesc(request.getPackageTaskId()));
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setFail();
+        }
+        return result;
+    }
+
+    @ApiOperation("升级包详情/升级零件")
+    @PostMapping("/parts")
+    public ResultT getParts(@RequestBody UpgradePackageDetailRequest request){
+        ResultT result = new ResultT();
+        try{
+            result.setResult(upgradePackageService.getParts(request.getPackageTaskId()));
+        }catch (Exception e){
+            e.printStackTrace();
+            result.setFail();
+        }
+        return result;
+    }
+
+    @ApiOperation("升级包详情/升级包信息")
+    @PostMapping("/info")
+    public ResultT getUpgradePackage(@RequestBody UpgradePackageDetailRequest request){
+        ResultT result = new ResultT();
+        try{
+            result.setResult(upgradePackageService.getUpgradePackage(request.getPackageTaskId()));
         }catch (Exception e){
             e.printStackTrace();
             result.setFail();

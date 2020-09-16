@@ -121,7 +121,7 @@ public class PartsBto {
     /**
      * 主键
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @return PARTS_ID 主键
      */
     public String getPartsId() {
@@ -131,7 +131,7 @@ public class PartsBto {
     /**
      * 主键
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @param partsId 主键
      */
     public void setPartsId(String partsId) {
@@ -141,7 +141,7 @@ public class PartsBto {
     /**
      * 零部件中文名称
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @return PARTSNAME 零部件中文名称
      */
     public String getPartsname() {
@@ -151,7 +151,7 @@ public class PartsBto {
     /**
      * 零部件中文名称
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @param partsname 零部件中文名称
      */
     public void setPartsname(String partsname) {
@@ -161,7 +161,7 @@ public class PartsBto {
     /**
      * 零部件编码
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @return PARTSCODE 零部件编码
      */
     public String getPartscode() {
@@ -171,7 +171,7 @@ public class PartsBto {
     /**
      * 零部件编码
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @param partscode 零部件编码
      */
     public void setPartscode(String partscode) {
@@ -181,7 +181,7 @@ public class PartsBto {
     /**
      * 外键，零部件类型ID
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @return FK_PARTSTYPE_ID 外键，零部件类型ID
      */
     public String getFkPartstypeId() {
@@ -191,7 +191,7 @@ public class PartsBto {
     /**
      * 外键，零部件类型ID
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @param fkPartstypeId 外键，零部件类型ID
      */
     public void setFkPartstypeId(String fkPartstypeId) {
@@ -201,7 +201,7 @@ public class PartsBto {
     /**
      * 外键，车型ID
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @return FK_CARTYPE_ID 外键，车型ID
      */
     public String getFkCartypeId() {
@@ -211,7 +211,7 @@ public class PartsBto {
     /**
      * 外键，车型ID
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @param fkCartypeId 外键，车型ID
      */
     public void setFkCartypeId(String fkCartypeId) {
@@ -221,7 +221,7 @@ public class PartsBto {
     /**
      * 升级顺内需
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @return ORDERNUM 升级顺内需
      */
     public Short getOrdernum() {
@@ -231,7 +231,7 @@ public class PartsBto {
     /**
      * 升级顺内需
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @param ordernum 升级顺内需
      */
     public void setOrdernum(Short ordernum) {
@@ -241,7 +241,7 @@ public class PartsBto {
     /**
      * 是否标定,1-包含标定文件；0-不包含标定文件；
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @return CALIBRATION 是否标定,1-包含标定文件；0-不包含标定文件；
      */
     public Short getCalibration() {
@@ -251,7 +251,7 @@ public class PartsBto {
     /**
      * 是否标定,1-包含标定文件；0-不包含标定文件；
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @param calibration 是否标定,1-包含标定文件；0-不包含标定文件；
      */
     public void setCalibration(Short calibration) {
@@ -261,7 +261,7 @@ public class PartsBto {
     /**
      * 刷写方式,0-Can，1-Can FD，2-DoIP；
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @return BRUSHWRITEMODE 刷写方式,0-Can，1-Can FD，2-DoIP；
      */
     public Short getBrushwritemode() {
@@ -271,7 +271,7 @@ public class PartsBto {
     /**
      * 刷写方式,0-Can，1-Can FD，2-DoIP；
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @param brushwritemode 刷写方式,0-Can，1-Can FD，2-DoIP；
      */
     public void setBrushwritemode(Short brushwritemode) {
@@ -281,7 +281,7 @@ public class PartsBto {
     /**
      * 波特率(kbps)
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @return BAUDRATE 波特率(kbps)
      */
     public Short getBaudrate() {
@@ -291,7 +291,7 @@ public class PartsBto {
     /**
      * 波特率(kbps)
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @param baudrate 波特率(kbps)
      */
     public void setBaudrate(Short baudrate) {
@@ -301,7 +301,7 @@ public class PartsBto {
     /**
      * 物理寻址ID
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @return PHYICALID 物理寻址ID
      */
     public String getPhyicalid() {
@@ -311,7 +311,7 @@ public class PartsBto {
     /**
      * 物理寻址ID
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @param phyicalid 物理寻址ID
      */
     public void setPhyicalid(String phyicalid) {
@@ -321,7 +321,7 @@ public class PartsBto {
     /**
      * 功能寻址ID
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @return FUNCTIONID 功能寻址ID
      */
     public String getFunctionid() {
@@ -331,7 +331,7 @@ public class PartsBto {
     /**
      * 功能寻址ID
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @param functionid 功能寻址ID
      */
     public void setFunctionid(String functionid) {
@@ -341,7 +341,7 @@ public class PartsBto {
     /**
      * 响应ID
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @return RESPONSEID 响应ID
      */
     public String getResponseid() {
@@ -351,7 +351,7 @@ public class PartsBto {
     /**
      * 响应ID
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @param responseid 响应ID
      */
     public void setResponseid(String responseid) {
@@ -361,7 +361,7 @@ public class PartsBto {
     /**
      * ID类型
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @return IDTYPE ID类型
      */
     public String getIdtype() {
@@ -371,7 +371,7 @@ public class PartsBto {
     /**
      * ID类型
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @param idtype ID类型
      */
     public void setIdtype(String idtype) {
@@ -381,7 +381,7 @@ public class PartsBto {
     /**
      * 网段名称
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @return NETWORKSEGMENTNAME 网段名称
      */
     public String getNetworksegmentname() {
@@ -391,7 +391,7 @@ public class PartsBto {
     /**
      * 网段名称
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @param networksegmentname 网段名称
      */
     public void setNetworksegmentname(String networksegmentname) {
@@ -401,7 +401,7 @@ public class PartsBto {
     /**
      * 硬件版本号
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @return HARDWAREVERSION 硬件版本号
      */
     public String getHardwareversion() {
@@ -411,7 +411,7 @@ public class PartsBto {
     /**
      * 硬件版本号
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @param hardwareversion 硬件版本号
      */
     public void setHardwareversion(String hardwareversion) {
@@ -421,7 +421,7 @@ public class PartsBto {
     /**
      * 零部件号
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @return PARTNUMBER 零部件号
      */
     public String getPartnumber() {
@@ -431,7 +431,7 @@ public class PartsBto {
     /**
      * 零部件号
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @param partnumber 零部件号
      */
     public void setPartnumber(String partnumber) {
@@ -441,7 +441,7 @@ public class PartsBto {
     /**
      * CAN端口
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @return CANPORT CAN端口
      */
     public Short getCanport() {
@@ -451,7 +451,7 @@ public class PartsBto {
     /**
      * CAN端口
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @param canport CAN端口
      */
     public void setCanport(Short canport) {
@@ -461,7 +461,7 @@ public class PartsBto {
     /**
      * 是否删除,1-未删除，0-已删除；
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @return ISDELETE 是否删除,1-未删除，0-已删除；
      */
     public Short getIsdelete() {
@@ -471,7 +471,7 @@ public class PartsBto {
     /**
      * 是否删除,1-未删除，0-已删除；
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @param isdelete 是否删除,1-未删除，0-已删除；
      */
     public void setIsdelete(Short isdelete) {
@@ -481,7 +481,7 @@ public class PartsBto {
     /**
      * 创建时间
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @return CREATEAT 创建时间
      */
     public Date getCreateat() {
@@ -491,7 +491,7 @@ public class PartsBto {
     /**
      * 创建时间
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @param createat 创建时间
      */
     public void setCreateat(Date createat) {
@@ -501,7 +501,7 @@ public class PartsBto {
     /**
      * 创建人
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @return CREATEBY 创建人
      */
     public String getCreateby() {
@@ -511,7 +511,7 @@ public class PartsBto {
     /**
      * 创建人
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @param createby 创建人
      */
     public void setCreateby(String createby) {
@@ -521,7 +521,7 @@ public class PartsBto {
     /**
      * 修改时间
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @return UPDATEAT 修改时间
      */
     public Date getUpdateat() {
@@ -531,7 +531,7 @@ public class PartsBto {
     /**
      * 修改时间
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @param updateat 修改时间
      */
     public void setUpdateat(Date updateat) {
@@ -541,7 +541,7 @@ public class PartsBto {
     /**
      * 修改人
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @return UPDATEBY 修改人
      */
     public String getUpdateby() {
@@ -551,7 +551,7 @@ public class PartsBto {
     /**
      * 修改人
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @param updateby 修改人
      */
     public void setUpdateby(String updateby) {
@@ -561,7 +561,7 @@ public class PartsBto {
     /**
      * 备注
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @return REMARK 备注
      */
     public String getRemark() {
@@ -571,7 +571,7 @@ public class PartsBto {
     /**
      * 备注
      * @author xialiang
-     * @date 2020-08-25 10:14:35
+     * @date 2020-09-10 16:21:11
      * @param remark 备注
      */
     public void setRemark(String remark) {
