@@ -3,10 +3,7 @@ package com.intest.carservice.cartypesimpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.intest.carservice.CarTypesService;
-import com.intest.carservice.Request.CarTypeRequest;
-import com.intest.carservice.Request.RequestCarTypebyId;
-import com.intest.carservice.Request.RequestDelCarTypebyId;
-import com.intest.carservice.Request.addCarType;
+import com.intest.carservice.Request.*;
 import com.intest.carservice.Respone.*;
 import com.intest.carservice.carTypeTool.carTools;
 import com.intest.common.result.PagerDataBaseVO;
@@ -50,6 +47,9 @@ public class cartypesassemblyImpl implements CarTypesService {
 
     @Autowired
     CarBtoMapper carmp;
+
+    @Autowired
+    UserBtoMapper userMapper;
 
     @Override
     public CarTypeBto getCarTypeById(String cartypeid) {
@@ -115,9 +115,15 @@ public class cartypesassemblyImpl implements CarTypesService {
                 respone.setTerminal(tmnBto.getTerminalname());
                 respone.setRemark(ctb.getRemark());
                 respone.setCreateAt(ft.format(ctb.getCreateat()));
-                respone.setCreateBy(ctb.getCreateby());
-                respone.setUpdateAt(ctb.getUpdateat() == null ? "" : ft.format(ctb.getUpdateat()));
-                respone.setUpdateBy(ctb.getUpdateby() == null ? "" : ctb.getUpdateby());
+                String CreateBy = carTools.getUserRealName(userMapper, ctb.getCreateby());
+                respone.setCreateBy(CreateBy);
+
+                String UpdateBy = ctb.getUpdateby() == null ? "" : ctb.getUpdateby();
+                if (!UpdateBy.equals("")) {
+                    respone.setUpdateAt(ctb.getUpdateat() == null ? "" : ft.format(ctb.getUpdateat()));
+                    respone.setUpdateBy(carTools.getUserRealName(userMapper, ctb.getUpdateby()));
+                }
+
                 respone.setCartypeId(ctb.getCartypeId());
                 ctRespones.add(respone);
             }
@@ -175,7 +181,15 @@ public class cartypesassemblyImpl implements CarTypesService {
         TypeInfo.setTerminalId(tmnBto.getTerminalId());
         TypeInfo.setTerminal(tmnBto.getTerminalname());
         TypeInfo.setCreateAt(ctb.getCreateat() == null ? "" : ft.format(ctb.getCreateat()));
-        TypeInfo.setCreateBy(ctb.getCreateby() == null ? "" : ctb.getCreateby());
+        if(ctb.getCreateby() != null && !ctb.getCreateby().equals("")) {
+            String CreateBy = carTools.getUserRealName(userMapper, ctb.getCreateby());
+            TypeInfo.setCreateBy(CreateBy);
+        }
+        String UpdateBy = ctb.getUpdateby() == null ? "" : ctb.getUpdateby();
+        if (!UpdateBy.equals("")) {
+            TypeInfo.setUpdateBy(carTools.getUserRealName(userMapper, ctb.getUpdateby()));
+        }
+
         TypeInfo.setUpdateBy(ctb.getUpdateby() == null ? "" : ctb.getUpdateby());
         TypeInfo.setRemark(ctb.getRemark());
 
@@ -295,7 +309,7 @@ public class cartypesassemblyImpl implements CarTypesService {
                 ctbto.setCartypename(cartype.getCarTypeName());
                 ctbto.setIsdelete((short) 0);
                 //更新车型删除状态
-                 cartypeMapper.updateByPrimaryKey(ctbto);
+                cartypeMapper.updateByPrimaryKey(ctbto);
             }
         }
 
@@ -375,5 +389,24 @@ public class cartypesassemblyImpl implements CarTypesService {
         } catch (Exception excar) {
         }
         return btos;
+    }
+
+    /*
+    检测车型名称是否唯一
+     */
+    public String checkCarType(RequestCheckCarType carType) {
+
+        CarTypeBtoExample carTypeEx = new CarTypeBtoExample();
+        CarTypeBtoExample.Criteria cia = carTypeEx.createCriteria();
+        cia.andCartypenameEqualTo(carType.getCarTypeName());
+
+        //查找vin
+        List<CarTypeBto> ctBto = cartypeMapper.selectByExample(carTypeEx);
+
+        String Msg = "";
+        if (ctBto.size() > 0) {
+            Msg = String.format("车型：%s 已经存在", carType.getCarTypeName());
+        }
+        return Msg;
     }
 }

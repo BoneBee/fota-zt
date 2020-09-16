@@ -3,31 +3,41 @@ package com.intest.carservice.Request;
 import com.intest.common.ro.PagerBaseRO;
 
 public class CarRequest  extends PagerBaseRO {
-    private int pi;
-    private int ps;
+    private int Pi;
+    private int Ps;
     private String condition;
-    private String sort;
-    private String sortOrder;
-    private String dataName;
-
+    private String Sort;
 
     @Override
     public int getPi() {
-        return pi;
+        return Pi;
     }
 
     public void setPi(int pi) {
-        this.pi = pi;
+        Pi = pi;
     }
 
     @Override
     public int getPs() {
-        return ps;
+        return Ps;
     }
 
     public void setPs(int ps) {
-        this.ps = ps;
+        Ps = ps;
     }
+
+    @Override
+    public String getSort() {
+        return Sort;
+    }
+
+    public void setSort(String sort) {
+        Sort = sort;
+    }
+
+    private String sortOrder;
+    private String dataName;
+
 
     public String getCondition() {
         return condition;
@@ -37,14 +47,6 @@ public class CarRequest  extends PagerBaseRO {
         this.condition = condition;
     }
 
-    @Override
-    public String getSort() {
-        return sort;
-    }
-
-    public void setSort(String sort) {
-        this.sort = sort;
-    }
 
     public String getSortOrder() {
         return sortOrder;
