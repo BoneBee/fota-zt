@@ -186,6 +186,26 @@ public class carmpl implements CarService {
             //车辆任务审批状态
             cartask.setCheckStatus(car.getCheckStatus());
 
+            //获取该车辆绑定的零件
+            PartsBtoExample partEx = new PartsBtoExample();
+            PartsBtoExample.Criteria ciapart = partEx.createCriteria();
+            ciapart.andFkCartypeIdEqualTo(car.getCarTypeId());
+
+            //查找车辆的零件
+            List<PartsBto> parts = partmp.selectByExample(partEx);
+            List<CarEcu> ecus = new ArrayList<>();
+            int ecuCount = 0;
+            //获取零件信息集合
+            for (PartsBto pt : parts) {
+                CarEcu te = new CarEcu();
+                te.setEcuId(pt.getPartsId());
+                te.setEcuName(pt.getPartsname());
+                ecus.add(te);
+
+            }
+
+            //添加车辆零件集合
+            crp.setEcus(ecus);
             //赋值一辆车的数据
             crp.setTaskMsg(cartask);
             //把车辆添加到车辆集合里面，然后一起返回

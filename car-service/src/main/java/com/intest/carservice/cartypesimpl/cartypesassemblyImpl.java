@@ -75,6 +75,8 @@ public class cartypesassemblyImpl implements CarTypesService {
         List<CarTypeBto> carTypes = new ArrayList<>();
 
         CarTypeBtoExample btoExample = new CarTypeBtoExample();
+        CarTypeBtoExample.Criteria cia = btoExample.createCriteria();
+        cia.andIsdeleteEqualTo((short) 1);
 
         try {
             if (!request.getSort().equals("")) {
@@ -112,9 +114,17 @@ public class cartypesassemblyImpl implements CarTypesService {
                 CarTypeRespone respone = new CarTypeRespone();
                 respone.setIndex(index);
                 respone.setCartypeName(ctb.getCartypename());
-                respone.setTerminal(tmnBto.getTerminalname());
+                if (tmnBto != null) {
+                    respone.setTerminal(tmnBto.getTerminalname());
+                    respone.setTerminalId(tmnBto.getTerminalId());
+                }
                 respone.setRemark(ctb.getRemark());
-                respone.setCreateAt(ft.format(ctb.getCreateat()));
+                if (ctb.getCreateat() == null || ctb.getCreateat().equals("")) {
+                    respone.setCreateAt("");
+                }
+                else {
+                    respone.setCreateAt(ft.format(ctb.getCreateat()));
+                }
                 String CreateBy = carTools.getUserRealName(userMapper, ctb.getCreateby());
                 respone.setCreateBy(CreateBy);
 
@@ -181,7 +191,7 @@ public class cartypesassemblyImpl implements CarTypesService {
         TypeInfo.setTerminalId(tmnBto.getTerminalId());
         TypeInfo.setTerminal(tmnBto.getTerminalname());
         TypeInfo.setCreateAt(ctb.getCreateat() == null ? "" : ft.format(ctb.getCreateat()));
-        if(ctb.getCreateby() != null && !ctb.getCreateby().equals("")) {
+        if (ctb.getCreateby() != null && !ctb.getCreateby().equals("")) {
             String CreateBy = carTools.getUserRealName(userMapper, ctb.getCreateby());
             TypeInfo.setCreateBy(CreateBy);
         }

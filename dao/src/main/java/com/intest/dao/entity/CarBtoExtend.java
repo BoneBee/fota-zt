@@ -3,7 +3,9 @@ package com.intest.dao.entity;
 public class CarBtoExtend {
 
     private String carTypeName;
-//    private String terminal;
+    private String carTypeId;
+
+    //    private String terminal;
     //public String pCompany;
     private String terminalCode;
     private String vin;
@@ -68,6 +70,14 @@ public class CarBtoExtend {
 //    public void setCreateBy(String createBy) {
 //        this.createBy = createBy;
 //    }
+
+    public String getCarTypeId() {
+        return carTypeId;
+    }
+
+    public void setCarTypeId(String carTypeId) {
+        this.carTypeId = carTypeId;
+    }
 
     public String getAddType() {
         return addType;

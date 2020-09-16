@@ -4,6 +4,8 @@ public class CarEcu {
 
     //序号
     private int index;
+    //零件ID
+    private String ecuId;
     //零件简称
     private String ecuName;
     //零件类型
@@ -21,6 +23,14 @@ public class CarEcu {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public String getEcuId() {
+        return ecuId;
+    }
+
+    public void setEcuId(String ecuId) {
+        this.ecuId = ecuId;
     }
 
     public String getEcuName() {
