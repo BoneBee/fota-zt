@@ -108,14 +108,6 @@ public class CarRespone {
         this.ecus = ecus;
     }
 
-//    public String getpCompany() {
-//        return pCompany;
-//    }
-//
-//    public void setpCompany(String pCompany) {
-//        this.pCompany = pCompany;
-//    }
-
     public String getICCID() {
         return ICCID;
     }

@@ -320,4 +320,6 @@
       ICCID = #{iccid,jdbcType=NVARCHAR}
     where CAR_ID = #{carId,jdbcType=CHAR}
   </update>
+
+
 </mapper>

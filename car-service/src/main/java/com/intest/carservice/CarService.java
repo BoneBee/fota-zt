@@ -1,6 +1,7 @@
 package com.intest.carservice;
 
 import com.intest.carservice.Request.*;
+import com.intest.carservice.Respone.CarAddRespone;
 import com.intest.carservice.Respone.delCarRespone;
 import com.intest.common.result.PagerDataBaseVO;
 import com.intest.dao.entity.CarBto;
@@ -17,7 +18,7 @@ public interface CarService {
 
     public PagerDataBaseVO getCarDetail(String carId);
 
-    public int addCar(addCar pcar);
+    public CarAddRespone addCar(addCar pcar);
 
     public int mdfCar(addCar pcar);
 

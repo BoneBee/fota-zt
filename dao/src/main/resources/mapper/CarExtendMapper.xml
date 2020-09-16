@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.intest.dao.mapper.CarExtendMapper">
+    <!--<resultMap id="getCarsResultMap" type="com.intest.dao.entity.CarTypeBto">-->
+    <!--&lt;!&ndash;private String terminalCode;&ndash;&gt;-->
+    <!--&lt;!&ndash;private String vin;&ndash;&gt;-->
+    <!--&lt;!&ndash;private String createAt;&ndash;&gt;-->
+    <!--&lt;!&ndash;private String createBy;&ndash;&gt;-->
+    <!--&lt;!&ndash;private String addType;&ndash;&gt;-->
+
+    <!--&lt;!&ndash;//private CarTask taskMsg;&ndash;&gt;-->
+    <!--&lt;!&ndash;private String taskName;&ndash;&gt;-->
+    <!--&lt;!&ndash;private String checkStatus;&ndash;&gt;-->
+    <!--&lt;!&ndash;private String executeStatus;&ndash;&gt;-->
+    <!--&lt;!&ndash;private int exTask;&ndash;&gt;-->
+
+    <!--&lt;!&ndash;private String carId;&ndash;&gt;-->
+    <!--&lt;!&ndash;private String operator;&ndash;&gt;-->
+    <!--&lt;!&ndash;private String ICCID;&ndash;&gt;-->
+    <!--&lt;!&ndash;private String simNumber;&ndash;&gt;-->
+    <!--<id column="CARTYPE_ID" jdbcType="CHAR" property="cartypeId"/>-->
+    <!--<result column="CARTYPENAME" jdbcType="CHAR" property="cartypename"/>-->
+    <!--<result column="REMARK" jdbcType="CHAR" property="remark"/>-->
+    <!--<result column="FK_TERMINAL_ID" jdbcType="NUMERIC" property="fkTerminalId"/>-->
+    <!--<result column="ISDELETE" jdbcType="NUMERIC" property="isdelete"/>-->
+    <!--<result column="CREATEAT" jdbcType="TIMESTAMP" property="createat"/>-->
+    <!--<result column="CREATEBY" jdbcType="CHAR" property="createby"/>-->
+    <!--<result column="UPDATEAT" jdbcType="TIMESTAMP" property="updateat"/>-->
+    <!--<result column="UPDATEBY" jdbcType="CHAR" property="updateby"/>-->
+    <!--</resultMap>-->
+
+    <select id="getCars" parameterType="com.intest.dao.entity.CarBtoExtend"
+            resultType="com.intest.dao.entity.CarBtoExtend">
+        select
+        c.car_id carId,
+        c.vin,
+        c.iccid ICCID,
+        c.simNumber,
+        ty.cartypename carTypeName,
+        m.terminalname terminalCode,
+        c.createat createAt,
+        c.addtype addType,
+        t.taskname taskName,
+        t.fk_taskstatusvalue_code checkStatus,
+        tc.fk_taskcarstatusvalue_code executeStatus
+        from f_car c
+        left join f_taskcar tc on c.vin=tc.vin
+        left join f_task t on tc.fk_task_id=t.task_id
+        left join f_cartype ty on c.fk_cartype_id=ty.cartype_id
+        left join f_terminal m on ty.fk_terminal_id=m.terminal_id
+        where c.isdelete=1
+        <if test="carTypeName!=null and carTypeName!=''">
+        and ty.cartypename=#{carTypeName}
+        </if>
+        <if test="terminalCode!=null and terminalCode!=''">
+        and m.terminalname=#{terminalCode}
+        </if>
+        <if test="createAt!=null and createAt!=''">
+        and c.createat=#{createAt}
+        </if>
+        <if test="addType!=null and addType!=''">
+        and c.addtype=#{addType}
+        </if>
+        <if test="taskName!=null and taskName!=''">
+        and t.taskname=#{taskName}
+        </if>
+    </select>
+</mapper>

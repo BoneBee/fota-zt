@@ -3,6 +3,8 @@ package com.intest.dao.mapper;
 import com.intest.dao.entity.CarBto;
 import com.intest.dao.entity.CarBtoExample;
 import java.util.List;
+
+import com.intest.dao.entity.CarBtoExtend;
 import org.apache.ibatis.annotations.Param;
 
 public interface CarBtoMapper {
@@ -71,4 +73,5 @@ public interface CarBtoMapper {
      * @mbg.generated
      */
     int updateByPrimaryKey(CarBto record);
+
 }

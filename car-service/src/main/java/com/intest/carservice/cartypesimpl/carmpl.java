@@ -19,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -51,6 +52,9 @@ public class carmpl implements CarService {
 
     @Autowired
     PartsPackageBtoMapper ppmp;
+
+    @Autowired
+    CarExtendMapper carExmp;
 
     /* 删除车型时用到：查询车型下是否有车辆
     根据车型ID获取车辆
@@ -113,16 +117,22 @@ public class carmpl implements CarService {
         //查询条件
         PageHelper.startPage(pageindex, pagesize);
         List<CarBto> cars = new ArrayList<>();
-
+        List<CarBtoExtend> carExs = new ArrayList<>();
         //封装排序对象
         CarBtoExample carExample = new CarBtoExample();
 
         try {
-            if (!carq.getSort().equals("") || carq.getSort() != null) {
+            String getsort = carq.getSort();
+
+            if (!getsort.equals("")) {
                 String sort = carTools.replaceCharacter(carq.getSort());
                 carExample.setOrderByClause(sort);
             }
-            cars = carmp.selectByExample(carExample);
+            //不能用生成工具生成的方法。
+            //cars = carmp.selectByExample(carExample);
+            CarBtoExtend cbex = new CarBtoExtend();
+            carExs = carExmp.getCars(cbex);
+
         } catch (Exception carEx) {
 
         }
@@ -142,7 +152,7 @@ public class carmpl implements CarService {
         SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         //循环赋值返回对象
-        for (CarBto car : cars) {
+        for (CarBtoExtend car : carExs) {
             index += 1;
             if (index <= rownumstar) {
                 continue;
@@ -151,39 +161,30 @@ public class carmpl implements CarService {
                 break;
             }
             CarRespone crp = new CarRespone();
-            //获取车型名称
-            CarTypeBto carTypeBto = cartypemp.selectByPrimaryKey(car.getFkCartypeId());
-            //根据车型的终端外键ID获取终端型号
-            TerminalBto terminalBto = terminalmp.selectByPrimaryKey(carTypeBto.getFkTerminalId());
             //给车辆赋值基本信息
             crp.setCarId(car.getCarId());
-            crp.setCarTypeName(carTypeBto.getCartypename());
-            crp.setAddType(car.getAddtype().toString());
+            crp.setCarTypeName(car.getCarTypeName());
+            crp.setAddType(car.getAddType().toString());
             crp.setIndex(index);
-            crp.setTerminal(terminalBto.getTerminalname());
+            crp.setTerminal(car.getTerminalCode());
             crp.setVin(car.getVin());
-            crp.setCreateAt(ft.format(car.getCreateat()));
-
-            //获取车辆任务
-            TaskCarBtoExample tcEx = new TaskCarBtoExample();
-            TaskCarBtoExample.Criteria cia = tcEx.createCriteria();
-            cia.andVinEqualTo(car.getVin());
-            List<TaskCarBto> tcbtos = taskcarmp.selectByExample(tcEx);
-            TaskCarBto tcbto = new TaskCarBto();
-
-            //获取任务名称
-            TaskBto tbto = new TaskBto();
-            CarTask cartask = new CarTask();
-            if (tcbtos.size() > 0) {
-                tcbto = tcbtos.get(0);
-                tbto = taskmp.selectByPrimaryKey(tcbto.getFkTaskId());
-                cartask.setTaskName(tbto.getTaskname());
-                cartask.setExTask(1);
-                //车辆任务执行状态
-                cartask.setExecuteStatus(tcbto.getFkTaskcarstatusvalueCode());
-                //车辆任务审批状态
-                cartask.setCheckStatus(tbto.getFkTaskstatusvalueCode());
+            if(car.getCreateAt() == null || car.getCreateAt().equals("")){
+                crp.setCreateAt("");
+            }else {
+                crp.setCreateAt(car.getCreateAt());
             }
+            CarTask cartask = new CarTask();
+            cartask.setTaskName(car.getTaskName());
+            if (car.getTaskName() == null || car.getTaskName().equals("")) {
+                cartask.setExTask(0);
+            }
+            else {
+                cartask.setExTask(1);
+            }
+            //车辆任务执行状态
+            cartask.setExecuteStatus(car.getExecuteStatus());
+            //车辆任务审批状态
+            cartask.setCheckStatus(car.getCheckStatus());
 
             //赋值一辆车的数据
             crp.setTaskMsg(cartask);
@@ -296,25 +297,36 @@ public class carmpl implements CarService {
     添加车辆
      */
     @Override
-    public int addCar(addCar pcar) {
-        PagerDataBaseVO addcarVO = new PagerDataBaseVO();
+    public CarAddRespone addCar(addCar pcar) {
+        //添加新车辆
+        int carcount = 0;
+        CarAddRespone addcar = new CarAddRespone();
 
         CarBto cb = new CarBto();
         cb.setCarId(UUID.randomUUID().toString());
         cb.setAddtype((short) 1);
         cb.setVin(pcar.getVin());
         cb.setFkCartypeId(pcar.getCarTypeId());
-        cb.setTerminalcode(pcar.getTerminalCode());
         //终端厂商没字段
         // cb.
         cb.setIccid(pcar.getIccid());
         //运营商也没有
         //cb.get
+        if (pcar.getTerminalCode() == null || pcar.getTerminalCode().equals("")) {
+            carcount = 0;
+            addcar.setMsg("终端号不能为空!");
+        }
+        else {
+            cb.setTerminalcode(pcar.getTerminalCode());
+            //添加新车辆
+            carcount = carmp.insert(cb);
 
-        //添加新车辆
-        int carcount = carmp.insert(cb);
+        }
 
-        return carcount;
+        addcar.setAddCarResult(carcount);
+
+
+        return addcar;
     }
 
     /*
@@ -347,9 +359,12 @@ public class carmpl implements CarService {
     public PagerDataBaseVO getAddCarTypes() {
         CarTypeBtoExample carTypeExample = new CarTypeBtoExample();
         List<CarTypeBto> cartypes = cartypemp.selectByExample(carTypeExample);
-
         List<AddCarResponeCarType> cartyperps = new ArrayList<>();
         for (CarTypeBto ctbto : cartypes) {
+            //过滤已删除的车型
+            if (ctbto.getIsdelete().equals((short) 0)) {
+                continue;
+            }
             AddCarResponeCarType cartyperp = new AddCarResponeCarType();
 
             cartyperp.setCarTypeId(ctbto.getCartypeId());

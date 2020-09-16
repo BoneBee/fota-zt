@@ -4,16 +4,6 @@ import com.intest.common.ro.PagerBaseRO;
 
 public class CarTypeRequest extends PagerBaseRO {
 
-//    public String getCarTypeId() {
-//        return carTypeId;
-//    }
-//
-//    public void setCarTypeId(String carTypeId) {
-//        this.carTypeId = carTypeId;
-//    }
-//
-//    private String carTypeId;
-
     private int pi;
     private int ps;
     private String sort;
@@ -34,19 +24,7 @@ public class CarTypeRequest extends PagerBaseRO {
     public void setPs(int ps) {
         this.ps = ps;
     }
-//
-//    public String condition;
-//
-//
-//
-//    public String getCondition() {
-//        return condition;
-//    }
-//
-//    public void setCondition(String condition) {
-//        this.condition = condition;
-//    }
-//
+
     public String getSort() {
         return sort;
     }
@@ -54,38 +32,6 @@ public class CarTypeRequest extends PagerBaseRO {
     public void setSort(String sort) {
         this.sort = sort;
     }
-//
-//    public String getSortOrder() {
-//        return sortOrder;
-//    }
-//
-//    public void setSortOrder(String sortOrder) {
-//        this.sortOrder = sortOrder;
-//    }
-//
-//    public String getDataName() {
-//        return dataName;
-//    }
-//
-//    public void setDataName(String dataName) {
-//        this.dataName = dataName;
-//    }
-//
-
-//    public String sortOrder;
-//    public String dataName;
-//
-//
-//
-//    public String getTypeId() {
-//        return typeId;
-//    }
-//
-//    public void setTypeId(String typeId) {
-//        this.typeId = typeId;
-//    }
-//
-//    public String typeId;
 
     public CarTypeRequest(){
 
