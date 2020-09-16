@@ -6,6 +6,8 @@ import com.intest.basicservice.user.vo.LoginVO;
 import com.intest.common.result.PagerDataBaseVO;
 import com.intest.dao.entity.UserBto;
 
+import java.util.List;
+
 public interface UserService {
 
     LoginVO checkLogin(String userName, String password);
@@ -15,6 +17,8 @@ public interface UserService {
     UserBto getUserByname(String name);
 
     UserBto getUserByUserId(String userId);
+
+    List<UserBto> getUserList();
 
     int addUser(UserBto person);
 

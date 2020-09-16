@@ -230,6 +230,12 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public List<UserBto> getUserList() {
+        List<UserBto> userBtoList = userBtoMapper.selectByExample(null);
+        return userBtoList;
+    }
+
+    @Override
     public int addUser(UserBto userBto) {
         return userBtoMapper.insert(userBto);
     }
@@ -254,7 +260,7 @@ public class UserServiceImpl implements UserService {
         PageInfo<UserBto> pageInfo = new PageInfo<UserBto>(userBtos);
         int index = pageInfo.getStartRow() - 1;
         for (UserBto userBto : userBtos) {
-            UserResponse userResponse = new UserResponse(index += 1, userBto.getUserId(), userBto.getLoginName(), userBto.getRealName(), userBto.getJobNumber(), userBto.getMobile(), userBto.getCompanyEmail(), userBto.getSex()==1?"男":"女", userBto.getNote(), userBto.getAccountKind()==1?"系统用户账户":"服务账户", userBto.getLastLoginat(), userBto.getAccountStatus()==1?"启用":"冻结", userBto.getCreateat(), userBto.getCreateby());
+            UserResponse userResponse = new UserResponse(index += 1, userBto.getUserId(), userBto.getLoginName(), userBto.getRealName(), userBto.getJobNumber(), userBto.getMobile(), userBto.getCompanyEmail(), userBto.getSex() == 1 ? "男" : "女", userBto.getNote(), userBto.getAccountKind() == 1 ? "系统用户账户" : "服务账户", userBto.getLastLoginat(), userBto.getAccountStatus() == 1 ? "启用" : "冻结", userBto.getCreateat(), userBto.getCreateby());
             userResponseList.add(userResponse);
         }
         user.setTotal(pageInfo.getTotal());

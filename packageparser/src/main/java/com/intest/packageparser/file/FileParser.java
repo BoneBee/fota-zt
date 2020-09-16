@@ -50,6 +50,9 @@ public class FileParser {
     @Autowired
     private PartsBtoMapper partsBtoMapper;
 
+    @Autowired
+    private CarTypeBtoMapper carTypeBtoMapper;
+
     /**
      * 错误信息集合
      */
@@ -68,6 +71,12 @@ public class FileParser {
      * 不含标定
      */
     private static Pattern packagePattern = Pattern.compile("([A-Z]{4}E\\d{8}S\\d{6}[A-Za-z0-9-]*)");
+    /**
+     * 零件包名称正则表达式
+     * 差分包
+     * 不含标定
+     */
+    private static Pattern diffPackagePattern = Pattern.compile("([A-Z]{4}E\\d{8}S\\d{6}[A-Za-z0-9-]*)");
     /**
      * 零件包名称正则表达式
      * 含标定
@@ -132,6 +141,14 @@ public class FileParser {
                                 zipResult.setTargetVersion(fileName.substring(13, 27));
                                 zipResult.setCarType(fileName.substring(27));
                             }
+                        }
+
+                        CarTypeBto carTypeBto = carTypeBtoMapper.selectByPrimaryKey(carTypeId);
+                        String carTypeName = carTypeBto.getCartypename();
+                        if(!zipResult.getCarType().equals(carTypeName)){
+                            String version = zipResult.getCarType().replace(carTypeName, "");
+                            zipResult.setCarType(carTypeName);
+                            zipResult.setVersion(version);
                         }
 
                         zipResult.setSuffix(suffix);
@@ -536,6 +553,12 @@ public class FileParser {
         bto.setFkFileId(zipResult.getFileId());
         bto.setSoftwareversion(zipResult.getTargetVersion());
         bto.setHardwareversion(zipResult.getTargetVersion());
+        if(zipResult.getVersion() != null && !zipResult.getVersion().equals("")){
+            bto.setSoftwareversion(zipResult.getVersion());
+            bto.setHardwareversion(zipResult.getVersion());
+            bto.setTargetsoftwareversion(zipResult.getTargetVersion());
+            bto.setPackagetype((short)1);
+        }
         bto.setPartnumber(zipResult.getPartCode());
         bto.setSendid(zipResult.getResponseId());
         bto.setReceiveid(zipResult.getPhysicalId());

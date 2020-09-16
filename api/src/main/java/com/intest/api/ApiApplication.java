@@ -4,7 +4,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.ServletComponentScan;
 
-@SpringBootApplication(scanBasePackages = "com.intest")
+@SpringBootApplication(scanBasePackages = {"com.intest","com.intest.web"})
 @ServletComponentScan(basePackages = {"com.intest"})
 public class ApiApplication {
 
