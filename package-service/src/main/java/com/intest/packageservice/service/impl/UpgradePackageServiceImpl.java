@@ -57,7 +57,6 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
         bto.setPackageName(request.getPackageName());
         bto.setCarTypeName(request.getCarTypeName());
         bto.setPackageType(request.getPackageType());
-        bto.setPublishStatus(request.getPublishStatus());
 
         List<UpgradePackageExtendBto> list = upgradePackageMapper.findAllUpgradePackage(bto);
         PageInfo pageInfo = new PageInfo<UpgradePackageExtendBto>(list);
@@ -156,6 +155,7 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
             packageTaskBto.setTitle(request.getTitle());
             packageTaskBto.setContent(request.getContent());
             packageTaskBto.setPackagename(request.getPackageName());
+            packageTaskBto.setMaketype(new BigDecimal(request.getPackageType()));
             packageTaskBtoMapper.insertSelective(packageTaskBto);
 
             for(PartsRequest partsRequest : request.getPartsPackage()){
@@ -164,7 +164,6 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
                     taskOriginalPackageBto.setTaskoriginalpackageId(UUID.randomUUID().toString());
                     taskOriginalPackageBto.setFkPackagetaskId(packageTaskId);
                     taskOriginalPackageBto.setType(new BigDecimal(0));
-                    taskOriginalPackageBto.setMaketype(new BigDecimal(0));
                     taskOriginalPackageBto.setFkPartspackageId(partsRequest.getBasePartsPackageId());
                     taskOriginalPackageBto.setCreateby(UUID.randomUUID().toString());
                     taskOriginalPackageBtoMapper.insertSelective(taskOriginalPackageBto);
@@ -173,7 +172,6 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
                     taskOriginalPackageBto.setTaskoriginalpackageId(UUID.randomUUID().toString());
                     taskOriginalPackageBto.setFkPackagetaskId(packageTaskId);
                     taskOriginalPackageBto.setType(new BigDecimal(1));
-                    taskOriginalPackageBto.setMaketype(new BigDecimal(0));
                     taskOriginalPackageBto.setFkPartspackageId(partsRequest.getTargetPartsPackageId());
                     taskOriginalPackageBto.setCreateby(UUID.randomUUID().toString());
                     taskOriginalPackageBtoMapper.insertSelective(taskOriginalPackageBto);
@@ -182,7 +180,6 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
                     taskOriginalPackageBto.setTaskoriginalpackageId(UUID.randomUUID().toString());
                     taskOriginalPackageBto.setFkPackagetaskId(packageTaskId);
                     taskOriginalPackageBto.setType(new BigDecimal(2));
-                    taskOriginalPackageBto.setMaketype(new BigDecimal(1));
                     taskOriginalPackageBto.setFkPartspackageId(partsRequest.getBasePartsPackageId());
                     taskOriginalPackageBto.setCreateby(UUID.randomUUID().toString());
                     taskOriginalPackageBtoMapper.insertSelective(taskOriginalPackageBto);
@@ -198,12 +195,11 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public int unpublish(String[] ids){
-        UpgradePackageFileinfoBto bto = new UpgradePackageFileinfoBto();
-        bto.setIspublish(new BigDecimal(2));
-        UpgradePackageFileinfoBtoExample example = new UpgradePackageFileinfoBtoExample();
-        example.createCriteria().andUpgradepackagefileinfoIdIn(Arrays.asList(ids));
-        int count = upgradePackageFileinfoBtoMapper.updateByExampleSelective(bto, example);
+    public int unpublish(String packageTaskId){
+        PackageTaskBto bto = new PackageTaskBto();
+        bto.setFkPackagetaskstatusvalueCode("104");
+        bto.setPackagetaskId(packageTaskId);
+        int count = packageTaskBtoMapper.updateByPrimaryKeySelective(bto);
         return count > 0 ? 1 : -1;
     }
 

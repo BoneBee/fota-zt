@@ -79,7 +79,7 @@ public class cartypesassemblyImpl implements CarTypesService {
         cia.andIsdeleteEqualTo((short) 1);
 
         try {
-            if (!request.getSort().equals("")) {
+            if(request.getSort()!=null && !request.getSort().equals("") ){
                 String sort = carTools.replaceCharacter(request.getSort());
                 btoExample.setOrderByClause(sort);
             }
@@ -109,7 +109,7 @@ public class cartypesassemblyImpl implements CarTypesService {
                 break;
             }
 
-            if (index > rownumstar && index <= rownumend) {
+            if (index > rownumstar && index <= rownumend && ctb.getFkTerminalId()!=null) {
                 TerminalBto tmnBto = tmMapper.selectByPrimaryKey(ctb.getFkTerminalId());
                 CarTypeRespone respone = new CarTypeRespone();
                 respone.setIndex(index);

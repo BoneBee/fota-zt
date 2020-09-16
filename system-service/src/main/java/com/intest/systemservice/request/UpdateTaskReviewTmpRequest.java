@@ -3,27 +3,27 @@ package com.intest.systemservice.request;
 import java.util.List;
 
 public class UpdateTaskReviewTmpRequest {
-    private String taskReviewtmpId;
-    private String taskReviewtmpName;
+    private String taskTmpId;
+    private String taskTmpName;
     private int tmpType;
     private int taskNum;
     private int state;
     private List<TaskUserBean> taskUserIds;
 
-    public String getTaskReviewtmpId() {
-        return taskReviewtmpId;
+    public String getTaskTmpId() {
+        return taskTmpId;
     }
 
-    public void setTaskReviewtmpId(String taskReviewtmpId) {
-        this.taskReviewtmpId = taskReviewtmpId;
+    public void setTaskTmpId(String taskTmpId) {
+        this.taskTmpId = taskTmpId;
     }
 
-    public String getTaskReviewtmpName() {
-        return taskReviewtmpName;
+    public String getTaskTmpName() {
+        return taskTmpName;
     }
 
-    public void setTaskReviewtmpName(String taskReviewtmpName) {
-        this.taskReviewtmpName = taskReviewtmpName;
+    public void setTaskTmpName(String taskTmpName) {
+        this.taskTmpName = taskTmpName;
     }
 
     public int getTmpType() {
@@ -59,16 +59,16 @@ public class UpdateTaskReviewTmpRequest {
     }
 
     public static class TaskUserBean {
-        private String taskReviewTmpDetileId;
+        private String id;
         private String userId;
         private int level;
 
-        public String getTaskReviewTmpDetileId() {
-            return taskReviewTmpDetileId;
+        public String getId() {
+            return id;
         }
 
-        public void setTaskReviewTmpDetileId(String taskReviewTmpDetileId) {
-            this.taskReviewTmpDetileId = taskReviewTmpDetileId;
+        public void setId(String id) {
+            this.id = id;
         }
 
         public String getUserId() {

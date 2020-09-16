@@ -18,10 +18,6 @@ public class UpgradePackageRequest extends BaseRequest {
      * 升级包类型
      */
     private int packageType;
-    /**
-     * 发布状态
-     */
-    private int publishStatus;
 
     public String getPackageName() {
         return packageName;
@@ -45,13 +41,5 @@ public class UpgradePackageRequest extends BaseRequest {
 
     public void setPackageType(int packageType) {
         this.packageType = packageType;
-    }
-
-    public int getPublishStatus() {
-        return publishStatus;
-    }
-
-    public void setPublishStatus(int publishStatus) {
-        this.publishStatus = publishStatus;
     }
 }

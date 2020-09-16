@@ -2,14 +2,15 @@ package com.intest.api.controller;
 
 import com.intest.common.result.ResultT;
 import com.intest.common.util.MultiDownloadUtil;
+import com.intest.common.webcore.BaseController;
 import com.intest.dao.entity.CarTypeExtendBto;
 import com.intest.dao.entity.FileBto;
 import com.intest.packageparser.file.FileParser;
+import com.intest.packageservice.request.PackageCheckRequest;
 import com.intest.packageservice.request.PackageDeleteRequest;
 import com.intest.packageservice.request.PackageParseRequest;
 import com.intest.packageservice.request.PackageRequest;
 import com.intest.packageservice.service.LargePackageService;
-import com.intest.packageservice.vo.PackageCheckRequest;
 import com.intest.packageservice.vo.PackageVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -17,6 +18,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -35,7 +38,7 @@ import java.util.Map;
 @Api(tags = {"版本管理/原始包"})
 @RequestMapping("/api")
 @RestController
-public class PackageController {
+public class PackageController extends BaseController {
 
     private static Logger logger = LoggerFactory.getLogger(PackageController.class);
     @Autowired
@@ -46,7 +49,9 @@ public class PackageController {
 
     @ApiOperation("检查该车型下是否存在同名原始包")
     @RequestMapping(value = "/package/exist", method = RequestMethod.POST)
-    public ResultT<Boolean> checkLargePackage(@RequestBody PackageCheckRequest request){
+    public ResultT<Boolean> checkLargePackage(@Validated @RequestBody PackageCheckRequest request, BindingResult bindingResult){
+        validData(bindingResult);
+
         ResultT<Boolean> result = new ResultT<>();
         try{
             result.setResult(largePackageService.checkParentFileName(request));

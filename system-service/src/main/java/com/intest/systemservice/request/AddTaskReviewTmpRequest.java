@@ -3,18 +3,18 @@ package com.intest.systemservice.request;
 import java.util.List;
 
 public class AddTaskReviewTmpRequest {
-    private String taskReviewtmpName;
+    private String taskTmpName;
     private int tmpType;
     private int taskNum;
     private int state;
     private List<TaskUserBean> taskUserIds;
 
-    public String getTaskReviewtmpName() {
-        return taskReviewtmpName;
+    public String getTaskTmpName() {
+        return taskTmpName;
     }
 
-    public void setTaskReviewtmpName(String taskReviewtmpName) {
-        this.taskReviewtmpName = taskReviewtmpName;
+    public void setTaskTmpName(String taskTmpName) {
+        this.taskTmpName = taskTmpName;
     }
 
     public int getTmpType() {
