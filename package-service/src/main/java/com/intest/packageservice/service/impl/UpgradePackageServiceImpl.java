@@ -69,10 +69,15 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
     @Override
     public List<PartsTreeBto> partsTree(PartsTreeRequest request){
         List<PartsTreeBto> list = new ArrayList<>();
+        List<PartsTreeBto> removeList = new ArrayList<>();
         if(StringUtils.isEmptyStr(request.getQueryText())){
             list = upgradePackageMapper.getPartsByCarTypeId(request.getCarTypeId());
             for(PartsTreeBto bto : list){
-                bto.setChildren(upgradePackageMapper.getPartsCode(bto.getKey()));
+                List<ChildNode> nodes = upgradePackageMapper.getPartsCode(bto.getKey());
+                if(nodes == null || nodes.size() == 0){
+                    removeList.add(bto);
+                }
+                bto.setChildren(nodes);
             }
         }
         else {
@@ -83,7 +88,11 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
                 PartsTreeBto partsTreeBto = new PartsTreeBto();
                 partsTreeBto.setKey(bto.getPartsId());
                 partsTreeBto.setTitle(bto.getPartsname());
-                partsTreeBto.setChildren(upgradePackageMapper.getPartsCode(bto.getPartsId()));
+                List<ChildNode> nodes = upgradePackageMapper.getPartsCode(bto.getPartsId());
+                partsTreeBto.setChildren(nodes);
+                if(nodes == null || nodes.size() == 0){
+                    removeList.add(partsTreeBto);
+                }
                 list.add(partsTreeBto);
             }
 
@@ -96,6 +105,7 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
                 ids.add(bto.getFkPartsId());
             }
             if(ids.size() == 0){
+                list.removeAll(removeList);
                 return list;
             }
 
@@ -119,10 +129,14 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
                         }
                     }
                 }
-                partsTreeBto.setChildren(nodes);
-                list.add(partsTreeBto);
+                if(nodes != null && nodes.size() > 0){
+                    partsTreeBto.setChildren(nodes);
+                    list.add(partsTreeBto);
+                }
             }
         }
+
+        list.removeAll(removeList);
         return list;
     }
 
