@@ -224,4 +224,15 @@ public class SystemController {
         return new ResponseBean(1, "", taskUserResopnseList);
 
     }
+
+    /**
+     * 菜单管理接口
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/basic/system/getSystemMenuList", method = RequestMethod.GET)
+    public ResponseBean getSystemMenuList() {
+        return null;
+    }
 }
