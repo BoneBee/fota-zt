@@ -14,7 +14,7 @@
         <if test="queryText != null and queryText != ''">AND T.PARTNUMBER LIKE '%'||#{queryText}||'%'</if>
     </sql>
     <select id="findAllUpgradePackage" resultType="com.intest.dao.entity.UpgradePackageExtendBto">
-        SELECT T.PACKAGETASK_ID PACKAGETASKID,
+        SELECT t.*, rownum id FROM (SELECT T.PACKAGETASK_ID PACKAGETASKID,
         CT.CARTYPENAME,
         T.PACKAGENAME,
         T.MAKETYPE PACKAGETYPE,
@@ -37,8 +37,7 @@
         -1
         END) PACKAGESTATUS,
         T.CREATEAT,
-        U.LOGIN_NAME CREATEBY,
-        ROWNUM ID
+        U.LOGIN_NAME CREATEBY
         FROM F_PACKAGETASK T
         LEFT JOIN F_PARTSUPGRADEPACKAGE PUP
         ON T.PACKAGETASK_ID = PUP.FK_PACKAGETASK_ID
@@ -50,6 +49,7 @@
         ON T.CREATEBY = U.USER_ID
         AND U.ISDELETE = 1
         AND (1=1) <include refid="Base_Where_List"/>
+        ORDER BY T.CREATEAT DESC) t
     </select>
     <select id="getPartsByCarTypeId" resultType="com.intest.dao.entity.PartsTreeBto">
         SELECT T.PARTS_ID KEY, T.PARTSNAME TITLE
