@@ -71,18 +71,29 @@ public class cartypesassemblyImpl implements CarTypesService {
         int pagesize = request.getPs();
         PagerDataBaseVO carTypesVO = new PagerDataBaseVO();
 
-        PageHelper.startPage(pageindex, pagesize);
-        List<CarTypeBto> carTypes = new ArrayList<>();
 
+        List<CarTypeBto> carTypes = new ArrayList<>();
+        long cartypecount = 0;
         CarTypeBtoExample btoExample = new CarTypeBtoExample();
+
         CarTypeBtoExample.Criteria cia = btoExample.createCriteria();
         cia.andIsdeleteEqualTo((short) 1);
-
+        cartypecount = cartypeMapper.countByExample(btoExample);
+        //分页
+        if (pageindex * pagesize > cartypecount) {
+            //取余，最后一页的数量
+            long newsize = Math.floorMod(cartypecount, pagesize);
+            PageHelper.startPage(pageindex, (int) newsize);
+        }
+        else {
+            PageHelper.startPage(pageindex, pagesize);
+        }
         try {
-            if(request.getSort()!=null && !request.getSort().equals("") ){
+            if (request.getSort() != null && !request.getSort().equals("")) {
                 String sort = carTools.replaceCharacter(request.getSort());
                 btoExample.setOrderByClause(sort);
             }
+
 
             carTypes = cartypeMapper.selectByExample(btoExample);
 
@@ -109,7 +120,7 @@ public class cartypesassemblyImpl implements CarTypesService {
                 break;
             }
 
-            if (index > rownumstar && index <= rownumend && ctb.getFkTerminalId()!=null) {
+            if (index > rownumstar && index <= rownumend && ctb.getFkTerminalId() != null) {
                 TerminalBto tmnBto = tmMapper.selectByPrimaryKey(ctb.getFkTerminalId());
                 CarTypeRespone respone = new CarTypeRespone();
                 respone.setIndex(index);
@@ -140,7 +151,8 @@ public class cartypesassemblyImpl implements CarTypesService {
         }
 
         PageInfo pageInfo = new PageInfo<CarTypeRespone>(ctRespones);
-        carTypesVO.setTotal(pageInfo.getTotal());
+        //carTypesVO.setTotal(pageInfo.getTotal());
+        carTypesVO.setTotal(cartypecount);
         carTypesVO.setData(ctRespones);
 
         return carTypesVO;

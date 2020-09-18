@@ -114,9 +114,9 @@ public class carmpl implements CarService {
     public PagerDataBaseVO getCars(CarRequest carq) {
         int pageindex = carq.getPi();
         int pagesize = carq.getPs();
-        //查询条件
-        PageHelper.startPage(pageindex, pagesize);
+
         List<CarBto> cars = new ArrayList<>();
+        List<CarBtoExtend> cartmpExs = new ArrayList<>();
         List<CarBtoExtend> carExs = new ArrayList<>();
         //封装排序对象
         CarBtoExample carExample = new CarBtoExample();
@@ -131,11 +131,25 @@ public class carmpl implements CarService {
             //不能用生成工具生成的方法。
             //cars = carmp.selectByExample(carExample);
             CarBtoExtend cbex = new CarBtoExtend();
+            cartmpExs = carExmp.getCars(cbex);
+            //数据总行数;
+            int cartcount = cartmpExs.size();
+            //分页
+            if (pageindex * pagesize > cartcount) {
+                //取余，最后一页的数量
+                long newsize = Math.floorMod(cartcount, pagesize);
+                PageHelper.startPage(pageindex, (int) newsize);
+            }
+            else {
+                PageHelper.startPage(pageindex, pagesize);
+            }
             carExs = carExmp.getCars(cbex);
 
         } catch (Exception carEx) {
 
         }
+
+
         //返回对象
         PagerDataBaseVO carsVO = new PagerDataBaseVO();
         List<CarRespone> carRespones = new ArrayList<>();
@@ -168,9 +182,10 @@ public class carmpl implements CarService {
             crp.setIndex(index);
             crp.setTerminal(car.getTerminalCode());
             crp.setVin(car.getVin());
-            if(car.getCreateAt() == null || car.getCreateAt().equals("")){
+            if (car.getCreateAt() == null || car.getCreateAt().equals("")) {
                 crp.setCreateAt("");
-            }else {
+            }
+            else {
                 crp.setCreateAt(car.getCreateAt());
             }
             CarTask cartask = new CarTask();
@@ -213,7 +228,7 @@ public class carmpl implements CarService {
         }
 
         PageInfo pageInfo = new PageInfo<CarRespone>(carRespones);
-        carsVO.setTotal(pageInfo.getTotal());
+        carsVO.setTotal(cartmpExs.size());
         carsVO.setData(carRespones);
         return carsVO;
     }
