@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.intest.dao.mapper.TaskReviewTmpBtoMapper">
+  <resultMap id="BaseResultMap" type="com.intest.dao.entity.TaskReviewTmpBto">
+    <id column="TASKREVIEWTMP_ID" jdbcType="CHAR" property="taskreviewtmpId" />
+    <result column="TASK_REVIEWTMP_NAME" jdbcType="CHAR" property="taskReviewtmpName" />
+    <result column="TMP_TYPE" jdbcType="NUMERIC" property="tmpType" />
+    <result column="STATE" jdbcType="NUMERIC" property="state" />
+    <result column="ISDELETE" jdbcType="NUMERIC" property="isdelete" />
+    <result column="CREATEAT" jdbcType="TIMESTAMP" property="createat" />
+    <result column="CREATEBY" jdbcType="CHAR" property="createby" />
+    <result column="UPDATEAT" jdbcType="TIMESTAMP" property="updateat" />
+    <result column="UPDATEBY" jdbcType="CHAR" property="updateby" />
+    <result column="TASKNUM" jdbcType="NUMERIC" property="tasknum" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    TASKREVIEWTMP_ID, TASK_REVIEWTMP_NAME, TMP_TYPE, STATE, ISDELETE, CREATEAT, CREATEBY, 
+    UPDATEAT, UPDATEBY, TASKNUM
+  </sql>
+  <select id="selectByExample" parameterType="com.intest.dao.entity.TaskReviewTmpBtoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from F_TASKREVIEWTMP
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from F_TASKREVIEWTMP
+    where TASKREVIEWTMP_ID = #{taskreviewtmpId,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from F_TASKREVIEWTMP
+    where TASKREVIEWTMP_ID = #{taskreviewtmpId,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.intest.dao.entity.TaskReviewTmpBtoExample">
+    delete from F_TASKREVIEWTMP
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.intest.dao.entity.TaskReviewTmpBto">
+    insert into F_TASKREVIEWTMP (TASKREVIEWTMP_ID, TASK_REVIEWTMP_NAME, TMP_TYPE, 
+      STATE, ISDELETE, CREATEAT, 
+      CREATEBY, UPDATEAT, UPDATEBY, 
+      TASKNUM)
+    values (#{taskreviewtmpId,jdbcType=CHAR}, #{taskReviewtmpName,jdbcType=CHAR}, #{tmpType,jdbcType=NUMERIC}, 
+      #{state,jdbcType=NUMERIC}, #{isdelete,jdbcType=NUMERIC}, #{createat,jdbcType=TIMESTAMP}, 
+      #{createby,jdbcType=CHAR}, #{updateat,jdbcType=TIMESTAMP}, #{updateby,jdbcType=CHAR}, 
+      #{tasknum,jdbcType=NUMERIC})
+  </insert>
+  <insert id="insertSelective" parameterType="com.intest.dao.entity.TaskReviewTmpBto">
+    insert into F_TASKREVIEWTMP
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="taskreviewtmpId != null">
+        TASKREVIEWTMP_ID,
+      </if>
+      <if test="taskReviewtmpName != null">
+        TASK_REVIEWTMP_NAME,
+      </if>
+      <if test="tmpType != null">
+        TMP_TYPE,
+      </if>
+      <if test="state != null">
+        STATE,
+      </if>
+      <if test="isdelete != null">
+        ISDELETE,
+      </if>
+      <if test="createat != null">
+        CREATEAT,
+      </if>
+      <if test="createby != null">
+        CREATEBY,
+      </if>
+      <if test="updateat != null">
+        UPDATEAT,
+      </if>
+      <if test="updateby != null">
+        UPDATEBY,
+      </if>
+      <if test="tasknum != null">
+        TASKNUM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="taskreviewtmpId != null">
+        #{taskreviewtmpId,jdbcType=CHAR},
+      </if>
+      <if test="taskReviewtmpName != null">
+        #{taskReviewtmpName,jdbcType=CHAR},
+      </if>
+      <if test="tmpType != null">
+        #{tmpType,jdbcType=NUMERIC},
+      </if>
+      <if test="state != null">
+        #{state,jdbcType=NUMERIC},
+      </if>
+      <if test="isdelete != null">
+        #{isdelete,jdbcType=NUMERIC},
+      </if>
+      <if test="createat != null">
+        #{createat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null">
+        #{createby,jdbcType=CHAR},
+      </if>
+      <if test="updateat != null">
+        #{updateat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null">
+        #{updateby,jdbcType=CHAR},
+      </if>
+      <if test="tasknum != null">
+        #{tasknum,jdbcType=NUMERIC},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.intest.dao.entity.TaskReviewTmpBtoExample" resultType="java.lang.Long">
+    select count(*) from F_TASKREVIEWTMP
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update F_TASKREVIEWTMP
+    <set>
+      <if test="record.taskreviewtmpId != null">
+        TASKREVIEWTMP_ID = #{record.taskreviewtmpId,jdbcType=CHAR},
+      </if>
+      <if test="record.taskReviewtmpName != null">
+        TASK_REVIEWTMP_NAME = #{record.taskReviewtmpName,jdbcType=CHAR},
+      </if>
+      <if test="record.tmpType != null">
+        TMP_TYPE = #{record.tmpType,jdbcType=NUMERIC},
+      </if>
+      <if test="record.state != null">
+        STATE = #{record.state,jdbcType=NUMERIC},
+      </if>
+      <if test="record.isdelete != null">
+        ISDELETE = #{record.isdelete,jdbcType=NUMERIC},
+      </if>
+      <if test="record.createat != null">
+        CREATEAT = #{record.createat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createby != null">
+        CREATEBY = #{record.createby,jdbcType=CHAR},
+      </if>
+      <if test="record.updateat != null">
+        UPDATEAT = #{record.updateat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateby != null">
+        UPDATEBY = #{record.updateby,jdbcType=CHAR},
+      </if>
+      <if test="record.tasknum != null">
+        TASKNUM = #{record.tasknum,jdbcType=NUMERIC},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update F_TASKREVIEWTMP
+    set TASKREVIEWTMP_ID = #{record.taskreviewtmpId,jdbcType=CHAR},
+      TASK_REVIEWTMP_NAME = #{record.taskReviewtmpName,jdbcType=CHAR},
+      TMP_TYPE = #{record.tmpType,jdbcType=NUMERIC},
+      STATE = #{record.state,jdbcType=NUMERIC},
+      ISDELETE = #{record.isdelete,jdbcType=NUMERIC},
+      CREATEAT = #{record.createat,jdbcType=TIMESTAMP},
+      CREATEBY = #{record.createby,jdbcType=CHAR},
+      UPDATEAT = #{record.updateat,jdbcType=TIMESTAMP},
+      UPDATEBY = #{record.updateby,jdbcType=CHAR},
+      TASKNUM = #{record.tasknum,jdbcType=NUMERIC}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.intest.dao.entity.TaskReviewTmpBto">
+    update F_TASKREVIEWTMP
+    <set>
+      <if test="taskReviewtmpName != null">
+        TASK_REVIEWTMP_NAME = #{taskReviewtmpName,jdbcType=CHAR},
+      </if>
+      <if test="tmpType != null">
+        TMP_TYPE = #{tmpType,jdbcType=NUMERIC},
+      </if>
+      <if test="state != null">
+        STATE = #{state,jdbcType=NUMERIC},
+      </if>
+      <if test="isdelete != null">
+        ISDELETE = #{isdelete,jdbcType=NUMERIC},
+      </if>
+      <if test="createat != null">
+        CREATEAT = #{createat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null">
+        CREATEBY = #{createby,jdbcType=CHAR},
+      </if>
+      <if test="updateat != null">
+        UPDATEAT = #{updateat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null">
+        UPDATEBY = #{updateby,jdbcType=CHAR},
+      </if>
+      <if test="tasknum != null">
+        TASKNUM = #{tasknum,jdbcType=NUMERIC},
+      </if>
+    </set>
+    where TASKREVIEWTMP_ID = #{taskreviewtmpId,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.intest.dao.entity.TaskReviewTmpBto">
+    update F_TASKREVIEWTMP
+    set TASK_REVIEWTMP_NAME = #{taskReviewtmpName,jdbcType=CHAR},
+      TMP_TYPE = #{tmpType,jdbcType=NUMERIC},
+      STATE = #{state,jdbcType=NUMERIC},
+      ISDELETE = #{isdelete,jdbcType=NUMERIC},
+      CREATEAT = #{createat,jdbcType=TIMESTAMP},
+      CREATEBY = #{createby,jdbcType=CHAR},
+      UPDATEAT = #{updateat,jdbcType=TIMESTAMP},
+      UPDATEBY = #{updateby,jdbcType=CHAR},
+      TASKNUM = #{tasknum,jdbcType=NUMERIC}
+    where TASKREVIEWTMP_ID = #{taskreviewtmpId,jdbcType=CHAR}
+  </update>
+</mapper>

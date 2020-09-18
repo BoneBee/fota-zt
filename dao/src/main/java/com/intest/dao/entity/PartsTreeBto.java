@@ -20,6 +20,18 @@ public class PartsTreeBto {
      * 子节点
      */
     private List<ChildNode> children;
+    /**
+     * 是否可以选中
+     */
+    private boolean selectable = false;
+
+    public boolean isSelectable() {
+        return selectable;
+    }
+
+    public void setSelectable(boolean selectable) {
+        this.selectable = selectable;
+    }
 
     public String getKey() {
         return key;

@@ -27,17 +27,9 @@ public class UpgradePackageExtendBto {
      */
     private Integer packageType;
     /**
-     * 升级包大小
-     */
-    private Float packageSize;
-    /**
      * 制作状态
      */
     private Integer packageStatus;
-    /**
-     * 发布状态
-     */
-    private Integer publishStatus;
     /**
      * 开始制作时间
      */
@@ -46,10 +38,6 @@ public class UpgradePackageExtendBto {
      * 制作人
      */
     private String createBy;
-    /**
-     * 文件ID
-     */
-    private String fileId;
 
     public String getPackageTaskId() {
         return packageTaskId;
@@ -83,28 +71,12 @@ public class UpgradePackageExtendBto {
         this.packageType = packageType;
     }
 
-    public Float getPackageSize() {
-        return packageSize;
-    }
-
-    public void setPackageSize(Float packageSize) {
-        this.packageSize = packageSize;
-    }
-
     public Integer getPackageStatus() {
         return packageStatus;
     }
 
     public void setPackageStatus(Integer packageStatus) {
         this.packageStatus = packageStatus;
-    }
-
-    public Integer getPublishStatus() {
-        return publishStatus;
-    }
-
-    public void setPublishStatus(Integer publishStatus) {
-        this.publishStatus = publishStatus;
     }
 
     public String getCreateAt() {
@@ -121,14 +93,6 @@ public class UpgradePackageExtendBto {
 
     public void setCreateBy(String createBy) {
         this.createBy = createBy;
-    }
-
-    public String getFileId() {
-        return fileId;
-    }
-
-    public void setFileId(String fileId) {
-        this.fileId = fileId;
     }
 
     public int getId() {

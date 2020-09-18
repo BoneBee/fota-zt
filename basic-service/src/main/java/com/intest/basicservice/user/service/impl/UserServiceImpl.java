@@ -1,13 +1,17 @@
 package com.intest.basicservice.user.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.intest.basicservice.menu.service.MenuService;
-import com.intest.basicservice.table.common.constant.Constant;
+import com.intest.basicservice.user.response.UserPage;
+import com.intest.basicservice.user.response.UserResponse;
 import com.intest.basicservice.user.service.UserService;
 import com.intest.basicservice.user.vo.LoginVO;
-import com.intest.common.jwt.BcrptTokenGenerator;
 import com.intest.common.jwt.JwtUtil;
 import com.intest.common.jwt.constant.RedisConstant;
 import com.intest.common.redis.JedisUtil;
+import com.intest.common.result.PagerDataBaseVO;
+import com.intest.common.tableData.TableDataAnnotation;
 import com.intest.common.util.BCrypt;
 import com.intest.dao.entity.UserBto;
 import com.intest.dao.entity.UserBtoExample;
@@ -18,11 +22,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 @Service
+@TableDataAnnotation
 public class UserServiceImpl implements UserService {
 
     private Log logger = LogFactory.getLog(this.getClass());
@@ -141,7 +146,7 @@ public class UserServiceImpl implements UserService {
         UserBtoExample userBtoExample = new UserBtoExample();
         UserBtoExample.Criteria userBtoCriteria = userBtoExample.createCriteria();
         userBtoCriteria.andUserIdEqualTo(userId);
-        userBtoCriteria.andIsdeleteEqualTo((short)1);
+        userBtoCriteria.andIsdeleteEqualTo((short) 1);
 
         UserBto user = new UserBto();
         user.setPasswordRetryCount(passwordRetryCount - 1);
@@ -220,6 +225,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserBto getUserByUserId(String userId) {
+        return userBtoMapper.selectByPrimaryKey(userId);
+    }
+
+    @Override
+    public List<UserBto> getUserList() {
+        List<UserBto> userBtoList = userBtoMapper.selectByExample(null);
+        return userBtoList;
+    }
+
+    @Override
     public int addUser(UserBto userBto) {
         return userBtoMapper.insert(userBto);
     }
@@ -230,7 +246,25 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public boolean deleteUser(String name) {
-        return false;
+    public int deleteUser(String userId) {
+        return userBtoMapper.deleteByPrimaryKey(userId);
+    }
+
+    @Override
+    @TableDataAnnotation(tableId = "262c1a6f-a568-42a8-92c1-30fdceded241")
+    public PagerDataBaseVO getUserInfo(UserPage model) {
+        PagerDataBaseVO user = new PagerDataBaseVO();
+        PageHelper.startPage(model.getPi(), model.getPs());
+        List<UserBto> userBtos = userBtoMapper.selectByExample(null);
+        List<UserResponse> userResponseList = new ArrayList<>();
+        PageInfo<UserBto> pageInfo = new PageInfo<UserBto>(userBtos);
+        int index = pageInfo.getStartRow() - 1;
+        for (UserBto userBto : userBtos) {
+            UserResponse userResponse = new UserResponse(index += 1, userBto.getUserId(), userBto.getLoginName(), userBto.getRealName(), userBto.getJobNumber(), userBto.getMobile(), userBto.getCompanyEmail(), userBto.getSex() == 1 ? "男" : "女", userBto.getNote(), userBto.getAccountKind() == 1 ? "系统用户账户" : "服务账户", userBto.getLastLoginat(), userBto.getAccountStatus() == 1 ? "启用" : "冻结", userBto.getCreateat(), userBto.getCreateby());
+            userResponseList.add(userResponse);
+        }
+        user.setTotal(pageInfo.getTotal());
+        user.setData(userResponseList);
+        return user;
     }
 }

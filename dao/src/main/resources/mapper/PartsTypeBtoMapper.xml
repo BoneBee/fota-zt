@@ -7,7 +7,6 @@
     <result column="CALIBRATION" jdbcType="NUMERIC" property="calibration" />
     <result column="BRUSHWRITEMODE" jdbcType="NUMERIC" property="brushwritemode" />
     <result column="REMARK" jdbcType="NVARCHAR" property="remark" />
-    <result column="FULLNAME" jdbcType="NVARCHAR" property="fullname" />
     <result column="BAUDRATE" jdbcType="NUMERIC" property="baudrate" />
     <result column="PHYICALID" jdbcType="NVARCHAR" property="phyicalid" />
     <result column="FUNCTIONID" jdbcType="NVARCHAR" property="functionid" />
@@ -79,9 +78,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    PARTSTYPE_ID, PARTSTYPENAME, CALIBRATION, BRUSHWRITEMODE, REMARK, FULLNAME, BAUDRATE, 
-    PHYICALID, FUNCTIONID, RESPONSEID, IDTYPE, NETWORKSEGMENTNAME, ISDELETE, CREATEAT, 
-    CREATEBY, UPDATEAT, UPDATEBY
+    PARTSTYPE_ID, PARTSTYPENAME, CALIBRATION, BRUSHWRITEMODE, REMARK, BAUDRATE, PHYICALID, 
+    FUNCTIONID, RESPONSEID, IDTYPE, NETWORKSEGMENTNAME, ISDELETE, CREATEAT, CREATEBY, 
+    UPDATEAT, UPDATEBY
   </sql>
   <select id="selectByExample" parameterType="com.intest.dao.entity.PartsTypeBtoExample" resultMap="BaseResultMap">
     select
@@ -115,17 +114,17 @@
   </delete>
   <insert id="insert" parameterType="com.intest.dao.entity.PartsTypeBto">
     insert into F_PARTSTYPE (PARTSTYPE_ID, PARTSTYPENAME, CALIBRATION, 
-      BRUSHWRITEMODE, REMARK, FULLNAME, 
-      BAUDRATE, PHYICALID, FUNCTIONID, 
-      RESPONSEID, IDTYPE, NETWORKSEGMENTNAME, 
-      ISDELETE, CREATEAT, CREATEBY, 
-      UPDATEAT, UPDATEBY)
+      BRUSHWRITEMODE, REMARK, BAUDRATE, 
+      PHYICALID, FUNCTIONID, RESPONSEID, 
+      IDTYPE, NETWORKSEGMENTNAME, ISDELETE, 
+      CREATEAT, CREATEBY, UPDATEAT, 
+      UPDATEBY)
     values (#{partstypeId,jdbcType=CHAR}, #{partstypename,jdbcType=NVARCHAR}, #{calibration,jdbcType=NUMERIC}, 
-      #{brushwritemode,jdbcType=NUMERIC}, #{remark,jdbcType=NVARCHAR}, #{fullname,jdbcType=NVARCHAR}, 
-      #{baudrate,jdbcType=NUMERIC}, #{phyicalid,jdbcType=NVARCHAR}, #{functionid,jdbcType=NVARCHAR}, 
-      #{responseid,jdbcType=NVARCHAR}, #{idtype,jdbcType=NVARCHAR}, #{networksegmentname,jdbcType=NVARCHAR}, 
-      #{isdelete,jdbcType=NUMERIC}, #{createat,jdbcType=TIMESTAMP}, #{createby,jdbcType=CHAR}, 
-      #{updateat,jdbcType=TIMESTAMP}, #{updateby,jdbcType=CHAR})
+      #{brushwritemode,jdbcType=NUMERIC}, #{remark,jdbcType=NVARCHAR}, #{baudrate,jdbcType=NUMERIC}, 
+      #{phyicalid,jdbcType=NVARCHAR}, #{functionid,jdbcType=NVARCHAR}, #{responseid,jdbcType=NVARCHAR}, 
+      #{idtype,jdbcType=NVARCHAR}, #{networksegmentname,jdbcType=NVARCHAR}, #{isdelete,jdbcType=NUMERIC}, 
+      #{createat,jdbcType=TIMESTAMP}, #{createby,jdbcType=CHAR}, #{updateat,jdbcType=TIMESTAMP}, 
+      #{updateby,jdbcType=CHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.intest.dao.entity.PartsTypeBto">
     insert into F_PARTSTYPE
@@ -144,9 +143,6 @@
       </if>
       <if test="remark != null">
         REMARK,
-      </if>
-      <if test="fullname != null">
-        FULLNAME,
       </if>
       <if test="baudrate != null">
         BAUDRATE,
@@ -197,9 +193,6 @@
       </if>
       <if test="remark != null">
         #{remark,jdbcType=NVARCHAR},
-      </if>
-      <if test="fullname != null">
-        #{fullname,jdbcType=NVARCHAR},
       </if>
       <if test="baudrate != null">
         #{baudrate,jdbcType=NUMERIC},
@@ -260,9 +253,6 @@
       <if test="record.remark != null">
         REMARK = #{record.remark,jdbcType=NVARCHAR},
       </if>
-      <if test="record.fullname != null">
-        FULLNAME = #{record.fullname,jdbcType=NVARCHAR},
-      </if>
       <if test="record.baudrate != null">
         BAUDRATE = #{record.baudrate,jdbcType=NUMERIC},
       </if>
@@ -308,7 +298,6 @@
       CALIBRATION = #{record.calibration,jdbcType=NUMERIC},
       BRUSHWRITEMODE = #{record.brushwritemode,jdbcType=NUMERIC},
       REMARK = #{record.remark,jdbcType=NVARCHAR},
-      FULLNAME = #{record.fullname,jdbcType=NVARCHAR},
       BAUDRATE = #{record.baudrate,jdbcType=NUMERIC},
       PHYICALID = #{record.phyicalid,jdbcType=NVARCHAR},
       FUNCTIONID = #{record.functionid,jdbcType=NVARCHAR},
@@ -338,9 +327,6 @@
       </if>
       <if test="remark != null">
         REMARK = #{remark,jdbcType=NVARCHAR},
-      </if>
-      <if test="fullname != null">
-        FULLNAME = #{fullname,jdbcType=NVARCHAR},
       </if>
       <if test="baudrate != null">
         BAUDRATE = #{baudrate,jdbcType=NUMERIC},
@@ -384,7 +370,6 @@
       CALIBRATION = #{calibration,jdbcType=NUMERIC},
       BRUSHWRITEMODE = #{brushwritemode,jdbcType=NUMERIC},
       REMARK = #{remark,jdbcType=NVARCHAR},
-      FULLNAME = #{fullname,jdbcType=NVARCHAR},
       BAUDRATE = #{baudrate,jdbcType=NUMERIC},
       PHYICALID = #{phyicalid,jdbcType=NVARCHAR},
       FUNCTIONID = #{functionid,jdbcType=NVARCHAR},

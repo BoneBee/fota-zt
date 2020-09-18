@@ -25,7 +25,7 @@ public class PartsPackageVO {
     /**
      * 零件号
      */
-    private String partCode;
+    private String partsCode;
     /**
      * 零部版本
      */
@@ -71,12 +71,12 @@ public class PartsPackageVO {
         this.partsTypeName = partsTypeName;
     }
 
-    public String getPartCode() {
-        return partCode;
+    public String getPartsCode() {
+        return partsCode;
     }
 
-    public void setPartCode(String partCode) {
-        this.partCode = partCode;
+    public void setPartsCode(String partsCode) {
+        this.partsCode = partsCode;
     }
 
     public String getVersion() {

@@ -14,7 +14,14 @@
         AND FI.ISDELETE=1 WHERE PBP.ISDELETE=1 AND FI.ORIGINALNAME=#{param1} AND PBP.FK_CARTYPE_ID=#{param2}
     </select>
     <select id="getPartsId" resultType="String">
-        SELECT T.PARTS_ID FROM F_PARTS T WHERE T.ISDELETE=1 AND T.PARTSNAME=#{param1} AND T.FK_CARTYPE_ID=#{param2}
+        SELECT P.PARTS_ID
+        FROM F_PARTS P
+        LEFT JOIN F_PARTSTYPE PT
+        ON P.FK_PARTSTYPE_ID = PT.PARTSTYPE_ID
+        AND PT.ISDELETE = 1
+        WHERE P.ISDELETE = 1
+        AND PT.PARTSTYPENAME = #{param1}
+        AND P.FK_CARTYPE_ID = #{param2}
     </select>
     <select id="findAllLargePackage" resultType="com.intest.dao.entity.PackageExtendBto">
         SELECT t.*, rownum id FROM (SELECT pbp.PARTSBIGPACKAGE_ID packageId, pbp.FK_FILE_ID fileId, pbp.FK_CARTYPE_ID carTypeId,
@@ -26,21 +33,21 @@
         WHERE pbp.isdelete=1 AND (1=1) <include refid="Base_Where_List"/>
         ORDER BY pbp.createat DESC) t
     </select>
-    <select id="getFileById" resultType="com.intest.dao.entity.FileInfo">
-        SELECT T.FILE_ID          FILEID,
-        T.ORIGINALNAME,
-        T.SUFFIX,
-        T.FILESIZE,
-        T.MD5,
-        T.FK_VALUELIST_KEY VALUELISTKEY,
-        T.SERVERSIDEPATH,
-        T.UPLOADINGUSER,
-        T.NOTE,
-        T.CREATEBY
-        FROM F_FILE T
-        WHERE T.ISDELETE = 1
-        AND T.FILE_ID = #{fileId}
-    </select>
+    <!--<select id="getFileById" resultType="com.intest.dao.entity.FileInfo">-->
+        <!--SELECT T.FILE_ID          FILEID,-->
+        <!--T.ORIGINALNAME,-->
+        <!--T.SUFFIX,-->
+        <!--T.FILESIZE,-->
+        <!--T.MD5,-->
+        <!--T.FK_VALUELIST_KEY VALUELISTKEY,-->
+        <!--T.SERVERSIDEPATH,-->
+        <!--T.UPLOADINGUSER,-->
+        <!--T.NOTE,-->
+        <!--T.CREATEBY-->
+        <!--FROM F_FILE T-->
+        <!--WHERE T.ISDELETE = 1-->
+        <!--AND T.FILE_ID = #{fileId}-->
+    <!--</select>-->
     <select id="findAllCarType" resultType="com.intest.dao.entity.CarTypeExtendBto">
         SELECT t.cartype_id carTypeId, t.cartypename FROM f_cartype t WHERE t.isdelete=1
     </select>
@@ -68,7 +75,7 @@
         F.FILESIZE        PARTSPACKAGESIZE,
         P.PARTSNAME,
         PT.PARTSTYPENAME,
-        T.PARTNUMBER      PARTCODE,
+        T.PARTNUMBER      PARTSCODE,
         T.SOFTWAREVERSION VERSION,
         T.FK_FILE_ID      FILEID,
         ROWNUM            ID
@@ -85,41 +92,41 @@
         WHERE T.ISDELETE = 1
         AND T.FK_PARTSBIGPACKAGE_ID = #{packageId}
     </select>
-    <insert id="saveLargeZipInfo" parameterType="com.intest.dao.entity.LargePackage">
-        INSERT INTO F_PARTSBIGPACKAGE(PARTSBIGPACKAGE_ID, FK_FILE_ID, FK_CARTYPE_ID,
-        REMARK, CREATEBY)
-        VALUES (#{packageId}, #{fileId}, #{carTypeId}, #{remark}, #{createBy})
-    </insert>
-    <insert id="saveZipInfo" parameterType="com.intest.dao.entity.PartsPackage">
-        INSERT INTO F_PARTSPACKAGE(PARTSPACKAGE_ID, FK_PARTSBIGPACKAGE_ID, FK_PARTS_ID, FK_FILE_ID,
-        SOFTWAREVERSION, HARDWAREVERSION, PARTNUMBER, SENDID, RECEIVEID, PARTSASSEMBLYNUMBER,
-        MD5, PROJECTCODE, CREATEBY)
-        VALUES (#{partsPackageId}, #{packageId}, #{partsId}, #{fileId}, #{softwareVersion},
-        #{hardwareVersion}, #{partNumber}, #{sendId}, #{receiveId}, #{partsAssemblyNumber},
-        #{md5}, #{projectCode}, #{createBy})
-    </insert>
-    <insert id="saveFileInfo" parameterType="com.intest.dao.entity.FileInfo">
-        INSERT INTO F_FILE(FILE_ID, ORIGINALNAME, SUFFIX, FILESIZE,
-        MD5, FK_VALUELIST_KEY, SERVERSIDEPATH, UPLOADINGUSER, NOTE, CREATEBY)
-        VALUES (#{fileId}, #{originalName}, #{suffix}, #{fileSize},
-        #{md5}, #{valueListKey}, #{serverSidePath}, #{uploadingUser}, #{note}, #{createBy})
-    </insert>
-    <insert id="savePartsPackageDetail" parameterType="com.intest.dao.entity.PartsPackageDetail">
-        INSERT INTO F_PARTSPACKAGEDETAIL
-        (PARTSPACKAGEDETAIL_ID,
-        FK_PARTSPACKAGE_ID,
-        FK_FILE_ID,
-        FILETYPE,
-        SOFTWARENUMBER,
-        CREATEBY)
-        VALUES
-        (#{partsPackageDetailId},
-        #{partsPackageId},
-        #{fileId},
-        #{fileType},
-        #{softwareNumber},
-        #{createBy})
-    </insert>
+    <!--<insert id="saveLargeZipInfo" parameterType="com.intest.dao.entity.LargePackage">-->
+        <!--INSERT INTO F_PARTSBIGPACKAGE(PARTSBIGPACKAGE_ID, FK_FILE_ID, FK_CARTYPE_ID,-->
+        <!--REMARK, CREATEBY)-->
+        <!--VALUES (#{packageId}, #{fileId}, #{carTypeId}, #{remark}, #{createBy})-->
+    <!--</insert>-->
+    <!--<insert id="saveZipInfo" parameterType="com.intest.dao.entity.PartsPackage">-->
+        <!--INSERT INTO F_PARTSPACKAGE(PARTSPACKAGE_ID, FK_PARTSBIGPACKAGE_ID, FK_PARTS_ID, FK_FILE_ID,-->
+        <!--SOFTWAREVERSION, HARDWAREVERSION, PARTNUMBER, SENDID, RECEIVEID, PARTSASSEMBLYNUMBER,-->
+        <!--MD5, PROJECTCODE, CREATEBY)-->
+        <!--VALUES (#{partsPackageId}, #{packageId}, #{partsId}, #{fileId}, #{softwareVersion},-->
+        <!--#{hardwareVersion}, #{partNumber}, #{sendId}, #{receiveId}, #{partsAssemblyNumber},-->
+        <!--#{md5}, #{projectCode}, #{createBy})-->
+    <!--</insert>-->
+    <!--<insert id="saveFileInfo" parameterType="com.intest.dao.entity.FileInfo">-->
+        <!--INSERT INTO F_FILE(FILE_ID, ORIGINALNAME, SUFFIX, FILESIZE,-->
+        <!--MD5, FK_VALUELIST_KEY, SERVERSIDEPATH, UPLOADINGUSER, NOTE, CREATEBY)-->
+        <!--VALUES (#{fileId}, #{originalName}, #{suffix}, #{fileSize},-->
+        <!--#{md5}, #{valueListKey}, #{serverSidePath}, #{uploadingUser}, #{note}, #{createBy})-->
+    <!--</insert>-->
+    <!--<insert id="savePartsPackageDetail" parameterType="com.intest.dao.entity.PartsPackageDetail">-->
+        <!--INSERT INTO F_PARTSPACKAGEDETAIL-->
+        <!--(PARTSPACKAGEDETAIL_ID,-->
+        <!--FK_PARTSPACKAGE_ID,-->
+        <!--FK_FILE_ID,-->
+        <!--FILETYPE,-->
+        <!--SOFTWARENUMBER,-->
+        <!--CREATEBY)-->
+        <!--VALUES-->
+        <!--(#{partsPackageDetailId},-->
+        <!--#{partsPackageId},-->
+        <!--#{fileId},-->
+        <!--#{fileType},-->
+        <!--#{softwareNumber},-->
+        <!--#{createBy})-->
+    <!--</insert>-->
     <delete id="deletePackage">
         UPDATE f_partsbigpackage t SET t.isdelete=0 WHERE t.partsbigpackage_id in
         <foreach collection="array" open="(" close=")" item="item" separator=",">

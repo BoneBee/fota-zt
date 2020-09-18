@@ -5,14 +5,16 @@ import com.github.pagehelper.PageInfo;
 import com.intest.common.result.PagerDataBaseVO;
 import com.intest.common.tableData.TableDataAnnotation;
 import com.intest.dao.entity.*;
+import com.intest.dao.mapper.FileBtoMapper;
 import com.intest.dao.mapper.PackageMapper;
+import com.intest.packageservice.request.PackageCheckRequest;
 import com.intest.packageservice.request.PackageRequest;
 import com.intest.packageservice.service.LargePackageService;
-import com.intest.packageservice.vo.PackageCheckRequest;
 import com.intest.packageservice.vo.PackageVO;
 import com.intest.packageservice.vo.PartsPackageVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +24,9 @@ import java.util.List;
 public class LargePackageServiceImpl implements LargePackageService {
     @Autowired
     private PackageMapper packageMapper;
+
+    @Autowired
+    private FileBtoMapper fileBtoMapper;
 
     @Override
     public Integer checkPartType(String partType, String carTypeId) {
@@ -41,8 +46,8 @@ public class LargePackageServiceImpl implements LargePackageService {
     }
 
     @Override
-    public FileInfo getFileById(String fileId){
-        return packageMapper.getFileById(fileId);
+    public FileBto getFileById(String fileId){
+        return fileBtoMapper.selectByPrimaryKey(fileId);
     }
 
     @Override
@@ -83,7 +88,7 @@ public class LargePackageServiceImpl implements LargePackageService {
                 PartsPackageVO ppvo = new PartsPackageVO();
                 ppvo.setFileId(pbto.getFileId());
                 ppvo.setId(pbto.getId());
-                ppvo.setPartCode(pbto.getPartCode());
+                ppvo.setPartsCode(pbto.getPartsCode());
                 ppvo.setPartsName(pbto.getPartsName());
                 ppvo.setPartsPackageName(pbto.getPartsPackageName());
                 ppvo.setPartsPackageSize(pbto.getPartsPackageSize());
@@ -97,6 +102,7 @@ public class LargePackageServiceImpl implements LargePackageService {
     }
 
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public int deletePackage(String[] ids){
         int count = 0;
         int packageCount = packageMapper.deletePackage(ids);
@@ -107,26 +113,4 @@ public class LargePackageServiceImpl implements LargePackageService {
         return count;
     }
 
-    @Override
-    public void saveLargeZipInfo(LargePackage largePackage) {
-        packageMapper.saveLargeZipInfo(largePackage);
-    }
-
-    @Override
-    public void saveZipInfo(PartsPackage partsPackage) {
-        packageMapper.saveZipInfo(partsPackage);
-    }
-
-    @Override
-    public void saveFileInfo(FileInfo fileInfo) {
-        packageMapper.saveFileInfo(fileInfo);
-    }
-
-    @Override
-    public void savePartsPackageDetail(PartsPackageDetail partsPackageDetail){packageMapper.savePartsPackageDetail(partsPackageDetail);}
-
-    @Override
-    public void savePartDetailInfo() {
-        packageMapper.savePartDetailInfo();
-    }
 }
