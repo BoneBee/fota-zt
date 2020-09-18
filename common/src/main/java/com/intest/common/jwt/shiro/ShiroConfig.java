@@ -77,7 +77,7 @@ public class ShiroConfig {
         filterRuleMap.put("/v2/**", "anon");
         filterRuleMap.put("/configuration/**", "anon");
         filterRuleMap.put("/swagger-resources/**", "anon");
-        filterRuleMap.put("/**", "jwtFilter");
+        //filterRuleMap.put("/**", "jwtFilter");
         factoryBean.setFilterChainDefinitionMap(filterRuleMap);
         return factoryBean;
     }

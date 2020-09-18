@@ -36,6 +36,7 @@
         c.vin,
         c.iccid ICCID,
         c.simNumber,
+        ty.cartype_id carTypeId,
         ty.cartypename carTypeName,
         m.terminalname terminalCode,
         c.createat createAt,

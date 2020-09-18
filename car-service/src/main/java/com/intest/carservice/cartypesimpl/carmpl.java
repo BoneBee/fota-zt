@@ -114,9 +114,9 @@ public class carmpl implements CarService {
     public PagerDataBaseVO getCars(CarRequest carq) {
         int pageindex = carq.getPi();
         int pagesize = carq.getPs();
-        //查询条件
-        PageHelper.startPage(pageindex, pagesize);
+
         List<CarBto> cars = new ArrayList<>();
+        List<CarBtoExtend> cartmpExs = new ArrayList<>();
         List<CarBtoExtend> carExs = new ArrayList<>();
         //封装排序对象
         CarBtoExample carExample = new CarBtoExample();
@@ -131,11 +131,25 @@ public class carmpl implements CarService {
             //不能用生成工具生成的方法。
             //cars = carmp.selectByExample(carExample);
             CarBtoExtend cbex = new CarBtoExtend();
+            cartmpExs = carExmp.getCars(cbex);
+            //数据总行数;
+            int cartcount = cartmpExs.size();
+            //分页
+            if (pageindex * pagesize > cartcount) {
+                //取余，最后一页的数量
+                long newsize = Math.floorMod(cartcount, pagesize);
+                PageHelper.startPage(pageindex, (int) newsize);
+            }
+            else {
+                PageHelper.startPage(pageindex, pagesize);
+            }
             carExs = carExmp.getCars(cbex);
 
         } catch (Exception carEx) {
 
         }
+
+
         //返回对象
         PagerDataBaseVO carsVO = new PagerDataBaseVO();
         List<CarRespone> carRespones = new ArrayList<>();
@@ -168,9 +182,10 @@ public class carmpl implements CarService {
             crp.setIndex(index);
             crp.setTerminal(car.getTerminalCode());
             crp.setVin(car.getVin());
-            if(car.getCreateAt() == null || car.getCreateAt().equals("")){
+            if (car.getCreateAt() == null || car.getCreateAt().equals("")) {
                 crp.setCreateAt("");
-            }else {
+            }
+            else {
                 crp.setCreateAt(car.getCreateAt());
             }
             CarTask cartask = new CarTask();
@@ -186,6 +201,26 @@ public class carmpl implements CarService {
             //车辆任务审批状态
             cartask.setCheckStatus(car.getCheckStatus());
 
+            //获取该车辆绑定的零件
+            PartsBtoExample partEx = new PartsBtoExample();
+            PartsBtoExample.Criteria ciapart = partEx.createCriteria();
+            ciapart.andFkCartypeIdEqualTo(car.getCarTypeId());
+
+            //查找车辆的零件
+            List<PartsBto> parts = partmp.selectByExample(partEx);
+            List<CarEcu> ecus = new ArrayList<>();
+            int ecuCount = 0;
+            //获取零件信息集合
+            for (PartsBto pt : parts) {
+                CarEcu te = new CarEcu();
+                te.setEcuId(pt.getPartsId());
+                te.setEcuName(pt.getPartsname());
+                ecus.add(te);
+
+            }
+
+            //添加车辆零件集合
+            crp.setEcus(ecus);
             //赋值一辆车的数据
             crp.setTaskMsg(cartask);
             //把车辆添加到车辆集合里面，然后一起返回
@@ -193,7 +228,7 @@ public class carmpl implements CarService {
         }
 
         PageInfo pageInfo = new PageInfo<CarRespone>(carRespones);
-        carsVO.setTotal(pageInfo.getTotal());
+        carsVO.setTotal(cartmpExs.size());
         carsVO.setData(carRespones);
         return carsVO;
     }
