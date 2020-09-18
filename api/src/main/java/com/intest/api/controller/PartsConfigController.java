@@ -55,7 +55,7 @@ public class PartsConfigController {
         {
             ex.printStackTrace();
             logger.error("策略信息查询失败：失败信息："+ExcpUtil.getStackTraceString(ex));
-            return new ResponseBean(0, "策略信息查询失败", null);
+            return new ResponseBean(-1, "策略信息查询失败", null);
         }
 
     }
@@ -76,7 +76,7 @@ public class PartsConfigController {
         }catch (Exception ex){
             ex.printStackTrace();
             logger.error("配置策略信息修改失败：失败信息："+ExcpUtil.getStackTraceString(ex));
-            return new ResponseBean(0, "配置策略信息修改成功", null);
+            return new ResponseBean(-1, "配置策略信息修改失败", null);
         }
 
     }
@@ -90,6 +90,7 @@ public class PartsConfigController {
                 likeStr="";
             }
             List<CarTypeAPartsEntity> carTypeAPartsEntities = partsConfigServiceImpl.selectCarType(likeStr.toUpperCase());
+            //List<CarTypeAPartsEntity> carTypeAPartsEntities = partsConfigServiceImpl.selectCarType(likeStr);
             if (carTypeAPartsEntities.size() > 0) {
                 List<CarTypeBaseInfoEntity> lst = new ArrayList<>();
                 //获取不重复车型ID信息
@@ -120,10 +121,42 @@ public class PartsConfigController {
                 logger.info("处理车型零部件信息查询成功，无数据");
                 return new ResponseBean(1, "取车型零部件信息查询成功，无数据", null);
             }
+//            if(carTypeAPartsEntities.size()>0){
+//                logger.info("处理车型零部件信息查询成功，查询结果："+JSON.toJSONString(carTypeAPartsEntities));
+//                return new ResponseBean(1, "获取车型零部件信息查询成功", carTypeAPartsEntities);
+//            }else {
+//                logger.info("处理车型零部件信息查询成功，无数据");
+//                return new ResponseBean(1, "获取车型零部件信息查询成功，无数据", null);
+//            }
+
+
         }catch (Exception ex){
             ex.printStackTrace();
             logger.error("取车型零部件信息查询失败：失败信息："+ExcpUtil.getStackTraceString(ex));
-            return new ResponseBean(0, "取车型零部件信息查询失败", null);
+            return new ResponseBean(-1, "获取车型零部件信息查询失败", null);
+        }
+
+    }
+
+    @ApiOperation("根据车型获取零部件信息")
+    @RequestMapping(value = "/api/basic/parts/getPartsByCarTypeId", method = RequestMethod.GET)
+    public ResponseBean getPartsByCarTypeId(String carTypeId) {
+        logger.info("接收到根据车型获取零部件信息请求，请求参数："+carTypeId);
+        try {
+
+            List<CarTypeAPartsEntity> carTypeAPartsEntities = partsConfigServiceImpl.selectCarTypeByCarTypeId(carTypeId);
+
+            if(carTypeAPartsEntities.size()>0){
+                logger.info("处理根据车型获取零部件信息查询成功，查询结果："+JSON.toJSONString(carTypeAPartsEntities));
+                return new ResponseBean(1, "根据车型获取零部件信息查询成功", carTypeAPartsEntities);
+            }else {
+                logger.info("处理根据车型获取零部件信息查询成功，无数据");
+                return new ResponseBean(1, "根据车型获取零部件信息查询成功，无数据", null);
+            }
+        }catch (Exception ex){
+            ex.printStackTrace();
+            logger.error("取车型零部件信息查询失败：失败信息："+ExcpUtil.getStackTraceString(ex));
+            return new ResponseBean(-1, "获取车型零部件信息查询失败", null);
         }
 
     }
