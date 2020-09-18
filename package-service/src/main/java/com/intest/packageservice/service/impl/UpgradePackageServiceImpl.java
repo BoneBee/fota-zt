@@ -1,9 +1,11 @@
 package com.intest.packageservice.service.impl;
 
+import cn.hutool.json.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.intest.common.result.PagerDataBaseVO;
 import com.intest.common.tableData.TableDataAnnotation;
+import com.intest.common.util.HttpClientUtil;
 import com.intest.common.util.StringUtils;
 import com.intest.dao.entity.*;
 import com.intest.dao.mapper.*;
@@ -16,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -199,12 +200,26 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
                     taskOriginalPackageBtoMapper.insertSelective(taskOriginalPackageBto);
                 }
             }
+
+            makeUpgradePackage(packageTaskId);
         }catch (Exception e){
             e.printStackTrace();
             return -1;
         }
 
         return 1;
+    }
+
+    /**
+     * 通过调用杜磊那边提供的http接口
+     * 传入参数packageTaskId
+     * 制作升级包
+     * @param packageTaskId
+     */
+    private void makeUpgradePackage(String packageTaskId){
+        JSONObject json = new JSONObject();
+        json.set("packTaskId", packageTaskId);
+        HttpClientUtil.doPost("http://10.10.20.61:8111/api/basic/package/doFilePack", json);
     }
 
     @Override
