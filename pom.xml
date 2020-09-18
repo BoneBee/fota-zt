@@ -31,6 +31,7 @@
 		<module>package-service</module>
 		<module>packageparser</module>
         <module>partsconfig-service</module>
+        <module>taskbase-service</module>
     </modules>
 
 	<properties>

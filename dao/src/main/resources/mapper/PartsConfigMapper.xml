@@ -61,11 +61,11 @@
 
     <select id="selectCarType" resultType="com.intest.dao.entity.partsConfig.CarTypeAPartsEntity"
             parameterType="java.lang.String">
-        select fct.cartype_id as CarTypeId,
-        fct.cartypename as CarTypeName,
-        fp.parts_id as PartsId,
-        fp.partscode as PartsName,
-        fpc.ordernum as OrderNum
+        select fct.cartype_id as carTypeId,
+        fct.cartypename as carTypeName,
+        fp.parts_id as partsId,
+        fp.partsname as partsName,
+        fpc.ordernum as orderNum
         from f_cartype fct
         left join f_parts fp
         on fct.cartype_id = fp.fk_cartype_id
@@ -74,9 +74,29 @@
 
         where fct.isdelete=1 and fp.isdelete=1
         <if test=" likeStr != null and likeStr!='' ">
-            and (UPPER(fct.cartypename) like concat(concat('%',#{likeStr}),'%') or UPPER(fp.partscode) like
+            and (UPPER(fct.cartypename) like concat(concat('%',#{likeStr}),'%') or UPPER(fp.partsname) like
             concat(concat('%',#{likeStr}),'%'))
         </if>
+    </select>
+
+    <select id="selectCarTypeByCarTypeId" resultType="com.intest.dao.entity.partsConfig.CarTypeAPartsEntity"
+            parameterType="java.lang.String">
+        select fct.cartype_id as carTypeId,
+        fct.cartypename as carTypeName,
+        fp.parts_id as partsId,
+        fp.partsname as partsName,
+        fpc.ordernum as orderNum
+        from f_cartype fct
+        left join f_parts fp
+        on fct.cartype_id = fp.fk_cartype_id
+        left join f_partsconfig fpc
+        on fp.parts_id=fpc.fk_parts_id
+
+        where fct.isdelete=1 and fp.isdelete=1 and  fct.cartype_id=#{carTypeId}
+        <!--<if test=" likeStr != null and likeStr!='' ">-->
+        <!--and (UPPER(fct.cartypename) like concat(concat('%',#{likeStr}),'%') or UPPER(fp.partscode) like-->
+        <!--concat(concat('%',#{likeStr}),'%'))-->
+        <!--</if>-->
     </select>
 
 
