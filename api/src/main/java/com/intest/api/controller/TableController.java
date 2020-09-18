@@ -67,28 +67,27 @@ public class TableController extends BaseController {
             throw new CustomException("toolbar未找到！");
         }
         List<ToolbarItemBto> toolbarItemBtoList = toolbarItemImpl.getToolbarAllItemById(toolbarBto.getToolbarId());
-        if (toolbarItemBtoList.size() == 0 || toolbarItemBtoList == null) {
-            throw new CustomException("toolbarItem未找到！");
-        }
-        List<ItemBto> itemBtoList = new ArrayList<>();
-        for (ToolbarItemBto toolbarItemBto : toolbarItemBtoList) {
-            ItemBto itemBto = itemImpl.getItemById(toolbarItemBto.getFkItemId());
-            if (itemBto == null) {
-                throw new CustomException("item未找到！");
-            }
-            itemBtoList.add(itemBto);
-        }
         List<ToolbarResponse.ItemBean> items = new ArrayList<>();
-        for (ItemBto itemBto : itemBtoList) {
-            List<ToolbarResponse.SubItemBean> subItem = new ArrayList<>();
-            ToolbarResponse.ItemBean itemBean = new ToolbarResponse.ItemBean(itemBto.getItemId(), itemBto.getName(), itemBto.getIcon());
-            if (StringUtils.isNotEmptyStr(itemBto.getFkItemId())) {
-                ItemBto itemBto1 = itemImpl.getItemById(itemBto.getFkItemId());
-                ToolbarResponse.SubItemBean subItemBean = new ToolbarResponse.SubItemBean(itemBto1.getItemId(), itemBto1.getName(), itemBto1.getIcon());
-                subItem.add(subItemBean);
+        if (toolbarItemBtoList.size() != 0 || toolbarItemBtoList != null) {
+            List<ItemBto> itemBtoList = new ArrayList<>();
+            for (ToolbarItemBto toolbarItemBto : toolbarItemBtoList) {
+                ItemBto itemBto = itemImpl.getItemById(toolbarItemBto.getFkItemId());
+                if (itemBto == null) {
+                    throw new CustomException("item未找到！");
+                }
+                itemBtoList.add(itemBto);
             }
-            itemBean.setSubItem(subItem);
-            items.add(itemBean);
+            for (ItemBto itemBto : itemBtoList) {
+                List<ToolbarResponse.SubItemBean> subItem = new ArrayList<>();
+                ToolbarResponse.ItemBean itemBean = new ToolbarResponse.ItemBean(itemBto.getItemId(), itemBto.getName(), itemBto.getIcon());
+                if (StringUtils.isNotEmptyStr(itemBto.getFkItemId())) {
+                    ItemBto itemBto1 = itemImpl.getItemById(itemBto.getFkItemId());
+                    ToolbarResponse.SubItemBean subItemBean = new ToolbarResponse.SubItemBean(itemBto1.getItemId(), itemBto1.getName(), itemBto1.getIcon());
+                    subItem.add(subItemBean);
+                }
+                itemBean.setSubItem(subItem);
+                items.add(itemBean);
+            }
         }
 
         return new ResponseBean(1, "查询成功", new ToolbarResponse(toolbarBto.getToolbarId(), toolbarBto.getCharecked().intValue() == 1 ? true : false, items));
@@ -483,7 +482,7 @@ public class TableController extends BaseController {
             columnBto.setOrderNum(column.getOrderNum());
             columnBto.setWidth(column.getWidth());
             columnBto.setIsshow((short) (column.getIsShow() ? 1 : 0));
-            columnBto.setIscansort((short)(column.getIsCanSort() ? 1 : 0));
+            columnBto.setIscansort((short) (column.getIsCanSort() ? 1 : 0));
             if (columnImpl.getColumnById(column.getColumnId()) != null) {
                 throw new CustomException("columnId已经存在！");
             }
@@ -738,7 +737,7 @@ public class TableController extends BaseController {
         ResultT<PagerDataBaseVO> result = new ResultT<>();
         try {
             result.setResult(tableDataImpl.GetTableData(model));
-        }catch (Exception ex) {
+        } catch (Exception ex) {
             logger.error(ex);
             result.setFail();
         }

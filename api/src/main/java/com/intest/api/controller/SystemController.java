@@ -225,14 +225,14 @@ public class SystemController {
 
     }
 
-//    /**
-//     * 获取审核用户列表
-//     *
-//     * @return
-//     */
-//    @ResponseBody
-//    @RequestMapping(value = "/api/basic/system/getSystemMenuList", method = RequestMethod.GET)
-//    public ResponseBean getSystemMenuList() {
-//
-//    }
+    /**
+     * 菜单管理接口
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/basic/system/getSystemMenuList", method = RequestMethod.GET)
+    public ResponseBean getSystemMenuList() {
+        return null;
+    }
 }
