@@ -78,6 +78,7 @@ public class cartypesassemblyImpl implements CarTypesService {
 
         CarTypeBtoExample.Criteria cia = btoExample.createCriteria();
         cia.andIsdeleteEqualTo((short) 1);
+        //cia.andFkTerminalIdIsNotNull();
         cartypecount = cartypeMapper.countByExample(btoExample);
         //分页
         if (pageindex * pagesize > cartypecount) {
@@ -120,15 +121,22 @@ public class cartypesassemblyImpl implements CarTypesService {
                 break;
             }
 
-            if (index > rownumstar && index <= rownumend && ctb.getFkTerminalId() != null) {
-                TerminalBto tmnBto = tmMapper.selectByPrimaryKey(ctb.getFkTerminalId());
+            if (index > rownumstar && index <= rownumend) {
                 CarTypeRespone respone = new CarTypeRespone();
+                //获取终端
+                String Terminal = "";
+                String TerminalId = "";
+                if (ctb.getFkTerminalId() != null) {
+                    TerminalBto tmnBto = tmMapper.selectByPrimaryKey(ctb.getFkTerminalId());
+                    Terminal = tmnBto.getTerminalname();
+                    TerminalId = tmnBto.getTerminalId();
+                }
+                respone.setTerminal(Terminal);
+                respone.setTerminalId(TerminalId);
+
                 respone.setIndex(index);
                 respone.setCartypeName(ctb.getCartypename());
-                if (tmnBto != null) {
-                    respone.setTerminal(tmnBto.getTerminalname());
-                    respone.setTerminalId(tmnBto.getTerminalId());
-                }
+
                 respone.setRemark(ctb.getRemark());
                 if (ctb.getCreateat() == null || ctb.getCreateat().equals("")) {
                     respone.setCreateAt("");
