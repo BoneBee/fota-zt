@@ -668,8 +668,6 @@ public class FileParser {
             }
         }catch (Exception e){
             e.printStackTrace();
-        } finally {
-            deleteUncompressFiles(path);
         }
     }
 
