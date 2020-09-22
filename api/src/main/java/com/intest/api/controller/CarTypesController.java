@@ -1,6 +1,7 @@
 package com.intest.api.controller;
 
 
+import com.intest.carservice.Respone.CarAddRespone;
 import com.intest.carservice.Respone.delCarRespone;
 import com.intest.carservice.cartypesimpl.carmpl;
 import com.intest.carservice.Request.*;
@@ -184,13 +185,11 @@ public class CarTypesController {
     public Result addnewcar(@RequestBody addCar pcar) {
         Result result = new Result();
         try {
-            int i = mpl.addCar(pcar);
-            if (i == 1) {
-                result.setSuccess(1);
-            }
-            else {
-                result.setSuccess(0);
-            }
+            CarAddRespone addCar = mpl.addCar(pcar);
+
+            result.setSuccess(addCar.getAddCarResult());
+            result.setMsg(addCar.getMsg());
+
         } catch (Exception ex) {
             result.setSuccess(0);
             result.setMsg(ex.getMessage());
@@ -239,6 +238,20 @@ public class CarTypesController {
         Result result = new Result();
         try {
             result.setMsg(mpl.checkVin(cVin));
+            result.setSuccess(1);
+        } catch (Exception ex) {
+            result.setSuccess(0);
+        }
+        return result;
+    }
+
+    @ApiOperation("检测车型是否存在")
+    @RequestMapping(value = "/api/cars/checkCarType", method = RequestMethod.POST)
+    public Result checkCarType(@RequestBody RequestCheckCarType carType) {
+
+        Result result = new Result();
+        try {
+            result.setMsg(cartypesTypeImpl.checkCarType(carType));
             result.setSuccess(1);
         } catch (Exception ex) {
             result.setSuccess(0);

@@ -41,4 +41,9 @@ public class PartsConfigServiceImpl implements PartsConfigService {
         return  partsConfigMapper.selectCarType(likeStr);
 
     }
+
+    @Override
+    public List<CarTypeAPartsEntity> selectCarTypeByCarTypeId(String carTypeId) {
+        return partsConfigMapper.selectCarTypeByCarTypeId(carTypeId);
+    }
 }

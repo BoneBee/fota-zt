@@ -5,6 +5,7 @@ public class RequestDelCarTypebyId {
     private String carTypeName;
     private String carTypeId;
 
+
     public String getCarTypeName() {
         return carTypeName;
     }

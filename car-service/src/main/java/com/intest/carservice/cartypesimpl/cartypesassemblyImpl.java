@@ -3,10 +3,7 @@ package com.intest.carservice.cartypesimpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.intest.carservice.CarTypesService;
-import com.intest.carservice.Request.CarTypeRequest;
-import com.intest.carservice.Request.RequestCarTypebyId;
-import com.intest.carservice.Request.RequestDelCarTypebyId;
-import com.intest.carservice.Request.addCarType;
+import com.intest.carservice.Request.*;
 import com.intest.carservice.Respone.*;
 import com.intest.carservice.carTypeTool.carTools;
 import com.intest.common.result.PagerDataBaseVO;
@@ -51,6 +48,9 @@ public class cartypesassemblyImpl implements CarTypesService {
     @Autowired
     CarBtoMapper carmp;
 
+    @Autowired
+    UserBtoMapper userMapper;
+
     @Override
     public CarTypeBto getCarTypeById(String cartypeid) {
 
@@ -71,16 +71,30 @@ public class cartypesassemblyImpl implements CarTypesService {
         int pagesize = request.getPs();
         PagerDataBaseVO carTypesVO = new PagerDataBaseVO();
 
-        PageHelper.startPage(pageindex, pagesize);
-        List<CarTypeBto> carTypes = new ArrayList<>();
 
+        List<CarTypeBto> carTypes = new ArrayList<>();
+        long cartypecount = 0;
         CarTypeBtoExample btoExample = new CarTypeBtoExample();
 
+        CarTypeBtoExample.Criteria cia = btoExample.createCriteria();
+        cia.andIsdeleteEqualTo((short) 1);
+        //cia.andFkTerminalIdIsNotNull();
+        cartypecount = cartypeMapper.countByExample(btoExample);
+        //分页
+        if (pageindex * pagesize > cartypecount) {
+            //取余，最后一页的数量
+            long newsize = Math.floorMod(cartypecount, pagesize);
+            PageHelper.startPage(pageindex, (int) newsize);
+        }
+        else {
+            PageHelper.startPage(pageindex, pagesize);
+        }
         try {
-            if(!request.getSort().equals("")||request.getSort()!=null){
+            if (request.getSort() != null && !request.getSort().equals("")) {
                 String sort = carTools.replaceCharacter(request.getSort());
                 btoExample.setOrderByClause(sort);
             }
+
 
             carTypes = cartypeMapper.selectByExample(btoExample);
 
@@ -108,23 +122,45 @@ public class cartypesassemblyImpl implements CarTypesService {
             }
 
             if (index > rownumstar && index <= rownumend) {
-                TerminalBto tmnBto = tmMapper.selectByPrimaryKey(ctb.getFkTerminalId());
                 CarTypeRespone respone = new CarTypeRespone();
+                //获取终端
+                String Terminal = "";
+                String TerminalId = "";
+                if (ctb.getFkTerminalId() != null) {
+                    TerminalBto tmnBto = tmMapper.selectByPrimaryKey(ctb.getFkTerminalId());
+                    Terminal = tmnBto.getTerminalname();
+                    TerminalId = tmnBto.getTerminalId();
+                }
+                respone.setTerminal(Terminal);
+                respone.setTerminalId(TerminalId);
+
                 respone.setIndex(index);
                 respone.setCartypeName(ctb.getCartypename());
-                respone.setTerminal(tmnBto.getTerminalname());
+
                 respone.setRemark(ctb.getRemark());
-                respone.setCreateAt(ft.format(ctb.getCreateat()));
-                respone.setCreateBy(ctb.getCreateby());
-                respone.setUpdateAt(ctb.getUpdateat() == null ? "" : ft.format(ctb.getUpdateat()));
-                respone.setUpdateBy(ctb.getUpdateby() == null ? "" : ctb.getUpdateby());
+                if (ctb.getCreateat() == null || ctb.getCreateat().equals("")) {
+                    respone.setCreateAt("");
+                }
+                else {
+                    respone.setCreateAt(ft.format(ctb.getCreateat()));
+                }
+                String CreateBy = carTools.getUserRealName(userMapper, ctb.getCreateby());
+                respone.setCreateBy(CreateBy);
+
+                String UpdateBy = ctb.getUpdateby() == null ? "" : ctb.getUpdateby();
+                if (!UpdateBy.equals("")) {
+                    respone.setUpdateAt(ctb.getUpdateat() == null ? "" : ft.format(ctb.getUpdateat()));
+                    respone.setUpdateBy(carTools.getUserRealName(userMapper, ctb.getUpdateby()));
+                }
+
                 respone.setCartypeId(ctb.getCartypeId());
                 ctRespones.add(respone);
             }
         }
 
         PageInfo pageInfo = new PageInfo<CarTypeRespone>(ctRespones);
-        carTypesVO.setTotal(pageInfo.getTotal());
+        //carTypesVO.setTotal(pageInfo.getTotal());
+        carTypesVO.setTotal(cartypecount);
         carTypesVO.setData(ctRespones);
 
         return carTypesVO;
@@ -175,7 +211,15 @@ public class cartypesassemblyImpl implements CarTypesService {
         TypeInfo.setTerminalId(tmnBto.getTerminalId());
         TypeInfo.setTerminal(tmnBto.getTerminalname());
         TypeInfo.setCreateAt(ctb.getCreateat() == null ? "" : ft.format(ctb.getCreateat()));
-        TypeInfo.setCreateBy(ctb.getCreateby() == null ? "" : ctb.getCreateby());
+        if (ctb.getCreateby() != null && !ctb.getCreateby().equals("")) {
+            String CreateBy = carTools.getUserRealName(userMapper, ctb.getCreateby());
+            TypeInfo.setCreateBy(CreateBy);
+        }
+        String UpdateBy = ctb.getUpdateby() == null ? "" : ctb.getUpdateby();
+        if (!UpdateBy.equals("")) {
+            TypeInfo.setUpdateBy(carTools.getUserRealName(userMapper, ctb.getUpdateby()));
+        }
+
         TypeInfo.setUpdateBy(ctb.getUpdateby() == null ? "" : ctb.getUpdateby());
         TypeInfo.setRemark(ctb.getRemark());
 
@@ -295,7 +339,7 @@ public class cartypesassemblyImpl implements CarTypesService {
                 ctbto.setCartypename(cartype.getCarTypeName());
                 ctbto.setIsdelete((short) 0);
                 //更新车型删除状态
-                 cartypeMapper.updateByPrimaryKey(ctbto);
+                cartypeMapper.updateByPrimaryKey(ctbto);
             }
         }
 
@@ -375,5 +419,24 @@ public class cartypesassemblyImpl implements CarTypesService {
         } catch (Exception excar) {
         }
         return btos;
+    }
+
+    /*
+    检测车型名称是否唯一
+     */
+    public String checkCarType(RequestCheckCarType carType) {
+
+        CarTypeBtoExample carTypeEx = new CarTypeBtoExample();
+        CarTypeBtoExample.Criteria cia = carTypeEx.createCriteria();
+        cia.andCartypenameEqualTo(carType.getCarTypeName());
+
+        //查找vin
+        List<CarTypeBto> ctBto = cartypeMapper.selectByExample(carTypeEx);
+
+        String Msg = "";
+        if (ctBto.size() > 0) {
+            Msg = String.format("车型：%s 已经存在", carType.getCarTypeName());
+        }
+        return Msg;
     }
 }

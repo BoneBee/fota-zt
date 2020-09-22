@@ -25,4 +25,6 @@ public interface PartsConfigService {
 
     List<CarTypeAPartsEntity> selectCarType(String likeStr);
 
+    List<CarTypeAPartsEntity> selectCarTypeByCarTypeId(String carTypeId);
+
 }

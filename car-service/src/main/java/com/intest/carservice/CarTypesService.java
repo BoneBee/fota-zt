@@ -24,4 +24,6 @@ public interface CarTypesService {
     public int addCarType(addCarType addcartype);
 
     public int mdfCarType(addCarType addcartype);
+
+    public String checkCarType(RequestCheckCarType carType);
 }

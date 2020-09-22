@@ -17,6 +17,8 @@
     <result column="CREATEBY" jdbcType="CHAR" property="createby" />
     <result column="UPDATEAT" jdbcType="TIMESTAMP" property="updateat" />
     <result column="UPDATEBY" jdbcType="CHAR" property="updateby" />
+    <result column="FK_TASKREVIEWSTATUSVALUE_CODE" jdbcType="CHAR" property="fkTaskreviewstatusvalueCode" />
+    <result column="FK_TASKREVIEWTMP_ID" jdbcType="CHAR" property="fkTaskreviewtmpId" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -79,7 +81,7 @@
   <sql id="Base_Column_List">
     TASK_ID, TASKNAME, UPGRADETIME, PLANSTARTTIME, PLANENDTIME, TASKNOTE, TASKSTRATEGY, 
     FK_TASKSTATUSVALUE_CODE, FK_PACKAGETASK_ID, FK_CARTYPE_ID, ISDELETE, CREATEAT, CREATEBY, 
-    UPDATEAT, UPDATEBY
+    UPDATEAT, UPDATEBY, FK_TASKREVIEWSTATUSVALUE_CODE, FK_TASKREVIEWTMP_ID
   </sql>
   <select id="selectByExample" parameterType="com.intest.dao.entity.TaskBtoExample" resultMap="BaseResultMap">
     select
@@ -116,13 +118,15 @@
       PLANSTARTTIME, PLANENDTIME, TASKNOTE, 
       TASKSTRATEGY, FK_TASKSTATUSVALUE_CODE, FK_PACKAGETASK_ID, 
       FK_CARTYPE_ID, ISDELETE, CREATEAT, 
-      CREATEBY, UPDATEAT, UPDATEBY
+      CREATEBY, UPDATEAT, UPDATEBY, 
+      FK_TASKREVIEWSTATUSVALUE_CODE, FK_TASKREVIEWTMP_ID
       )
     values (#{taskId,jdbcType=CHAR}, #{taskname,jdbcType=NVARCHAR}, #{upgradetime,jdbcType=TIMESTAMP}, 
       #{planstarttime,jdbcType=TIMESTAMP}, #{planendtime,jdbcType=TIMESTAMP}, #{tasknote,jdbcType=NVARCHAR}, 
       #{taskstrategy,jdbcType=NUMERIC}, #{fkTaskstatusvalueCode,jdbcType=CHAR}, #{fkPackagetaskId,jdbcType=CHAR}, 
       #{fkCartypeId,jdbcType=CHAR}, #{isdelete,jdbcType=NUMERIC}, #{createat,jdbcType=TIMESTAMP}, 
-      #{createby,jdbcType=CHAR}, #{updateat,jdbcType=TIMESTAMP}, #{updateby,jdbcType=CHAR}
+      #{createby,jdbcType=CHAR}, #{updateat,jdbcType=TIMESTAMP}, #{updateby,jdbcType=CHAR}, 
+      #{fkTaskreviewstatusvalueCode,jdbcType=CHAR}, #{fkTaskreviewtmpId,jdbcType=CHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.intest.dao.entity.TaskBto">
@@ -173,6 +177,12 @@
       <if test="updateby != null">
         UPDATEBY,
       </if>
+      <if test="fkTaskreviewstatusvalueCode != null">
+        FK_TASKREVIEWSTATUSVALUE_CODE,
+      </if>
+      <if test="fkTaskreviewtmpId != null">
+        FK_TASKREVIEWTMP_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="taskId != null">
@@ -219,6 +229,12 @@
       </if>
       <if test="updateby != null">
         #{updateby,jdbcType=CHAR},
+      </if>
+      <if test="fkTaskreviewstatusvalueCode != null">
+        #{fkTaskreviewstatusvalueCode,jdbcType=CHAR},
+      </if>
+      <if test="fkTaskreviewtmpId != null">
+        #{fkTaskreviewtmpId,jdbcType=CHAR},
       </if>
     </trim>
   </insert>
@@ -276,6 +292,12 @@
       <if test="record.updateby != null">
         UPDATEBY = #{record.updateby,jdbcType=CHAR},
       </if>
+      <if test="record.fkTaskreviewstatusvalueCode != null">
+        FK_TASKREVIEWSTATUSVALUE_CODE = #{record.fkTaskreviewstatusvalueCode,jdbcType=CHAR},
+      </if>
+      <if test="record.fkTaskreviewtmpId != null">
+        FK_TASKREVIEWTMP_ID = #{record.fkTaskreviewtmpId,jdbcType=CHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -297,7 +319,9 @@
       CREATEAT = #{record.createat,jdbcType=TIMESTAMP},
       CREATEBY = #{record.createby,jdbcType=CHAR},
       UPDATEAT = #{record.updateat,jdbcType=TIMESTAMP},
-      UPDATEBY = #{record.updateby,jdbcType=CHAR}
+      UPDATEBY = #{record.updateby,jdbcType=CHAR},
+      FK_TASKREVIEWSTATUSVALUE_CODE = #{record.fkTaskreviewstatusvalueCode,jdbcType=CHAR},
+      FK_TASKREVIEWTMP_ID = #{record.fkTaskreviewtmpId,jdbcType=CHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -347,6 +371,12 @@
       <if test="updateby != null">
         UPDATEBY = #{updateby,jdbcType=CHAR},
       </if>
+      <if test="fkTaskreviewstatusvalueCode != null">
+        FK_TASKREVIEWSTATUSVALUE_CODE = #{fkTaskreviewstatusvalueCode,jdbcType=CHAR},
+      </if>
+      <if test="fkTaskreviewtmpId != null">
+        FK_TASKREVIEWTMP_ID = #{fkTaskreviewtmpId,jdbcType=CHAR},
+      </if>
     </set>
     where TASK_ID = #{taskId,jdbcType=CHAR}
   </update>
@@ -365,7 +395,9 @@
       CREATEAT = #{createat,jdbcType=TIMESTAMP},
       CREATEBY = #{createby,jdbcType=CHAR},
       UPDATEAT = #{updateat,jdbcType=TIMESTAMP},
-      UPDATEBY = #{updateby,jdbcType=CHAR}
+      UPDATEBY = #{updateby,jdbcType=CHAR},
+      FK_TASKREVIEWSTATUSVALUE_CODE = #{fkTaskreviewstatusvalueCode,jdbcType=CHAR},
+      FK_TASKREVIEWTMP_ID = #{fkTaskreviewtmpId,jdbcType=CHAR}
     where TASK_ID = #{taskId,jdbcType=CHAR}
   </update>
 </mapper>

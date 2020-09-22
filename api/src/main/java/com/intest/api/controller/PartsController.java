@@ -150,8 +150,8 @@ public class PartsController {
     @ResponseBody
     @RequestMapping(value = "/api/basic/part/addPartMessage", method = RequestMethod.POST)
     public ResponseBean addPartMessage(@RequestBody PartsMessageRequest partsMessageRequest) {
-        ValidateHelper.validateNull(partsMessageRequest, new String[]{"partsName", "partsType"});
-        if (partsMessageRequest.getPartsName().length() > 10 || partsMessageRequest.getPartsName().length() < 5 || !CheckPwd.checkUpperCase(partsMessageRequest.getPartsName())) {
+        ValidateHelper.validateNull(partsMessageRequest, new String[]{"partsName", "partsTypeId"});
+        if (partsMessageRequest.getPartsName().length() > 10 || partsMessageRequest.getPartsName().length() < 5) {
             throw new CustomException("零部件信息名称不合法");
         }
 
@@ -214,7 +214,7 @@ public class PartsController {
             throw new CustomException("未找到对应零部件信息");
         } else {
             partsBto.setPartsname(request.getPartsName());
-            partsBto.setFkPartstypeId(request.getPartsId());
+            partsBto.setFkPartstypeId(request.getPartsTypeId());
             partsBto.setRemark(request.getRemark());
             if (partsImpl.updateParts(partsBto) != 1) {
                 throw new CustomException("修改零部件信息失败");

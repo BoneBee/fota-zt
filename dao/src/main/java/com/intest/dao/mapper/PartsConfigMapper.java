@@ -22,4 +22,6 @@ public interface PartsConfigMapper {
      int updatePartsConfig(PartsBaseConfig cartTpeToPartsConfig);
 
      List<CarTypeAPartsEntity> selectCarType(@Param("likeStr") String likeStr);
+
+     List<CarTypeAPartsEntity> selectCarTypeByCarTypeId(String carTypeId);
 }
