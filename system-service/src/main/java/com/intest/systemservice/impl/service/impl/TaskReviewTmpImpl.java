@@ -13,7 +13,7 @@ import com.intest.dao.mapper.TaskReviewTmpBtoMapper;
 import com.intest.dao.mapper.TaskReviewTmpDetileBtoMapper;
 import com.intest.systemservice.impl.service.TaskReviewTmpPage;
 import com.intest.systemservice.impl.service.TaskReviewTmpService;
-import com.intest.systemservice.request.TaskReviewTmpResponse;
+import com.intest.systemservice.response.TaskReviewTmpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,6 +32,19 @@ public class TaskReviewTmpImpl implements TaskReviewTmpService {
     @Override
     public TaskReviewTmpBto getTaskReviewTmpById(String taskreviewtmpId) {
         return mapper.selectByPrimaryKey(taskreviewtmpId);
+    }
+
+    @Override
+    public TaskReviewTmpBto getTaskReviewTmpByName(String taskTmpName) {
+        TaskReviewTmpBtoExample example = new TaskReviewTmpBtoExample();
+        TaskReviewTmpBtoExample.Criteria criteria = example.createCriteria();
+        criteria.andTaskReviewtmpNameEqualTo(taskTmpName);
+        List<TaskReviewTmpBto> tmpBtoList = mapper.selectByExample(example);
+        if (tmpBtoList == null || tmpBtoList.size() <= 0) {
+            return null;
+        } else {
+            return tmpBtoList.get(0);
+        }
     }
 
     @Override
@@ -106,22 +119,23 @@ public class TaskReviewTmpImpl implements TaskReviewTmpService {
             List<TaskReviewTmpResponse.DetailBean> detailBeans = new ArrayList<>();
             for (TaskReviewTmpDetileBto bto : detileBtos) {
                 TaskReviewTmpResponse.DetailBean detailBean = new TaskReviewTmpResponse.DetailBean();
-                detailBean.setIds(bto.getTaskreviewtmpdetaileId());
+                detailBean.setId(bto.getTaskreviewtmpdetaileId());
+                detailBean.setUserId(bto.getFkUserId());
                 detailBean.setLevel(bto.getReviewLevel());
                 detailBeans.add(detailBean);
             }
             TaskReviewTmpResponse response = new TaskReviewTmpResponse();
             response.setIndex(index += 1);
-            response.setTaskreviewtmpId(taskReviewTmpBto.getTaskreviewtmpId());
-            response.setTaskReviewtmpName(taskReviewTmpBto.getTaskReviewtmpName());
+            response.setTaskTmpId(taskReviewTmpBto.getTaskreviewtmpId());
+            response.setTaskTmpName(taskReviewTmpBto.getTaskReviewtmpName());
             response.setTmpType(taskReviewTmpBto.getTmpType());
             response.setState(taskReviewTmpBto.getState());
-            response.setTasknum(taskReviewTmpBto.getTasknum());
+            response.setTaskNum(taskReviewTmpBto.getTasknum());
             response.setDetaileIDs(detailBeans);
-            response.setCreateby(taskReviewTmpBto.getCreateby());
-            response.setCreateat(taskReviewTmpBto.getCreateat());
-            response.setUpdateat(taskReviewTmpBto.getUpdateat());
-            response.setUpdateby(taskReviewTmpBto.getUpdateby());
+            response.setCreateBy(taskReviewTmpBto.getCreateby());
+            response.setCreateAt(taskReviewTmpBto.getCreateat());
+            response.setUpdateAt(taskReviewTmpBto.getUpdateat());
+            response.setUpdateBy(taskReviewTmpBto.getUpdateby());
             taskReviewTmpResponses.add(response);
         }
         task.setTotal(pageInfo.getTotal());

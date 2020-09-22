@@ -4,6 +4,18 @@ public class CarEcu {
 
     //序号
     private int index;
+    //零件ID
+    private String ecuId;
+    //零件简称
+    private String ecuName;
+    //零件类型
+    private String partType;
+    //零件编号
+    private String partCode;
+    //软件版本
+    private String partVersion;
+    //更新时间
+    private String updateAt;
 
     public int getIndex() {
         return index;
@@ -11,6 +23,14 @@ public class CarEcu {
 
     public void setIndex(int index) {
         this.index = index;
+    }
+
+    public String getEcuId() {
+        return ecuId;
+    }
+
+    public void setEcuId(String ecuId) {
+        this.ecuId = ecuId;
     }
 
     public String getEcuName() {
@@ -52,17 +72,5 @@ public class CarEcu {
     public void setUpdateAt(String updateAt) {
         this.updateAt = updateAt;
     }
-
-    //零件简称
-    private String ecuName;
-    //零件类型
-    private String partType;
-    //零件编号
-    private String partCode;
-    //软件版本
-    private String partVersion;
-    //更新时间
-    private String updateAt;
-
 
 }

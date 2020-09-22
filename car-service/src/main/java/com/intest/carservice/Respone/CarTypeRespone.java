@@ -4,6 +4,7 @@ public class CarTypeRespone {
 
     private int index;
     private String carTypeName;
+    private String terminalId;
     private String terminal;
     private String remark;
     private String createAt;
@@ -82,6 +83,14 @@ public class CarTypeRespone {
 
     public void setCartypeId(String cartypeId) {
         this.carTypeId = cartypeId;
+    }
+
+    public String getTerminalId() {
+        return terminalId;
+    }
+
+    public void setTerminalId(String terminalId) {
+        this.terminalId = terminalId;
     }
 
     public CarTypeRespone(){

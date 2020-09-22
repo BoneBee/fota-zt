@@ -3,6 +3,9 @@ package com.intest.common.tableData;
 import com.intest.common.ro.GetDataRO;
 import com.intest.common.ro.QueryWhereRO;
 import com.intest.common.ro.SortRO;
+import org.springframework.aop.framework.Advised;
+import org.springframework.aop.support.AopUtils;
+import org.springframework.aop.target.SingletonTargetSource;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -68,16 +71,45 @@ public class SpringContextLoader implements ApplicationContextAware, ServletCont
      * @throws Exception
      */
     @SuppressWarnings({ "unchecked", "rawtypes" })
-    public static List<Method> getClassMethodByAnnotation(Class clz, Class annoClz) throws Exception {
-
+    public static List<DataTableClassMethod> getClassMethodByAnnotation(Class clz, Class annoClz) throws Exception {
+        List<DataTableClassMethod> result = new ArrayList<DataTableClassMethod>();
         clz = Class.forName(clz.getName(), true, clz.getClassLoader());
+        long count = new ArrayList<>(Arrays.asList(clz.getInterfaces()))
+                .stream()
+                .filter(m -> m.getName().equals("org.springframework.aop.framework.Advised"))
+                .count();
+        if (count > 0) {
+            String objectName = clz.getName();
+            int startIndex = objectName.indexOf("$$");
+            String typeName = objectName.substring(0, startIndex);
+            Class targetClz = Class.forName(typeName);
 
-        List<Method> result = new ArrayList<Method>();
+            for (Method method : targetClz.getMethods()) {
+                if (method.getAnnotation(annoClz) != null) {
+                    DataTableClassMethod method1 = new DataTableClassMethod();
+                    Method originalMethod = clz.getMethod(method.getName(), method.getParameterTypes());
 
-        for (Method method : clz.getMethods()) {
+                    TableDataAnnotation annotation = method.getAnnotation(TableDataAnnotation.class);
+                    method1.setMethod(originalMethod);
+                    method1.setDataTableId(annotation.tableId());
 
-            if (method.getAnnotation(annoClz) != null) {
-                result.add(clz.getMethod(method.getName(), method.getParameterTypes()));
+                    result.add(method1);
+                }
+            }
+
+        } else {
+
+            for (Method method : clz.getMethods()) {
+
+                if (method.getAnnotation(annoClz) != null) {
+                    DataTableClassMethod method1 = new DataTableClassMethod();
+
+                    TableDataAnnotation annotation = method.getAnnotation(TableDataAnnotation.class);
+                    method1.setMethod(method);
+                    method1.setDataTableId(annotation.tableId());
+
+                    result.add(method1);
+                }
             }
         }
 
@@ -99,15 +131,14 @@ public class SpringContextLoader implements ApplicationContextAware, ServletCont
         if (openClz != null) {
             for (Object clzObj : openClz.values()) {
 
-                List<Method> methodList = getClassMethodByAnnotation(clzObj.getClass(), TableDataAnnotation.class);
+                List<DataTableClassMethod> methodList = getClassMethodByAnnotation(clzObj.getClass(), TableDataAnnotation.class);
 
-                for (Method method : methodList) {
+                for (DataTableClassMethod dataTableClassMethod : methodList) {
 
-                    TableDataAnnotation annotation = method.getAnnotation(TableDataAnnotation.class);
-                    String methodName = method.getDeclaringClass().getSimpleName() + "." + method.getName();
-                    System.out.println(methodName + "tableID:" + annotation.tableId());
-                    if (annotation.tableId().equals(model.getTableId())) {
-                        Parameter[] parameters = method.getParameters();
+                    //String methodName = method.getDeclaringClass().getSimpleName() + "." + method.getName();
+                    //System.out.println(methodName + "tableID:" + annotation.tableId());
+                    if (dataTableClassMethod.getDataTableId().equals(model.getTableId())) {
+                        Parameter[] parameters = dataTableClassMethod.getMethod().getParameters();
                         if (parameters.length > 0) {
                             for (final Parameter p : parameters) {
                                 Object obj = p.getType().newInstance();
@@ -185,7 +216,7 @@ public class SpringContextLoader implements ApplicationContextAware, ServletCont
 
                                 }
 
-                                result = method.invoke(clzObj, obj);
+                                result = dataTableClassMethod.getMethod().invoke(clzObj, obj);
                             }
                         }
                         break;

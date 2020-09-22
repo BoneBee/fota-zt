@@ -17,21 +17,21 @@ public class CarTypeAPartsEntity {
     /*
     车型Id
    */
-        public String CarTypeId;
+        public String carTypeId;
     /*
     车型名称
    */
-    public String CarTypeName;
+    public String carTypeName;
     /*
     零部件ID
    */
-    public String PartsId;
+    public String partsId;
     /*
     零部件名称
    */
-    public String PartsName;
+    public String partsName;
     /*
     零件升级顺序
      */
-    public String OrderNum;
+    public int orderNum;
 }

@@ -25,6 +25,6 @@ public class PartsBaseInfoEntity {
     /**
     零部件升级顺序
      */
-    public String orderNum;
+    public int orderNum;
 
 }

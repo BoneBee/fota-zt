@@ -9,6 +9,8 @@ import java.util.List;
 public interface TaskReviewTmpService {
     TaskReviewTmpBto getTaskReviewTmpById(String taskreviewtmpId);
 
+    TaskReviewTmpBto getTaskReviewTmpByName(String taskTmpName);
+
     List<TaskReviewTmpBto> getTaskReviewTmpByTmpType(int tmpType);
 
     int addTaskReviewTmp(TaskReviewTmpBto taskReviewTmpBto);

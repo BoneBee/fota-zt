@@ -1,7 +1,14 @@
 package com.intest.common.webcore;
 
+import com.intest.common.jwt.JwtUtil;
+import com.intest.common.jwt.constant.JwtConstant;
+import com.intest.dao.entity.UserBto;
+import com.intest.dao.entity.UserBtoExample;
+import com.intest.dao.mapper.UserBtoMapper;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.shiro.authc.AuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
@@ -9,6 +16,7 @@ import org.springframework.validation.ObjectError;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ValidationException;
 import java.util.Enumeration;
+import java.util.List;
 
 /**
  * @author zhanghui
@@ -67,5 +75,42 @@ public class BaseController {
         }
 
         return token;
+    }
+
+    @Autowired
+    private UserBtoMapper userMapper;
+
+    /**
+     * create by: zhanghui
+     * description: 获取当前登录用户的信息
+     * create time: 2020/9/15 16:46
+     *
+     * @param
+     * @return com.intest.dao.entity.UserBto
+     */
+    protected UserBto getAccount() {
+        UserBto userBto = null;
+        try {
+            String token = getAuthorizationToken();
+            // 解密获得account，用于和数据库进行查询
+            String account = JwtUtil.getClaim(token, JwtConstant.ACCOUNT);
+            // 帐号为空
+            if (StringUtils.isBlank(account)) {
+                throw new AuthenticationException("token中帐号为空(The account in Token is empty.)");
+            }
+            // 查询用户是否存在
+            UserBtoExample userBtoExample = new UserBtoExample();
+            UserBtoExample.Criteria criteria = userBtoExample.createCriteria();
+            criteria.andIsdeleteEqualTo((short) 1);
+            criteria.andAccountStatusEqualTo((short) 1);
+            criteria.andUserIdEqualTo(account);
+            List<UserBto> userBtoList = userMapper.selectByExample(userBtoExample);
+            if (userBtoList.size() > 0) {
+                userBto = userBtoList.get(0);
+            }
+        } catch (Exception ex) {
+            logger.error(ex);
+        }
+        return userBto;
     }
 }

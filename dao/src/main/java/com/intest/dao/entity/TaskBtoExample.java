@@ -1140,6 +1140,146 @@ public class TaskBtoExample {
             addCriterion("UPDATEBY not between", value1, value2, "updateby");
             return (Criteria) this;
         }
+
+        public Criteria andFkTaskreviewstatusvalueCodeIsNull() {
+            addCriterion("FK_TASKREVIEWSTATUSVALUE_CODE is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkTaskreviewstatusvalueCodeIsNotNull() {
+            addCriterion("FK_TASKREVIEWSTATUSVALUE_CODE is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkTaskreviewstatusvalueCodeEqualTo(String value) {
+            addCriterion("FK_TASKREVIEWSTATUSVALUE_CODE =", value, "fkTaskreviewstatusvalueCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkTaskreviewstatusvalueCodeNotEqualTo(String value) {
+            addCriterion("FK_TASKREVIEWSTATUSVALUE_CODE <>", value, "fkTaskreviewstatusvalueCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkTaskreviewstatusvalueCodeGreaterThan(String value) {
+            addCriterion("FK_TASKREVIEWSTATUSVALUE_CODE >", value, "fkTaskreviewstatusvalueCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkTaskreviewstatusvalueCodeGreaterThanOrEqualTo(String value) {
+            addCriterion("FK_TASKREVIEWSTATUSVALUE_CODE >=", value, "fkTaskreviewstatusvalueCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkTaskreviewstatusvalueCodeLessThan(String value) {
+            addCriterion("FK_TASKREVIEWSTATUSVALUE_CODE <", value, "fkTaskreviewstatusvalueCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkTaskreviewstatusvalueCodeLessThanOrEqualTo(String value) {
+            addCriterion("FK_TASKREVIEWSTATUSVALUE_CODE <=", value, "fkTaskreviewstatusvalueCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkTaskreviewstatusvalueCodeLike(String value) {
+            addCriterion("FK_TASKREVIEWSTATUSVALUE_CODE like", value, "fkTaskreviewstatusvalueCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkTaskreviewstatusvalueCodeNotLike(String value) {
+            addCriterion("FK_TASKREVIEWSTATUSVALUE_CODE not like", value, "fkTaskreviewstatusvalueCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkTaskreviewstatusvalueCodeIn(List<String> values) {
+            addCriterion("FK_TASKREVIEWSTATUSVALUE_CODE in", values, "fkTaskreviewstatusvalueCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkTaskreviewstatusvalueCodeNotIn(List<String> values) {
+            addCriterion("FK_TASKREVIEWSTATUSVALUE_CODE not in", values, "fkTaskreviewstatusvalueCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkTaskreviewstatusvalueCodeBetween(String value1, String value2) {
+            addCriterion("FK_TASKREVIEWSTATUSVALUE_CODE between", value1, value2, "fkTaskreviewstatusvalueCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkTaskreviewstatusvalueCodeNotBetween(String value1, String value2) {
+            addCriterion("FK_TASKREVIEWSTATUSVALUE_CODE not between", value1, value2, "fkTaskreviewstatusvalueCode");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkTaskreviewtmpIdIsNull() {
+            addCriterion("FK_TASKREVIEWTMP_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkTaskreviewtmpIdIsNotNull() {
+            addCriterion("FK_TASKREVIEWTMP_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkTaskreviewtmpIdEqualTo(String value) {
+            addCriterion("FK_TASKREVIEWTMP_ID =", value, "fkTaskreviewtmpId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkTaskreviewtmpIdNotEqualTo(String value) {
+            addCriterion("FK_TASKREVIEWTMP_ID <>", value, "fkTaskreviewtmpId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkTaskreviewtmpIdGreaterThan(String value) {
+            addCriterion("FK_TASKREVIEWTMP_ID >", value, "fkTaskreviewtmpId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkTaskreviewtmpIdGreaterThanOrEqualTo(String value) {
+            addCriterion("FK_TASKREVIEWTMP_ID >=", value, "fkTaskreviewtmpId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkTaskreviewtmpIdLessThan(String value) {
+            addCriterion("FK_TASKREVIEWTMP_ID <", value, "fkTaskreviewtmpId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkTaskreviewtmpIdLessThanOrEqualTo(String value) {
+            addCriterion("FK_TASKREVIEWTMP_ID <=", value, "fkTaskreviewtmpId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkTaskreviewtmpIdLike(String value) {
+            addCriterion("FK_TASKREVIEWTMP_ID like", value, "fkTaskreviewtmpId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkTaskreviewtmpIdNotLike(String value) {
+            addCriterion("FK_TASKREVIEWTMP_ID not like", value, "fkTaskreviewtmpId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkTaskreviewtmpIdIn(List<String> values) {
+            addCriterion("FK_TASKREVIEWTMP_ID in", values, "fkTaskreviewtmpId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkTaskreviewtmpIdNotIn(List<String> values) {
+            addCriterion("FK_TASKREVIEWTMP_ID not in", values, "fkTaskreviewtmpId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkTaskreviewtmpIdBetween(String value1, String value2) {
+            addCriterion("FK_TASKREVIEWTMP_ID between", value1, value2, "fkTaskreviewtmpId");
+            return (Criteria) this;
+        }
+
+        public Criteria andFkTaskreviewtmpIdNotBetween(String value1, String value2) {
+            addCriterion("FK_TASKREVIEWTMP_ID not between", value1, value2, "fkTaskreviewtmpId");
+            return (Criteria) this;
+        }
     }
 
     /**
