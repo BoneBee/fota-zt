@@ -89,8 +89,8 @@ public class FileParser {
      */
     public void parseFile(String fileId, String carTypeId) {
         FileBto fi = getFileById(fileId);
-        String filePath = File.separator + "tmp" + File.separator + "webhost" + File.separator + "packageFile" + File.separator + fi.getServersidepath();
-        String newPath = File.separator + "tmp" + File.separator + "webhost" + File.separator + "uploadFile" + File.separator + "temp";
+        String filePath = File.separator + "tmp" + File.separator + "webhost" + File.separator + "uploadFile"  + File.separator + fileId + ".zip";
+        String newPath = File.separator + "tmp" + File.separator + "webhost" + File.separator + "packageFile" + File.separator + fileId;
         File f = new File(filePath);
         ZipFile zipFile = null;
         if (f.isFile()) {
@@ -659,7 +659,7 @@ public class FileParser {
      * 将原始包及零件包上传到FTP服务器
      */
     private void uploadToFtp(){
-        String path = File.separator + "tmp" + File.separator + "webhost" + File.separator + "uploadFile" + File.separator + "temp";
+        String path = File.separator + "tmp" + File.separator + "webhost" + File.separator + "packageFile" + File.separator + largeZipResult.getFileId();
         try{
             for(ZipResult result : largeZipResult.getZipResults()){
                 String partsPackagePath = path + File.separator + result.getZipName() + ".zip";
