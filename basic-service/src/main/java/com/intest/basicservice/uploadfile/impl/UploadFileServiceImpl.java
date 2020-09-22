@@ -64,7 +64,7 @@ public class UploadFileServiceImpl implements UploadFileService {
             uploadFile.setCreateby("A7B3CC45-ED81-421D-A2C8-3CBD9036AE5A");
             result.setFileId(uploadFile.getUploadfileId());
             result.setUploadKind(model.getUploadType());
-            uploadFileDao.insert(uploadFile);
+            uploadFileDao.insertSelective(uploadFile);
 
             List<Integer> emptyArray = new ArrayList<>();
             result.setChunkDone(emptyArray);
@@ -133,7 +133,7 @@ public class UploadFileServiceImpl implements UploadFileService {
                 File newFile = new File(newPath);
                 if (uploadFile.getFilesize().longValue() != newFile.length()) {
                     uploadFile1.setUploadedsuccess((short)2);
-                    uploadFileDao.updateByExample(uploadFile1, example);
+                    uploadFileDao.updateByExampleSelective(uploadFile1, example);
                     result = false;
                 } else {
                     FileBto fileBto = new FileBto();
@@ -148,7 +148,7 @@ public class UploadFileServiceImpl implements UploadFileService {
                     fileBtoMapper.insertSelective(fileBto);
 
                     uploadFile1.setUploadedsuccess((short) 1);
-                    uploadFileDao.updateByExample(uploadFile1, example);
+                    uploadFileDao.updateByExampleSelective(uploadFile1, example);
                 }
             }
         } catch (Exception ex) {
