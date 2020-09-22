@@ -1,0 +1,483 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.intest.dao.mapper.TaskMapper">
+    <!--任务列表-->
+    <select id="selectTaskLst" resultType="com.intest.dao.entity.task.TaskBaseEntity"
+            parameterType="java.lang.String">
+        select ft.task_id                       as taskId,
+               ft.taskname                      as taskName,
+               ft.upgradetime                   as upgradeTime,
+               ft.planstarttime                 as planStartTime,
+               ft.planendtime                   as planEndTime,
+               ft.tasknote                      as taskNote,
+               ft.taskstrategy                  as taskStrategy,
+               ft.fk_taskstatusvalue_code       as taskStatusValueCode,
+               ftv1.name                        as taskStatusValueName,
+               ft.fk_packagetask_id             as packageTaskId,
+               ft.fk_cartype_id                 as carTypeId,
+               fct.cartypename                  as carTypeName,
+               ft.createat                      as createAt,
+               ft.createby                      as createBy,
+               ft.fk_taskreviewstatusvalue_code as taskReviewStatusValueCode,
+               ftv2.name                        as taskReviewStatusValueName,
+               ft.fk_taskreviewtmp_id           as taskReviewTmpId
+        from f_task ft
+                 left join f_cartype fct
+                           on ft.fk_cartype_id = fct.cartype_id
+                 left join f_taskstatusvalue ftv1
+                           on ft.fk_taskstatusvalue_code = ftv1.code
+                 left join f_taskstatusvalue ftv2
+                           on ft.fk_taskreviewstatusvalue_code = ftv2.code
+    </select>
+
+    <!--任务详情 基础信息tab页-->
+    <select id="getTaskDetaile" resultType="com.intest.dao.entity.task.TaskBaseEntity" parameterType="java.lang.String">
+        select ft.task_id                       as taskId,
+               ft.taskname                      as taskName,
+               ft.upgradetime                   as upgradeTime,
+               ft.planstarttime                 as planStartTime,
+               ft.planendtime                   as planEndTime,
+               ft.tasknote                      as taskNote,
+               ft.taskstrategy                  as taskStrategy,
+               (case ft.taskstrategy
+                    when 0 then '标准升级'
+                    when 1 then '静默升级'
+                    when 2 then
+                        '强制升级'
+                    else '' end)                as taskStrategyName,
+               ft.fk_taskstatusvalue_code       as taskStatusValueCode,
+               ftv1.name                        as taskStatusValueName,
+               ft.fk_packagetask_id             as packageTaskId,
+               ft.fk_cartype_id                 as carTypeId,
+               fct.cartypename                  as carTypeName,
+               ft.createat                      as createAt,
+               ft.createby                      as createBy,
+               ft.fk_taskreviewstatusvalue_code as taskReviewStatusValueCode,
+               ftv2.name                        as taskReviewStatusValueName,
+               ft.fk_taskreviewtmp_id           as taskReviewTmpId,
+               ft.taskuptime                    as taskUpTime,
+               ft.taskupby                      as taskUpBy,
+               ft.taskclosetime                 as taskCloseTime,
+               ft.taskcloseby                   as taskCloseBy,
+               ftl.terminalname                 as terminalName
+        from f_task ft
+                 left join f_cartype fct
+                           on ft.fk_cartype_id = fct.cartype_id
+                 left join f_taskstatusvalue ftv1
+                           on ft.fk_taskstatusvalue_code = ftv1.code
+                 left join f_taskstatusvalue ftv2
+                           on ft.fk_taskreviewstatusvalue_code = ftv2.code
+                 left join f_terminal ftl
+                           on ftl.terminal_id = fct.fk_terminal_id
+        WHERE ft.task_id = #{takId}
+    </select>
+
+    <!--任务详情 审核记录tab页-->
+    <select id="getTaskReviewLogs" resultType="com.intest.dao.entity.task.ReviewTaskLogsEntity"
+            parameterType="java.lang.String">
+        select ftt.tasknum             as taskNum,
+               f.task_id               as taskId,
+               ftl.f_taskreviewlogs_id as taskReviewLogsId,
+               ftl.fk_taskreviewtmp_id as taskReviewTmpId,
+               fu.user_id              as userId,
+               fu.real_name            as userName,
+               ftl.reviewlevel         as reviewLevel,
+               ftl.isadopt             as isAdopt,
+               ftl.createat as
+        from f_taskreviewlogs ftl
+            left join f_task f
+        on ftl.fk_task_id=f.task_id
+            left join f_taskreviewtmp ftt
+            on ftt.taskreviewtmp_id=ftl.fk_taskreviewtmp_id
+            left join f_user fu
+            on ftl.fk_user_id=fu.user_id
+        where f.task_id=#{taskId}
+
+    </select>
+
+    <!--创建任务-->
+    <insert id="addTask" parameterType="com.intest.dao.entity.task.TaskBaseEntity">
+        insert into F_TASK
+        (TASK_ID,
+         TASKNAME,
+         UPGRADETIME,
+         PLANSTARTTIME,
+         PLANENDTIME,
+         TASKNOTE,
+         TASKSTRATEGY,
+         FK_TASKSTATUSVALUE_CODE,
+         FK_PACKAGETASK_ID,
+         FK_CARTYPE_ID,
+         ISDELETE,
+         CREATEAT,
+         CREATEBY,
+         FK_TASKREVIEWSTATUSVALUE_CODE,
+         FK_TASKREVIEWTMP_ID)
+        values (#{taskId},
+                #{taskName},
+                #{upgradeTime},
+                #{planStartTime},
+                #{planEndTime},
+                #{taskNote},
+                #{taskStrategy},
+                '100',
+                #{packageTaskId},
+                #{carTypeId},
+                1,
+                sysdate,
+                #{createBy},
+                '001',
+                #{taskReviewTmpId})
+    </insert>
+
+    <!--添加车辆任务-->
+    <insert id="addTaskCar" parameterType="java.util.List">
+        insert into F_TASKCAR
+        (TASKCAR_ID,
+        FK_TASK_ID,
+        VIN,
+        FK_TASKCARSTATUSVALUE_CODE,
+        PROGRESS,
+        UPGRADETIME,
+        DESCRIPTION,
+        ISDELETE,
+        CREATEAT,
+        CREATEBY)
+        select t.* from (
+        <foreach collection="list" item="item" index="index" separator="UNION ALL">
+            SELECT
+            #{item.taskCarId} ,
+            #{item.taskId},
+            #{item.vin},
+            '0000',
+            0,
+            #{item.upgradeTime},
+            #{item.description},
+            1,
+            sysdate,
+            #{item.createBy}
+            from DUAL
+        </foreach>
+        ) t
+    </insert>
+
+
+    <!--发布关闭任务-->
+    <update id="operationTask" parameterType="com.intest.dao.entity.task.TaskParaEntity">
+        update F_TASK
+        set FK_TASKSTATUSVALUE_CODE=#{taskCode},
+        <if test=" taskReviewCode != null and taskReviewCode!='' ">
+            FK_TASKREVIEWSTATUSVALUE_CODE=#{taskReviewCode},
+        </if>
+        <if test=" reqType ==0 ">
+            TASKUPTIME=sysdate,
+            TASKUPBY=#{userId},
+        </if>
+        <if test=" reqType ==1 ">
+            TASKCLOSETIME=sysdate,
+            TASKCLOSEBY=#{userId},
+        </if>
+        UPDATEAT=sysdate,
+        UPDATEBY=#{userId},
+
+        where replace(TASK_ID, ' ', '') = #{taskId}
+    </update>
+
+    <!--关闭任务时，需同步关闭车辆任务-->
+    <update id="operationTaskCar" parameterType="com.intest.dao.entity.task.TaskParaEntity">
+        update F_TASKCAR
+        set FK_TASKCARSTATUSVALUE_CODE=#{taskCarCode},
+            UPDATEAT=sysdate,
+            UPDATEBY=#{updateBy}
+        where replace(FK_TASK_ID, ' ', '') = #{taskId}
+    </update>
+
+
+    <!--创建任务时查询车辆列表-->
+    <select id="getCar" parameterType="com.intest.dao.entity.partsConfig.PartsBaseConfig">
+
+    </select>
+
+    <!--创建完任务后查看任务车辆-->
+    <select id="getTaskCar" resultType="com.intest.dao.entity.task.TaskCarBaseEntity">
+        select f.task_id                     as taskId,
+               f.taskname                    as taskName,
+               f.taskstrategy                as taskStrategy,
+               (case f.taskstrategy
+                    when 0 then '标准升级'
+                    when 1 then '静默升级'
+                    when 2 then
+                        '强制升级'
+                    else '' end)             as taskStrategyName,
+               f.fk_taskstatusvalue_code     as taskStatusValueCode,
+               fts.name                      as taskStatusValueName,
+               ft.taskcar_id                 as taskCarId,
+               ft.vin,
+               ft.fk_taskcarstatusvalue_code as taskCarStatusValueCode,
+               ftcs.name                     as taskCarStatusValueName,
+               ft.progress,
+               f.planstarttime               as planStartTime,
+               f.planendtime                 as planEndTime,
+               fct.cartypename               as carTypeName
+        from f_Taskcar ft
+                 left join f_task f
+                           on ft.fk_task_id = f.task_id
+                 left join f_cartype fct
+                           on f.fk_cartype_id = fct.cartype_id
+                 left join f_taskcarstatusvalue ftcs
+                           on ftcs.code = ft.fk_taskcarstatusvalue_code
+                 left join f_taskstatusvalue fts
+                           on fts.code = f.fk_taskstatusvalue_code
+        where ft.fk_task_id = #{taskId}
+    </select>
+
+    <!--任务车辆  取消升级-->
+    <update id="cancelTaskCar" parameterType="com.intest.dao.entity.task.TaskParaEntity">
+        update F_TASKCAR
+        set FK_TASKCARSTATUSVALUE_CODE=#{taskCarCode},
+            UPDATEAT=sysdate,
+            UPDATEBY=#{updateBy}
+        where replace(TASKCAR_ID, ' ', '') = #{taskCarId}
+    </update>
+
+
+    <!--任务审核  任务列表-->
+    <select id="selectReviewedTaskLst" resultType="com.intest.dao.entity.task.TaskBaseEntity"
+            parameterType="java.lang.String">
+
+        select ft.task_id                       as taskId,
+               ft.taskname                      as taskName,
+               ft.upgradetime                   as upgradeTime,
+               ft.planstarttime                 as planStartTime,
+               ft.planendtime                   as planEndTime,
+               ft.tasknote                      as taskNote,
+               ft.taskstrategy                  as taskStrategy,
+               ft.fk_taskstatusvalue_code       as taskStatusValueCode,
+               ftv1.name                        as taskStatusValueName,
+               ft.fk_packagetask_id             as packageTaskId,
+               ft.fk_cartype_id                 as carTypeId,
+               fct.cartypename                  as carTypeName,
+               ft.createat                      as createAt,
+               ft.createby                      as createBy,
+               ft.fk_taskreviewstatusvalue_code as taskReviewStatusValueCode,
+               ftv2.name                        as taskReviewStatusValueName,
+               ft.fk_taskreviewtmp_id           as taskReviewTmpId,
+               ff.reviewLevelCode,
+               ff.reviewLevel,
+               ff.fk_user_id                    as reviewUserId,
+               ff.login_name                    as reviewLoginName,
+               ff.real_name                     as reviewRealName,
+               ftl.terminalname                 as terminalName
+        from f_task ft
+                 left join f_cartype fct
+                           on ft.fk_cartype_id = fct.cartype_id
+                 left join f_taskstatusvalue ftv1
+                           on ft.fk_taskstatusvalue_code = ftv1.code
+                 left join f_taskstatusvalue ftv2
+                           on ft.fk_taskreviewstatusvalue_code = ftv2.code
+                 left join f_terminal ftl
+                           on ftl.terminal_id = fct.fk_terminal_id
+                 left join (select concat('00', ftd.review_level) as reviewLevelCode,
+                                   ftd.review_level               as reviewLevel,
+                                   ftd.fk_taskreviewtmp_id,
+                                   ftd.fk_user_id,
+                                   fu.login_name,
+                                   fu.real_name
+                            from f_taskreviewtmpdetaile ftd
+                                     left join f_task f
+                                               on ftd.fk_taskreviewtmp_id = f.fk_taskreviewtmp_id
+                                     left join f_user fu
+                                               on fu.user_id = ftd.fk_user_id
+        ) ff
+                           on ff.fk_taskreviewtmp_id = ft.fk_taskreviewtmp_id
+
+        where replace(ft.fk_taskreviewstatusvalue_code, ' ', '') = ff.reviewLevelCode
+          and ft.fk_taskstatusvalue_code in ('100', '101', '001', '002', '003')
+
+
+    </select>
+    <!--任务审核  我的审核-->
+    <select id="selectMyReviewTaskLst" resultType="com.intest.dao.entity.task.TaskBaseEntity"
+            parameterType="com.intest.dao.entity.task.TaskParaEntity">
+
+        select ft.task_id                       as taskId,
+               ft.taskname                      as taskName,
+               ft.upgradetime                   as upgradeTime,
+               ft.planstarttime                 as planStartTime,
+               ft.planendtime                   as planEndTime,
+               ft.tasknote                      as taskNote,
+               ft.taskstrategy                  as taskStrategy,
+               ft.fk_taskstatusvalue_code       as taskStatusValueCode,
+               ftv1.name                        as taskStatusValueName,
+               ft.fk_packagetask_id             as packageTaskId,
+               ft.fk_cartype_id                 as carTypeId,
+               fct.cartypename                  as carTypeName,
+               ft.createat                      as createAt,
+               ft.createby                      as createBy,
+               ft.fk_taskreviewstatusvalue_code as taskReviewStatusValueCode,
+               ftv2.name                        as taskReviewStatusValueName,
+               ft.fk_taskreviewtmp_id           as taskReviewTmpId,
+               ff.reviewLevelCode,
+               ff.reviewLevel,
+               ff.fk_user_id                    as reviewUserId,
+               ff.login_name                    as reviewLoginName,
+               ff.real_name                     as reviewRealName,
+               ftl.terminalname                 as terminalName
+        from f_task ft
+                 left join f_cartype fct
+                           on ft.fk_cartype_id = fct.cartype_id
+                 left join f_taskstatusvalue ftv1
+                           on ft.fk_taskstatusvalue_code = ftv1.code
+                 left join f_taskstatusvalue ftv2
+                           on ft.fk_taskreviewstatusvalue_code = ftv2.code
+                 left join f_terminal ftl
+                           on ftl.terminal_id = fct.fk_terminal_id
+                 left join (select concat('00', ftd.review_level) as reviewLevelCode,
+                                   ftd.review_level               as reviewLevel,
+                                   ftd.fk_taskreviewtmp_id,
+                                   ftd.fk_user_id,
+                                   fu.login_name,
+                                   fu.real_name
+                            from f_taskreviewtmpdetaile ftd
+                                     left join f_task f
+                                               on ftd.fk_taskreviewtmp_id = f.fk_taskreviewtmp_id
+                                     left join f_user fu
+                                               on fu.user_id = ftd.fk_user_id
+                            where ftd.fk_user_id = #{userId}
+                              and f.task_id = #{taskId}
+                            ) ff
+                           on ff.fk_taskreviewtmp_id = ft.fk_taskreviewtmp_id
+        where replace(ft.fk_taskreviewstatusvalue_code, ' ', '') = ff.reviewLevelCode
+          and ft.fk_taskstatusvalue_code in ('100', '101', '001', '002', '003')
+
+    </select>
+
+
+    <!--任务审核  添加审核记录-->
+
+    <insert id="addReviewTask" parameterType="com.intest.dao.entity.task.ReviewTaskLogsEntity">
+        insert into f_taskreviewlogs(F_TASKREVIEWLOGS_ID, FK_TASK_ID, FK_TASKREVIEWTMP_ID, FK_USER_ID, REVIEWLEVEL,
+                                     ISADOPT, REMARK, CREATEAT, CREATEBY)
+        values (#{taskReviewLogsId}, #{taskId}, #{taskReviewTmpId}, #{userId}, #{reviewLevel}, #{isAdopt}, #{remark},
+                sysdate, #{createBy})
+
+    </insert>
+
+
+    <!--获取车辆升级日志-->
+    <select id="selectTaskCarLog" resultType="com.intest.dao.entity.task.TaskCarLogsEntity"
+            parameterType="java.lang.String">
+        select f.taskcarstatuslog_id        as taskCarStatusLogId,
+               f.fk_taskcar_id              as taskCarId,
+               f.fk_taskcarstatusvalue_code as taskCarStatusValueCode,
+               ftv.name                     as taskCarStatusValueName,
+               f.note,
+               f.tuploadat                  as tupLoadAt,
+               f.fk_platformapilog_id       as platformApiLogId,
+               f.createat                   as createAt,
+               fcp.cartypename              as carTypeName,
+               ftc.vin,
+               fk.taskname                  as taskName
+        from F_TaskCarStatusLog f
+                 left join f_taskcarstatusvalue ftv
+                           on f.fk_taskcarstatusvalue_code = ftv.code
+        where f.fk_taskcar_id = #{taskCarId}
+        order by f.createat desc
+
+    </select>
+
+    <!--获取任务车辆数量数-->
+    <select id="selectTaskCarNum" resultType="com.intest.dao.entity.task.TaskCarInfoNumsEntity"
+            parameterType="java.lang.String">
+        select f1.carTotalNum,
+               f2.carComNum,
+               f3.carUpNum,
+               f4.carFailedNum,
+               f5.carCancelNum
+        from (select count(*) as carTotalNum
+              from f_taskcar f
+              where f.fk_task_id = #{taskId}) f1,
+             (select count(*) as carComNum
+              from f_taskcar f
+              where f.fk_taskcarstatusvalue_code in ('1053')
+                and f.fk_task_id = #{taskId}) f2,
+             (select count(*) as carUpNum
+              from f_taskcar f
+              where f.fk_taskcarstatusvalue_code not in ('1053')
+                and f.fk_task_id = #{taskId}) f3,
+             (select count(*) as carFailedNum
+              from f_taskcar f
+              where f.fk_taskcarstatusvalue_code in ('1104')
+                and f.fk_task_id = #{taskId}) f4,
+             (select count(*) as carCancelNum
+              from f_taskcar f
+              where f.fk_taskcarstatusvalue_code in ('1070')
+                and f.fk_task_id = #{taskId}) f5
+
+
+    </select>
+
+
+    <!--创建任务时，根据车型ID获取对应的升级包-->
+    <select id="getPackageByCarType" resultType="com.intest.dao.entity.task.PackageByCarTypeEntity"
+            parameterType="java.lang.String">
+        select t.packagetask_id as packageTaskId,
+               t.packagename    as packageName,
+               fct.cartypename  as carTypeName,
+               fpv.name         as packageTaskStatusValueName,
+               t.createat       as createAt,
+               t.createby       as createBy
+        from F_PACKAGETASK t
+                 left join f_cartype fct
+                           on t.fk_cartype_id = fct.cartype_id
+                 left join f_packagetaskstatusvalue fpv
+                           on t.fk_packagetaskstatusvalue_code = fpv.code
+        where t.fk_packagetaskstatusvalue_code = '105'
+          and t.fk_cartype_id = #{carTypeId}
+
+
+    </select>
+
+
+    <!--创建任务时，根据车型ID获取对应的vin集合-->
+    <select id="getVinByCarType" resultType="com.intest.dao.entity.task.VinListByCarTypeEntity"
+            parameterType="java.lang.String">
+        select f.vin,
+               fct.cartypename  as carTypeName,
+               ftl.terminalname as terminalName
+        from f_car f
+                 left join f_cartype fct
+                           on f.fk_cartype_id = fct.cartype_id
+                 left join f_terminal ftl
+                           on ftl.terminal_id = fct.fk_terminal_id
+        where f.fk_cartype_id = #{carTypeId}
+
+    </select>
+
+    <!--根据VIN检查该车是否有任务-->
+    <select id="getVinIsTasking" resultType="java.lang.Integer"
+            parameterType="java.lang.String">
+        select count(*) as countNum
+        from f_car fc
+                 left join f_taskcar ftc
+                           on fc.vin = ftc.vin
+        where ftc.fk_taskcarstatusvalue_code in ('1', '2')
+          and fc.vin = #{vin}
+    </select>
+
+
+    <!--获取默认的任务审批模板信息-->
+    <select id="getTaskReviewTmp" resultType="com.intest.dao.entity.task.TaskReviewTmpEntity"
+            parameterType="java.lang.String">
+        select t.taskreviewtmp_id    as taskReviewTmpId,
+               t.task_reviewtmp_name as taskReviewTmpName,
+               t.tmp_type            as tmpType,
+               t.state
+        from f_taskreviewtmp t
+        where t.tmp_type = 0
+          and t.state = 0
+          and t.isdelete = 1
+    </select>
+
+
+</mapper>

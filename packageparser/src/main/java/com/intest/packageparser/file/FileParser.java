@@ -89,8 +89,8 @@ public class FileParser {
      */
     public void parseFile(String fileId, String carTypeId) {
         FileBto fi = getFileById(fileId);
-        String filePath = File.separator + "tmp" + File.separator + "webhost" + File.separator + "packageFile" + File.separator + fi.getServersidepath();
-        String newPath = File.separator + "tmp" + File.separator + "webhost" + File.separator + "uploadFile" + File.separator + "temp";
+        String filePath = File.separator + "tmp" + File.separator + "webhost" + File.separator + "uploadFile"  + File.separator + fileId + ".zip";
+        String newPath = File.separator + "tmp" + File.separator + "webhost" + File.separator + "packageFile" + File.separator + fileId;
         File f = new File(filePath);
         ZipFile zipFile = null;
         if (f.isFile()) {
@@ -146,9 +146,15 @@ public class FileParser {
                         CarTypeBto carTypeBto = carTypeBtoMapper.selectByPrimaryKey(carTypeId);
                         String carTypeName = carTypeBto.getCartypename();
                         if(!zipResult.getCarType().equals(carTypeName)){
-                            String version = zipResult.getCarType().replace(carTypeName, "");
-                            zipResult.setCarType(carTypeName);
-                            zipResult.setVersion(version);
+                            if(zipResult.getCarType().contains(carTypeName)){
+                                String version = zipResult.getCarType().replace(carTypeName, "");
+                                zipResult.setCarType(carTypeName);
+                                zipResult.setVersion(version);
+                            }else{
+                                String message = "零件包【"+fileName+"】名称中车型名称必须改为【" + carTypeName + "】";
+                                errors.add(message);
+                                largeZipResult.setSuccess(false);
+                            }
                         }
 
                         zipResult.setSuffix(suffix);
@@ -175,7 +181,9 @@ public class FileParser {
                 if (zipFile != null) {
                     try {
                         zipFile.close();
-                        //deleteUncompressFiles(newPath);
+                        if(!largeZipResult.isSuccess()){
+                            deleteUncompressFiles(newPath);
+                        }
                     } catch (IOException e) {
                         // TODO Auto-generated catch block
                         e.printStackTrace();
@@ -651,21 +659,15 @@ public class FileParser {
      * 将原始包及零件包上传到FTP服务器
      */
     private void uploadToFtp(){
-        String path = File.separator + "tmp" + File.separator + "webhost" + File.separator + "packageFile";
-        String packagePath = path + File.separator + largeZipResult.getFileId() + ".zip";
-        File file = new File(packagePath);
+        String path = File.separator + "tmp" + File.separator + "webhost" + File.separator + "packageFile" + File.separator + largeZipResult.getFileId();
         try{
-            FtpClientUtil.uploadFile(largeZipResult.getFileId() + ".zip", new FileInputStream(file));
             for(ZipResult result : largeZipResult.getZipResults()){
-                path = File.separator + "tmp" + File.separator + "webhost" + File.separator + "uploadFile" + File.separator + "temp";
                 String partsPackagePath = path + File.separator + result.getZipName() + ".zip";
-                file = new File(partsPackagePath);
-                FtpClientUtil.uploadFile(result.getFileId() + ".zip", new FileInputStream(file));
+                File file = new File(partsPackagePath);
+                FtpClientUtil.uploadFile(result.getZipId() + ".zip", new FileInputStream(file));
             }
         }catch (Exception e){
             e.printStackTrace();
-        } finally {
-            deleteUncompressFiles(path);
         }
     }
 

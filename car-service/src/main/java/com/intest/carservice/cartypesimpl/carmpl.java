@@ -122,9 +122,8 @@ public class carmpl implements CarService {
         CarBtoExample carExample = new CarBtoExample();
 
         try {
-            String getsort = carq.getSort();
 
-            if (!getsort.equals("")) {
+            if (carq.getSort() != null && !carq.getSort().equals("")) {
                 String sort = carTools.replaceCharacter(carq.getSort());
                 carExample.setOrderByClause(sort);
             }
@@ -177,7 +176,13 @@ public class carmpl implements CarService {
             CarRespone crp = new CarRespone();
             //给车辆赋值基本信息
             crp.setCarId(car.getCarId());
-            crp.setCarTypeName(car.getCarTypeName());
+            if (car.getCarTypeName() == null || car.getCarTypeName().equals("")) {
+                crp.setCarTypeName("");
+            }
+            else {
+                crp.setCarTypeName(car.getCarTypeName());
+            }
+
             crp.setAddType(car.getAddType().toString());
             crp.setIndex(index);
             crp.setTerminal(car.getTerminalCode());
