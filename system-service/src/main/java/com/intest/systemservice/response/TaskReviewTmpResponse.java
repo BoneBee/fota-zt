@@ -111,6 +111,8 @@ public class TaskReviewTmpResponse {
     public static class DetailBean {
         private String id;
         private String userId;
+        private String name;
+        private String realName;
         private int level;
 
         public String getId() {
@@ -123,6 +125,22 @@ public class TaskReviewTmpResponse {
 
         public String getUserId() {
             return userId;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getRealName() {
+            return realName;
+        }
+
+        public void setRealName(String realName) {
+            this.realName = realName;
         }
 
         public void setUserId(String userId) {

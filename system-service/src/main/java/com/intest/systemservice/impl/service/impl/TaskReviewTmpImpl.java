@@ -5,12 +5,10 @@ import com.github.pagehelper.PageInfo;
 import com.intest.common.exception.CustomException;
 import com.intest.common.result.PagerDataBaseVO;
 import com.intest.common.tableData.TableDataAnnotation;
-import com.intest.dao.entity.TaskReviewTmpBto;
-import com.intest.dao.entity.TaskReviewTmpBtoExample;
-import com.intest.dao.entity.TaskReviewTmpDetileBto;
-import com.intest.dao.entity.TaskReviewTmpDetileBtoExample;
+import com.intest.dao.entity.*;
 import com.intest.dao.mapper.TaskReviewTmpBtoMapper;
 import com.intest.dao.mapper.TaskReviewTmpDetileBtoMapper;
+import com.intest.dao.mapper.UserBtoMapper;
 import com.intest.systemservice.impl.service.TaskReviewTmpPage;
 import com.intest.systemservice.impl.service.TaskReviewTmpService;
 import com.intest.systemservice.response.TaskReviewTmpResponse;
@@ -28,6 +26,9 @@ public class TaskReviewTmpImpl implements TaskReviewTmpService {
 
     @Autowired
     TaskReviewTmpDetileBtoMapper detileBtoMapper;
+
+    @Autowired
+    UserBtoMapper userBtoMapper;
 
     @Override
     public TaskReviewTmpBto getTaskReviewTmpById(String taskreviewtmpId) {
@@ -118,9 +119,12 @@ public class TaskReviewTmpImpl implements TaskReviewTmpService {
             List<TaskReviewTmpDetileBto> detileBtos = detileBtoMapper.selectByExample(example);
             List<TaskReviewTmpResponse.DetailBean> detailBeans = new ArrayList<>();
             for (TaskReviewTmpDetileBto bto : detileBtos) {
+                UserBto userBto = userBtoMapper.selectByPrimaryKey(bto.getFkUserId());
                 TaskReviewTmpResponse.DetailBean detailBean = new TaskReviewTmpResponse.DetailBean();
                 detailBean.setId(bto.getTaskreviewtmpdetaileId());
                 detailBean.setUserId(bto.getFkUserId());
+                detailBean.setName(userBto.getLoginName());
+                detailBean.setRealName(userBto.getRealName());
                 detailBean.setLevel(bto.getReviewLevel());
                 detailBeans.add(detailBean);
             }

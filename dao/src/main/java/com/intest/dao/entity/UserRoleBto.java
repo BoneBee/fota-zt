@@ -2,16 +2,11 @@ package com.intest.dao.entity;
 
 import java.util.Date;
 
-public class TaskReviewTmpDetileBto {
+public class UserRoleBto {
     /**
-     * 主键ID TASKREVIEWTMPDETAILE_ID
+     * 用户角色ID USER_ROLE_ID
      */
-    private String taskreviewtmpdetaileId;
-
-    /**
-     * 审批流程模块外键ID FK_TASKREVIEWTMP_ID
-     */
-    private String fkTaskreviewtmpId;
+    private String userRoleId;
 
     /**
      * 用户ID FK_USER_ID
@@ -19,12 +14,12 @@ public class TaskReviewTmpDetileBto {
     private String fkUserId;
 
     /**
-     * 审批等级 1-一级审核，2-二级审核，3-三级审核； REVIEW_LEVEL
+     * 角色ID FK_ROLE_ID
      */
-    private Short reviewLevel;
+    private String fkRoleId;
 
     /**
-     * 是否删除 1-未删除，0-已删除； ISDELETE
+     * 是否删除（1-未删除，0-已删除；） ISDELETE
      */
     private Short isdelete;
 
@@ -49,49 +44,29 @@ public class TaskReviewTmpDetileBto {
     private String updateby;
 
     /**
-     * 主键ID
+     * 用户角色ID
      * @author xialiang
-     * @date 2020-09-21 12:14:51
-     * @return TASKREVIEWTMPDETAILE_ID 主键ID
+     * @date 2020-09-21 12:17:15
+     * @return USER_ROLE_ID 用户角色ID
      */
-    public String getTaskreviewtmpdetaileId() {
-        return taskreviewtmpdetaileId;
+    public String getUserRoleId() {
+        return userRoleId;
     }
 
     /**
-     * 主键ID
+     * 用户角色ID
      * @author xialiang
-     * @date 2020-09-21 12:14:51
-     * @param taskreviewtmpdetaileId 主键ID
+     * @date 2020-09-21 12:17:15
+     * @param userRoleId 用户角色ID
      */
-    public void setTaskreviewtmpdetaileId(String taskreviewtmpdetaileId) {
-        this.taskreviewtmpdetaileId = taskreviewtmpdetaileId == null ? null : taskreviewtmpdetaileId.trim();
-    }
-
-    /**
-     * 审批流程模块外键ID
-     * @author xialiang
-     * @date 2020-09-21 12:14:51
-     * @return FK_TASKREVIEWTMP_ID 审批流程模块外键ID
-     */
-    public String getFkTaskreviewtmpId() {
-        return fkTaskreviewtmpId;
-    }
-
-    /**
-     * 审批流程模块外键ID
-     * @author xialiang
-     * @date 2020-09-21 12:14:51
-     * @param fkTaskreviewtmpId 审批流程模块外键ID
-     */
-    public void setFkTaskreviewtmpId(String fkTaskreviewtmpId) {
-        this.fkTaskreviewtmpId = fkTaskreviewtmpId == null ? null : fkTaskreviewtmpId.trim();
+    public void setUserRoleId(String userRoleId) {
+        this.userRoleId = userRoleId == null ? null : userRoleId.trim();
     }
 
     /**
      * 用户ID
      * @author xialiang
-     * @date 2020-09-21 12:14:51
+     * @date 2020-09-21 12:17:15
      * @return FK_USER_ID 用户ID
      */
     public String getFkUserId() {
@@ -101,7 +76,7 @@ public class TaskReviewTmpDetileBto {
     /**
      * 用户ID
      * @author xialiang
-     * @date 2020-09-21 12:14:51
+     * @date 2020-09-21 12:17:15
      * @param fkUserId 用户ID
      */
     public void setFkUserId(String fkUserId) {
@@ -109,40 +84,40 @@ public class TaskReviewTmpDetileBto {
     }
 
     /**
-     * 审批等级 1-一级审核，2-二级审核，3-三级审核；
+     * 角色ID
      * @author xialiang
-     * @date 2020-09-21 12:14:51
-     * @return REVIEW_LEVEL 审批等级 1-一级审核，2-二级审核，3-三级审核；
+     * @date 2020-09-21 12:17:15
+     * @return FK_ROLE_ID 角色ID
      */
-    public Short getReviewLevel() {
-        return reviewLevel;
+    public String getFkRoleId() {
+        return fkRoleId;
     }
 
     /**
-     * 审批等级 1-一级审核，2-二级审核，3-三级审核；
+     * 角色ID
      * @author xialiang
-     * @date 2020-09-21 12:14:51
-     * @param reviewLevel 审批等级 1-一级审核，2-二级审核，3-三级审核；
+     * @date 2020-09-21 12:17:15
+     * @param fkRoleId 角色ID
      */
-    public void setReviewLevel(Short reviewLevel) {
-        this.reviewLevel = reviewLevel;
+    public void setFkRoleId(String fkRoleId) {
+        this.fkRoleId = fkRoleId == null ? null : fkRoleId.trim();
     }
 
     /**
-     * 是否删除 1-未删除，0-已删除；
+     * 是否删除（1-未删除，0-已删除；）
      * @author xialiang
-     * @date 2020-09-21 12:14:51
-     * @return ISDELETE 是否删除 1-未删除，0-已删除；
+     * @date 2020-09-21 12:17:15
+     * @return ISDELETE 是否删除（1-未删除，0-已删除；）
      */
     public Short getIsdelete() {
         return isdelete;
     }
 
     /**
-     * 是否删除 1-未删除，0-已删除；
+     * 是否删除（1-未删除，0-已删除；）
      * @author xialiang
-     * @date 2020-09-21 12:14:51
-     * @param isdelete 是否删除 1-未删除，0-已删除；
+     * @date 2020-09-21 12:17:15
+     * @param isdelete 是否删除（1-未删除，0-已删除；）
      */
     public void setIsdelete(Short isdelete) {
         this.isdelete = isdelete;
@@ -151,7 +126,7 @@ public class TaskReviewTmpDetileBto {
     /**
      * 创建时间
      * @author xialiang
-     * @date 2020-09-21 12:14:51
+     * @date 2020-09-21 12:17:15
      * @return CREATEAT 创建时间
      */
     public Date getCreateat() {
@@ -161,7 +136,7 @@ public class TaskReviewTmpDetileBto {
     /**
      * 创建时间
      * @author xialiang
-     * @date 2020-09-21 12:14:51
+     * @date 2020-09-21 12:17:15
      * @param createat 创建时间
      */
     public void setCreateat(Date createat) {
@@ -171,7 +146,7 @@ public class TaskReviewTmpDetileBto {
     /**
      * 创建人
      * @author xialiang
-     * @date 2020-09-21 12:14:51
+     * @date 2020-09-21 12:17:15
      * @return CREATEBY 创建人
      */
     public String getCreateby() {
@@ -181,7 +156,7 @@ public class TaskReviewTmpDetileBto {
     /**
      * 创建人
      * @author xialiang
-     * @date 2020-09-21 12:14:51
+     * @date 2020-09-21 12:17:15
      * @param createby 创建人
      */
     public void setCreateby(String createby) {
@@ -191,7 +166,7 @@ public class TaskReviewTmpDetileBto {
     /**
      * 修改时间
      * @author xialiang
-     * @date 2020-09-21 12:14:51
+     * @date 2020-09-21 12:17:15
      * @return UPDATEAT 修改时间
      */
     public Date getUpdateat() {
@@ -201,7 +176,7 @@ public class TaskReviewTmpDetileBto {
     /**
      * 修改时间
      * @author xialiang
-     * @date 2020-09-21 12:14:51
+     * @date 2020-09-21 12:17:15
      * @param updateat 修改时间
      */
     public void setUpdateat(Date updateat) {
@@ -211,7 +186,7 @@ public class TaskReviewTmpDetileBto {
     /**
      * 修改人
      * @author xialiang
-     * @date 2020-09-21 12:14:51
+     * @date 2020-09-21 12:17:15
      * @return UPDATEBY 修改人
      */
     public String getUpdateby() {
@@ -221,7 +196,7 @@ public class TaskReviewTmpDetileBto {
     /**
      * 修改人
      * @author xialiang
-     * @date 2020-09-21 12:14:51
+     * @date 2020-09-21 12:17:15
      * @param updateby 修改人
      */
     public void setUpdateby(String updateby) {

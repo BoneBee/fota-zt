@@ -11,4 +11,6 @@ public interface TaskReviewTmpDetileService {
     int updateTaskReviewTmpDetile(TaskReviewTmpDetileBto taskReviewTmpDetileBto);
 
     int deleteTaskReviewTmpDetile(String taskreviewtmpdetaileId);
+
+    int deleteTaskReviewTmpDetileById(String taskreviewtmpId);
 }
