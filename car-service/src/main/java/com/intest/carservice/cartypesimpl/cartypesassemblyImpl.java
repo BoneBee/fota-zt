@@ -154,6 +154,36 @@ public class cartypesassemblyImpl implements CarTypesService {
                 }
 
                 respone.setCartypeId(ctb.getCartypeId());
+
+                PartsBtoExample partEx = new PartsBtoExample();
+                PartsBtoExample.Criteria ciapart = partEx.createCriteria();
+                ciapart.andFkCartypeIdEqualTo(ctb.getCartypeId());
+
+                //查找终端的零件
+                List<PartsBto> pBto = partMapper.selectByExample(partEx);
+
+                List<CarTypeEcus> ecus = new ArrayList<>();
+
+                int ecuindex = 0;
+                for (PartsBto pbto : pBto) {
+
+                    CarTypeEcus ecu = new CarTypeEcus();
+                    //获取零件的零件类型
+                    PartsTypeBto ptbto = partsTypeBtoMapper.selectByPrimaryKey(pbto.getFkPartstypeId());
+                    //零件类型名
+                    ecu.setTypeName(ptbto.getPartstypename());
+                    //零件名
+                    ecu.setPartName(pbto.getPartsname());
+                    //零件ID
+                    ecu.setPartsId(pbto.getPartsId());
+                    //零件index
+                    ecu.setIndex(ecuindex += 1);
+
+                    ecus.add(ecu);
+                }
+
+                respone.setEcus(ecus);
+
                 ctRespones.add(respone);
             }
         }
@@ -197,6 +227,8 @@ public class cartypesassemblyImpl implements CarTypesService {
             ecu.setTypeName(ptbto.getPartstypename());
             //零件名
             ecu.setPartName(pbto.getPartsname());
+            //零件ID
+            ecu.setPartsId(pbto.getPartsId());
             //零件index
             ecu.setIndex(ecuindex += 1);
 
@@ -388,6 +420,7 @@ public class cartypesassemblyImpl implements CarTypesService {
         cbto.setCartypename(addcartype.getCarTypeName());
         cbto.setFkTerminalId(addcartype.getTerminalId());
         cbto.setRemark(addcartype.getRemark());
+        cbto.setIsdelete((short)1);
         List<String> partTypes = addcartype.getPartTypes();
         int partCount = 0;
         for (String pId : partTypes) {
@@ -400,7 +433,7 @@ public class cartypesassemblyImpl implements CarTypesService {
         //修改车型
         int i = 0;
         if (partCount == partTypes.size()) {
-            i = cartypeMapper.updateByPrimaryKey(cbto);
+            i = cartypeMapper.updateByPrimaryKeySelective(cbto);
         }
         return i;
     }
@@ -430,12 +463,17 @@ public class cartypesassemblyImpl implements CarTypesService {
         CarTypeBtoExample.Criteria cia = carTypeEx.createCriteria();
         cia.andCartypenameEqualTo(carType.getCarTypeName());
 
-        //查找vin
+        if(!carType.getCarTypeId().equals("")){
+            cia.andCartypeIdEqualTo(carType.getCarTypeId());
+        }
+        //查找车型
         List<CarTypeBto> ctBto = cartypeMapper.selectByExample(carTypeEx);
 
         String Msg = "";
         if (ctBto.size() > 0) {
-            Msg = String.format("车型：%s 已经存在", carType.getCarTypeName());
+            if(carType.getCarTypeId().equals("")) {
+                Msg = String.format("车型：%s 已经存在", carType.getCarTypeName());
+            }
         }
         return Msg;
     }

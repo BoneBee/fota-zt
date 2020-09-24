@@ -5,10 +5,15 @@ import java.util.List;
 public class CarRespone {
 
     private int index;
+
     private String carTypeName;
     private String terminal;
     //public String pCompany;
+    private String carTypeId;
+    private String terminalId;
+    private String terminalPro;
     private String terminalCode;
+
     private String vin;
     private String createAt;
     private String createBy;
@@ -58,6 +63,30 @@ public class CarRespone {
 
     public void setTerminal(String terminal) {
         this.terminal = terminal;
+    }
+
+    public String getCarTypeId() {
+        return carTypeId;
+    }
+
+    public void setCarTypeId(String carTypeId) {
+        this.carTypeId = carTypeId;
+    }
+
+    public String getTerminalId() {
+        return terminalId;
+    }
+
+    public void setTerminalId(String terminalId) {
+        this.terminalId = terminalId;
+    }
+
+    public String getTerminalPro() {
+        return terminalPro;
+    }
+
+    public void setTerminalPro(String terminalPro) {
+        this.terminalPro = terminalPro;
     }
 
     public String getVin() {

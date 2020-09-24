@@ -98,7 +98,12 @@ public class CarTypesController {
             PagerDataBaseVO pgVO = new PagerDataBaseVO();
             String ErrMsg = cartypesTypeImpl.delCarType(carTypes, buf);
             result.setMsg(ErrMsg);
-            result.setSuccess(1);
+            if (ErrMsg.equals("") || ErrMsg == null) {
+                result.setSuccess(1);
+            }
+            else {
+                result.setSuccess(0);
+            }
         } catch (Exception ex) {
             result.setMsg(ex.getMessage());
             result.setSuccess(0);
@@ -145,7 +150,12 @@ public class CarTypesController {
         try {
             delCarRespone dels = mpl.delCars(carArr);
             result.setMsg(dels.getSuccessMsg());
-            result.setSuccess(1);
+            if (dels.getSuccessMsg() == null || dels.getSuccessMsg().equals("")) {
+                result.setSuccess(1);
+            }
+            else {
+                result.setSuccess(0);
+            }
         } catch (Exception ex) {
             result.setSuccess(0);
         }
@@ -186,10 +196,8 @@ public class CarTypesController {
         Result result = new Result();
         try {
             CarAddRespone addCar = mpl.addCar(pcar);
-
             result.setSuccess(addCar.getAddCarResult());
             result.setMsg(addCar.getMsg());
-
         } catch (Exception ex) {
             result.setSuccess(0);
             result.setMsg(ex.getMessage());
@@ -204,7 +212,7 @@ public class CarTypesController {
         Result result = new Result();
         try {
             int i = mpl.mdfCar(pcar);
-            if (i == 1) {
+            if (i >= 1) {
                 result.setSuccess(1);
             }
             else {

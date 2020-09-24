@@ -7,6 +7,8 @@ public class CarBtoExtend {
 
     //    private String terminal;
     //public String pCompany;
+    private String terminalId;
+    private String terminalPro;
     private String terminalCode;
     private String vin;
     private String createAt;
