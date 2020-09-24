@@ -45,6 +45,19 @@ spring:
       filters: stat,wall,slf4j
       # 通过connectionProperties属性来打开mergeSql功能；打开sql记录
       connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
+      ## Email - start
+  mail:
+    host: smtp.126.com
+    username: testcar@126.com
+    password: BTHSVBTDJRABAUOJ
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+  ## Email - end
     #redis配置
 redis:
   # Redis服务器地址
@@ -115,3 +128,4 @@ config:
 shiro:
   annotations.enabled: false
 ## shiro - end
+

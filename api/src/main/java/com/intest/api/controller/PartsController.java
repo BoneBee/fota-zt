@@ -151,7 +151,7 @@ public class PartsController {
     @RequestMapping(value = "/api/basic/part/addPartMessage", method = RequestMethod.POST)
     public ResponseBean addPartMessage(@RequestBody PartsMessageRequest partsMessageRequest) {
         ValidateHelper.validateNull(partsMessageRequest, new String[]{"partsName", "partsTypeId"});
-        if (partsMessageRequest.getPartsName().length() > 10 || partsMessageRequest.getPartsName().length() < 5 || !CheckPwd.checkUpperCase(partsMessageRequest.getPartsName())) {
+        if (partsMessageRequest.getPartsName().length() > 10 || partsMessageRequest.getPartsName().length() < 5) {
             throw new CustomException("零部件信息名称不合法");
         }
 

@@ -99,7 +99,7 @@ public class FtpClientUtil {
             // 设置为被动模式
             ftp.enterLocalPassiveMode();
             ftp.makeDirectory(FTP_BASEPATH);
-            ftp.changeWorkingDirectory(FTP_BASEPATH);
+            ftp.changeWorkingDirectory("pkfile/");
             // originFilePath就是上传文件的文件名，建议使用生成的唯一命名，中文命名最好做转码
             boolean a = ftp.storeFile(remoteFileName, input);
             System.out.println("要上传的原始文件名为：" + remoteFileName + ", 上传结果：" + a);

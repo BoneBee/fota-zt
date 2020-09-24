@@ -79,9 +79,19 @@ public class TaskBto {
     private String updateby;
 
     /**
+     * 任务审批状态 FK_TASKREVIEWSTATUSVALUE_CODE
+     */
+    private String fkTaskreviewstatusvalueCode;
+
+    /**
+     * 任务审批流程ID FK_TASKREVIEWTMP_ID
+     */
+    private String fkTaskreviewtmpId;
+
+    /**
      * null
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @return TASK_ID null
      */
     public String getTaskId() {
@@ -91,7 +101,7 @@ public class TaskBto {
     /**
      * null
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @param taskId null
      */
     public void setTaskId(String taskId) {
@@ -101,7 +111,7 @@ public class TaskBto {
     /**
      * null
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @return TASKNAME null
      */
     public String getTaskname() {
@@ -111,7 +121,7 @@ public class TaskBto {
     /**
      * null
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @param taskname null
      */
     public void setTaskname(String taskname) {
@@ -121,7 +131,7 @@ public class TaskBto {
     /**
      * null
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @return UPGRADETIME null
      */
     public Date getUpgradetime() {
@@ -131,7 +141,7 @@ public class TaskBto {
     /**
      * null
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @param upgradetime null
      */
     public void setUpgradetime(Date upgradetime) {
@@ -141,7 +151,7 @@ public class TaskBto {
     /**
      * null
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @return PLANSTARTTIME null
      */
     public Date getPlanstarttime() {
@@ -151,7 +161,7 @@ public class TaskBto {
     /**
      * null
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @param planstarttime null
      */
     public void setPlanstarttime(Date planstarttime) {
@@ -161,7 +171,7 @@ public class TaskBto {
     /**
      * null
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @return PLANENDTIME null
      */
     public Date getPlanendtime() {
@@ -171,7 +181,7 @@ public class TaskBto {
     /**
      * null
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @param planendtime null
      */
     public void setPlanendtime(Date planendtime) {
@@ -181,7 +191,7 @@ public class TaskBto {
     /**
      * null
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @return TASKNOTE null
      */
     public String getTasknote() {
@@ -191,7 +201,7 @@ public class TaskBto {
     /**
      * null
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @param tasknote null
      */
     public void setTasknote(String tasknote) {
@@ -201,7 +211,7 @@ public class TaskBto {
     /**
      * 0-standard upgrade; 1-silent upgrade; 2-mandatory upgrade;
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @return TASKSTRATEGY 0-standard upgrade; 1-silent upgrade; 2-mandatory upgrade;
      */
     public Short getTaskstrategy() {
@@ -211,7 +221,7 @@ public class TaskBto {
     /**
      * 0-standard upgrade; 1-silent upgrade; 2-mandatory upgrade;
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @param taskstrategy 0-standard upgrade; 1-silent upgrade; 2-mandatory upgrade;
      */
     public void setTaskstrategy(Short taskstrategy) {
@@ -221,7 +231,7 @@ public class TaskBto {
     /**
      * STATUSCode
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @return FK_TASKSTATUSVALUE_CODE STATUSCode
      */
     public String getFkTaskstatusvalueCode() {
@@ -231,7 +241,7 @@ public class TaskBto {
     /**
      * STATUSCode
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @param fkTaskstatusvalueCode STATUSCode
      */
     public void setFkTaskstatusvalueCode(String fkTaskstatusvalueCode) {
@@ -241,7 +251,7 @@ public class TaskBto {
     /**
      * null
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @return FK_PACKAGETASK_ID null
      */
     public String getFkPackagetaskId() {
@@ -251,7 +261,7 @@ public class TaskBto {
     /**
      * null
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @param fkPackagetaskId null
      */
     public void setFkPackagetaskId(String fkPackagetaskId) {
@@ -261,7 +271,7 @@ public class TaskBto {
     /**
      * null
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @return FK_CARTYPE_ID null
      */
     public String getFkCartypeId() {
@@ -271,7 +281,7 @@ public class TaskBto {
     /**
      * null
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @param fkCartypeId null
      */
     public void setFkCartypeId(String fkCartypeId) {
@@ -281,7 +291,7 @@ public class TaskBto {
     /**
      * 0-delete;1-active
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @return ISDELETE 0-delete;1-active
      */
     public Short getIsdelete() {
@@ -291,7 +301,7 @@ public class TaskBto {
     /**
      * 0-delete;1-active
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @param isdelete 0-delete;1-active
      */
     public void setIsdelete(Short isdelete) {
@@ -301,7 +311,7 @@ public class TaskBto {
     /**
      * null
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @return CREATEAT null
      */
     public Date getCreateat() {
@@ -311,7 +321,7 @@ public class TaskBto {
     /**
      * null
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @param createat null
      */
     public void setCreateat(Date createat) {
@@ -321,7 +331,7 @@ public class TaskBto {
     /**
      * null
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @return CREATEBY null
      */
     public String getCreateby() {
@@ -331,7 +341,7 @@ public class TaskBto {
     /**
      * null
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @param createby null
      */
     public void setCreateby(String createby) {
@@ -341,7 +351,7 @@ public class TaskBto {
     /**
      * null
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @return UPDATEAT null
      */
     public Date getUpdateat() {
@@ -351,7 +361,7 @@ public class TaskBto {
     /**
      * null
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @param updateat null
      */
     public void setUpdateat(Date updateat) {
@@ -361,7 +371,7 @@ public class TaskBto {
     /**
      * null
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @return UPDATEBY null
      */
     public String getUpdateby() {
@@ -371,10 +381,50 @@ public class TaskBto {
     /**
      * null
      * @author intest
-     * @date 2020-09-04 16:32:52
+     * @date 2020-09-08 14:49:46
      * @param updateby null
      */
     public void setUpdateby(String updateby) {
         this.updateby = updateby == null ? null : updateby.trim();
+    }
+
+    /**
+     * 任务审批状态
+     * @author intest
+     * @date 2020-09-08 14:49:46
+     * @return FK_TASKREVIEWSTATUSVALUE_CODE 任务审批状态
+     */
+    public String getFkTaskreviewstatusvalueCode() {
+        return fkTaskreviewstatusvalueCode;
+    }
+
+    /**
+     * 任务审批状态
+     * @author intest
+     * @date 2020-09-08 14:49:46
+     * @param fkTaskreviewstatusvalueCode 任务审批状态
+     */
+    public void setFkTaskreviewstatusvalueCode(String fkTaskreviewstatusvalueCode) {
+        this.fkTaskreviewstatusvalueCode = fkTaskreviewstatusvalueCode == null ? null : fkTaskreviewstatusvalueCode.trim();
+    }
+
+    /**
+     * 任务审批流程ID
+     * @author intest
+     * @date 2020-09-08 14:49:46
+     * @return FK_TASKREVIEWTMP_ID 任务审批流程ID
+     */
+    public String getFkTaskreviewtmpId() {
+        return fkTaskreviewtmpId;
+    }
+
+    /**
+     * 任务审批流程ID
+     * @author intest
+     * @date 2020-09-08 14:49:46
+     * @param fkTaskreviewtmpId 任务审批流程ID
+     */
+    public void setFkTaskreviewtmpId(String fkTaskreviewtmpId) {
+        this.fkTaskreviewtmpId = fkTaskreviewtmpId == null ? null : fkTaskreviewtmpId.trim();
     }
 }

@@ -14,7 +14,8 @@
         <if test="queryText != null and queryText != ''">AND T.PARTNUMBER LIKE '%'||#{queryText}||'%'</if>
     </sql>
     <select id="findAllUpgradePackage" resultType="com.intest.dao.entity.UpgradePackageExtendBto">
-        SELECT T.PACKAGETASK_ID PACKAGETASKID,
+        SELECT t.*, rownum id FROM (SELECT T.PACKAGETASK_ID PACKAGETASKID,
+        CT.CARTYPE_ID CARTYPEID,
         CT.CARTYPENAME,
         T.PACKAGENAME,
         T.MAKETYPE PACKAGETYPE,
@@ -37,12 +38,8 @@
         -1
         END) PACKAGESTATUS,
         T.CREATEAT,
-        U.LOGIN_NAME CREATEBY,
-        ROWNUM ID
+        U.LOGIN_NAME CREATEBY
         FROM F_PACKAGETASK T
-        LEFT JOIN F_PARTSUPGRADEPACKAGE PUP
-        ON T.PACKAGETASK_ID = PUP.FK_PACKAGETASK_ID
-        AND PUP.ISDELETE = 1
         LEFT JOIN F_CARTYPE CT
         ON T.FK_CARTYPE_ID = CT.CARTYPE_ID
         AND CT.ISDELETE = 1
@@ -50,6 +47,7 @@
         ON T.CREATEBY = U.USER_ID
         AND U.ISDELETE = 1
         AND (1=1) <include refid="Base_Where_List"/>
+        ORDER BY T.CREATEAT DESC) t
     </select>
     <select id="getPartsByCarTypeId" resultType="com.intest.dao.entity.PartsTreeBto">
         SELECT T.PARTS_ID KEY, T.PARTSNAME TITLE
@@ -58,10 +56,10 @@
         AND T.FK_CARTYPE_ID = #{carTypeId}
     </select>
     <select id="getPartsCode" resultType="com.intest.dao.entity.ChildNode">
-        SELECT DISTINCT T.FK_PARTS_ID KEY,T.PARTNUMBER TITLE
+        SELECT GET_GUID() KEY,TITLE FROM (SELECT DISTINCT T.FK_PARTS_ID KEY,T.PARTNUMBER TITLE
         FROM F_PARTSPACKAGE T
         WHERE T.ISDELETE = 1
-        AND T.FK_PARTS_ID = #{partsId}
+        AND T.FK_PARTS_ID = #{partsId})
     </select>
     <select id="getVersion" resultType="String">
         SELECT DISTINCT T.SOFTWAREVERSION VERSION

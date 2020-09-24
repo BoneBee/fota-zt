@@ -1,9 +1,11 @@
 package com.intest.packageservice.service.impl;
 
+import cn.hutool.json.JSONObject;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.intest.common.result.PagerDataBaseVO;
 import com.intest.common.tableData.TableDataAnnotation;
+import com.intest.common.util.HttpClientUtil;
 import com.intest.common.util.StringUtils;
 import com.intest.dao.entity.*;
 import com.intest.dao.mapper.*;
@@ -16,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
@@ -69,10 +70,15 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
     @Override
     public List<PartsTreeBto> partsTree(PartsTreeRequest request){
         List<PartsTreeBto> list = new ArrayList<>();
+        List<PartsTreeBto> removeList = new ArrayList<>();
         if(StringUtils.isEmptyStr(request.getQueryText())){
             list = upgradePackageMapper.getPartsByCarTypeId(request.getCarTypeId());
             for(PartsTreeBto bto : list){
-                bto.setChildren(upgradePackageMapper.getPartsCode(bto.getKey()));
+                List<ChildNode> nodes = upgradePackageMapper.getPartsCode(bto.getKey());
+                if(nodes == null || nodes.size() == 0){
+                    removeList.add(bto);
+                }
+                bto.setChildren(nodes);
             }
         }
         else {
@@ -83,7 +89,11 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
                 PartsTreeBto partsTreeBto = new PartsTreeBto();
                 partsTreeBto.setKey(bto.getPartsId());
                 partsTreeBto.setTitle(bto.getPartsname());
-                partsTreeBto.setChildren(upgradePackageMapper.getPartsCode(bto.getPartsId()));
+                List<ChildNode> nodes = upgradePackageMapper.getPartsCode(bto.getPartsId());
+                partsTreeBto.setChildren(nodes);
+                if(nodes == null || nodes.size() == 0){
+                    removeList.add(partsTreeBto);
+                }
                 list.add(partsTreeBto);
             }
 
@@ -96,6 +106,7 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
                 ids.add(bto.getFkPartsId());
             }
             if(ids.size() == 0){
+                list.removeAll(removeList);
                 return list;
             }
 
@@ -119,10 +130,14 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
                         }
                     }
                 }
-                partsTreeBto.setChildren(nodes);
-                list.add(partsTreeBto);
+                if(nodes != null && nodes.size() > 0){
+                    partsTreeBto.setChildren(nodes);
+                    list.add(partsTreeBto);
+                }
             }
         }
+
+        list.removeAll(removeList);
         return list;
     }
 
@@ -185,12 +200,26 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
                     taskOriginalPackageBtoMapper.insertSelective(taskOriginalPackageBto);
                 }
             }
+
+            makeUpgradePackage(packageTaskId);
         }catch (Exception e){
             e.printStackTrace();
             return -1;
         }
 
         return 1;
+    }
+
+    /**
+     * 通过调用杜磊那边提供的http接口
+     * 传入参数packageTaskId
+     * 制作升级包
+     * @param packageTaskId
+     */
+    private void makeUpgradePackage(String packageTaskId){
+        JSONObject json = new JSONObject();
+        json.set("packTaskId", packageTaskId);
+        HttpClientUtil.doPost("http://10.10.20.61:8111/api/basic/package/doFilePack", json);
     }
 
     @Override
@@ -222,6 +251,9 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
         for(TaskOriginalPackageBto top : tops){
             PartsPackageBto ppbto = partsPackageBtoMapper.selectByPrimaryKey(top.getFkPartspackageId());
             PartsBto pbto = partsBtoMapper.selectByPrimaryKey(ppbto.getFkPartsId());
+            if(pbto == null){
+                continue;
+            }
             PartsVO pvo = new PartsVO();
             pvo.setId(index++);
             if(top.getType().intValue() == 0){

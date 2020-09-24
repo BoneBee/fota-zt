@@ -2,20 +2,21 @@ package com.intest.api.controller;
 
 import com.intest.basicservice.table.common.ResponseBean;
 import com.intest.basicservice.table.config.helper.ValidateHelper;
+import com.intest.basicservice.table.service.impl.ItemImpl;
+import com.intest.basicservice.table.service.impl.MeunImpl;
 import com.intest.basicservice.user.service.impl.UserServiceImpl;
 import com.intest.common.exception.CustomException;
 import com.intest.common.result.PagerDataBaseVO;
 import com.intest.common.util.StringUtils;
-import com.intest.dao.entity.TaskReviewTmpBto;
-import com.intest.dao.entity.TaskReviewTmpDetileBto;
-import com.intest.dao.entity.UserBto;
+import com.intest.dao.entity.*;
 import com.intest.partsservice.part.response.DateResponse;
 import com.intest.systemservice.impl.service.TaskReviewTmpPage;
-import com.intest.systemservice.impl.service.impl.TaskReviewTmpDetileImpl;
-import com.intest.systemservice.impl.service.impl.TaskReviewTmpImpl;
+import com.intest.systemservice.impl.service.impl.*;
+import com.intest.systemservice.request.AddRoleRequet;
 import com.intest.systemservice.request.AddTaskReviewTmpRequest;
 import com.intest.systemservice.request.DeleteTaskReviewTmpRequest;
 import com.intest.systemservice.request.UpdateTaskReviewTmpRequest;
+import com.intest.systemservice.response.SystemMenuResponse;
 import com.intest.systemservice.response.TaskUserResopnse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
@@ -38,6 +39,20 @@ public class SystemController {
 
     @Autowired
     UserServiceImpl userService;
+
+    @Autowired
+    MeunImpl menuService;
+
+    @Autowired
+    ItemImpl itemImpl;
+
+    @Autowired
+    RoleImpl roleImpl;
+
+    @Autowired
+    PermissionImpl permissionImpl;
+    @Autowired
+    RolePermissionImpl rolePermissionImpl;
 
     /**
      * 新增审核流程
@@ -101,16 +116,19 @@ public class SystemController {
         if (taskReviewTmpImpl.updateTaskReviewTmp(taskReviewTmpBto) != 1) {
             throw new CustomException("taskReviewTmpBto更新失败");
         }
+        taskReviewTmpDetileImpl.deleteTaskReviewTmpDetileById(request.getTaskTmpId());
         for (UpdateTaskReviewTmpRequest.TaskUserBean userBean : request.getTaskUserIds()) {
-            TaskReviewTmpDetileBto taskReviewTmpDetileBto = taskReviewTmpDetileImpl.getTaskReviewTmpDetileById(userBean.getId());
-            if (taskReviewTmpDetileBto == null) {
-                throw new CustomException("找不到taskReviewTmpDetileBto数据");
-            }
+            TaskReviewTmpDetileBto taskReviewTmpDetileBto = new TaskReviewTmpDetileBto();
+            taskReviewTmpDetileBto.setTaskreviewtmpdetaileId(UUID.randomUUID() + "");
+            taskReviewTmpDetileBto.setFkTaskreviewtmpId(request.getTaskTmpId());
             taskReviewTmpDetileBto.setReviewLevel((short) userBean.getLevel());
             taskReviewTmpDetileBto.setFkUserId(userBean.getUserId());
+            taskReviewTmpDetileBto.setCreateat(new Date());
+            taskReviewTmpDetileBto.setCreateby("admin");
+            taskReviewTmpDetileBto.setIsdelete((short) 1);
             taskReviewTmpDetileBto.setUpdateat(new Date());
             taskReviewTmpDetileBto.setUpdateby("admin");
-            if (taskReviewTmpDetileImpl.updateTaskReviewTmpDetile(taskReviewTmpDetileBto) != 1) {
+            if (taskReviewTmpDetileImpl.addTaskReviewTmpDetile(taskReviewTmpDetileBto) != 1) {
                 throw new CustomException("taskReviewTmpDetileBto更新失败");
             }
         }
@@ -224,4 +242,112 @@ public class SystemController {
         return new ResponseBean(1, "", taskUserResopnseList);
 
     }
+
+    /**
+     * 菜单管理接口
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/basic/system/getSystemMenuList", method = RequestMethod.GET)
+    public ResponseBean getSystemMenuList() {
+        List<MenuBto> menuBtos = menuService.getMeun();
+        List<SystemMenuResponse> fatherList = new ArrayList<>();
+        for (MenuBto bto : menuBtos) {
+            if (!StringUtils.isNotEmptyStr(bto.getFkMenuId())) {
+                SystemMenuResponse list = new SystemMenuResponse();
+                list.setKey(bto.getMenuId());
+                list.setTitle(bto.getMenudisplayname());
+                list.setChildren(new ArrayList<>());
+                fatherList.add(list);
+            }
+        }
+        List<SystemMenuResponse> itemList = new ArrayList<>();
+        List<ItemBto> itemBtos = itemImpl.getAllItem();
+        for (ItemBto itemBto : itemBtos) {
+            SystemMenuResponse list = new SystemMenuResponse();
+            list.setKey(itemBto.getItemId());
+            list.setTitle(itemBto.getName());
+            list.setChildren(new ArrayList<>());
+            itemList.add(list);
+        }
+        for (int i = 0; i < fatherList.size(); i++) {
+            List<SystemMenuResponse> sonList = new ArrayList<>();
+            for (MenuBto bto : menuBtos) {
+                if (fatherList.get(i).getKey().equals(bto.getFkMenuId())) {
+                    SystemMenuResponse list = new SystemMenuResponse();
+                    list.setKey(bto.getMenuId());
+                    list.setTitle(bto.getMenudisplayname());
+                    list.setChildren(itemList);
+                    sonList.add(list);
+                }
+            }
+            fatherList.get(i).setChildren(sonList);
+        }
+        return new ResponseBean(1, "", fatherList);
+    }
+
+    /**
+     * 新增角色接口
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/basic/system/addRole", method = RequestMethod.POST)
+    public ResponseBean addRole(@RequestBody AddRoleRequet request) {
+        ValidateHelper.validateNull(request, new String[]{"roleName", "roleType"});
+        if (roleImpl.getRoleByName(request.getRoleName()) != null) {
+            throw new CustomException("该角色名称已存在！");
+        }
+        RoleBto roleBto = new RoleBto();
+        roleBto.setRoleId(UUID.randomUUID() + "");
+        roleBto.setRoleName(request.getRoleName());
+        roleBto.setRoleType((short) request.getRoleType());
+        roleBto.setIsdelete((short) 1);
+        roleBto.setCreateat(new Date());
+        roleBto.setCreateby("admin");
+        for (AddRoleRequet.PermissionBean bean : request.getList()) {
+            PermissionBto permissionBto = new PermissionBto();
+            permissionBto.setPermissionId(UUID.randomUUID() + "");
+            permissionBto.setFkResourceId(bean.getId());
+            permissionBto.setResourceType((short) bean.getResourceType());
+            permissionBto.setIsdelete((short) 1);
+            permissionBto.setCreateat(new Date());
+            permissionBto.setCreateby("admin");
+            permissionImpl.addPermission(permissionBto);
+
+            RolePermissionBto rolePermissionBto = new RolePermissionBto();
+            rolePermissionBto.setRolepermissionId(UUID.randomUUID() + "");
+            rolePermissionBto.setFkRoleId(roleBto.getRoleId());
+            rolePermissionBto.setFkPermissionId(permissionBto.getPermissionId());
+            rolePermissionBto.setDefaultChecked((short) 1);
+            rolePermissionBto.setIsdelete((short) 1);
+            rolePermissionBto.setCreateat(new Date());
+            rolePermissionBto.setCreateby("admin");
+            rolePermissionImpl.addRolePermission(rolePermissionBto);
+        }
+
+        if (roleImpl.addRole(roleBto) != 1) {
+            throw new CustomException("新增角色失败！");
+        }
+        return new ResponseBean(1, "新增角色成功", null);
+    }
+
+
+    /**
+     * 修改角色接口
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/basic/system/updateRole", method = RequestMethod.POST)
+    public ResponseBean updateRole(@RequestBody AddRoleRequet request) {
+        ValidateHelper.validateNull(request, new String[]{"roleName", "roleType"});
+        if (roleImpl.getRoleByName(request.getRoleName()) != null) {
+            throw new CustomException("该角色名称已存在！");
+        }
+        return null;
+    }
+
+
 }

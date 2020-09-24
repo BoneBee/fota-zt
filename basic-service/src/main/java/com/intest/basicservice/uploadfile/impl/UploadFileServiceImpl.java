@@ -7,14 +7,18 @@ import com.intest.basicservice.uploadfile.ro.PreUploadFileRO;
 import com.intest.basicservice.uploadfile.utils.FileComparator;
 import com.intest.basicservice.uploadfile.vo.CheckUploadFileVO;
 import com.intest.basicservice.uploadfile.vo.ChunkFileVO;
+import com.intest.common.util.Md5CaculateUtil;
+import com.intest.dao.entity.FileBto;
 import com.intest.dao.entity.UploadFileBto;
 import com.intest.dao.entity.UploadFileBtoExample;
+import com.intest.dao.mapper.FileBtoMapper;
 import com.intest.dao.mapper.UploadFileBtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 import java.io.*;
+import java.math.BigDecimal;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,6 +34,9 @@ public class UploadFileServiceImpl implements UploadFileService {
 
     @Autowired
     private UploadFileBtoMapper uploadFileDao;
+
+    @Autowired
+    private FileBtoMapper fileBtoMapper;
 
     @Value("${upload-file.path-string}")
     private String path;
@@ -57,7 +64,7 @@ public class UploadFileServiceImpl implements UploadFileService {
             uploadFile.setCreateby("A7B3CC45-ED81-421D-A2C8-3CBD9036AE5A");
             result.setFileId(uploadFile.getUploadfileId());
             result.setUploadKind(model.getUploadType());
-            uploadFileDao.insert(uploadFile);
+            uploadFileDao.insertSelective(uploadFile);
 
             List<Integer> emptyArray = new ArrayList<>();
             result.setChunkDone(emptyArray);
@@ -65,7 +72,7 @@ public class UploadFileServiceImpl implements UploadFileService {
             // 已找到可续传文件
             UploadFileBto uploadFile1 = list.get(0);
             result.setFileId(uploadFile1.getUploadfileId());
-            File file = new File(path + uploadFile1.getUploadfileId() + "/");
+            File file = new File(path + "/" + uploadFile1.getUploadfileId() + "/");
             List<Integer> chunkFiles = new ArrayList<>();
             if (file.isDirectory()) {
                 System.out.println("Directory found:" + file.getName());
@@ -98,7 +105,7 @@ public class UploadFileServiceImpl implements UploadFileService {
     public Boolean CompleteFileUpload(String fileId) {
         Boolean result = true;
         try {
-            File file = new File(path + fileId);
+            File file = new File(path + "/" + fileId);
 
             if (file.isDirectory()) {
 
@@ -113,7 +120,7 @@ public class UploadFileServiceImpl implements UploadFileService {
                 Arrays.sort(files, new FileComparator());
                 UploadFileBto uploadFile = uploadFileDao.selectByPrimaryKey(fileId);
                 String extension = uploadFile.getOriginalname().substring(uploadFile.getOriginalname().indexOf("."));
-                String newPath = path + fileId + extension;
+                String newPath = path + "/" + fileId + extension;
                 MergeFiles(files, newPath);
 
                 UploadFileBto uploadFile1 = new UploadFileBto();
@@ -126,11 +133,22 @@ public class UploadFileServiceImpl implements UploadFileService {
                 File newFile = new File(newPath);
                 if (uploadFile.getFilesize().longValue() != newFile.length()) {
                     uploadFile1.setUploadedsuccess((short)2);
-                    uploadFileDao.updateByExample(uploadFile1, example);
+                    uploadFileDao.updateByExampleSelective(uploadFile1, example);
                     result = false;
                 } else {
+                    FileBto fileBto = new FileBto();
+                    fileBto.setFileId(fileId);
+                    fileBto.setOriginalname(uploadFile.getOriginalname());
+                    fileBto.setSuffix(extension.replace(".",""));
+                    fileBto.setFilesize(new BigDecimal(newFile.length()));
+                    String md5 = Md5CaculateUtil.getMD5(newFile);
+                    fileBto.setMd5(md5);
+                    fileBto.setUploadinguser(UUID.randomUUID().toString());
+                    fileBto.setCreateby(UUID.randomUUID().toString());
+                    fileBtoMapper.insertSelective(fileBto);
+
                     uploadFile1.setUploadedsuccess((short) 1);
-                    uploadFileDao.updateByExample(uploadFile1, example);
+                    uploadFileDao.updateByExampleSelective(uploadFile1, example);
                 }
             }
         } catch (Exception ex) {

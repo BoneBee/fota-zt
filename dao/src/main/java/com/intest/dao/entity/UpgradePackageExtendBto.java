@@ -19,6 +19,10 @@ public class UpgradePackageExtendBto {
      */
     private String packageName;
     /**
+     * 车型ID
+     */
+    private String carTypeId;
+    /**
      * 车型名称
      */
     private String carTypeName;
@@ -102,4 +106,13 @@ public class UpgradePackageExtendBto {
     public void setId(int id) {
         this.id = id;
     }
+
+    public String getCarTypeId() {
+        return carTypeId;
+    }
+
+    public void setCarTypeId(String carTypeId) {
+        this.carTypeId = carTypeId;
+    }
+
 }

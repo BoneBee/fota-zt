@@ -43,7 +43,7 @@
         AND T.PARTSPACKAGE_ID = #{partsPackageId}
     </select>
     <select id="findAllPartsPackage" resultType="com.intest.dao.entity.PartsPackageExtendBto">
-        SELECT T.PARTSPACKAGE_ID PARTSPACKAGEID,
+        SELECT t.*, rownum id FROM (SELECT T.PARTSPACKAGE_ID PARTSPACKAGEID,
         F.ORIGINALNAME    PARTSPACKAGENAME,
         P.PARTSNAME,
         PT.PARTSTYPENAME,
@@ -51,8 +51,7 @@
         T.SOFTWAREVERSION VERSION,
         FI.ORIGINALNAME   PACKAGENAME,
         CT.CARTYPENAME,
-        T.FK_FILE_ID      FILEID,
-        ROWNUM            ID
+        T.FK_FILE_ID      FILEID
         FROM F_PARTSPACKAGE T
         LEFT JOIN F_PARTSBIGPACKAGE PBP
         ON T.FK_PARTSBIGPACKAGE_ID = PBP.PARTSBIGPACKAGE_ID
@@ -73,5 +72,6 @@
         ON P.FK_PARTSTYPE_ID = PT.PARTSTYPE_ID
         AND PT.ISDELETE = 1
         WHERE T.ISDELETE = 1 AND (1=1) <include refid="Base_Where_List"/>
+        ORDER BY T.CREATEAT DESC) t
     </select>
 </mapper>
