@@ -217,9 +217,10 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
      * @param packageTaskId
      */
     private void makeUpgradePackage(String packageTaskId){
-        JSONObject json = new JSONObject();
-        json.set("packTaskId", packageTaskId);
-        HttpClientUtil.doPost("http://10.10.20.61:8111/api/basic/package/doFilePack", json);
+//        JSONObject json = new JSONObject();
+//        json.set("packTaskId", packageTaskId);
+//        HttpClientUtil.doPost("http://10.10.20.61:8111/api/basic/package/doFilePack", json);
+        HttpClientUtil.doGet("http://10.10.20.61:8111/api/basic/package/doFilePack?packTaskId=" + packageTaskId, "UTF-8");
     }
 
     @Override
