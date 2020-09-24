@@ -17,7 +17,7 @@ public class UserResponse {
     private String accountKind;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date lastLoginat;
-    private String accountStatus;
+    private int accountStatus;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createat;
     private String createby;
@@ -25,7 +25,7 @@ public class UserResponse {
     public UserResponse() {
     }
 
-    public UserResponse(int index, String userId, String loginName, String realName, String jobNumber, String mobile, String companyEmail, String sex, String note, String accountKind, Date lastLoginat, String accountStatus, Date createat, String createby) {
+    public UserResponse(int index, String userId, String loginName, String realName, String jobNumber, String mobile, String companyEmail, String sex, String note, String accountKind, Date lastLoginat, int accountStatus, Date createat, String createby) {
         this.index = index;
         this.userId = userId;
         this.loginName = loginName;
@@ -130,11 +130,11 @@ public class UserResponse {
         this.lastLoginat = lastLoginat;
     }
 
-    public String getAccountStatus() {
+    public int getAccountStatus() {
         return accountStatus;
     }
 
-    public void setAccountStatus(String accountStatus) {
+    public void setAccountStatus(int accountStatus) {
         this.accountStatus = accountStatus;
     }
 

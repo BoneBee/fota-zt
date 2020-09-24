@@ -213,7 +213,13 @@ public class SystemController {
      */
     @ResponseBody
     @RequestMapping(value = "/api/basic/system/selectTaskTmpName", method = RequestMethod.GET)
-    public ResponseBean selectTaskTmpName(@ApiParam String taskTmpName) {
+    public ResponseBean selectTaskTmpName(@ApiParam String taskTmpName, @ApiParam String taskTmpId) {
+        if (StringUtils.isNotEmptyStr(taskTmpId)) {
+            TaskReviewTmpBto taskReviewTmpBto = taskReviewTmpImpl.getTaskReviewTmpById(taskTmpId);
+            if (taskReviewTmpBto.getTaskReviewtmpName().equals(taskTmpName)) {
+                return new ResponseBean(1, "该审核名称不存在", new DateResponse(0));
+            }
+        }
         TaskReviewTmpBto taskReviewTmpBto = taskReviewTmpImpl.getTaskReviewTmpByName(taskTmpName);
         if (taskReviewTmpBto != null) {
             return new ResponseBean(1, "该审核名称已存在", new DateResponse(1));

@@ -6,7 +6,7 @@ import java.util.List;
 public class SystemMenuResponse {
     private String key;
     private String title;
-    private List<SystemMenuResponse> Children;
+    private List<SystemMenuResponse> children;
 
     public String getKey() {
         return key;
@@ -25,10 +25,10 @@ public class SystemMenuResponse {
     }
 
     public List<SystemMenuResponse> getChildren() {
-        return Children;
+        return children;
     }
 
     public void setChildren(List<SystemMenuResponse> children) {
-        Children = children;
+        this.children = children;
     }
 }
