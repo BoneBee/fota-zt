@@ -1,5 +1,7 @@
 package com.intest.carservice.Respone;
 
+import java.util.List;
+
 public class CarTypeRespone {
 
     private int index;
@@ -12,6 +14,16 @@ public class CarTypeRespone {
     private String updateAt;
     private String updateBy;
     private String carTypeId;
+
+    public List<CarTypeEcus> getEcus() {
+        return ecus;
+    }
+
+    public void setEcus(List<CarTypeEcus> ecus) {
+        this.ecus = ecus;
+    }
+
+    private List<CarTypeEcus> ecus;
 
     public int getIndex() {
         return index;

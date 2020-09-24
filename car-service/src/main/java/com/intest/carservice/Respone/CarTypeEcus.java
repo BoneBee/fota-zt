@@ -3,8 +3,17 @@ package com.intest.carservice.Respone;
 public class CarTypeEcus {
 
     private String partName;
-    private String fullName;
     private String typeName;
+    private String partsId;
+
+    public String getPartsId() {
+        return partsId;
+    }
+
+    public void setPartsId(String partsId) {
+        this.partsId = partsId;
+    }
+
     private int index;
 
     public String getPartName() {
@@ -13,14 +22,6 @@ public class CarTypeEcus {
 
     public void setPartName(String partName) {
         this.partName = partName;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-    public void setFullName(String fullName) {
-        this.fullName = fullName;
     }
 
     public String getTypeName() {

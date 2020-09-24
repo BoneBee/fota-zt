@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.intest.dao.entity.TerminalBto">
     <id column="TERMINAL_ID" jdbcType="CHAR" property="terminalId" />
     <result column="TERMINALNAME" jdbcType="NVARCHAR" property="terminalname" />
+    <result column="PCOMPANY" jdbcType="NVARCHAR" property="pcompany" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -64,7 +65,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    TERMINAL_ID, TERMINALNAME
+    TERMINAL_ID, TERMINALNAME, PCOMPANY
   </sql>
   <select id="selectByExample" parameterType="com.intest.dao.entity.TerminalBtoExample" resultMap="BaseResultMap">
     select
@@ -97,8 +98,10 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.intest.dao.entity.TerminalBto">
-    insert into F_TERMINAL (TERMINAL_ID, TERMINALNAME)
-    values (#{terminalId,jdbcType=CHAR}, #{terminalname,jdbcType=NVARCHAR})
+    insert into F_TERMINAL (TERMINAL_ID, TERMINALNAME, PCOMPANY
+      )
+    values (#{terminalId,jdbcType=CHAR}, #{terminalname,jdbcType=NVARCHAR}, #{pcompany,jdbcType=NVARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.intest.dao.entity.TerminalBto">
     insert into F_TERMINAL
@@ -109,6 +112,9 @@
       <if test="terminalname != null">
         TERMINALNAME,
       </if>
+      <if test="pcompany != null">
+        PCOMPANY,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="terminalId != null">
@@ -116,6 +122,9 @@
       </if>
       <if test="terminalname != null">
         #{terminalname,jdbcType=NVARCHAR},
+      </if>
+      <if test="pcompany != null">
+        #{pcompany,jdbcType=NVARCHAR},
       </if>
     </trim>
   </insert>
@@ -134,6 +143,9 @@
       <if test="record.terminalname != null">
         TERMINALNAME = #{record.terminalname,jdbcType=NVARCHAR},
       </if>
+      <if test="record.pcompany != null">
+        PCOMPANY = #{record.pcompany,jdbcType=NVARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -142,7 +154,8 @@
   <update id="updateByExample" parameterType="map">
     update F_TERMINAL
     set TERMINAL_ID = #{record.terminalId,jdbcType=CHAR},
-      TERMINALNAME = #{record.terminalname,jdbcType=NVARCHAR}
+      TERMINALNAME = #{record.terminalname,jdbcType=NVARCHAR},
+      PCOMPANY = #{record.pcompany,jdbcType=NVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -153,12 +166,16 @@
       <if test="terminalname != null">
         TERMINALNAME = #{terminalname,jdbcType=NVARCHAR},
       </if>
+      <if test="pcompany != null">
+        PCOMPANY = #{pcompany,jdbcType=NVARCHAR},
+      </if>
     </set>
     where TERMINAL_ID = #{terminalId,jdbcType=CHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.intest.dao.entity.TerminalBto">
     update F_TERMINAL
-    set TERMINALNAME = #{terminalname,jdbcType=NVARCHAR}
+    set TERMINALNAME = #{terminalname,jdbcType=NVARCHAR},
+      PCOMPANY = #{pcompany,jdbcType=NVARCHAR}
     where TERMINAL_ID = #{terminalId,jdbcType=CHAR}
   </update>
 </mapper>

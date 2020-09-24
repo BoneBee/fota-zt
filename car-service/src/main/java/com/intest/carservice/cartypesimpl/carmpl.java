@@ -87,7 +87,7 @@ public class carmpl implements CarService {
         for (carsEx car : carArr) {
             //根据车辆ID删除车辆
             CarBto cbto = new CarBto();
-            cbto.setCarId(car.getCarid());
+            cbto.setCarId(car.getCarId());
             cbto.setVin(car.getVin());
             cbto.setIsdelete((short) 0);
             int i = carmp.updateByPrimaryKey(cbto);
@@ -263,15 +263,18 @@ public class carmpl implements CarService {
         crp.setCarId(car.getCarId());
         crp.setCarTypeName(carTypeBto.getCartypename());
         crp.setAddType(car.getAddtype().toString());
-        crp.setTerminal(terminalBto.getTerminalname());
+        if (terminalBto != null) {
+            crp.setTerminalId(terminalBto.getTerminalId());
+            crp.setTerminalPro(terminalBto.getPcompany());
+            crp.setTerminal(terminalBto.getTerminalname());
+        }
         crp.setVin(car.getVin());
         crp.setCreateAt(ft.format(car.getCreateat()));
         crp.setCreateBy(car.getCreateby());
         crp.setTerminalCode(car.getTerminalcode());
         crp.setICCID(car.getIccid());
         crp.setOperator("电信");
-        //终端制造厂商，需要添加字段
-        //crp.setpCompany(car.getpCompany());
+
 
         //获取车辆任务
         TaskCarBtoExample tcEx = new TaskCarBtoExample();
@@ -347,21 +350,25 @@ public class carmpl implements CarService {
         cb.setAddtype((short) 1);
         cb.setVin(pcar.getVin());
         cb.setFkCartypeId(pcar.getCarTypeId());
+        cb.setCreateby("655B6D3D-32E4-4C16-9464-A10CFF40A1A9");
         //终端厂商没字段
         // cb.
         cb.setIccid(pcar.getIccid());
         //运营商也没有
         //cb.get
-        if (pcar.getTerminalCode() == null || pcar.getTerminalCode().equals("")) {
-            carcount = 0;
-            addcar.setMsg("终端号不能为空!");
-        }
-        else {
-            cb.setTerminalcode(pcar.getTerminalCode());
-            //添加新车辆
-            carcount = carmp.insert(cb);
-
-        }
+//        if (pcar.getTerminalCode() == null || pcar.getTerminalCode().equals("")) {
+//            carcount = 0;
+//            addcar.setMsg("终端号不能为空!");
+//        }
+//        else {
+//            cb.setTerminalcode(pcar.getTerminalCode());
+//            //添加新车辆
+//            carcount = carmp.insert(cb);
+//
+//        }
+        cb.setTerminalcode(pcar.getTerminalCode());
+        //添加新车辆
+        carcount = carmp.insertSelective(cb);
 
         addcar.setAddCarResult(carcount);
 
@@ -380,6 +387,7 @@ public class carmpl implements CarService {
         cb.setVin(pcar.getVin());
         cb.setFkCartypeId(pcar.getCarTypeId());
         cb.setTerminalcode(pcar.getTerminalCode());
+        cb.setIsdelete((short) 1);
         //终端厂商没字段
         // cb.
         cb.setIccid(pcar.getIccid());
@@ -387,7 +395,7 @@ public class carmpl implements CarService {
         //cb.get
 
         //修改车辆
-        int carcount = carmp.updateByPrimaryKey(cb);
+        int carcount = carmp.updateByPrimaryKeySelective(cb);
 
         return carcount;
     }
@@ -410,9 +418,11 @@ public class carmpl implements CarService {
             cartyperp.setCarTypeId(ctbto.getCartypeId());
             cartyperp.setCarTypeName(ctbto.getCartypename());
             //根据车型的终端外键ID获取终端型号
-            TerminalBto terminalBto = terminalmp.selectByPrimaryKey(ctbto.getFkTerminalId());
-            if (terminalBto != null) {
-                cartyperp.setTerminal(terminalBto.getTerminalname());
+            if (ctbto.getFkTerminalId() != null) {
+                TerminalBto terminalBto = terminalmp.selectByPrimaryKey(ctbto.getFkTerminalId());
+                if (terminalBto != null) {
+                    cartyperp.setTerminal(terminalBto.getTerminalname());
+                }
             }
             cartyperps.add(cartyperp);
         }
@@ -425,16 +435,24 @@ public class carmpl implements CarService {
         return cartypeVO;
     }
 
+    /*
+    检测VIn唯一性
+     */
     public String checkVin(RequestCheckVin cvin) {
         CarBtoExample carEx = new CarBtoExample();
         CarBtoExample.Criteria cia = carEx.createCriteria();
         cia.andVinEqualTo(cvin.getVin());
-
+        if (!cvin.getCarId().equals("")) {
+            cia.andCarIdEqualTo(cvin.getCarId());
+        }
         //查找vin
         List<CarBto> cBto = carmp.selectByExample(carEx);
         String Msg = "";
+
         if (cBto.size() > 0) {
-            Msg = String.format("Vin：%s 已经存在", cvin.getVin());
+            if (cvin.getCarId().equals("")) {
+                Msg = String.format("Vin：%s 已经存在", cvin.getVin());
+            }
         }
         return Msg;
     }

@@ -12,9 +12,14 @@ public class TerminalBto {
     private String terminalname;
 
     /**
+     * PCOMPANY PCOMPANY
+     */
+    private String pcompany;
+
+    /**
      * Terminal_ID
      * @author intest
-     * @date 2020-08-28 17:36:53
+     * @date 2020-09-23 09:21:53
      * @return TERMINAL_ID Terminal_ID
      */
     public String getTerminalId() {
@@ -24,7 +29,7 @@ public class TerminalBto {
     /**
      * Terminal_ID
      * @author intest
-     * @date 2020-08-28 17:36:53
+     * @date 2020-09-23 09:21:53
      * @param terminalId Terminal_ID
      */
     public void setTerminalId(String terminalId) {
@@ -34,7 +39,7 @@ public class TerminalBto {
     /**
      * TerminalName
      * @author intest
-     * @date 2020-08-28 17:36:53
+     * @date 2020-09-23 09:21:53
      * @return TERMINALNAME TerminalName
      */
     public String getTerminalname() {
@@ -44,10 +49,30 @@ public class TerminalBto {
     /**
      * TerminalName
      * @author intest
-     * @date 2020-08-28 17:36:53
+     * @date 2020-09-23 09:21:53
      * @param terminalname TerminalName
      */
     public void setTerminalname(String terminalname) {
         this.terminalname = terminalname == null ? null : terminalname.trim();
+    }
+
+    /**
+     * PCOMPANY
+     * @author intest
+     * @date 2020-09-23 09:21:53
+     * @return PCOMPANY PCOMPANY
+     */
+    public String getPcompany() {
+        return pcompany;
+    }
+
+    /**
+     * PCOMPANY
+     * @author intest
+     * @date 2020-09-23 09:21:53
+     * @param pcompany PCOMPANY
+     */
+    public void setPcompany(String pcompany) {
+        this.pcompany = pcompany == null ? null : pcompany.trim();
     }
 }

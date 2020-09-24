@@ -2,15 +2,15 @@ package com.intest.carservice.Request;
 
 public class carsEx {
 
-    private String carid;
+    private String carId;
     private String vin;
 
-    public String getCarid() {
-        return carid;
+    public String getCarId() {
+        return carId;
     }
 
-    public void setCarid(String carid) {
-        this.carid = carid;
+    public void setCarId(String carId) {
+        this.carId = carId;
     }
 
     public String getVin() {

@@ -299,6 +299,76 @@ public class TerminalBtoExample {
             addCriterion("TERMINALNAME not between", value1, value2, "terminalname");
             return (Criteria) this;
         }
+
+        public Criteria andPcompanyIsNull() {
+            addCriterion("PCOMPANY is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPcompanyIsNotNull() {
+            addCriterion("PCOMPANY is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPcompanyEqualTo(String value) {
+            addCriterion("PCOMPANY =", value, "pcompany");
+            return (Criteria) this;
+        }
+
+        public Criteria andPcompanyNotEqualTo(String value) {
+            addCriterion("PCOMPANY <>", value, "pcompany");
+            return (Criteria) this;
+        }
+
+        public Criteria andPcompanyGreaterThan(String value) {
+            addCriterion("PCOMPANY >", value, "pcompany");
+            return (Criteria) this;
+        }
+
+        public Criteria andPcompanyGreaterThanOrEqualTo(String value) {
+            addCriterion("PCOMPANY >=", value, "pcompany");
+            return (Criteria) this;
+        }
+
+        public Criteria andPcompanyLessThan(String value) {
+            addCriterion("PCOMPANY <", value, "pcompany");
+            return (Criteria) this;
+        }
+
+        public Criteria andPcompanyLessThanOrEqualTo(String value) {
+            addCriterion("PCOMPANY <=", value, "pcompany");
+            return (Criteria) this;
+        }
+
+        public Criteria andPcompanyLike(String value) {
+            addCriterion("PCOMPANY like", value, "pcompany");
+            return (Criteria) this;
+        }
+
+        public Criteria andPcompanyNotLike(String value) {
+            addCriterion("PCOMPANY not like", value, "pcompany");
+            return (Criteria) this;
+        }
+
+        public Criteria andPcompanyIn(List<String> values) {
+            addCriterion("PCOMPANY in", values, "pcompany");
+            return (Criteria) this;
+        }
+
+        public Criteria andPcompanyNotIn(List<String> values) {
+            addCriterion("PCOMPANY not in", values, "pcompany");
+            return (Criteria) this;
+        }
+
+        public Criteria andPcompanyBetween(String value1, String value2) {
+            addCriterion("PCOMPANY between", value1, value2, "pcompany");
+            return (Criteria) this;
+        }
+
+        public Criteria andPcompanyNotBetween(String value1, String value2) {
+            addCriterion("PCOMPANY not between", value1, value2, "pcompany");
+            return (Criteria) this;
+        }
     }
 
     /**
