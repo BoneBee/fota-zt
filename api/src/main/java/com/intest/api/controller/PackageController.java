@@ -14,6 +14,7 @@ import com.intest.packageservice.service.LargePackageService;
 import com.intest.packageservice.vo.PackageVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,9 +23,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -147,49 +152,36 @@ public class PackageController extends BaseController {
 
     @ApiOperation("原始包下载")
     @RequestMapping(value = "/package/download", method = RequestMethod.GET)
-    public void download(@RequestParam("ids") String[] ids, HttpServletRequest request, HttpServletResponse response){
-        List<File> files = new ArrayList<>();
-        for(String id : ids){
-            FileBto fi = largePackageService.getFileById(id);
-            if(fi == null){
-                continue;
-            }
-            String fullPath = File.separator + "tmp" + File.separator + "webhost" + File.separator + "packageFile" + File.separator + fi.getServersidepath();
-            File file = new File(fullPath);
-            if(file.exists()){
-                files.add(file);
-            }
+    public void download(@RequestParam("fileId") String fileId, HttpServletRequest request, HttpServletResponse response){
+        FileBto fi = largePackageService.getFileById(fileId);
+        if(fi == null){
+          return;
         }
-        if(files.size() >= 1){
-            String zipTmp = File.separator + "tmp" + File.separator + "webhost" + File.separator +"download" + File.separator + new SimpleDateFormat("yyyy-MM-dd").format(new Date()) + ".zip";
-            MultiDownloadUtil.zipd(zipTmp, files, response);
+        String fullPath = File.separator + "tmp" + File.separator + "webhost" + File.separator + "uploadFile" + File.separator + fileId + ".zip";
+        File file = new File(fullPath);
+
+        ServletContext context = request.getServletContext();
+
+        String mimeType = context.getMimeType(fullPath);
+        if(mimeType == null){
+            mimeType = "application/octet-stream";
+            System.out.println("context getMimeType is null");
         }
-//        FileInfo fi = largePackageService.getFileById(ids[0]);
-//        String fullPath = File.separator + "tmp" + File.separator + "webhost" + File.separator + "packageFile" + File.separator + fi.getServerSidePath();
-//        File file = new File(fullPath);
-//
-//        ServletContext context = request.getServletContext();
-//
-//        String mimeType = context.getMimeType(fullPath);
-//        if(mimeType == null){
-//            mimeType = "application/octet-stream";
-//            System.out.println("context getMimeType is null");
-//        }
-//        System.out.println("MIME type: " + mimeType);
-//
-//        response.setContentType(mimeType);
-//        response.setContentLength((int)file.length());
-//
-//        String headerKey = "Content-Disposition";
-//        String headerValue = String.format("attachment; filename=\"%s\"", file.getName());
-//        response.setHeader(headerKey, headerValue);
-//
-//        try{
-//            InputStream stream = new FileInputStream(fullPath);
-//            IOUtils.copy(stream, response.getOutputStream());
-//            response.flushBuffer();
-//        }catch (IOException e){
-//            e.printStackTrace();
-//        }
+        System.out.println("MIME type: " + mimeType);
+
+        response.setContentType(mimeType);
+        response.setContentLength((int)file.length());
+
+        String headerKey = "Content-Disposition";
+        String headerValue = String.format("attachment; filename=\"%s\"", fi.getOriginalname());
+        response.setHeader(headerKey, headerValue);
+
+        try{
+            InputStream stream = new FileInputStream(fullPath);
+            IOUtils.copy(stream, response.getOutputStream());
+            response.flushBuffer();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
     }
 }
