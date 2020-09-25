@@ -274,4 +274,29 @@ public class UserController extends BaseController {
     }
 
 
+    /**
+     * 修改账户状态接口
+     *
+     * @param userId
+     * @return
+     */
+    @ApiOperation("修改账户状态接口")
+    @ResponseBody
+    @RequestMapping(value = "/api/infota/product/updateUserState", method = RequestMethod.GET)
+    public ResponseBean updateUserState(@ApiParam String userId, @ApiParam int state) {
+        if (!StringUtils.isNotEmptyStr(userId)) {
+            throw new CustomException("用户ID不能为空");
+        }
+        UserBto userBto = userService.getUserByUserId(userId);
+        if (userBto == null) {
+            throw new CustomException("该用户不存在");
+        }
+        userBto.setAccountStatus((short) state);
+        if (userService.updateUser(userBto) != 1) {
+            throw new CustomException("修改失败");
+        }
+        return new ResponseBean(1, "修改成功", null);
+
+    }
+
 }
