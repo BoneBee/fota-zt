@@ -1,5 +1,6 @@
 package com.intest.basicservice.code.vo;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -7,7 +8,7 @@ import java.time.LocalDateTime;
  * @description：验证码信息实体
  * @date ：2020/9/18 16:41
  */
-public class SmsCode {
+public class SmsCode implements Serializable {
     /**
      * 验证码
      */
@@ -27,7 +28,7 @@ public class SmsCode {
         this.expireTime = expireTime;
     }
 
-    boolean isExpire(){
+    public boolean isExpire(){
         return LocalDateTime.now().isAfter(expireTime);
     }
 
