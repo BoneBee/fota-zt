@@ -1,5 +1,5 @@
 server:
-  port: 61042
+  port: 61045
   servlet:
     context-path: /
   tomcat:
@@ -47,9 +47,9 @@ spring:
       connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
       ## Email - start
   mail:
-    host: smtp.126.com
-    username: testcar@126.com
-    password: BTHSVBTDJRABAUOJ
+    host: smtp.qq.com
+    username: 2478683913@qq.com
+    password: bgepgqovjtmpdifg
     properties:
       mail:
         smtp:

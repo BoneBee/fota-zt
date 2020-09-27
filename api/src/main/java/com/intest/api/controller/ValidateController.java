@@ -1,19 +1,24 @@
 package com.intest.api.controller;
 
+import cn.hutool.json.JSONObject;
+import com.intest.basicservice.code.request.UpdatePasswordRequest;
 import com.intest.basicservice.code.vo.SmsCode;
+import com.intest.basicservice.code.vo.UserVO;
+import com.intest.common.redis.JedisUtil;
 import com.intest.common.result.ResultT;
+import com.intest.common.util.BCrypt;
+import com.intest.common.util.StringUtils;
 import com.intest.dao.entity.UserBto;
 import com.intest.dao.entity.UserBtoExample;
 import com.intest.dao.mapper.UserBtoMapper;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -62,17 +67,25 @@ public class ValidateController {
      * @param email
      * @return
      */
+    @ApiOperation("检查平台是否存在该邮箱的用户")
     @GetMapping("/code/checkemail")
-    public ResultT<String> checkEmail(String email){
-        ResultT<String> result = new ResultT<>();
-        UserBtoExample example = new UserBtoExample();
-        example.createCriteria().andCompanyEmailEqualTo(email);
-        List<UserBto> list = userBtoMapper.selectByExample(example);
-        if(list == null || list.size() == 0){
+    public ResultT<UserVO> checkEmail(String email){
+        ResultT<UserVO> result = new ResultT<>();
+
+        try{
+            UserBtoExample example = new UserBtoExample();
+            example.createCriteria().andCompanyEmailEqualTo(email);
+            List<UserBto> list = userBtoMapper.selectByExample(example);
+            if(list != null && list.size() > 0){
+                UserBto bto = list.get(0);
+                UserVO vo = new UserVO();
+                vo.setUserId(bto.getUserId());
+                vo.setLoginName(bto.getLoginName());
+                result.setResult(vo);
+            }
+        }catch (Exception e){
+            e.printStackTrace();
             result.setFail();
-        }
-        else{
-            result.setResult(list.get(0).getLoginName());
         }
         return result;
     }
@@ -84,6 +97,7 @@ public class ValidateController {
      * @param email
      * @return
      */
+    @ApiOperation("获取验证码并发送到邮箱")
     @GetMapping("/code/sms")
     public ResultT<String> createSmsCode(HttpServletRequest request, HttpServletResponse response, String email){
         ResultT<String> result = new ResultT<>();
@@ -96,10 +110,32 @@ public class ValidateController {
             message.setSubject("获取验证码");
             message.setText("您的登录验证码为：" + smsCode.getCode() + "，有效时间为60秒");
             jms.send(message);
-            result.setResult(smsCode.getCode());
+            JedisUtil.setObject("smscode", smsCode);
         }catch (Exception e){
             e.printStackTrace();
             result.setFail();
+        }
+        return result;
+    }
+
+    /**
+     * 校验验证码
+     * @param smsCode
+     * @return
+     */
+    @ApiOperation("校验验证码")
+    @GetMapping("/code/checksms")
+    public ResultT<String> checkSmsCode(String smsCode){
+        ResultT<String> result = new ResultT<>();
+        if(StringUtils.isEmptyStr(smsCode)){
+            result.setResult("验证码不能为空");
+        }
+        SmsCode code  = (SmsCode)JedisUtil.getObject("smscode");
+        if(code == null || !smsCode.equals(code.getCode())){
+            result.setResult("验证码不正确");
+        }
+        if(code.isExpire()){
+            result.setResult("验证码过期");
         }
         return result;
     }
@@ -113,12 +149,23 @@ public class ValidateController {
         return new SmsCode(code, 60);
     }
 
-    @GetMapping("/code/password")
-    public ResultT<String> checkPassword(String password, String confirmPassword){
-        ResultT<String> result = new ResultT<>();
+    /**
+     * 修改密码
+     * @param request
+     * @return
+     */
+    @ApiOperation("修改密码")
+    @PostMapping("/code/updatepassword")
+    public ResultT<Boolean> checkPassword(@RequestBody UpdatePasswordRequest request){
+        ResultT<Boolean> result = new ResultT<>();
         // password：密码长度6-18位且包含大小写字母和数字
-
-        // confirmPassword 与 password 要一致
+        UserBto bto = new UserBto();
+        bto.setUserId(request.getUserId());
+        String salt = BCrypt.gensalt();
+        String hashd = BCrypt.hashpw(request.getPassword(), salt);
+        bto.setLoginPassword(hashd);
+        Boolean flag = userBtoMapper.updateByPrimaryKeySelective(bto) > 0 ? true : false;
+        result.setResult(flag);
         return result;
     }
 }
