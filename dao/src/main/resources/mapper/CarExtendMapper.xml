@@ -38,7 +38,9 @@
         c.simNumber,
         ty.cartype_id carTypeId,
         ty.cartypename carTypeName,
-        m.terminalname terminalCode,
+        m.terminal_id terminalId,
+        m.terminalname terminal,
+        c.terminalcode terminalCode,
         c.createat createAt,
         c.addtype addType,
         t.taskname taskName,
@@ -51,19 +53,19 @@
         left join f_terminal m on ty.fk_terminal_id=m.terminal_id
         where c.isdelete=1
         <if test="carTypeName!=null and carTypeName!=''">
-        and ty.cartypename=#{carTypeName}
+            and ty.cartypename=#{carTypeName}
         </if>
         <if test="terminalCode!=null and terminalCode!=''">
-        and m.terminalname=#{terminalCode}
+            and m.terminalname=#{terminalCode}
         </if>
         <if test="createAt!=null and createAt!=''">
-        and c.createat=#{createAt}
+            and c.createat=#{createAt}
         </if>
         <if test="addType!=null and addType!=''">
-        and c.addtype=#{addType}
+            and c.addtype=#{addType}
         </if>
         <if test="taskName!=null and taskName!=''">
-        and t.taskname=#{taskName}
+            and t.taskname=#{taskName}
         </if>
     </select>
 </mapper>

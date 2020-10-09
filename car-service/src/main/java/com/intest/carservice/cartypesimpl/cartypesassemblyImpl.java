@@ -84,7 +84,8 @@ public class cartypesassemblyImpl implements CarTypesService {
         if (pageindex * pagesize > cartypecount) {
             //取余，最后一页的数量
             long newsize = Math.floorMod(cartypecount, pagesize);
-            PageHelper.startPage(pageindex, (int) newsize);
+            //PageHelper.startPage(pageindex, (int) newsize);
+            PageHelper.startPage(pageindex, pagesize);
         }
         else {
             PageHelper.startPage(pageindex, pagesize);
@@ -368,10 +369,10 @@ public class cartypesassemblyImpl implements CarTypesService {
 
                 //更新删除字段
                 ctbto.setCartypeId(cartype.getCarTypeId());
-                ctbto.setCartypename(cartype.getCarTypeName());
-                ctbto.setIsdelete((short) 0);
+//                ctbto.setCartypename(cartype.getCarTypeName());
+//                ctbto.setIsdelete((short) 0);
                 //更新车型删除状态
-                cartypeMapper.updateByPrimaryKey(ctbto);
+                cartypeMapper.updateByPrimaryKeySelective(ctbto);
             }
         }
 
