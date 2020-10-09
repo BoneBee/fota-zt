@@ -88,9 +88,9 @@ public class carmpl implements CarService {
             //根据车辆ID删除车辆
             CarBto cbto = new CarBto();
             cbto.setCarId(car.getCarId());
-            cbto.setVin(car.getVin());
+//            cbto.setVin(car.getVin());
             cbto.setIsdelete((short) 0);
-            int i = carmp.updateByPrimaryKey(cbto);
+            int i = carmp.updateByPrimaryKeySelective(cbto);
             if (i == 0) {
                 errMsg += String.format("车辆VIN：%s  删除失败！\r\n", car.getVin());
             }
@@ -137,7 +137,8 @@ public class carmpl implements CarService {
             if (pageindex * pagesize > cartcount) {
                 //取余，最后一页的数量
                 long newsize = Math.floorMod(cartcount, pagesize);
-                PageHelper.startPage(pageindex, (int) newsize);
+                //PageHelper.startPage(pageindex, (int) newsize);
+                PageHelper.startPage(pageindex, pagesize);
             }
             else {
                 PageHelper.startPage(pageindex, pagesize);
@@ -176,6 +177,7 @@ public class carmpl implements CarService {
             CarRespone crp = new CarRespone();
             //给车辆赋值基本信息
             crp.setCarId(car.getCarId());
+            crp.setCarTypeId(car.getCarTypeId());
             if (car.getCarTypeName() == null || car.getCarTypeName().equals("")) {
                 crp.setCarTypeName("");
             }
@@ -185,7 +187,9 @@ public class carmpl implements CarService {
 
             crp.setAddType(car.getAddType().toString());
             crp.setIndex(index);
-            crp.setTerminal(car.getTerminalCode());
+            crp.setTerminalId(car.getTerminalId());
+            crp.setTerminalCode(car.getTerminalCode());
+            crp.setTerminal(car.getTerminal());
             crp.setVin(car.getVin());
             if (car.getCreateAt() == null || car.getCreateAt().equals("")) {
                 crp.setCreateAt("");
@@ -220,6 +224,33 @@ public class carmpl implements CarService {
                 CarEcu te = new CarEcu();
                 te.setEcuId(pt.getPartsId());
                 te.setEcuName(pt.getPartsname());
+                //辉哥说，这里零件号以parts表的partscode为准
+                te.setPartCode(pt.getPartscode());
+                //获取零件类型名称
+                PartsTypeBto ptbto = partstypemp.selectByPrimaryKey(pt.getFkPartstypeId());
+                //零件类型名
+                te.setPartType(ptbto.getPartstypename());
+                //获取零件版本
+                PartsPackageBtoExample ppEX = new PartsPackageBtoExample();
+                PartsPackageBtoExample.Criteria ciapp = ppEX.createCriteria();
+
+                ciapp.andFkPartsIdEqualTo(pt.getPartsId());
+                //String sort = carTools.replaceCharacter(carq.getSort());
+                ppEX.setOrderByClause("UPDATEAT DESC");
+
+
+                List<PartsPackageBto> ppbtos = ppmp.selectByExample(ppEX);
+                if (ppbtos.size() > 0) {
+                    PartsPackageBto ppbto = ppbtos.get(0);
+                    te.setPartVersion(ppbto.getSoftwareversion());
+                    if (ppbto.getUpdateat() == null || ppbto.getUpdateat().equals("")) {
+                        te.setUpdateAt("");
+                    }
+                    else {
+                        te.setUpdateAt(ft.format(ppbto.getUpdateat()));
+                    }
+                }
+
                 ecus.add(te);
 
             }
@@ -261,6 +292,7 @@ public class carmpl implements CarService {
         TerminalBto terminalBto = terminalmp.selectByPrimaryKey(carTypeBto.getFkTerminalId());
         //给车辆赋值基本信息
         crp.setCarId(car.getCarId());
+        crp.setCarTypeId(carTypeBto.getCartypeId());
         crp.setCarTypeName(carTypeBto.getCartypename());
         crp.setAddType(car.getAddtype().toString());
         if (terminalBto != null) {

@@ -207,7 +207,7 @@ public class CarTypesController {
 
 
     @ApiOperation("修改车辆")
-    @RequestMapping(value = "/api/cars/mdfCar", method = RequestMethod.POST)
+    @RequestMapping(value = "/api/cars/modifyCar", method = RequestMethod.POST)
     public Result mdfCar(@RequestBody addCar pcar) {
         Result result = new Result();
         try {

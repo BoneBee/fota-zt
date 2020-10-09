@@ -5,14 +5,15 @@ public class CarBtoExtend {
     private String carTypeName;
     private String carTypeId;
 
-    //    private String terminal;
+    private String terminal;
+
     //public String pCompany;
     private String terminalId;
     private String terminalPro;
     private String terminalCode;
     private String vin;
     private String createAt;
-//    private String createBy;
+    //    private String createBy;
     private String addType;
 
     //private CarTask taskMsg;
@@ -21,7 +22,7 @@ public class CarBtoExtend {
     private String executeStatus;
 
     private String carId;
-//    private String operator;
+    //    private String operator;
     private String ICCID;
     private String simNumber;
 
@@ -33,13 +34,29 @@ public class CarBtoExtend {
         this.carTypeName = carTypeName;
     }
 
-//    public String getTerminal() {
-//        return terminal;
-//    }
-//
-//    public void setTerminal(String terminal) {
-//        this.terminal = terminal;
-//    }
+    public String getTerminal() {
+        return terminal;
+    }
+
+    public void setTerminal(String terminal) {
+        this.terminal = terminal;
+    }
+
+    public String getTerminalId() {
+        return terminalId;
+    }
+
+    public void setTerminalId(String terminalId) {
+        this.terminalId = terminalId;
+    }
+
+    public String getTerminalPro() {
+        return terminalPro;
+    }
+
+    public void setTerminalPro(String terminalPro) {
+        this.terminalPro = terminalPro;
+    }
 
     public String getTerminalCode() {
         return terminalCode;
