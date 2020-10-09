@@ -60,6 +60,7 @@ public class TaskController extends BaseController {
             }else {
                 return new ResponseBean(0, "创建任务创建失败，未获取到当前登录用户信息，请重新登录创建", null);
             }
+            //taskBaseEntity.setCreateBy("");
             taskBaseEntity.setTaskId(UUID.randomUUID().toString());
             //获取任务审核模板ID
             List<TaskReviewTmpEntity> taskReviewTmpEntities=taskService.getTaskReviewTmp();

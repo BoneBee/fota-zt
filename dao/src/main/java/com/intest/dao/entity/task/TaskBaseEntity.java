@@ -36,7 +36,7 @@ public class TaskBaseEntity {
     /**
      * 升级时间
      */
-    public Date upgradeTime;
+    public String upgradeTime;
 
     /**
      * 计划开始时间
