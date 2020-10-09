@@ -63,7 +63,7 @@ public class TaskCarBaseEntity {
     /**
      * 升级时间
      */
-    public Date upgradeTime;
+    public String upgradeTime;
 
 
     /**
