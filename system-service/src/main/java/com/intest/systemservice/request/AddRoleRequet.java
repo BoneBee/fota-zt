@@ -6,7 +6,7 @@ public class AddRoleRequet {
     private String roleName;
     private int roleType;
     private String remark;
-    private List<PermissionBean> list;
+    private List<PermissionBean> children;
 
     public String getRoleName() {
         return roleName;
@@ -32,18 +32,19 @@ public class AddRoleRequet {
         this.remark = remark;
     }
 
-    public List<PermissionBean> getList() {
-        return list;
+    public List<PermissionBean> getChildren() {
+        return children;
     }
 
-    public void setList(List<PermissionBean> list) {
-        this.list = list;
+    public void setChildren(List<PermissionBean> children) {
+        this.children = children;
     }
 
     public static class PermissionBean {
         private String id;
         private int resourceType;
         private int isCheck;
+        private List<PermissionBean> children;
 
         public String getId() {
             return id;
@@ -67,6 +68,14 @@ public class AddRoleRequet {
 
         public void setIsCheck(int isCheck) {
             this.isCheck = isCheck;
+        }
+
+        public List<PermissionBean> getChildren() {
+            return children;
+        }
+
+        public void setChildren(List<PermissionBean> children) {
+            this.children = children;
         }
     }
 }

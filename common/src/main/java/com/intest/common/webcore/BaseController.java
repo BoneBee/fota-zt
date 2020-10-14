@@ -88,7 +88,7 @@ public class BaseController {
      * @param
      * @return com.intest.dao.entity.UserBto
      */
-    protected UserBto getAccount() {
+    public UserBto getAccount() {
         UserBto userBto = null;
         try {
             String token = getAuthorizationToken();
