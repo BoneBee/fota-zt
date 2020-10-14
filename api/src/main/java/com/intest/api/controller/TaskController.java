@@ -94,7 +94,7 @@ public class TaskController extends BaseController {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            logger.error("创建任务失败：失败信息：" + ExcpUtil.getStackTraceString(ex));
+            logger.info("创建任务失败：失败信息：" + ExcpUtil.getStackTraceString(ex));
             return new ResponseBean(0, "创建任务失败", null);
         }
     }
@@ -150,7 +150,7 @@ public class TaskController extends BaseController {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            logger.error(str + "失败：失败信息：" + ExcpUtil.getStackTraceString(ex));
+            logger.info(str + "失败：失败信息：" + ExcpUtil.getStackTraceString(ex));
             return new ResponseBean(-1, str + "失败", null);
         }
     }
@@ -177,7 +177,7 @@ public class TaskController extends BaseController {
             return result;
         } catch (Exception ex) {
             ex.printStackTrace();
-            logger.error("获取任务车辆失败：失败信息：" + ExcpUtil.getStackTraceString(ex));
+            logger.info("获取任务车辆失败：失败信息：" + ExcpUtil.getStackTraceString(ex));
             result.setSuccess(-1);
             return result;
         }
@@ -207,7 +207,7 @@ public class TaskController extends BaseController {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            logger.error("取消任务失败：失败信息：" + ExcpUtil.getStackTraceString(ex));
+            logger.info("取消任务失败：失败信息：" + ExcpUtil.getStackTraceString(ex));
             return new ResponseBean(0, "取消任务失败", null);
         }
     }
@@ -226,7 +226,7 @@ public class TaskController extends BaseController {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            logger.error("添加审核记录失败：失败信息：" + ExcpUtil.getStackTraceString(ex));
+            logger.info("添加审核记录失败：失败信息：" + ExcpUtil.getStackTraceString(ex));
             return new ResponseBean(0, "添加审核记录失败", null);
         }
     }
@@ -248,7 +248,7 @@ public class TaskController extends BaseController {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            logger.error("取消任务失败：失败信息：" + ExcpUtil.getStackTraceString(ex));
+            logger.info("取消任务失败：失败信息：" + ExcpUtil.getStackTraceString(ex));
             return new ResponseBean(0, "取消任务失败", null);
         }
     }
@@ -282,7 +282,7 @@ public class TaskController extends BaseController {
             return result;
         } catch (Exception ex) {
             ex.printStackTrace();
-            logger.error("获取任务审核-任务列表失败：失败信息：" + ExcpUtil.getStackTraceString(ex));
+            logger.info("获取任务审核-任务列表失败：失败信息：" + ExcpUtil.getStackTraceString(ex));
             result.setSuccess(-1);
             return result;
         }
@@ -319,7 +319,7 @@ public class TaskController extends BaseController {
             return result;
         } catch (Exception ex) {
             ex.printStackTrace();
-            logger.error("获取我的审核列表失败：失败信息：" + ExcpUtil.getStackTraceString(ex));
+            logger.info("获取我的审核列表失败：失败信息：" + ExcpUtil.getStackTraceString(ex));
             result.setSuccess(-1);
             return result;
         }
@@ -338,7 +338,7 @@ public class TaskController extends BaseController {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            logger.error("获取车辆升级日志失败：失败信息：" + ExcpUtil.getStackTraceString(ex));
+            logger.info("获取车辆升级日志失败：失败信息：" + ExcpUtil.getStackTraceString(ex));
             return new ResponseBean(0, "获取车辆升级日志失败", null);
         }
     }
@@ -362,7 +362,7 @@ public class TaskController extends BaseController {
             }
         } catch (Exception ex) {
             ex.printStackTrace();
-            logger.error("获取车辆详情-基础信息tab页失败：失败信息：" + ExcpUtil.getStackTraceString(ex));
+            logger.info("获取车辆详情-基础信息tab页失败：失败信息：" + ExcpUtil.getStackTraceString(ex));
             return new ResponseBean(0, "获取车辆详情-基础信息tab页志失败", null);
         }
     }
@@ -390,7 +390,7 @@ public class TaskController extends BaseController {
             return result;
         } catch (Exception ex) {
             ex.printStackTrace();
-            logger.error("创建任务时，根据车型获取升级包信息失败：失败信息：" + ExcpUtil.getStackTraceString(ex));
+            logger.info("创建任务时，根据车型获取升级包信息失败：失败信息：" + ExcpUtil.getStackTraceString(ex));
             result.setSuccess(-1);
             return result;
         }
@@ -425,7 +425,7 @@ public class TaskController extends BaseController {
             return result;
         } catch (Exception ex) {
             ex.printStackTrace();
-            logger.error("创建任务时，根据车型获取vin集合信息失败：失败信息：" + ExcpUtil.getStackTraceString(ex));
+            logger.info("创建任务时，根据车型获取vin集合信息失败：失败信息：" + ExcpUtil.getStackTraceString(ex));
             result.setSuccess(-1);
             return result;
         }

@@ -4,6 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-config.dtd">
 <configuration>
     <settings>
+        <setting name="jdbcTypeForNull" value="NULL"/>
         <!--使用jdbc的getGeneratedKeys获取数据库自增主键值-->
         <setting name="useGeneratedKeys" value="false"/>
         <!--使用列标签换列别名 默认：true-->
