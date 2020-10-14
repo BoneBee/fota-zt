@@ -177,39 +177,41 @@ public class SpringContextLoader implements ApplicationContextAware, ServletCont
                                     }
 
                                     // 查询条件赋值
-                                    for (QueryWhereRO whereRO : model.getQueryWhere()) {
-                                        if (field.getName().equals(whereRO.getFields())) {
-                                            Type fieldType = field.getType();
-                                            if (String.class.equals(fieldType)) {
-                                                field.setAccessible(true);
-                                                field.set(obj, whereRO.getValue());
-                                            } else if (int.class.equals(fieldType)) {
-                                                int _value = Integer.parseUnsignedInt(whereRO.getValue());
-                                                field.setAccessible(true);
-                                                field.set(obj, _value);
-                                            } else if (short.class.equals(fieldType)) {
-                                                short _value = Short.parseShort(whereRO.getValue());
-                                                field.setAccessible(true);
-                                                field.set(obj, _value);
-                                            } else if (long.class.equals(fieldType)) {
-                                                long _value = Long.parseLong(whereRO.getValue());
-                                                field.setAccessible(true);
-                                                field.set(obj, _value);
-                                            } else if (float.class.equals(fieldType)) {
-                                                float _value = Float.parseFloat(whereRO.getValue());
-                                                field.setAccessible(true);
-                                                field.set(obj, _value);
-                                            } else if (double.class.equals(fieldType)) {
-                                                double _value = Double.parseDouble(whereRO.getValue());
-                                                field.setAccessible(true);
-                                                field.set(obj, _value);
-                                            } else if (Date.class.equals(fieldType)) {
-                                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                                                Date _value = formatter.parse(whereRO.getValue());
-                                                field.setAccessible(true);
-                                                field.set(obj, _value);
-                                            } else if (Array.class.equals(fieldType)) {
+                                    if(model.getQueryWhere()!=null) {
+                                        for (QueryWhereRO whereRO : model.getQueryWhere()) {
+                                            if (field.getName().equals(whereRO.getFields())) {
+                                                Type fieldType = field.getType();
+                                                if (String.class.equals(fieldType)) {
+                                                    field.setAccessible(true);
+                                                    field.set(obj, whereRO.getValue());
+                                                } else if (int.class.equals(fieldType)) {
+                                                    int _value = Integer.parseUnsignedInt(whereRO.getValue());
+                                                    field.setAccessible(true);
+                                                    field.set(obj, _value);
+                                                } else if (short.class.equals(fieldType)) {
+                                                    short _value = Short.parseShort(whereRO.getValue());
+                                                    field.setAccessible(true);
+                                                    field.set(obj, _value);
+                                                } else if (long.class.equals(fieldType)) {
+                                                    long _value = Long.parseLong(whereRO.getValue());
+                                                    field.setAccessible(true);
+                                                    field.set(obj, _value);
+                                                } else if (float.class.equals(fieldType)) {
+                                                    float _value = Float.parseFloat(whereRO.getValue());
+                                                    field.setAccessible(true);
+                                                    field.set(obj, _value);
+                                                } else if (double.class.equals(fieldType)) {
+                                                    double _value = Double.parseDouble(whereRO.getValue());
+                                                    field.setAccessible(true);
+                                                    field.set(obj, _value);
+                                                } else if (Date.class.equals(fieldType)) {
+                                                    SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                    Date _value = formatter.parse(whereRO.getValue());
+                                                    field.setAccessible(true);
+                                                    field.set(obj, _value);
+                                                } else if (Array.class.equals(fieldType)) {
 
+                                                }
                                             }
                                         }
                                     }
