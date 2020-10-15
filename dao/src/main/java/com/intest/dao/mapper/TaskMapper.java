@@ -77,10 +77,10 @@ public interface TaskMapper {
 
     /**
      * 我的审核列表
-     * @param taskParaEntity
+     * @param userId
      * @return
      */
-    List<TaskBaseEntity> selectMyReviewTaskLst(TaskParaEntity taskParaEntity);
+    List<TaskBaseEntity> selectMyReviewTaskLst(String userId);
 
     /**
      * 车辆升级日志

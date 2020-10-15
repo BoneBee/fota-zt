@@ -153,6 +153,12 @@ public class SpringContextLoader implements ApplicationContextAware, ServletCont
                                         field.setAccessible(true);
                                         field.set(obj, model.getPs());
                                     }
+
+                                    if (field.getName().equalsIgnoreCase("taskId")) {
+                                        field.setAccessible(true);
+                                        field.set(obj, model.getTaskId());
+                                    }
+
                                     if (field.getName().equalsIgnoreCase("Sort")) {
                                         StringBuilder builder = new StringBuilder();
                                         if (model.getSort() != null && model.getSort().size() > 0) {

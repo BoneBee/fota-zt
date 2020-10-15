@@ -42,6 +42,13 @@ public class GetDataRO {
     private List<QueryWhereRO> QueryWhere;
 
     /*
+     * 新增底层参数 查询任务车辆时使用
+     */
+    @JsonProperty("taskId")
+    private String TaskId;
+
+
+    /*
      * 全文搜索
      */
     @JsonProperty("fullTextSearch")
@@ -50,6 +57,12 @@ public class GetDataRO {
     public String getTableId() {
         return this.TableId;
     }
+
+
+    public String getTaskId() {
+        return this.TaskId;
+    }
+
 
     public int getPi() {
         return this.Pi;
