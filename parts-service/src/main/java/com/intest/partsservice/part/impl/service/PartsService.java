@@ -12,7 +12,7 @@ public interface PartsService {
 
     PartsBto getPartsByFullName(String partsFullName);
 
-    PartsBto getPartsByCode(String partsCode);
+    PartsBto getPartsByName(String partName);
 
     List<PartsBto> getPartsList();
 

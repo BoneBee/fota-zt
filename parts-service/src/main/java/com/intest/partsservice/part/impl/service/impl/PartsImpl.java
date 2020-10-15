@@ -46,10 +46,10 @@ public class PartsImpl implements PartsService {
     }
 
     @Override
-    public PartsBto getPartsByCode(String partsCode) {
+    public PartsBto getPartsByName(String partName) {
         PartsBtoExample partsBtoExample = new PartsBtoExample();
         PartsBtoExample.Criteria criteria = partsBtoExample.createCriteria();
-        criteria.andPartscodeEqualTo(partsCode);
+        criteria.andPartsnameEqualTo(partName);
         List<PartsBto> partsBtos = partsBtoMapper.selectByExample(partsBtoExample);
         if (partsBtos.size() != 0) {
             return partsBtos.get(0);

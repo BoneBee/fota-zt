@@ -225,6 +225,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public UserBto getUserByPhone(String phone) {
+        UserBtoExample example = new UserBtoExample();
+        UserBtoExample.Criteria criteria = example.createCriteria();
+        criteria.andMobileEqualTo(phone);
+        List<UserBto> userBtos = userBtoMapper.selectByExample(example);
+        if (userBtos != null && userBtos.size() != 0) {
+            return userBtos.get(0);
+        } else {
+            return null;
+        }
+    }
+
+    @Override
+    public UserBto getUserByUserName(String userName) {
+        return null;
+    }
+
+    @Override
     public UserBto getUserByUserId(String userId) {
         return userBtoMapper.selectByPrimaryKey(userId);
     }

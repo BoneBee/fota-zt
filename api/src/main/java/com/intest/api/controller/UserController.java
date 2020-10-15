@@ -4,11 +4,8 @@ package com.intest.api.controller;
 import com.intest.basicservice.table.common.ResponseBean;
 import com.intest.basicservice.table.config.helper.ValidateHelper;
 import com.intest.basicservice.table.util.CheckPwd;
-import com.intest.basicservice.user.request.AddUserRequest;
-import com.intest.basicservice.user.request.DeleteUserRequest;
-import com.intest.basicservice.user.request.UpdateUserRequest;
+import com.intest.basicservice.user.request.*;
 import com.intest.basicservice.user.response.ResetPassworldResponse;
-import com.intest.basicservice.user.request.UserRequest;
 import com.intest.basicservice.user.response.UserPage;
 import com.intest.basicservice.user.service.impl.UserServiceImpl;
 import com.intest.basicservice.user.vo.LoginVO;
@@ -22,6 +19,7 @@ import com.intest.common.util.BCrypt;
 import com.intest.common.util.StringUtils;
 import com.intest.common.webcore.BaseController;
 import com.intest.dao.entity.UserBto;
+import com.intest.partsservice.part.response.DateResponse;
 import com.intest.partsservice.part.response.PartPage;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -263,6 +261,55 @@ public class UserController extends BaseController {
         return new ResponseBean(1, "重置密码成功", new ResetPassworldResponse("12ab34cd56ef@"));
     }
 
+    /**
+     * 修改密码
+     *
+     * @param request
+     * @return
+     */
+    @ApiOperation("修改密码")
+    @ResponseBody
+    @RequestMapping(value = "/api/infota/product/updatePassworld", method = RequestMethod.POST)
+    public ResponseBean updatePassworld(@RequestBody UpdatePassworldRequest request) {
+        UserBto userBto = userService.getUserByname(request.getLoginName());
+        if (userBto == null) {
+            throw new CustomException("未找到该用户");
+        }
+        if (!BCrypt.checkpw(request.getOldPassworld(), userBto.getLoginPassword())) {
+            throw new CustomException("您输入的旧密码错误，请重试");
+        }
+        if (!request.getNewPassworld().equals(request.getIsPassworld())) {
+            throw new CustomException("您两次输入的密码不一致，请重试");
+        }
+
+        if (request.getLoginName().equals(request.getNewPassworld())) {
+            throw new CustomException("密码不可与用户名一致");
+        }
+
+        if (CheckPwd.checkLateralKeyboardSite(request.getNewPassworld()) || CheckPwd.checkSequentialChars(request.getNewPassworld())) {
+            throw new CustomException("密码不能连续3位或3位以上字母或数字");
+        }
+
+        if (CheckPwd.checkSequentialSameChars(request.getNewPassworld())) {
+            throw new CustomException("密码不能相同连续3位或3位以上字母或数字");
+        }
+
+        if (!CheckPwd.checkPasswordLength(request.getNewPassworld())) {
+            throw new CustomException("密码长度必须8-16位");
+        }
+        if (CheckPwd.checkContainDigit(request.getNewPassworld()) && CheckPwd.checkContainCase(request.getNewPassworld()) && CheckPwd.checkContainSpecialChar(request.getNewPassworld())) {
+            String yan = userBto.getCsprng();
+            String hashd = BCrypt.hashpw(request.getNewPassworld(), yan);
+            userBto.setLoginPassword(hashd);
+            if (userService.updateUser(userBto) != 1) {
+                throw new CustomException("密码修改失败");
+            }
+            return new ResponseBean(1, "密码修改成功", null);
+        } else {
+            throw new CustomException("密码必须由字母、数字、特殊符号组成");
+        }
+    }
+
 
     /**
      * 获取用户列表信息
@@ -296,7 +343,48 @@ public class UserController extends BaseController {
             throw new CustomException("修改失败");
         }
         return new ResponseBean(1, "修改成功", null);
+    }
 
+    /**
+     * 检测登陆账户是否重复接口
+     *
+     * @param loginName
+     * @return
+     */
+    @ApiOperation("检测登陆账户是否重复接口")
+    @ResponseBody
+    @RequestMapping(value = "/api/infota/product/selectLoginName", method = RequestMethod.GET)
+    public ResponseBean selectLoginName(@ApiParam String loginName) {
+        if (!StringUtils.isNotEmptyStr(loginName)) {
+            throw new CustomException("登陆账户不能为空");
+        }
+        UserBto userBto = userService.getUserByname(loginName);
+        if (userBto == null) {
+            return new ResponseBean(1, "该账户名不存在", new DateResponse(0));
+        } else {
+            return new ResponseBean(1, "该账户已存在，请重新输入", new DateResponse(1));
+        }
+    }
+
+    /**
+     * 检测手机号是否重复接口
+     *
+     * @param phone
+     * @return
+     */
+    @ApiOperation("检测手机号是否重复接口")
+    @ResponseBody
+    @RequestMapping(value = "/api/infota/product/selectPhone", method = RequestMethod.GET)
+    public ResponseBean selectPhone(@ApiParam String phone) {
+        if (!StringUtils.isNotEmptyStr(phone)) {
+            throw new CustomException("手机号不能为空");
+        }
+        UserBto userBto = userService.getUserByPhone(phone);
+        if (userBto == null) {
+            return new ResponseBean(1, "该手机号未注册", new DateResponse(0));
+        } else {
+            return new ResponseBean(1, "该手机号已注册，请重新输入", new DateResponse(1));
+        }
     }
 
 }

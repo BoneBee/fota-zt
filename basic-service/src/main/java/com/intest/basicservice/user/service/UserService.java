@@ -16,6 +16,10 @@ public interface UserService {
 
     UserBto getUserByname(String name);
 
+    UserBto getUserByPhone(String phone);
+
+    UserBto getUserByUserName(String userName);
+
     UserBto getUserByUserId(String userId);
 
     List<UserBto> getUserList();
