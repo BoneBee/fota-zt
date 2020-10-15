@@ -216,6 +216,9 @@ public class SystemController extends BaseController{
     @ResponseBody
     @RequestMapping(value = "/api/basic/system/selectTaskTmpName", method = RequestMethod.GET)
     public ResponseBean selectTaskTmpName(@ApiParam String taskTmpName, @ApiParam String taskTmpId) {
+        if (!StringUtils.isNotEmptyStr(taskTmpName)) {
+            throw new CustomException("审核名称不能为空");
+        }
         if (StringUtils.isNotEmptyStr(taskTmpId)) {
             TaskReviewTmpBto taskReviewTmpBto = taskReviewTmpImpl.getTaskReviewTmpById(taskTmpId);
             if (taskReviewTmpBto.getTaskReviewtmpName().equals(taskTmpName)) {
