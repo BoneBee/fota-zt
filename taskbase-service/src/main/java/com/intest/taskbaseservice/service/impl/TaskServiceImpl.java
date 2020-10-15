@@ -70,7 +70,7 @@ public class TaskServiceImpl implements TaskService {
         }
     }
     /**
-     * 获取任务车辆
+     * 获取任务车辆（使用表格方式查询）
      * @param taskId
      * @return
      */
@@ -152,7 +152,7 @@ public class TaskServiceImpl implements TaskService {
      */
     @Override
     public List<TaskBaseEntity> selectMyReviewTaskLst(TaskParaEntity taskParaEntity) {
-        return taskMapper.selectMyReviewTaskLst(taskParaEntity);
+        return taskMapper.selectMyReviewTaskLst(taskParaEntity.getUserId());
     }
     /**
      * 获取车辆升级列表

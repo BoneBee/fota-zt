@@ -29,7 +29,7 @@ public interface TaskService {
 
 
     /**
-     * 发布，关闭任务操作
+     * 获取任务车辆
      * @return
      */
     List<TaskCarBaseEntity> getTaskCar(String taskId);
