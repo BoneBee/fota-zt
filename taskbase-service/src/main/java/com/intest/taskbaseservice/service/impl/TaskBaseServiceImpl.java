@@ -34,7 +34,7 @@ import java.util.List;
  */
 @Service
 @TableDataAnnotation
-public class TaskBaseServiceImpl implements TaskBaseService {
+public class TaskBaseServiceImpl extends BaseController implements TaskBaseService  {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -99,7 +99,7 @@ public class TaskBaseServiceImpl implements TaskBaseService {
 //            //获取任务车辆数量
 //            TaskCarInfoNumsEntity taskCarInfoNumsEntity=taskMapper.selectTaskCarNum(item.getTaskId());
 //
-//            //item.setCarCountNum(taskCarInfoNumsEntity.getCarTotalNum());
+//            item.setCarCountNum(taskCarInfoNumsEntity.getCarTotalNum());
 //        }
             PageInfo<TaskCarBaseEntity> pageInfo = new PageInfo<>(taskCarLst);
             int index = pageInfo.getStartRow() - 1;
@@ -129,6 +129,14 @@ public class TaskBaseServiceImpl implements TaskBaseService {
         try {
             PageHelper.startPage(taskParaEntity.getPi(), taskParaEntity.getPs());
             List<TaskBaseEntity> taskLst =  taskMapper.selectReviewedTaskLst();
+
+            for (TaskBaseEntity item : taskLst) {
+                //获取任务车辆数量
+                TaskCarInfoNumsEntity taskCarInfoNumsEntity = taskMapper.selectTaskCarNum(item.getTaskId());
+
+                item.setCarCountNum(taskCarInfoNumsEntity.getCarTotalNum());
+            }
+
             PageInfo<TaskBaseEntity> pageInfo = new PageInfo<>(taskLst);
             int index = pageInfo.getStartRow() - 1;
             for (TaskBaseEntity item : taskLst) {
@@ -154,8 +162,7 @@ public class TaskBaseServiceImpl implements TaskBaseService {
     public PagerDataBaseVO selectMyReviewTaskLst(GetDataRO taskParaEntity) {
         logger.info("接收到查询我的审核列表请求");
         //获取当前登录用户信息
-        BaseController baseController=new BaseController();
-        UserBto userBto= baseController.getAccount();
+        UserBto userBto= getAccount();
 
         PagerDataBaseVO type = new PagerDataBaseVO();
         if(userBto==null){
@@ -167,6 +174,14 @@ public class TaskBaseServiceImpl implements TaskBaseService {
                 logger.info("当前登录用户Id："+userBto.getUserId());
                 PageHelper.startPage(taskParaEntity.getPi(), taskParaEntity.getPs());
                 List<TaskBaseEntity> taskLst =  taskMapper.selectMyReviewTaskLst(userBto.getUserId());
+
+                for (TaskBaseEntity item:taskLst){
+                    //获取任务车辆数量
+                    TaskCarInfoNumsEntity taskCarInfoNumsEntity=taskMapper.selectTaskCarNum(item.getTaskId());
+
+                    item.setCarCountNum(taskCarInfoNumsEntity.getCarTotalNum());
+                }
+
                 PageInfo<TaskBaseEntity> pageInfo = new PageInfo<>(taskLst);
                 int index = pageInfo.getStartRow() - 1;
                 for (TaskBaseEntity item : taskLst) {

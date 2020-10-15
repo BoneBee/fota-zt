@@ -56,6 +56,7 @@ public class TaskController extends BaseController {
             UserBto userBto= getAccount();
             if(userBto!=null){
                 String userId= userBto.getUserId();
+                logger.info("用户Id："+userId);
                 taskBaseEntity.setCreateBy(userId);
             }else {
                 return new ResponseBean(0, "创建任务创建失败，未获取到当前登录用户信息，请重新登录创建", null);
@@ -140,6 +141,7 @@ public class TaskController extends BaseController {
             }else {
                 return new ResponseBean(0, str+"失败，未获取到当前登录用户信息，请重新登录", null);
             }
+//            taskParaEntity.setUserId("test");
             int n = taskService.operationTask(taskParaEntity);
 
             if (n > 0) {

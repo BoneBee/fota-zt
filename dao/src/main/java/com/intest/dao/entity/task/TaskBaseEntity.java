@@ -95,7 +95,6 @@ public class TaskBaseEntity {
     /**
      * 创建人
      */
-    @JsonIgnore
     public String createBy;
 
     /**
