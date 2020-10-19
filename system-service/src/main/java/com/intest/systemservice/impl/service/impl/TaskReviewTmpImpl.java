@@ -9,7 +9,7 @@ import com.intest.dao.entity.*;
 import com.intest.dao.mapper.TaskReviewTmpBtoMapper;
 import com.intest.dao.mapper.TaskReviewTmpDetileBtoMapper;
 import com.intest.dao.mapper.UserBtoMapper;
-import com.intest.systemservice.impl.service.TaskReviewTmpPage;
+import com.intest.systemservice.impl.service.SystemPage;
 import com.intest.systemservice.impl.service.TaskReviewTmpService;
 import com.intest.systemservice.response.TaskReviewTmpResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -105,7 +105,7 @@ public class TaskReviewTmpImpl implements TaskReviewTmpService {
 
     @Override
     @TableDataAnnotation(tableId = "49ffe733-9cc6-4cda-ad35-b06b631d2b74")
-    public PagerDataBaseVO getTaskReviewTmpInfo(TaskReviewTmpPage model) {
+    public PagerDataBaseVO getTaskReviewTmpInfo(SystemPage model) {
         PagerDataBaseVO task = new PagerDataBaseVO();
         PageHelper.startPage(model.getPi(), model.getPs());
         List<TaskReviewTmpBto> taskReviewTmpBtoList = mapper.selectByExample(null);
