@@ -92,8 +92,10 @@ public class cartypesassemblyImpl implements CarTypesService {
         }
         try {
             if (request.getSort() != null && !request.getSort().equals("")) {
-                String sort = carTools.replaceCharacter(request.getSort());
-                btoExample.setOrderByClause(sort);
+                if(!request.getSort().contains("index")) {
+                    String sort = carTools.replaceCharacter(request.getSort());
+                    btoExample.setOrderByClause(sort);
+                }
             }
 
 
