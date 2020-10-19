@@ -4,7 +4,7 @@ import com.intest.common.ro.PagerBaseRO;
 
 import java.util.Date;
 
-public class TaskReviewTmpPage extends PagerBaseRO {
+public class SystemPage extends PagerBaseRO {
     private String id;
 
     private int age;

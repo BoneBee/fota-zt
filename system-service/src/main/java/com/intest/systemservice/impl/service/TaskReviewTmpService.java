@@ -19,5 +19,5 @@ public interface TaskReviewTmpService {
 
     int deleteTaskReviewTmp(String taskreviewtmpId);
 
-    PagerDataBaseVO getTaskReviewTmpInfo(TaskReviewTmpPage model);
+    PagerDataBaseVO getTaskReviewTmpInfo(SystemPage model);
 }

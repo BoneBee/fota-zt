@@ -354,15 +354,21 @@ public class UserController extends BaseController {
     @ApiOperation("检测登陆账户是否重复接口")
     @ResponseBody
     @RequestMapping(value = "/api/infota/product/selectLoginName", method = RequestMethod.GET)
-    public ResponseBean selectLoginName(@ApiParam String loginName) {
+    public ResponseBean selectLoginName(@ApiParam String loginName, @ApiParam String id) {
         if (!StringUtils.isNotEmptyStr(loginName)) {
             throw new CustomException("登陆账户不能为空");
         }
+        if (StringUtils.isNotEmptyStr(id)) {
+            UserBto userBto = userService.getUserByUserId(id);
+            if (userBto.getLoginName().equals(loginName)) {
+                return new ResponseBean(1, "该账户名未注册", new DateResponse(0));
+            }
+        }
         UserBto userBto = userService.getUserByname(loginName);
         if (userBto == null) {
-            return new ResponseBean(1, "该账户名不存在", new DateResponse(0));
+            return new ResponseBean(1, "该账户名未注册", new DateResponse(0));
         } else {
-            return new ResponseBean(1, "该账户已存在，请重新输入", new DateResponse(1));
+            return new ResponseBean(1, "该账户已注册，请重新输入", new DateResponse(1));
         }
     }
 
@@ -375,9 +381,15 @@ public class UserController extends BaseController {
     @ApiOperation("检测手机号是否重复接口")
     @ResponseBody
     @RequestMapping(value = "/api/infota/product/selectPhone", method = RequestMethod.GET)
-    public ResponseBean selectPhone(@ApiParam String phone) {
+    public ResponseBean selectPhone(@ApiParam String phone, @ApiParam String id) {
         if (!StringUtils.isNotEmptyStr(phone)) {
             throw new CustomException("手机号不能为空");
+        }
+        if (StringUtils.isNotEmptyStr(id)) {
+            UserBto userBto = userService.getUserByUserId(id);
+            if (userBto.getMobile().equals(phone)) {
+                return new ResponseBean(1, "该手机号未注册", new DateResponse(0));
+            }
         }
         UserBto userBto = userService.getUserByPhone(phone);
         if (userBto == null) {

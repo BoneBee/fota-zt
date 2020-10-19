@@ -2,11 +2,20 @@ package com.intest.systemservice.request;
 
 import java.util.List;
 
-public class AddRoleRequet {
+public class UpdateRoleRequet {
+    private String roleId;
     private String roleName;
     private int roleType;
     private String remark;
-    private List<PermissionBean> list;
+    private List<AddRoleRequet.PermissionBean> list;
+
+    public String getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
 
     public String getRoleName() {
         return roleName;
@@ -32,18 +41,18 @@ public class AddRoleRequet {
         this.remark = remark;
     }
 
-    public List<PermissionBean> getList() {
+    public List<AddRoleRequet.PermissionBean> getList() {
         return list;
     }
 
-    public void setList(List<PermissionBean> list) {
+    public void setList(List<AddRoleRequet.PermissionBean> list) {
         this.list = list;
     }
 
     public static class PermissionBean {
         private String id;
         private int resourceType;
-        private List<PermissionBean> children;
+        private List<AddRoleRequet.PermissionBean> children;
 
         public String getId() {
             return id;
@@ -61,11 +70,11 @@ public class AddRoleRequet {
             this.resourceType = resourceType;
         }
 
-        public List<PermissionBean> getChildren() {
+        public List<AddRoleRequet.PermissionBean> getChildren() {
             return children;
         }
 
-        public void setChildren(List<PermissionBean> children) {
+        public void setChildren(List<AddRoleRequet.PermissionBean> children) {
             this.children = children;
         }
     }
