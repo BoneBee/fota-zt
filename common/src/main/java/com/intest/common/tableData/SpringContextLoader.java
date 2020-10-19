@@ -63,14 +63,12 @@ public class SpringContextLoader implements ApplicationContextAware, ServletCont
     /**
      * 得到Class中包含有传入Annotation类型的方法
      *
-     * @param clz
-     *            Class类型
-     * @param annoClz
-     *            Annotation类型
+     * @param clz     Class类型
+     * @param annoClz Annotation类型
      * @return 传入Annotation类型标记的方法
      * @throws Exception
      */
-    @SuppressWarnings({ "unchecked", "rawtypes" })
+    @SuppressWarnings({"unchecked", "rawtypes"})
     public static List<DataTableClassMethod> getClassMethodByAnnotation(Class clz, Class annoClz) throws Exception {
         List<DataTableClassMethod> result = new ArrayList<DataTableClassMethod>();
         clz = Class.forName(clz.getName(), true, clz.getClassLoader());
@@ -153,22 +151,30 @@ public class SpringContextLoader implements ApplicationContextAware, ServletCont
                                         field.setAccessible(true);
                                         field.set(obj, model.getPs());
                                     }
+
+                                    if (field.getName().equalsIgnoreCase("taskId")) {
+                                        field.setAccessible(true);
+                                        field.set(obj, model.getTaskId());
+                                    }
+
                                     if (field.getName().equalsIgnoreCase("Sort")) {
                                         StringBuilder builder = new StringBuilder();
                                         if (model.getSort() != null && model.getSort().size() > 0) {
                                             for (int i = 0; i < model.getSort().size(); i++) {
                                                 SortRO sortRo = model.getSort().get(i);
-                                                if (sortRo.getSortOrder().equalsIgnoreCase("ascend") ||
-                                                        sortRo.getSortOrder().equalsIgnoreCase("descend")) {
-                                                    builder.append(sortRo.getDataPropertyName() + " ");
-                                                    builder.append(sortRo.getSortOrder().equalsIgnoreCase("ascend") ? "ASC" : "DESC");
-                                                    if (i < model.getSort().size() - 1) {
-                                                        builder.append(",");
+                                                if (sortRo.getSortOrder() != null&&sortRo.getSortOrder().equals("")) {
+                                                    if (sortRo.getSortOrder().equalsIgnoreCase("ascend") ||
+                                                            sortRo.getSortOrder().equalsIgnoreCase("descend")) {
+                                                        builder.append(sortRo.getDataPropertyName() + " ");
+                                                        builder.append(sortRo.getSortOrder().equalsIgnoreCase("ascend") ? "ASC" : "DESC");
+                                                        if (i < model.getSort().size() - 1) {
+                                                            builder.append(",");
+                                                        }
                                                     }
+                                                    field.setAccessible(true);
+                                                    field.set(obj, builder.toString());
                                                 }
                                             }
-                                            field.setAccessible(true);
-                                            field.set(obj, builder.toString());
                                         }
                                     }
                                     if (field.getName().equalsIgnoreCase("FullTextSearch")) {
@@ -177,7 +183,7 @@ public class SpringContextLoader implements ApplicationContextAware, ServletCont
                                     }
 
                                     // 查询条件赋值
-                                    if(model.getQueryWhere()!=null) {
+                                    if (model.getQueryWhere() != null) {
                                         for (QueryWhereRO whereRO : model.getQueryWhere()) {
                                             if (field.getName().equals(whereRO.getFields())) {
                                                 Type fieldType = field.getType();

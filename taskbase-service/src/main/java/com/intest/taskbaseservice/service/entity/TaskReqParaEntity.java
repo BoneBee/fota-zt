@@ -4,6 +4,8 @@ import com.intest.common.ro.PagerBaseRO;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 /**
  * @作者:
  * @描述:
@@ -22,8 +24,9 @@ public class TaskReqParaEntity extends PagerBaseRO {
 
     public String carTypeId;
 
-    public int pi;
+//    public int pi;
+//
+//    public int ps;
 
-    public int ps;
 
 }

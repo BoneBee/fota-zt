@@ -174,7 +174,7 @@
             TASKCLOSEBY=#{userId},
         </if>
         UPDATEAT=sysdate,
-        UPDATEBY=#{userId},
+        UPDATEBY=#{userId}
 
         where replace(TASK_ID, ' ', '') = #{taskId}
     </update>
@@ -241,7 +241,7 @@
     <select id="selectReviewedTaskLst" resultType="com.intest.dao.entity.task.TaskBaseEntity"
             parameterType="java.lang.String">
 
-        select ft.task_id                       as taskId,
+        select distinct ft.task_id                       as taskId,
                ft.taskname                      as taskName,
                ft.upgradetime                   as upgradeTime,
                ft.planstarttime                 as planStartTime,
@@ -294,9 +294,9 @@
     </select>
     <!--任务审核  我的审核-->
     <select id="selectMyReviewTaskLst" resultType="com.intest.dao.entity.task.TaskBaseEntity"
-            parameterType="com.intest.dao.entity.task.TaskParaEntity">
+            parameterType="java.lang.String">
 
-        select ft.task_id                       as taskId,
+        select distinct ft.task_id                       as taskId,
                ft.taskname                      as taskName,
                ft.upgradetime                   as upgradeTime,
                ft.planstarttime                 as planStartTime,
@@ -340,7 +340,6 @@
                                      left join f_user fu
                                                on fu.user_id = ftd.fk_user_id
                             where ftd.fk_user_id = #{userId}
-                              and f.task_id = #{taskId}
                             ) ff
                            on ff.fk_taskreviewtmp_id = ft.fk_taskreviewtmp_id
         where replace(ft.fk_taskreviewstatusvalue_code, ' ', '') = ff.reviewLevelCode

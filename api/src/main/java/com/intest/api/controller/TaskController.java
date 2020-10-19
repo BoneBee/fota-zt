@@ -56,6 +56,7 @@ public class TaskController extends BaseController {
             UserBto userBto= getAccount();
             if(userBto!=null){
                 String userId= userBto.getUserId();
+                logger.info("用户Id："+userId);
                 taskBaseEntity.setCreateBy(userId);
             }else {
                 return new ResponseBean(0, "创建任务创建失败，未获取到当前登录用户信息，请重新登录创建", null);
@@ -140,6 +141,7 @@ public class TaskController extends BaseController {
             }else {
                 return new ResponseBean(0, str+"失败，未获取到当前登录用户信息，请重新登录", null);
             }
+//            taskParaEntity.setUserId("test");
             int n = taskService.operationTask(taskParaEntity);
 
             if (n > 0) {
@@ -154,7 +156,7 @@ public class TaskController extends BaseController {
             return new ResponseBean(-1, str + "失败", null);
         }
     }
-
+        //    使用表格方式查询
     @ApiOperation("获取任务车辆")
     @RequestMapping(value = "/api/basic/task/getTaskCarLst", method = RequestMethod.POST)
     public ResultT<PagerDataBaseVO> getTaskCarLst(@RequestBody TaskReqParaEntity taskReqParaEntity) {
@@ -252,7 +254,7 @@ public class TaskController extends BaseController {
             return new ResponseBean(0, "取消任务失败", null);
         }
     }
-
+    //    使用表格方式查询
     @ApiOperation("任务审核  任务列表")
     @RequestMapping(value = "/api/basic/task/getReviewedTaskLst", method = RequestMethod.POST)
     public ResultT<PagerDataBaseVO> getReviewedTaskLst(@RequestBody TaskReqParaEntity taskReqParaEntity) {
@@ -288,7 +290,7 @@ public class TaskController extends BaseController {
         }
     }
 
-
+    //    使用表格方式查询
     @ApiOperation("我的审核列表")
     @RequestMapping(value = "/api/basic/task/getMyReviewTaskLst", method = RequestMethod.POST)
     public ResultT<PagerDataBaseVO> getReviewedTaskLst(@RequestBody TaskParaEntity taskParaEntity) {

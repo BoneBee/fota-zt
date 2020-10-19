@@ -2,8 +2,11 @@ package com.intest.taskbaseservice.service;
 
 
 import com.intest.common.result.PagerDataBaseVO;
+import com.intest.common.ro.GetDataRO;
+import com.intest.dao.entity.task.TaskCarBaseEntity;
 import com.intest.taskbaseservice.service.entity.TaskReqParaEntity;
 
+import java.util.List;
 
 
 /**
@@ -22,6 +25,21 @@ public interface TaskBaseService {
      */
     PagerDataBaseVO getTaskLst(TaskReqParaEntity taskParaEntity);
 
+    /**
+     * 获取任务车辆
+     * @return
+     */
+    PagerDataBaseVO getTaskCar(GetDataRO taskParaEntity);
 
+    /**
+     * 任务审核  任务列表
+     * @return
+     */
+    PagerDataBaseVO selectReviewedTaskLst(GetDataRO taskParaEntity);
+    /**
+     * 我的审核列表
+     * @return
+     */
+    PagerDataBaseVO selectMyReviewTaskLst(GetDataRO taskParaEntity);
 
 }
