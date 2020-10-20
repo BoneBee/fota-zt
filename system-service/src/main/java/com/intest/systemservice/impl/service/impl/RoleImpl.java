@@ -10,7 +10,7 @@ import com.intest.dao.mapper.*;
 import com.intest.systemservice.impl.service.RoleService;
 import com.intest.systemservice.impl.service.SystemPage;
 import com.intest.systemservice.request.AddRoleRequet;
-import com.intest.systemservice.response.RoleListResponse;
+import com.intest.systemservice.response.RoleDetailListResponse;
 import com.intest.systemservice.response.SystemMenuResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -47,6 +47,12 @@ public class RoleImpl implements RoleService {
     @Autowired
     RolePermissionBtoMapper rolePermissionBtoMapper;
 
+
+    @Override
+    public List<RoleBto> getAllRole() {
+        List<RoleBto> roleBtos = roleBtoMapper.selectByExample(null);
+        return roleBtos;
+    }
 
     @Override
     public RoleBto getRoleById(String roleId) {
@@ -89,20 +95,20 @@ public class RoleImpl implements RoleService {
         PageHelper.startPage(model.getPi(), model.getPs());
         List<RoleBto> roleBtos = roleBtoMapper.selectByExample(null);
         List<SystemMenuResponse> list = getRolePermissionList();
-        List<RoleListResponse> responseList = new ArrayList<>();
+        List<RoleDetailListResponse> responseList = new ArrayList<>();
         PageInfo<RoleBto> pageInfo = new PageInfo<RoleBto>(roleBtos);
         int index = pageInfo.getStartRow() - 1;
         for (RoleBto roleBto : roleBtos) {
-            RoleListResponse roleListResponse = new RoleListResponse();
-            roleListResponse.setIndex(index += 1);
-            roleListResponse.setRoleId(roleBto.getRoleId());
-            roleListResponse.setRoleName(roleBto.getRoleName());
-            roleListResponse.setRoleType(roleBto.getRoleType());
-            roleListResponse.setRemark(roleBto.getRemark());
-            roleListResponse.setCreateat(roleBto.getCreateat());
-            roleListResponse.setCreateby(roleBto.getCreateby());
-            roleListResponse.setUpdateat(roleBto.getUpdateat());
-            roleListResponse.setUpdateby(roleBto.getUpdateby());
+            RoleDetailListResponse roleDetailListResponse = new RoleDetailListResponse();
+            roleDetailListResponse.setIndex(index += 1);
+            roleDetailListResponse.setRoleId(roleBto.getRoleId());
+            roleDetailListResponse.setRoleName(roleBto.getRoleName());
+            roleDetailListResponse.setRoleType(roleBto.getRoleType());
+            roleDetailListResponse.setRemark(roleBto.getRemark());
+            roleDetailListResponse.setCreateat(roleBto.getCreateat());
+            roleDetailListResponse.setCreateby(roleBto.getCreateby());
+            roleDetailListResponse.setUpdateat(roleBto.getUpdateat());
+            roleDetailListResponse.setUpdateby(roleBto.getUpdateby());
             RolePermissionBtoExample example = new RolePermissionBtoExample();
             RolePermissionBtoExample.Criteria criteria = example.createCriteria();
             criteria.andFkRoleIdEqualTo(roleBto.getRoleId());
@@ -120,7 +126,7 @@ public class RoleImpl implements RoleService {
                 response1.setKey(bto1.getKey());
                 for (PermissionBto permissionBto : permissionBtoList) {
                     if (bto1.getKey().equals(permissionBto.getFkResourceId())) {
-                        response1.setCheck(1);
+                        response1.setChecked(true);
                     }
                 }
                 List<SystemMenuResponse> two = new ArrayList<>();
@@ -132,7 +138,7 @@ public class RoleImpl implements RoleService {
                         response2.setKey(bto2.getKey());
                         for (PermissionBto permissionBto : permissionBtoList) {
                             if (bto2.getKey().equals(permissionBto.getFkResourceId())) {
-                                response2.setCheck(1);
+                                response2.setChecked(true);
                             }
                         }
                         List<SystemMenuResponse> three = new ArrayList<>();
@@ -144,7 +150,7 @@ public class RoleImpl implements RoleService {
                                 response3.setKey(bto3.getKey());
                                 for (PermissionBto permissionBto : permissionBtoList) {
                                     if (bto3.getKey().equals(permissionBto.getFkResourceId())) {
-                                        response3.setCheck(1);
+                                        response3.setChecked(true);
                                     }
                                 }
                                 List<SystemMenuResponse> four = new ArrayList<>();
@@ -156,7 +162,7 @@ public class RoleImpl implements RoleService {
                                         response4.setKey(bto4.getKey());
                                         for (PermissionBto permissionBto : permissionBtoList) {
                                             if (bto4.getKey().equals(permissionBto.getFkResourceId())) {
-                                                response4.setCheck(1);
+                                                response4.setChecked(true);
                                             }
                                         }
                                         response4.setChildren(null);
@@ -175,8 +181,8 @@ public class RoleImpl implements RoleService {
                 one.add(response1);
             }
 
-            roleListResponse.setList(one);
-            responseList.add(roleListResponse);
+            roleDetailListResponse.setList(one);
+            responseList.add(roleDetailListResponse);
         }
         role.setTotal(pageInfo.getTotal());
         role.setData(responseList);
@@ -189,8 +195,8 @@ public class RoleImpl implements RoleService {
             for (AddRoleRequet.PermissionBean bean2 : bean) {
                 PermissionBto permissionBto2 = new PermissionBto();
                 permissionBto2.setPermissionId(UUID.randomUUID() + "");
-                permissionBto2.setFkResourceId(bean2.getId());
-                permissionBto2.setResourceType((short) bean2.getResourceType());
+                permissionBto2.setFkResourceId(bean2.getKey());
+                permissionBto2.setResourceType((short) bean2.getType());
                 permissionBto2.setIsdelete((short) 1);
                 permissionBto2.setCreateat(new Date());
                 permissionBto2.setCreateby("admin");
@@ -212,7 +218,13 @@ public class RoleImpl implements RoleService {
     }
 
     public List<SystemMenuResponse> getRolePermissionList() {
-        List<MenuBto> menuBtos = meunBtoMapper.selectByExample(null);
+        MenuBtoExample example2 = new MenuBtoExample();
+        MenuBtoExample.Criteria criteria2=example2.createCriteria();
+        criteria2.andMenuIdNotEqualTo("B967FEB6-4643-40DF-9156-152FE51777C0");
+        criteria2.andMenuIdNotEqualTo("F76E44A8-7062-466C-8C61-AD905B68186D");
+        criteria2.andMenuIdNotEqualTo("792CDE0C-2F7F-49A7-8188-FA979C3A9FF9");
+        criteria2.andMenuIdNotEqualTo("2C263342-34C4-416E-82F7-975AB1870332");
+        List<MenuBto> menuBtos = meunBtoMapper.selectByExample(example2);
         List<SystemMenuResponse> fatherList = new ArrayList<>();
         for (MenuBto bto : menuBtos) {
             if (!StringUtils.isNotEmptyStr(bto.getFkMenuId())) {

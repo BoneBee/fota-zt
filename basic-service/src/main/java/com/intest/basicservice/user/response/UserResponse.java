@@ -9,7 +9,9 @@ public class UserResponse {
     private String userId;
     private String loginName;
     private String realName;
-    private String jobNumber;
+    private String roleName;
+    private String roleId;
+    private String department;
     private String mobile;
     private String companyEmail;
     private String sex;
@@ -25,12 +27,14 @@ public class UserResponse {
     public UserResponse() {
     }
 
-    public UserResponse(int index, String userId, String loginName, String realName, String jobNumber, String mobile, String companyEmail, String sex, String note, String accountKind, Date lastLoginat, int accountStatus, Date createat, String createby) {
+    public UserResponse(int index, String userId, String loginName, String realName, String roleName, String roleId, String department, String mobile, String companyEmail, String sex, String note, String accountKind, Date lastLoginat, int accountStatus, Date createat, String createby) {
         this.index = index;
         this.userId = userId;
         this.loginName = loginName;
         this.realName = realName;
-        this.jobNumber = jobNumber;
+        this.roleName = roleName;
+        this.roleId = roleId;
+        this.department = department;
         this.mobile = mobile;
         this.companyEmail = companyEmail;
         this.sex = sex;
@@ -74,12 +78,28 @@ public class UserResponse {
         this.realName = realName;
     }
 
-    public String getJobNumber() {
-        return jobNumber;
+    public String getRoleName() {
+        return roleName;
     }
 
-    public void setJobNumber(String jobNumber) {
-        this.jobNumber = jobNumber;
+    public void setRoleName(String roleName) {
+        this.roleName = roleName;
+    }
+
+    public String getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
+
+    public String getDepartment() {
+        return department;
+    }
+
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
     public String getMobile() {

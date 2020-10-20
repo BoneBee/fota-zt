@@ -511,73 +511,73 @@ public class UserBtoExample {
             return (Criteria) this;
         }
 
-        public Criteria andJobNumberIsNull() {
-            addCriterion("JOB_NUMBER is null");
+        public Criteria andDepartmentIsNull() {
+            addCriterion("DEPARTMENT is null");
             return (Criteria) this;
         }
 
-        public Criteria andJobNumberIsNotNull() {
-            addCriterion("JOB_NUMBER is not null");
+        public Criteria andDepartmentIsNotNull() {
+            addCriterion("DEPARTMENT is not null");
             return (Criteria) this;
         }
 
-        public Criteria andJobNumberEqualTo(String value) {
-            addCriterion("JOB_NUMBER =", value, "jobNumber");
+        public Criteria andDepartmentEqualTo(String value) {
+            addCriterion("DEPARTMENT =", value, "department");
             return (Criteria) this;
         }
 
-        public Criteria andJobNumberNotEqualTo(String value) {
-            addCriterion("JOB_NUMBER <>", value, "jobNumber");
+        public Criteria andDepartmentNotEqualTo(String value) {
+            addCriterion("DEPARTMENT <>", value, "department");
             return (Criteria) this;
         }
 
-        public Criteria andJobNumberGreaterThan(String value) {
-            addCriterion("JOB_NUMBER >", value, "jobNumber");
+        public Criteria andDepartmentGreaterThan(String value) {
+            addCriterion("DEPARTMENT >", value, "department");
             return (Criteria) this;
         }
 
-        public Criteria andJobNumberGreaterThanOrEqualTo(String value) {
-            addCriterion("JOB_NUMBER >=", value, "jobNumber");
+        public Criteria andDepartmentGreaterThanOrEqualTo(String value) {
+            addCriterion("DEPARTMENT >=", value, "department");
             return (Criteria) this;
         }
 
-        public Criteria andJobNumberLessThan(String value) {
-            addCriterion("JOB_NUMBER <", value, "jobNumber");
+        public Criteria andDepartmentLessThan(String value) {
+            addCriterion("DEPARTMENT <", value, "department");
             return (Criteria) this;
         }
 
-        public Criteria andJobNumberLessThanOrEqualTo(String value) {
-            addCriterion("JOB_NUMBER <=", value, "jobNumber");
+        public Criteria andDepartmentLessThanOrEqualTo(String value) {
+            addCriterion("DEPARTMENT <=", value, "department");
             return (Criteria) this;
         }
 
-        public Criteria andJobNumberLike(String value) {
-            addCriterion("JOB_NUMBER like", value, "jobNumber");
+        public Criteria andDepartmentLike(String value) {
+            addCriterion("DEPARTMENT like", value, "department");
             return (Criteria) this;
         }
 
-        public Criteria andJobNumberNotLike(String value) {
-            addCriterion("JOB_NUMBER not like", value, "jobNumber");
+        public Criteria andDepartmentNotLike(String value) {
+            addCriterion("DEPARTMENT not like", value, "department");
             return (Criteria) this;
         }
 
-        public Criteria andJobNumberIn(List<String> values) {
-            addCriterion("JOB_NUMBER in", values, "jobNumber");
+        public Criteria andDepartmentIn(List<String> values) {
+            addCriterion("DEPARTMENT in", values, "department");
             return (Criteria) this;
         }
 
-        public Criteria andJobNumberNotIn(List<String> values) {
-            addCriterion("JOB_NUMBER not in", values, "jobNumber");
+        public Criteria andDepartmentNotIn(List<String> values) {
+            addCriterion("DEPARTMENT not in", values, "department");
             return (Criteria) this;
         }
 
-        public Criteria andJobNumberBetween(String value1, String value2) {
-            addCriterion("JOB_NUMBER between", value1, value2, "jobNumber");
+        public Criteria andDepartmentBetween(String value1, String value2) {
+            addCriterion("DEPARTMENT between", value1, value2, "department");
             return (Criteria) this;
         }
 
-        public Criteria andJobNumberNotBetween(String value1, String value2) {
-            addCriterion("JOB_NUMBER not between", value1, value2, "jobNumber");
+        public Criteria andDepartmentNotBetween(String value1, String value2) {
+            addCriterion("DEPARTMENT not between", value1, value2, "department");
             return (Criteria) this;
         }
 

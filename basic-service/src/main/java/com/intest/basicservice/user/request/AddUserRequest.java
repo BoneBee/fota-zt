@@ -3,8 +3,9 @@ package com.intest.basicservice.user.request;
 public class AddUserRequest {
     private String loginName;
     private String loginPassword;
+    private String roleId;
     private String realName;
-    private String jobNumber;
+    private String department;
     private String mobile;
     private String companyEmail;
     private int sex;
@@ -15,11 +16,12 @@ public class AddUserRequest {
     public AddUserRequest() {
     }
 
-    public AddUserRequest(String loginName, String loginPassword, String realName, String jobNumber, String mobile, String companyEmail, int sex, int accountKind, int accountStatus, String note) {
+    public AddUserRequest(String loginName, String loginPassword, String roleId, String realName, String department, String mobile, String companyEmail, int sex, int accountKind, int accountStatus, String note) {
         this.loginName = loginName;
         this.loginPassword = loginPassword;
+        this.roleId = roleId;
         this.realName = realName;
-        this.jobNumber = jobNumber;
+        this.department = department;
         this.mobile = mobile;
         this.companyEmail = companyEmail;
         this.sex = sex;
@@ -44,6 +46,14 @@ public class AddUserRequest {
         this.loginPassword = loginPassword;
     }
 
+    public String getRoleId() {
+        return roleId;
+    }
+
+    public void setRoleId(String roleId) {
+        this.roleId = roleId;
+    }
+
     public String getRealName() {
         return realName;
     }
@@ -52,12 +62,12 @@ public class AddUserRequest {
         this.realName = realName;
     }
 
-    public String getJobNumber() {
-        return jobNumber;
+    public String getDepartment() {
+        return department;
     }
 
-    public void setJobNumber(String jobNumber) {
-        this.jobNumber = jobNumber;
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
     public String getMobile() {
