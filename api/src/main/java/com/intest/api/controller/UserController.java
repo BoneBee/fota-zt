@@ -19,8 +19,9 @@ import com.intest.common.util.BCrypt;
 import com.intest.common.util.StringUtils;
 import com.intest.common.webcore.BaseController;
 import com.intest.dao.entity.UserBto;
+import com.intest.dao.entity.UserRoleBto;
 import com.intest.partsservice.part.response.DateResponse;
-import com.intest.partsservice.part.response.PartPage;
+import com.intest.systemservice.impl.service.impl.UserRoleImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -40,6 +41,10 @@ public class UserController extends BaseController {
 
     @Autowired
     UserServiceImpl userService;
+
+    @Autowired
+    UserRoleImpl userRoleService;
+
 
     /**
      * 用户登录
@@ -164,7 +169,7 @@ public class UserController extends BaseController {
             userBto.setLoginPassword(hashd);
             userBto.setCsprng(yan);
             userBto.setRealName(request.getRealName());
-            userBto.setJobNumber(request.getJobNumber());
+            userBto.setDepartment(request.getDepartment());
             userBto.setMobile(request.getMobile());
             userBto.setCompanyEmail(request.getCompanyEmail());
             userBto.setSex((short) request.getSex());
@@ -175,6 +180,14 @@ public class UserController extends BaseController {
             userBto.setIsdelete((short) 1);
             userBto.setCreateat(new Date());
             userBto.setCreateby("admin");
+            UserRoleBto userRoleBto = new UserRoleBto();
+            userRoleBto.setUserRoleId(UUID.randomUUID() + "");
+            userRoleBto.setFkUserId(uuid + "");
+            userRoleBto.setFkRoleId(request.getRoleId());
+            userRoleBto.setIsdelete((short) 1);
+            userRoleBto.setCreateat(new Date());
+            userRoleBto.setCreateby("admin");
+            userRoleService.addUserRole(userRoleBto);
             if (userService.addUser(userBto) == 1) {
                 return new ResponseBean(1, "注册成功", null);
             } else {
@@ -202,10 +215,13 @@ public class UserController extends BaseController {
             throw new CustomException("您要修改的用户不存在");
         }
         newUser.setRealName(request.getRealName());
-        newUser.setJobNumber(request.getJobNumber());
+        newUser.setDepartment(request.getDepartment());
         newUser.setMobile(request.getMobile());
         newUser.setCompanyEmail(request.getCompanyEmail());
         newUser.setAccountStatus((short) request.getAccountStatus());
+        UserRoleBto userRoleBto = userRoleService.getUserRoleByUserId(request.getUserId());
+        userRoleBto.setFkRoleId(request.getRoleId());
+        userRoleService.updateUserRole(userRoleBto);
         if (userService.updateUser(newUser) == 1) {
             return new ResponseBean(1, "修改成功", null);
         } else {
@@ -227,6 +243,8 @@ public class UserController extends BaseController {
             throw new CustomException("请输入要删除的用户ID");
         }
         for (DeleteUserRequest userIdBean : request) {
+            UserRoleBto userRoleBto = userRoleService.getUserRoleByUserId(userIdBean.getId());
+            userRoleService.deleteUserRole(userRoleBto.getUserRoleId());
             if (userService.deleteUser(userIdBean.getId()) != 1) {
                 throw new CustomException(userIdBean.getId() + "删除失败");
             }

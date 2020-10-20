@@ -41,24 +41,24 @@ public class AddRoleRequet {
     }
 
     public static class PermissionBean {
-        private String id;
-        private int resourceType;
+        private String key;
+        private int type;
         private List<PermissionBean> children;
 
-        public String getId() {
-            return id;
+        public String getKey() {
+            return key;
         }
 
-        public void setId(String id) {
-            this.id = id;
+        public void setKey(String key) {
+            this.key = key;
         }
 
-        public int getResourceType() {
-            return resourceType;
+        public int getType() {
+            return type;
         }
 
-        public void setResourceType(int resourceType) {
-            this.resourceType = resourceType;
+        public void setType(int type) {
+            this.type = type;
         }
 
         public List<PermissionBean> getChildren() {

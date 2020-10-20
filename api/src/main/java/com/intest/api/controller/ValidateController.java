@@ -1,6 +1,5 @@
 package com.intest.api.controller;
 
-import cn.hutool.json.JSONObject;
 import com.intest.basicservice.code.request.UpdatePasswordRequest;
 import com.intest.basicservice.code.vo.SmsCode;
 import com.intest.basicservice.code.vo.UserVO;

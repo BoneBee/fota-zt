@@ -13,9 +13,10 @@ import com.intest.partsservice.part.response.DateResponse;
 import com.intest.systemservice.impl.service.SystemPage;
 import com.intest.systemservice.impl.service.impl.*;
 import com.intest.systemservice.request.*;
-import com.intest.systemservice.response.SystemMenuResponse;
+import com.intest.systemservice.response.RoleListResponse;
 import com.intest.systemservice.response.TaskUserResopnse;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -355,7 +356,7 @@ public class SystemController extends BaseController {
     }
 
     /**
-     * 获取角色列表接口
+     * 获取角色权限详细列表接口
      *
      * @return
      */
@@ -363,5 +364,51 @@ public class SystemController extends BaseController {
         return roleImpl.getRoleTmpInfo(new SystemPage());
     }
 
+    /**
+     * 检测角色名称是否重复接口
+     *
+     * @param roleName
+     * @return
+     */
+    @ApiOperation("检测角色名称是否重复接口")
+    @ResponseBody
+    @RequestMapping(value = "/api/infota/product/selectRoleName", method = RequestMethod.GET)
+    public ResponseBean selectLoginName(@ApiParam String roleName, @ApiParam String id) {
+        if (!StringUtils.isNotEmptyStr(roleName)) {
+            throw new CustomException("角色名称不能为空");
+        }
+        if (StringUtils.isNotEmptyStr(id)) {
+            RoleBto roleBto = roleImpl.getRoleById(id);
+            if (roleBto.getRoleName().equals(roleName)) {
+                return new ResponseBean(1, "角色名称未注册", new DateResponse(0));
+            }
+        }
+        RoleBto roleBto = roleImpl.getRoleByName(roleName);
+        if (roleBto == null) {
+            return new ResponseBean(1, "该角色名称未注册", new DateResponse(0));
+        } else {
+            return new ResponseBean(1, "该角色名称已注册，请重新输入", new DateResponse(1));
+        }
+    }
+
+
+    /**
+     * 获取角色列表接口
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/basic/system/getRoleList", method = RequestMethod.GET)
+    public ResponseBean deleteRole() {
+        List<RoleBto> roleBtos = roleImpl.getAllRole();
+        List<RoleListResponse> responseList = new ArrayList<>();
+        for (RoleBto bto : roleBtos) {
+            RoleListResponse response = new RoleListResponse();
+            response.setRoleName(bto.getRoleName());
+            response.setRoleId(bto.getRoleId());
+            responseList.add(response);
+        }
+        return new ResponseBean(1, "成功", responseList);
+    }
 
 }

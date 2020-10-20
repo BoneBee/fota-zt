@@ -7,7 +7,7 @@
     <result column="LOGIN_PASSWORD" jdbcType="VARCHAR" property="loginPassword" />
     <result column="CSPRNG" jdbcType="VARCHAR" property="csprng" />
     <result column="REAL_NAME" jdbcType="VARCHAR" property="realName" />
-    <result column="JOB_NUMBER" jdbcType="NVARCHAR" property="jobNumber" />
+    <result column="DEPARTMENT" jdbcType="NVARCHAR" property="department" />
     <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
     <result column="COMPANY_EMAIL" jdbcType="VARCHAR" property="companyEmail" />
     <result column="SEX" jdbcType="NUMERIC" property="sex" />
@@ -81,7 +81,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    USER_ID, LOGIN_NAME, LOGIN_PASSWORD, CSPRNG, REAL_NAME, JOB_NUMBER, MOBILE, COMPANY_EMAIL, 
+    USER_ID, LOGIN_NAME, LOGIN_PASSWORD, CSPRNG, REAL_NAME, DEPARTMENT, MOBILE, COMPANY_EMAIL, 
     SEX, NOTE, ACCOUNT_KIND, LAST_LOGINAT, PASSWORD_RETRY_COUNT, ACCOUNT_STATUS, ISDELETE, 
     CREATEAT, CREATEBY, UPDATEAT, UPDATEBY
   </sql>
@@ -117,14 +117,14 @@
   </delete>
   <insert id="insert" parameterType="com.intest.dao.entity.UserBto">
     insert into F_USER (USER_ID, LOGIN_NAME, LOGIN_PASSWORD, 
-      CSPRNG, REAL_NAME, JOB_NUMBER, 
+      CSPRNG, REAL_NAME, DEPARTMENT, 
       MOBILE, COMPANY_EMAIL, SEX, 
       NOTE, ACCOUNT_KIND, LAST_LOGINAT, 
       PASSWORD_RETRY_COUNT, ACCOUNT_STATUS, ISDELETE, 
       CREATEAT, CREATEBY, UPDATEAT, 
       UPDATEBY)
     values (#{userId,jdbcType=CHAR}, #{loginName,jdbcType=VARCHAR}, #{loginPassword,jdbcType=VARCHAR}, 
-      #{csprng,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{jobNumber,jdbcType=NVARCHAR}, 
+      #{csprng,jdbcType=VARCHAR}, #{realName,jdbcType=VARCHAR}, #{department,jdbcType=NVARCHAR}, 
       #{mobile,jdbcType=VARCHAR}, #{companyEmail,jdbcType=VARCHAR}, #{sex,jdbcType=NUMERIC}, 
       #{note,jdbcType=VARCHAR}, #{accountKind,jdbcType=NUMERIC}, #{lastLoginat,jdbcType=TIMESTAMP}, 
       #{passwordRetryCount,jdbcType=NUMERIC}, #{accountStatus,jdbcType=NUMERIC}, #{isdelete,jdbcType=NUMERIC}, 
@@ -149,8 +149,8 @@
       <if test="realName != null">
         REAL_NAME,
       </if>
-      <if test="jobNumber != null">
-        JOB_NUMBER,
+      <if test="department != null">
+        DEPARTMENT,
       </if>
       <if test="mobile != null">
         MOBILE,
@@ -208,8 +208,8 @@
       <if test="realName != null">
         #{realName,jdbcType=VARCHAR},
       </if>
-      <if test="jobNumber != null">
-        #{jobNumber,jdbcType=NVARCHAR},
+      <if test="department != null">
+        #{department,jdbcType=NVARCHAR},
       </if>
       <if test="mobile != null">
         #{mobile,jdbcType=VARCHAR},
@@ -276,8 +276,8 @@
       <if test="record.realName != null">
         REAL_NAME = #{record.realName,jdbcType=VARCHAR},
       </if>
-      <if test="record.jobNumber != null">
-        JOB_NUMBER = #{record.jobNumber,jdbcType=NVARCHAR},
+      <if test="record.department != null">
+        DEPARTMENT = #{record.department,jdbcType=NVARCHAR},
       </if>
       <if test="record.mobile != null">
         MOBILE = #{record.mobile,jdbcType=VARCHAR},
@@ -330,7 +330,7 @@
       LOGIN_PASSWORD = #{record.loginPassword,jdbcType=VARCHAR},
       CSPRNG = #{record.csprng,jdbcType=VARCHAR},
       REAL_NAME = #{record.realName,jdbcType=VARCHAR},
-      JOB_NUMBER = #{record.jobNumber,jdbcType=NVARCHAR},
+      DEPARTMENT = #{record.department,jdbcType=NVARCHAR},
       MOBILE = #{record.mobile,jdbcType=VARCHAR},
       COMPANY_EMAIL = #{record.companyEmail,jdbcType=VARCHAR},
       SEX = #{record.sex,jdbcType=NUMERIC},
@@ -363,8 +363,8 @@
       <if test="realName != null">
         REAL_NAME = #{realName,jdbcType=VARCHAR},
       </if>
-      <if test="jobNumber != null">
-        JOB_NUMBER = #{jobNumber,jdbcType=NVARCHAR},
+      <if test="department != null">
+        DEPARTMENT = #{department,jdbcType=NVARCHAR},
       </if>
       <if test="mobile != null">
         MOBILE = #{mobile,jdbcType=VARCHAR},
@@ -414,7 +414,7 @@
       LOGIN_PASSWORD = #{loginPassword,jdbcType=VARCHAR},
       CSPRNG = #{csprng,jdbcType=VARCHAR},
       REAL_NAME = #{realName,jdbcType=VARCHAR},
-      JOB_NUMBER = #{jobNumber,jdbcType=NVARCHAR},
+      DEPARTMENT = #{department,jdbcType=NVARCHAR},
       MOBILE = #{mobile,jdbcType=VARCHAR},
       COMPANY_EMAIL = #{companyEmail,jdbcType=VARCHAR},
       SEX = #{sex,jdbcType=NUMERIC},

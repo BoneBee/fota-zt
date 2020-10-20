@@ -10,7 +10,6 @@ import com.intest.dao.entity.UserBto;
 import com.intest.dao.entity.task.TaskBaseEntity;
 import com.intest.dao.entity.task.TaskCarBaseEntity;
 import com.intest.dao.entity.task.TaskCarInfoNumsEntity;
-import com.intest.dao.entity.task.TaskParaEntity;
 import com.intest.dao.mapper.TaskMapper;
 import com.intest.taskbaseservice.service.ExcpUtil;
 import com.intest.taskbaseservice.service.TaskBaseService;

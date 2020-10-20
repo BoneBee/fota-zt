@@ -13,9 +13,10 @@ import com.intest.common.redis.JedisUtil;
 import com.intest.common.result.PagerDataBaseVO;
 import com.intest.common.tableData.TableDataAnnotation;
 import com.intest.common.util.BCrypt;
-import com.intest.dao.entity.UserBto;
-import com.intest.dao.entity.UserBtoExample;
+import com.intest.dao.entity.*;
+import com.intest.dao.mapper.RoleBtoMapper;
 import com.intest.dao.mapper.UserBtoMapper;
+import com.intest.dao.mapper.UserRoleBtoMapper;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     MenuService menuService;
+
+    @Autowired
+    UserRoleBtoMapper userRoleBtoMapper;
+
+    @Autowired
+    RoleBtoMapper roleBtoMapper;
 
     /**
      * create by: zhanghui
@@ -278,7 +285,15 @@ public class UserServiceImpl implements UserService {
         PageInfo<UserBto> pageInfo = new PageInfo<UserBto>(userBtos);
         int index = pageInfo.getStartRow() - 1;
         for (UserBto userBto : userBtos) {
-            UserResponse userResponse = new UserResponse(index += 1, userBto.getUserId(), userBto.getLoginName(), userBto.getRealName(), userBto.getJobNumber(), userBto.getMobile(), userBto.getCompanyEmail(), userBto.getSex() == 1 ? "男" : "女", userBto.getNote(), userBto.getAccountKind() == 1 ? "系统用户账户" : "服务账户", userBto.getLastLoginat(), userBto.getAccountStatus(), userBto.getCreateat(), userBto.getCreateby());
+            UserRoleBtoExample example = new UserRoleBtoExample();
+            UserRoleBtoExample.Criteria criteria = example.createCriteria();
+            criteria.andFkUserIdEqualTo(userBto.getUserId());
+            List<UserRoleBto> userRoleBtos = userRoleBtoMapper.selectByExample(example);
+            RoleBto roleBto = null;
+            if (userRoleBtos != null && userRoleBtos.size() != 0) {
+                roleBto = roleBtoMapper.selectByPrimaryKey(userRoleBtos.get(0).getFkRoleId());
+            }
+            UserResponse userResponse = new UserResponse(index += 1, userBto.getUserId(), userBto.getLoginName(), userBto.getRealName(), roleBto != null ? roleBto.getRoleName() : "", roleBto != null ? roleBto.getRoleId() : "", userBto.getDepartment(), userBto.getMobile(), userBto.getCompanyEmail(), userBto.getSex() == 1 ? "男" : "女", userBto.getNote(), userBto.getAccountKind() == 1 ? "系统用户账户" : "服务账户", userBto.getLastLoginat(), userBto.getAccountStatus(), userBto.getCreateat(), userBto.getCreateby());
             userResponseList.add(userResponse);
         }
         user.setTotal(pageInfo.getTotal());

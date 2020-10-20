@@ -6,7 +6,7 @@ import java.util.List;
 public class SystemMenuResponse {
     private String key;
     private int type;
-    private int check;
+    private boolean checked;
     private String title;
     private List<SystemMenuResponse> children;
 
@@ -26,12 +26,12 @@ public class SystemMenuResponse {
         this.type = type;
     }
 
-    public int getCheck() {
-        return check;
+    public boolean isChecked() {
+        return checked;
     }
 
-    public void setCheck(int check) {
-        this.check = check;
+    public void setChecked(boolean checked) {
+        this.checked = checked;
     }
 
     public String getTitle() {
