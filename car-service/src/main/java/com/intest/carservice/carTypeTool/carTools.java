@@ -1,7 +1,7 @@
 package com.intest.carservice.carTypeTool;
 
 import com.intest.dao.entity.UserBto;
-import com.intest.dao.mapper.*;
+import com.intest.dao.mapper.UserBtoMapper;
 
 public class carTools {
 
@@ -17,7 +17,7 @@ public class carTools {
         return NewChar;
     }
 
-    public static String getUserRealName(UserBtoMapper userMapper,String UserId){
+    public static String getUserRealName(UserBtoMapper userMapper, String UserId){
 
         UserBto usbto=new UserBto();
         usbto = userMapper.selectByPrimaryKey(UserId);

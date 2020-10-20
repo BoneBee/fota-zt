@@ -8,6 +8,7 @@ import com.intest.carservice.Respone.*;
 import com.intest.carservice.carTypeTool.carTools;
 import com.intest.common.result.PagerDataBaseVO;
 import com.intest.common.tableData.TableDataAnnotation;
+import com.intest.common.webcore.BaseController;
 import com.intest.dao.entity.*;
 import com.intest.dao.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,7 @@ import java.util.UUID;
 @Service
 @TableDataAnnotation
 @Transactional
-public class cartypesassemblyImpl implements CarTypesService {
+public class cartypesassemblyImpl extends BaseController implements CarTypesService {
     //public class cartypesassemblyImpl{
     public int pagecount;
 
@@ -92,7 +93,7 @@ public class cartypesassemblyImpl implements CarTypesService {
         }
         try {
             if (request.getSort() != null && !request.getSort().equals("")) {
-                if(!request.getSort().contains("index")) {
+                if (!request.getSort().contains("index")) {
                     String sort = carTools.replaceCharacter(request.getSort());
                     btoExample.setOrderByClause(sort);
                 }
@@ -393,7 +394,8 @@ public class cartypesassemblyImpl implements CarTypesService {
         cbto.setCartypename(addcartype.getCarTypeName());
         cbto.setFkTerminalId(addcartype.getTerminalId());
         cbto.setRemark(addcartype.getRemark());
-
+        UserBto ub = getAccount();
+        cbto.setCreateby(ub.getUserId());
         List<String> pts = addcartype.getPartTypes();
         int partcount = 0;
         for (String pId : pts) {
@@ -423,7 +425,9 @@ public class cartypesassemblyImpl implements CarTypesService {
         cbto.setCartypename(addcartype.getCarTypeName());
         cbto.setFkTerminalId(addcartype.getTerminalId());
         cbto.setRemark(addcartype.getRemark());
-        cbto.setIsdelete((short)1);
+        cbto.setIsdelete((short) 1);
+        UserBto ub = getAccount();
+        cbto.setUpdateby(ub.getUserId());
         List<String> partTypes = addcartype.getPartTypes();
         int partCount = 0;
         for (String pId : partTypes) {
@@ -466,7 +470,7 @@ public class cartypesassemblyImpl implements CarTypesService {
         CarTypeBtoExample.Criteria cia = carTypeEx.createCriteria();
         cia.andCartypenameEqualTo(carType.getCarTypeName());
 
-        if(!carType.getCarTypeId().equals("")){
+        if (!carType.getCarTypeId().equals("")) {
             cia.andCartypeIdEqualTo(carType.getCarTypeId());
         }
         //查找车型
@@ -474,7 +478,7 @@ public class cartypesassemblyImpl implements CarTypesService {
 
         String Msg = "";
         if (ctBto.size() > 0) {
-            if(carType.getCarTypeId().equals("")) {
+            if (carType.getCarTypeId().equals("")) {
                 Msg = String.format("车型：%s 已经存在", carType.getCarTypeName());
             }
         }

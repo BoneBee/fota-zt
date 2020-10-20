@@ -29,9 +29,9 @@ public class UserBto {
     private String realName;
 
     /**
-     * 工号 JOB_NUMBER
+     * 部门 DEPARTMENT
      */
-    private String jobNumber;
+    private String department;
 
     /**
      * 手机 MOBILE
@@ -100,8 +100,8 @@ public class UserBto {
 
     /**
      * 主键，账户ID
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @return USER_ID 主键，账户ID
      */
     public String getUserId() {
@@ -110,8 +110,8 @@ public class UserBto {
 
     /**
      * 主键，账户ID
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @param userId 主键，账户ID
      */
     public void setUserId(String userId) {
@@ -120,8 +120,8 @@ public class UserBto {
 
     /**
      * 登陆账号
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @return LOGIN_NAME 登陆账号
      */
     public String getLoginName() {
@@ -130,8 +130,8 @@ public class UserBto {
 
     /**
      * 登陆账号
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @param loginName 登陆账号
      */
     public void setLoginName(String loginName) {
@@ -140,8 +140,8 @@ public class UserBto {
 
     /**
      * 登陆密码
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @return LOGIN_PASSWORD 登陆密码
      */
     public String getLoginPassword() {
@@ -150,8 +150,8 @@ public class UserBto {
 
     /**
      * 登陆密码
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @param loginPassword 登陆密码
      */
     public void setLoginPassword(String loginPassword) {
@@ -160,8 +160,8 @@ public class UserBto {
 
     /**
      * 加密盐值
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @return CSPRNG 加密盐值
      */
     public String getCsprng() {
@@ -170,8 +170,8 @@ public class UserBto {
 
     /**
      * 加密盐值
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @param csprng 加密盐值
      */
     public void setCsprng(String csprng) {
@@ -180,8 +180,8 @@ public class UserBto {
 
     /**
      * 姓名
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @return REAL_NAME 姓名
      */
     public String getRealName() {
@@ -190,8 +190,8 @@ public class UserBto {
 
     /**
      * 姓名
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @param realName 姓名
      */
     public void setRealName(String realName) {
@@ -199,29 +199,29 @@ public class UserBto {
     }
 
     /**
-     * 工号
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
-     * @return JOB_NUMBER 工号
+     * 部门
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
+     * @return DEPARTMENT 部门
      */
-    public String getJobNumber() {
-        return jobNumber;
+    public String getDepartment() {
+        return department;
     }
 
     /**
-     * 工号
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
-     * @param jobNumber 工号
+     * 部门
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
+     * @param department 部门
      */
-    public void setJobNumber(String jobNumber) {
-        this.jobNumber = jobNumber == null ? null : jobNumber.trim();
+    public void setDepartment(String department) {
+        this.department = department == null ? null : department.trim();
     }
 
     /**
      * 手机
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @return MOBILE 手机
      */
     public String getMobile() {
@@ -230,8 +230,8 @@ public class UserBto {
 
     /**
      * 手机
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @param mobile 手机
      */
     public void setMobile(String mobile) {
@@ -240,8 +240,8 @@ public class UserBto {
 
     /**
      * 公司邮箱地址
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @return COMPANY_EMAIL 公司邮箱地址
      */
     public String getCompanyEmail() {
@@ -250,8 +250,8 @@ public class UserBto {
 
     /**
      * 公司邮箱地址
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @param companyEmail 公司邮箱地址
      */
     public void setCompanyEmail(String companyEmail) {
@@ -260,8 +260,8 @@ public class UserBto {
 
     /**
      * 性别（0-女 ；1-男）
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @return SEX 性别（0-女 ；1-男）
      */
     public Short getSex() {
@@ -270,8 +270,8 @@ public class UserBto {
 
     /**
      * 性别（0-女 ；1-男）
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @param sex 性别（0-女 ；1-男）
      */
     public void setSex(Short sex) {
@@ -280,8 +280,8 @@ public class UserBto {
 
     /**
      * 备注
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @return NOTE 备注
      */
     public String getNote() {
@@ -290,8 +290,8 @@ public class UserBto {
 
     /**
      * 备注
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @param note 备注
      */
     public void setNote(String note) {
@@ -300,8 +300,8 @@ public class UserBto {
 
     /**
      * 账户类型（1-系统用户账户；2-服务账户）
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @return ACCOUNT_KIND 账户类型（1-系统用户账户；2-服务账户）
      */
     public Short getAccountKind() {
@@ -310,8 +310,8 @@ public class UserBto {
 
     /**
      * 账户类型（1-系统用户账户；2-服务账户）
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @param accountKind 账户类型（1-系统用户账户；2-服务账户）
      */
     public void setAccountKind(Short accountKind) {
@@ -320,8 +320,8 @@ public class UserBto {
 
     /**
      * 上次登陆时间
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @return LAST_LOGINAT 上次登陆时间
      */
     public Date getLastLoginat() {
@@ -330,8 +330,8 @@ public class UserBto {
 
     /**
      * 上次登陆时间
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @param lastLoginat 上次登陆时间
      */
     public void setLastLoginat(Date lastLoginat) {
@@ -340,8 +340,8 @@ public class UserBto {
 
     /**
      * 密码重试次数
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @return PASSWORD_RETRY_COUNT 密码重试次数
      */
     public Integer getPasswordRetryCount() {
@@ -350,8 +350,8 @@ public class UserBto {
 
     /**
      * 密码重试次数
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @param passwordRetryCount 密码重试次数
      */
     public void setPasswordRetryCount(Integer passwordRetryCount) {
@@ -360,8 +360,8 @@ public class UserBto {
 
     /**
      * 账户状态（1-启用，0-冻结；）
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @return ACCOUNT_STATUS 账户状态（1-启用，0-冻结；）
      */
     public Short getAccountStatus() {
@@ -370,8 +370,8 @@ public class UserBto {
 
     /**
      * 账户状态（1-启用，0-冻结；）
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @param accountStatus 账户状态（1-启用，0-冻结；）
      */
     public void setAccountStatus(Short accountStatus) {
@@ -380,8 +380,8 @@ public class UserBto {
 
     /**
      * 是否删除（1-未删除，0-已删除；）
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @return ISDELETE 是否删除（1-未删除，0-已删除；）
      */
     public Short getIsdelete() {
@@ -390,8 +390,8 @@ public class UserBto {
 
     /**
      * 是否删除（1-未删除，0-已删除；）
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @param isdelete 是否删除（1-未删除，0-已删除；）
      */
     public void setIsdelete(Short isdelete) {
@@ -400,8 +400,8 @@ public class UserBto {
 
     /**
      * 创建时间
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @return CREATEAT 创建时间
      */
     public Date getCreateat() {
@@ -410,8 +410,8 @@ public class UserBto {
 
     /**
      * 创建时间
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @param createat 创建时间
      */
     public void setCreateat(Date createat) {
@@ -420,8 +420,8 @@ public class UserBto {
 
     /**
      * 创建人
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @return CREATEBY 创建人
      */
     public String getCreateby() {
@@ -430,8 +430,8 @@ public class UserBto {
 
     /**
      * 创建人
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @param createby 创建人
      */
     public void setCreateby(String createby) {
@@ -440,8 +440,8 @@ public class UserBto {
 
     /**
      * 修改时间
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @return UPDATEAT 修改时间
      */
     public Date getUpdateat() {
@@ -450,8 +450,8 @@ public class UserBto {
 
     /**
      * 修改时间
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @param updateat 修改时间
      */
     public void setUpdateat(Date updateat) {
@@ -460,8 +460,8 @@ public class UserBto {
 
     /**
      * 修改人
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @return UPDATEBY 修改人
      */
     public String getUpdateby() {
@@ -470,8 +470,8 @@ public class UserBto {
 
     /**
      * 修改人
-     * @author 张辉
-     * @date 2020-08-24 22:49:28
+     * @author xialiang
+     * @date 2020-10-20 15:22:54
      * @param updateby 修改人
      */
     public void setUpdateby(String updateby) {

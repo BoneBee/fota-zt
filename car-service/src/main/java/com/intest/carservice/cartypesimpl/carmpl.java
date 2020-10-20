@@ -11,6 +11,7 @@ import com.intest.carservice.Respone.*;
 import com.intest.carservice.carTypeTool.carTools;
 import com.intest.common.result.PagerDataBaseVO;
 import com.intest.common.tableData.TableDataAnnotation;
+import com.intest.common.webcore.BaseController;
 import com.intest.dao.entity.*;
 import com.intest.dao.mapper.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ import java.util.UUID;
 @Service
 @TableDataAnnotation
 @Transactional
-public class carmpl implements CarService {
+public class carmpl extends BaseController implements CarService {
 //public class carmpl{
 
     @Autowired
@@ -188,9 +189,11 @@ public class carmpl implements CarService {
             crp.setAddType(car.getAddType().toString());
             crp.setIndex(index);
             crp.setTerminalId(car.getTerminalId());
+            crp.setTerminalPro(car.getTerminalPro());
             crp.setTerminalCode(car.getTerminalCode());
             crp.setTerminal(car.getTerminal());
             crp.setVin(car.getVin());
+            crp.setICCID(car.getICCID());
             if (car.getCreateAt() == null || car.getCreateAt().equals("")) {
                 crp.setCreateAt("");
             }
@@ -222,6 +225,7 @@ public class carmpl implements CarService {
             //获取零件信息集合
             for (PartsBto pt : parts) {
                 CarEcu te = new CarEcu();
+                te.setIndex(ecuCount += 1);
                 te.setEcuId(pt.getPartsId());
                 te.setEcuName(pt.getPartsname());
                 //辉哥说，这里零件号以parts表的partscode为准
@@ -250,9 +254,7 @@ public class carmpl implements CarService {
                         te.setUpdateAt(ft.format(ppbto.getUpdateat()));
                     }
                 }
-
                 ecus.add(te);
-
             }
 
             //添加车辆零件集合
@@ -382,22 +384,14 @@ public class carmpl implements CarService {
         cb.setAddtype((short) 1);
         cb.setVin(pcar.getVin());
         cb.setFkCartypeId(pcar.getCarTypeId());
-        cb.setCreateby("655B6D3D-32E4-4C16-9464-A10CFF40A1A9");
+        UserBto ub = getAccount();
+        cb.setCreateby(ub.getUserId());
         //终端厂商没字段
         // cb.
         cb.setIccid(pcar.getIccid());
         //运营商也没有
         //cb.get
-//        if (pcar.getTerminalCode() == null || pcar.getTerminalCode().equals("")) {
-//            carcount = 0;
-//            addcar.setMsg("终端号不能为空!");
-//        }
-//        else {
-//            cb.setTerminalcode(pcar.getTerminalCode());
-//            //添加新车辆
-//            carcount = carmp.insert(cb);
-//
-//        }
+
         cb.setTerminalcode(pcar.getTerminalCode());
         //添加新车辆
         carcount = carmp.insertSelective(cb);
@@ -423,6 +417,8 @@ public class carmpl implements CarService {
         //终端厂商没字段
         // cb.
         cb.setIccid(pcar.getIccid());
+        UserBto ub = getAccount();
+        cb.setUpdateby(ub.getUserId());
         //运营商也没有
         //cb.get
 
