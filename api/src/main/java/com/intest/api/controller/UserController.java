@@ -18,10 +18,13 @@ import com.intest.common.result.ResultT;
 import com.intest.common.util.BCrypt;
 import com.intest.common.util.StringUtils;
 import com.intest.common.webcore.BaseController;
-import com.intest.dao.entity.UserBto;
-import com.intest.dao.entity.UserRoleBto;
+import com.intest.dao.entity.*;
 import com.intest.partsservice.part.response.DateResponse;
+import com.intest.systemservice.impl.service.impl.PermissionImpl;
+import com.intest.systemservice.impl.service.impl.RoleImpl;
+import com.intest.systemservice.impl.service.impl.RolePermissionImpl;
 import com.intest.systemservice.impl.service.impl.UserRoleImpl;
+import com.intest.systemservice.response.SystemMenuResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -31,6 +34,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -44,6 +48,15 @@ public class UserController extends BaseController {
 
     @Autowired
     UserRoleImpl userRoleService;
+
+    @Autowired
+    RoleImpl roleImpl;
+
+    @Autowired
+    PermissionImpl permissionImpl;
+
+    @Autowired
+    RolePermissionImpl rolePermissionImpl;
 
 
     /**
@@ -338,6 +351,93 @@ public class UserController extends BaseController {
         return userService.getUserInfo(new UserPage());
     }
 
+
+    /**
+     * 查看用户权限
+     *
+     * @param userId
+     * @return
+     */
+    @ApiOperation("查看用户权限")
+    @ResponseBody
+    @RequestMapping(value = "/api/infota/product/getUserPermission", method = RequestMethod.GET)
+    public ResponseBean getUserPermission(@ApiParam String userId) {
+        if (!StringUtils.isNotEmptyStr(userId)) {
+            throw new CustomException("用户ID不能为空");
+        }
+        UserRoleBto userRoleBto = userRoleService.getUserRoleByUserId(userId);
+        RoleBto roleBto = roleImpl.getRoleById(userRoleBto.getFkRoleId());
+        List<SystemMenuResponse> list = roleImpl.getRolePermissionList();
+        List<RolePermissionBto> rolePermissionBtoList = rolePermissionImpl.getRolePermissionListByRoleId(roleBto.getRoleId());
+        List<PermissionBto> permissionBtoList = new ArrayList<>();
+        for (RolePermissionBto rolePermissionBto : rolePermissionBtoList) {
+            PermissionBto permissionBto = permissionImpl.getPermissionById(rolePermissionBto.getFkPermissionId());
+            permissionBtoList.add(permissionBto);
+        }
+        List<SystemMenuResponse> one = new ArrayList<>();
+        for (SystemMenuResponse bto1 : list) {
+            SystemMenuResponse response1 = new SystemMenuResponse();
+            response1.setTitle(bto1.getTitle());
+            response1.setType(bto1.getType());
+            response1.setKey(bto1.getKey());
+            for (PermissionBto permissionBto : permissionBtoList) {
+                if (bto1.getKey().equals(permissionBto.getFkResourceId())) {
+                    response1.setChecked(true);
+                }
+            }
+            List<SystemMenuResponse> two = new ArrayList<>();
+            if (bto1.getChildren() != null && bto1.getChildren().size() != 0) {
+                for (SystemMenuResponse bto2 : bto1.getChildren()) {
+                    SystemMenuResponse response2 = new SystemMenuResponse();
+                    response2.setTitle(bto2.getTitle());
+                    response2.setType(bto2.getType());
+                    response2.setKey(bto2.getKey());
+                    for (PermissionBto permissionBto : permissionBtoList) {
+                        if (bto2.getKey().equals(permissionBto.getFkResourceId())) {
+                            response2.setChecked(true);
+                        }
+                    }
+                    List<SystemMenuResponse> three = new ArrayList<>();
+                    if (bto2.getChildren() != null && bto2.getChildren().size() != 0) {
+                        for (SystemMenuResponse bto3 : bto2.getChildren()) {
+                            SystemMenuResponse response3 = new SystemMenuResponse();
+                            response3.setTitle(bto3.getTitle());
+                            response3.setType(bto3.getType());
+                            response3.setKey(bto3.getKey());
+                            for (PermissionBto permissionBto : permissionBtoList) {
+                                if (bto3.getKey().equals(permissionBto.getFkResourceId())) {
+                                    response3.setChecked(true);
+                                }
+                            }
+                            List<SystemMenuResponse> four = new ArrayList<>();
+                            if (bto3.getChildren() != null && bto3.getChildren().size() != 0) {
+                                for (SystemMenuResponse bto4 : bto3.getChildren()) {
+                                    SystemMenuResponse response4 = new SystemMenuResponse();
+                                    response4.setTitle(bto4.getTitle());
+                                    response4.setType(bto4.getType());
+                                    response4.setKey(bto4.getKey());
+                                    for (PermissionBto permissionBto : permissionBtoList) {
+                                        if (bto4.getKey().equals(permissionBto.getFkResourceId())) {
+                                            response4.setChecked(true);
+                                        }
+                                    }
+                                    response4.setChildren(new ArrayList<>());
+                                    four.add(response4);
+                                }
+                            }
+                            response3.setChildren(four);
+                            three.add(response3);
+                        }
+                    }
+                    response2.setChildren(three);
+                    two.add(response2);
+                }
+            }
+            response1.setChildren(two);
+            one.add(response1);
+        }
+        return new ResponseBean(1, "", one);
+    }
 
     /**
      * 修改账户状态接口

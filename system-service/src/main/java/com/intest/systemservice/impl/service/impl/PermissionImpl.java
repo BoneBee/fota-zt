@@ -12,7 +12,7 @@ public class PermissionImpl implements PermissionService {
     PermissionBtoMapper mapper;
 
     @Override
-    public PermissionBto getRoleById(String permissionId) {
+    public PermissionBto getPermissionById(String permissionId) {
         return mapper.selectByPrimaryKey(permissionId);
     }
 
