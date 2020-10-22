@@ -152,63 +152,64 @@ public class UserController extends BaseController {
         ValidateHelper.validateNull(request, new String[]{"loginName", "loginPassword", "accountKind", "accountStatus"});
         String account = request.getLoginName();
         String passworld = request.getLoginPassword();
-        if (account.equals(passworld)) {
-            throw new CustomException("密码不可与用户名一致");
-        }
-
-        if (CheckPwd.checkLateralKeyboardSite(passworld) || CheckPwd.checkSequentialChars(passworld)) {
-            throw new CustomException("密码不能连续3位或3位以上字母或数字");
-        }
-
-        if (CheckPwd.checkSequentialSameChars(passworld)) {
-            throw new CustomException("密码不能相同连续3位或3位以上字母或数字");
-        }
-
-        if (!CheckPwd.checkPasswordLength(passworld)) {
-            throw new CustomException("密码长度必须8-16位");
-        }
-
+//        if (account.equals(passworld)) {
+//            throw new CustomException("密码不可与用户名一致");
+//        }
+//
+//        if (CheckPwd.checkLateralKeyboardSite(passworld) || CheckPwd.checkSequentialChars(passworld)) {
+//            throw new CustomException("密码不能连续3位或3位以上字母或数字");
+//        }
+//
+//        if (CheckPwd.checkSequentialSameChars(passworld)) {
+//            throw new CustomException("密码不能相同连续3位或3位以上字母或数字");
+//        }
+//
+//        if (!CheckPwd.checkPasswordLength(passworld)) {
+//            throw new CustomException("密码长度必须8-16位");
+//        }
+//
         if (userService.getUserByname(account) != null) {
             throw new CustomException("已存在相同用户名，请重新修改用户名");
         }
 
-        if (CheckPwd.checkContainDigit(passworld) && CheckPwd.checkContainCase(passworld) && CheckPwd.checkContainSpecialChar(passworld)) {
-            UserBto userBto = new UserBto();
-            UUID uuid = UUID.randomUUID();
-            String yan = BCrypt.gensalt();
-            String hashd = BCrypt.hashpw(passworld, yan);
-            userBto.setUserId(uuid + "");
-            userBto.setLoginName(request.getLoginName());
-            userBto.setLoginPassword(hashd);
-            userBto.setCsprng(yan);
-            userBto.setRealName(request.getRealName());
-            userBto.setDepartment(request.getDepartment());
-            userBto.setMobile(request.getMobile());
-            userBto.setCompanyEmail(request.getCompanyEmail());
-            userBto.setSex((short) request.getSex());
-            userBto.setNote(request.getNote());
-            userBto.setAccountKind((short) request.getAccountKind());
-            userBto.setPasswordRetryCount(5);
-            userBto.setAccountStatus((short) request.getAccountStatus());
-            userBto.setIsdelete((short) 1);
-            userBto.setCreateat(new Date());
-            userBto.setCreateby("admin");
-            UserRoleBto userRoleBto = new UserRoleBto();
-            userRoleBto.setUserRoleId(UUID.randomUUID() + "");
-            userRoleBto.setFkUserId(uuid + "");
-            userRoleBto.setFkRoleId(request.getRoleId());
-            userRoleBto.setIsdelete((short) 1);
-            userRoleBto.setCreateat(new Date());
-            userRoleBto.setCreateby("admin");
-            userRoleService.addUserRole(userRoleBto);
-            if (userService.addUser(userBto) == 1) {
-                return new ResponseBean(1, "注册成功", null);
-            } else {
-                throw new CustomException("注册失败");
-            }
+        UserBto userBto = new UserBto();
+        UUID uuid = UUID.randomUUID();
+        String yan = BCrypt.gensalt();
+        String hashd = BCrypt.hashpw(passworld, yan);
+        userBto.setUserId(uuid + "");
+        userBto.setLoginName(request.getLoginName());
+        userBto.setLoginPassword(hashd);
+        userBto.setCsprng(yan);
+        userBto.setRealName(request.getRealName());
+        userBto.setDepartment(request.getDepartment());
+        userBto.setMobile(request.getMobile());
+        userBto.setCompanyEmail(request.getCompanyEmail());
+        userBto.setSex((short) request.getSex());
+        userBto.setNote(request.getNote());
+        userBto.setAccountKind((short) request.getAccountKind());
+        userBto.setPasswordRetryCount(5);
+        userBto.setAccountStatus((short) request.getAccountStatus());
+        userBto.setIsdelete((short) 1);
+        userBto.setCreateat(new Date());
+        userBto.setCreateby("admin");
+        UserRoleBto userRoleBto = new UserRoleBto();
+        userRoleBto.setUserRoleId(UUID.randomUUID() + "");
+        userRoleBto.setFkUserId(uuid + "");
+        userRoleBto.setFkRoleId(request.getRoleId());
+        userRoleBto.setIsdelete((short) 1);
+        userRoleBto.setCreateat(new Date());
+        userRoleBto.setCreateby("admin");
+        userRoleService.addUserRole(userRoleBto);
+        if (userService.addUser(userBto) == 1) {
+            return new ResponseBean(1, "注册成功", null);
         } else {
-            throw new CustomException("密码必须由字母、数字、特殊符号组成");
+            throw new CustomException("注册失败");
         }
+//        if (CheckPwd.checkContainDigit(passworld) && CheckPwd.checkContainCase(passworld) && CheckPwd.checkContainSpecialChar(passworld)) {
+//
+//        } else {
+//            throw new CustomException("密码必须由字母、数字、特殊符号组成");
+//        }
     }
 
 
@@ -313,32 +314,33 @@ public class UserController extends BaseController {
             throw new CustomException("您两次输入的密码不一致，请重试");
         }
 
-        if (request.getLoginName().equals(request.getNewPassworld())) {
-            throw new CustomException("密码不可与用户名一致");
+//        if (request.getLoginName().equals(request.getNewPassworld())) {
+//            throw new CustomException("密码不可与用户名一致");
+//        }
+//
+//        if (CheckPwd.checkLateralKeyboardSite(request.getNewPassworld()) || CheckPwd.checkSequentialChars(request.getNewPassworld())) {
+//            throw new CustomException("密码不能连续3位或3位以上字母或数字");
+//        }
+//
+//        if (CheckPwd.checkSequentialSameChars(request.getNewPassworld())) {
+//            throw new CustomException("密码不能相同连续3位或3位以上字母或数字");
+//        }
+//
+//        if (!CheckPwd.checkPasswordLength(request.getNewPassworld())) {
+//            throw new CustomException("密码长度必须8-16位");
+//        }
+        String yan = userBto.getCsprng();
+        String hashd = BCrypt.hashpw(request.getNewPassworld(), yan);
+        userBto.setLoginPassword(hashd);
+        if (userService.updateUser(userBto) != 1) {
+            throw new CustomException("密码修改失败");
         }
-
-        if (CheckPwd.checkLateralKeyboardSite(request.getNewPassworld()) || CheckPwd.checkSequentialChars(request.getNewPassworld())) {
-            throw new CustomException("密码不能连续3位或3位以上字母或数字");
-        }
-
-        if (CheckPwd.checkSequentialSameChars(request.getNewPassworld())) {
-            throw new CustomException("密码不能相同连续3位或3位以上字母或数字");
-        }
-
-        if (!CheckPwd.checkPasswordLength(request.getNewPassworld())) {
-            throw new CustomException("密码长度必须8-16位");
-        }
-        if (CheckPwd.checkContainDigit(request.getNewPassworld()) && CheckPwd.checkContainCase(request.getNewPassworld()) && CheckPwd.checkContainSpecialChar(request.getNewPassworld())) {
-            String yan = userBto.getCsprng();
-            String hashd = BCrypt.hashpw(request.getNewPassworld(), yan);
-            userBto.setLoginPassword(hashd);
-            if (userService.updateUser(userBto) != 1) {
-                throw new CustomException("密码修改失败");
-            }
-            return new ResponseBean(1, "密码修改成功", null);
-        } else {
-            throw new CustomException("密码必须由字母、数字、特殊符号组成");
-        }
+        return new ResponseBean(1, "密码修改成功", null);
+//        if (CheckPwd.checkContainDigit(request.getNewPassworld()) && CheckPwd.checkContainCase(request.getNewPassworld()) && CheckPwd.checkContainSpecialChar(request.getNewPassworld())) {
+//
+//        } else {
+//            throw new CustomException("密码必须由字母、数字、特殊符号组成");
+//        }
     }
 
 
