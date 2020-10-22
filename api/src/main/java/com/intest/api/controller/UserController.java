@@ -18,10 +18,13 @@ import com.intest.common.result.ResultT;
 import com.intest.common.util.BCrypt;
 import com.intest.common.util.StringUtils;
 import com.intest.common.webcore.BaseController;
-import com.intest.dao.entity.UserBto;
-import com.intest.dao.entity.UserRoleBto;
+import com.intest.dao.entity.*;
 import com.intest.partsservice.part.response.DateResponse;
+import com.intest.systemservice.impl.service.impl.PermissionImpl;
+import com.intest.systemservice.impl.service.impl.RoleImpl;
+import com.intest.systemservice.impl.service.impl.RolePermissionImpl;
 import com.intest.systemservice.impl.service.impl.UserRoleImpl;
+import com.intest.systemservice.response.SystemMenuResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -31,6 +34,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -44,6 +48,15 @@ public class UserController extends BaseController {
 
     @Autowired
     UserRoleImpl userRoleService;
+
+    @Autowired
+    RoleImpl roleImpl;
+
+    @Autowired
+    PermissionImpl permissionImpl;
+
+    @Autowired
+    RolePermissionImpl rolePermissionImpl;
 
 
     /**
@@ -139,63 +152,64 @@ public class UserController extends BaseController {
         ValidateHelper.validateNull(request, new String[]{"loginName", "loginPassword", "accountKind", "accountStatus"});
         String account = request.getLoginName();
         String passworld = request.getLoginPassword();
-        if (account.equals(passworld)) {
-            throw new CustomException("密码不可与用户名一致");
-        }
-
-        if (CheckPwd.checkLateralKeyboardSite(passworld) || CheckPwd.checkSequentialChars(passworld)) {
-            throw new CustomException("密码不能连续3位或3位以上字母或数字");
-        }
-
-        if (CheckPwd.checkSequentialSameChars(passworld)) {
-            throw new CustomException("密码不能相同连续3位或3位以上字母或数字");
-        }
-
-        if (!CheckPwd.checkPasswordLength(passworld)) {
-            throw new CustomException("密码长度必须8-16位");
-        }
-
+//        if (account.equals(passworld)) {
+//            throw new CustomException("密码不可与用户名一致");
+//        }
+//
+//        if (CheckPwd.checkLateralKeyboardSite(passworld) || CheckPwd.checkSequentialChars(passworld)) {
+//            throw new CustomException("密码不能连续3位或3位以上字母或数字");
+//        }
+//
+//        if (CheckPwd.checkSequentialSameChars(passworld)) {
+//            throw new CustomException("密码不能相同连续3位或3位以上字母或数字");
+//        }
+//
+//        if (!CheckPwd.checkPasswordLength(passworld)) {
+//            throw new CustomException("密码长度必须8-16位");
+//        }
+//
         if (userService.getUserByname(account) != null) {
             throw new CustomException("已存在相同用户名，请重新修改用户名");
         }
 
-        if (CheckPwd.checkContainDigit(passworld) && CheckPwd.checkContainCase(passworld) && CheckPwd.checkContainSpecialChar(passworld)) {
-            UserBto userBto = new UserBto();
-            UUID uuid = UUID.randomUUID();
-            String yan = BCrypt.gensalt();
-            String hashd = BCrypt.hashpw(passworld, yan);
-            userBto.setUserId(uuid + "");
-            userBto.setLoginName(request.getLoginName());
-            userBto.setLoginPassword(hashd);
-            userBto.setCsprng(yan);
-            userBto.setRealName(request.getRealName());
-            userBto.setDepartment(request.getDepartment());
-            userBto.setMobile(request.getMobile());
-            userBto.setCompanyEmail(request.getCompanyEmail());
-            userBto.setSex((short) request.getSex());
-            userBto.setNote(request.getNote());
-            userBto.setAccountKind((short) request.getAccountKind());
-            userBto.setPasswordRetryCount(5);
-            userBto.setAccountStatus((short) request.getAccountStatus());
-            userBto.setIsdelete((short) 1);
-            userBto.setCreateat(new Date());
-            userBto.setCreateby("admin");
-            UserRoleBto userRoleBto = new UserRoleBto();
-            userRoleBto.setUserRoleId(UUID.randomUUID() + "");
-            userRoleBto.setFkUserId(uuid + "");
-            userRoleBto.setFkRoleId(request.getRoleId());
-            userRoleBto.setIsdelete((short) 1);
-            userRoleBto.setCreateat(new Date());
-            userRoleBto.setCreateby("admin");
-            userRoleService.addUserRole(userRoleBto);
-            if (userService.addUser(userBto) == 1) {
-                return new ResponseBean(1, "注册成功", null);
-            } else {
-                throw new CustomException("注册失败");
-            }
+        UserBto userBto = new UserBto();
+        UUID uuid = UUID.randomUUID();
+        String yan = BCrypt.gensalt();
+        String hashd = BCrypt.hashpw(passworld, yan);
+        userBto.setUserId(uuid + "");
+        userBto.setLoginName(request.getLoginName());
+        userBto.setLoginPassword(hashd);
+        userBto.setCsprng(yan);
+        userBto.setRealName(request.getRealName());
+        userBto.setDepartment(request.getDepartment());
+        userBto.setMobile(request.getMobile());
+        userBto.setCompanyEmail(request.getCompanyEmail());
+        userBto.setSex((short) request.getSex());
+        userBto.setNote(request.getNote());
+        userBto.setAccountKind((short) request.getAccountKind());
+        userBto.setPasswordRetryCount(5);
+        userBto.setAccountStatus((short) request.getAccountStatus());
+        userBto.setIsdelete((short) 1);
+        userBto.setCreateat(new Date());
+        userBto.setCreateby("admin");
+        UserRoleBto userRoleBto = new UserRoleBto();
+        userRoleBto.setUserRoleId(UUID.randomUUID() + "");
+        userRoleBto.setFkUserId(uuid + "");
+        userRoleBto.setFkRoleId(request.getRoleId());
+        userRoleBto.setIsdelete((short) 1);
+        userRoleBto.setCreateat(new Date());
+        userRoleBto.setCreateby("admin");
+        userRoleService.addUserRole(userRoleBto);
+        if (userService.addUser(userBto) == 1) {
+            return new ResponseBean(1, "注册成功", null);
         } else {
-            throw new CustomException("密码必须由字母、数字、特殊符号组成");
+            throw new CustomException("注册失败");
         }
+//        if (CheckPwd.checkContainDigit(passworld) && CheckPwd.checkContainCase(passworld) && CheckPwd.checkContainSpecialChar(passworld)) {
+//
+//        } else {
+//            throw new CustomException("密码必须由字母、数字、特殊符号组成");
+//        }
     }
 
 
@@ -300,32 +314,33 @@ public class UserController extends BaseController {
             throw new CustomException("您两次输入的密码不一致，请重试");
         }
 
-        if (request.getLoginName().equals(request.getNewPassworld())) {
-            throw new CustomException("密码不可与用户名一致");
+//        if (request.getLoginName().equals(request.getNewPassworld())) {
+//            throw new CustomException("密码不可与用户名一致");
+//        }
+//
+//        if (CheckPwd.checkLateralKeyboardSite(request.getNewPassworld()) || CheckPwd.checkSequentialChars(request.getNewPassworld())) {
+//            throw new CustomException("密码不能连续3位或3位以上字母或数字");
+//        }
+//
+//        if (CheckPwd.checkSequentialSameChars(request.getNewPassworld())) {
+//            throw new CustomException("密码不能相同连续3位或3位以上字母或数字");
+//        }
+//
+//        if (!CheckPwd.checkPasswordLength(request.getNewPassworld())) {
+//            throw new CustomException("密码长度必须8-16位");
+//        }
+        String yan = userBto.getCsprng();
+        String hashd = BCrypt.hashpw(request.getNewPassworld(), yan);
+        userBto.setLoginPassword(hashd);
+        if (userService.updateUser(userBto) != 1) {
+            throw new CustomException("密码修改失败");
         }
-
-        if (CheckPwd.checkLateralKeyboardSite(request.getNewPassworld()) || CheckPwd.checkSequentialChars(request.getNewPassworld())) {
-            throw new CustomException("密码不能连续3位或3位以上字母或数字");
-        }
-
-        if (CheckPwd.checkSequentialSameChars(request.getNewPassworld())) {
-            throw new CustomException("密码不能相同连续3位或3位以上字母或数字");
-        }
-
-        if (!CheckPwd.checkPasswordLength(request.getNewPassworld())) {
-            throw new CustomException("密码长度必须8-16位");
-        }
-        if (CheckPwd.checkContainDigit(request.getNewPassworld()) && CheckPwd.checkContainCase(request.getNewPassworld()) && CheckPwd.checkContainSpecialChar(request.getNewPassworld())) {
-            String yan = userBto.getCsprng();
-            String hashd = BCrypt.hashpw(request.getNewPassworld(), yan);
-            userBto.setLoginPassword(hashd);
-            if (userService.updateUser(userBto) != 1) {
-                throw new CustomException("密码修改失败");
-            }
-            return new ResponseBean(1, "密码修改成功", null);
-        } else {
-            throw new CustomException("密码必须由字母、数字、特殊符号组成");
-        }
+        return new ResponseBean(1, "密码修改成功", null);
+//        if (CheckPwd.checkContainDigit(request.getNewPassworld()) && CheckPwd.checkContainCase(request.getNewPassworld()) && CheckPwd.checkContainSpecialChar(request.getNewPassworld())) {
+//
+//        } else {
+//            throw new CustomException("密码必须由字母、数字、特殊符号组成");
+//        }
     }
 
 
@@ -338,6 +353,93 @@ public class UserController extends BaseController {
         return userService.getUserInfo(new UserPage());
     }
 
+
+    /**
+     * 查看用户权限
+     *
+     * @param userId
+     * @return
+     */
+    @ApiOperation("查看用户权限")
+    @ResponseBody
+    @RequestMapping(value = "/api/infota/product/getUserPermission", method = RequestMethod.GET)
+    public ResponseBean getUserPermission(@ApiParam String userId) {
+        if (!StringUtils.isNotEmptyStr(userId)) {
+            throw new CustomException("用户ID不能为空");
+        }
+        UserRoleBto userRoleBto = userRoleService.getUserRoleByUserId(userId);
+        RoleBto roleBto = roleImpl.getRoleById(userRoleBto.getFkRoleId());
+        List<SystemMenuResponse> list = roleImpl.getRolePermissionList();
+        List<RolePermissionBto> rolePermissionBtoList = rolePermissionImpl.getRolePermissionListByRoleId(roleBto.getRoleId());
+        List<PermissionBto> permissionBtoList = new ArrayList<>();
+        for (RolePermissionBto rolePermissionBto : rolePermissionBtoList) {
+            PermissionBto permissionBto = permissionImpl.getPermissionById(rolePermissionBto.getFkPermissionId());
+            permissionBtoList.add(permissionBto);
+        }
+        List<SystemMenuResponse> one = new ArrayList<>();
+        for (SystemMenuResponse bto1 : list) {
+            SystemMenuResponse response1 = new SystemMenuResponse();
+            response1.setTitle(bto1.getTitle());
+            response1.setType(bto1.getType());
+            response1.setKey(bto1.getKey());
+            for (PermissionBto permissionBto : permissionBtoList) {
+                if (bto1.getKey().equals(permissionBto.getFkResourceId())) {
+                    response1.setChecked(true);
+                }
+            }
+            List<SystemMenuResponse> two = new ArrayList<>();
+            if (bto1.getChildren() != null && bto1.getChildren().size() != 0) {
+                for (SystemMenuResponse bto2 : bto1.getChildren()) {
+                    SystemMenuResponse response2 = new SystemMenuResponse();
+                    response2.setTitle(bto2.getTitle());
+                    response2.setType(bto2.getType());
+                    response2.setKey(bto2.getKey());
+                    for (PermissionBto permissionBto : permissionBtoList) {
+                        if (bto2.getKey().equals(permissionBto.getFkResourceId())) {
+                            response2.setChecked(true);
+                        }
+                    }
+                    List<SystemMenuResponse> three = new ArrayList<>();
+                    if (bto2.getChildren() != null && bto2.getChildren().size() != 0) {
+                        for (SystemMenuResponse bto3 : bto2.getChildren()) {
+                            SystemMenuResponse response3 = new SystemMenuResponse();
+                            response3.setTitle(bto3.getTitle());
+                            response3.setType(bto3.getType());
+                            response3.setKey(bto3.getKey());
+                            for (PermissionBto permissionBto : permissionBtoList) {
+                                if (bto3.getKey().equals(permissionBto.getFkResourceId())) {
+                                    response3.setChecked(true);
+                                }
+                            }
+                            List<SystemMenuResponse> four = new ArrayList<>();
+                            if (bto3.getChildren() != null && bto3.getChildren().size() != 0) {
+                                for (SystemMenuResponse bto4 : bto3.getChildren()) {
+                                    SystemMenuResponse response4 = new SystemMenuResponse();
+                                    response4.setTitle(bto4.getTitle());
+                                    response4.setType(bto4.getType());
+                                    response4.setKey(bto4.getKey());
+                                    for (PermissionBto permissionBto : permissionBtoList) {
+                                        if (bto4.getKey().equals(permissionBto.getFkResourceId())) {
+                                            response4.setChecked(true);
+                                        }
+                                    }
+                                    response4.setChildren(new ArrayList<>());
+                                    four.add(response4);
+                                }
+                            }
+                            response3.setChildren(four);
+                            three.add(response3);
+                        }
+                    }
+                    response2.setChildren(three);
+                    two.add(response2);
+                }
+            }
+            response1.setChildren(two);
+            one.add(response1);
+        }
+        return new ResponseBean(1, "", one);
+    }
 
     /**
      * 修改账户状态接口

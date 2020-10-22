@@ -308,7 +308,6 @@ public class SystemController extends BaseController {
     @RequestMapping(value = "/api/basic/system/updateRole", method = RequestMethod.POST)
     public ResponseBean updateRole(@RequestBody UpdateRoleRequet request) {
         ValidateHelper.validateNull(request, new String[]{"roleName", "roleType", "roleId"});
-        RoleBto roleBto1 = roleImpl.getRoleById(request.getRoleId());
         List<RolePermissionBto> rolePermissionBtoList = rolePermissionImpl.getRolePermissionListByRoleId(request.getRoleId());
         if (roleImpl.getRoleByName(request.getRoleName()) != null) {
             throw new CustomException("该角色名称已存在！");
@@ -318,16 +317,17 @@ public class SystemController extends BaseController {
             permissionImpl.deletePermission(bto.getFkPermissionId());
             rolePermissionImpl.deleteRolePermission(bto.getRolepermissionId());
         }
-        RoleBto roleBto = new RoleBto();
+        RoleBto roleBto = roleImpl.getRoleById(request.getRoleId());
         UserBto userBto = getAccount();
         roleBto.setRoleId(UUID.randomUUID() + "");
         roleBto.setRoleName(request.getRoleName());
         roleBto.setRoleType((short) request.getRoleType());
         roleBto.setIsdelete((short) 1);
         roleBto.setUpdateat(new Date());
+        roleBto.setRemark(request.getRemark());
         roleBto.setUpdateby(userBto.getRealName());
         roleImpl.addAll(roleBto.getRoleId(), request.getList());
-        if (roleImpl.addRole(roleBto) != 1) {
+        if (roleImpl.updateRole(roleBto) != 1) {
             throw new CustomException("修改角色失败！");
         }
         return new ResponseBean(1, "修改角色成功", null);
@@ -363,6 +363,7 @@ public class SystemController extends BaseController {
     public PagerDataBaseVO getRoleTmpList() {
         return roleImpl.getRoleTmpInfo(new SystemPage());
     }
+
 
     /**
      * 检测角色名称是否重复接口
