@@ -470,6 +470,7 @@ public class carmpl extends BaseController implements CarService {
         CarBtoExample carEx = new CarBtoExample();
         CarBtoExample.Criteria cia = carEx.createCriteria();
         cia.andVinEqualTo(cvin.getVin());
+        cia.andIsdeleteEqualTo((short)1);
         if (!cvin.getCarId().equals("")) {
             cia.andCarIdEqualTo(cvin.getCarId());
         }

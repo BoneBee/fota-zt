@@ -453,6 +453,7 @@ public class cartypesassemblyImpl extends BaseController implements CarTypesServ
         CarBtoExample carEx = new CarBtoExample();
         CarBtoExample.Criteria cia = carEx.createCriteria();
         cia.andFkCartypeIdEqualTo(carTypeId);
+        cia.andIsdeleteEqualTo((short)1);
         List<CarBto> btos = new ArrayList<>();
         try {
             btos = carmp.selectByExample(carEx);
