@@ -165,7 +165,7 @@ public class RoleImpl implements RoleService {
                                                 response4.setChecked(true);
                                             }
                                         }
-                                        response4.setChildren(null);
+                                        response4.setChildren(new ArrayList<>());
                                         four.add(response4);
                                     }
                                 }
