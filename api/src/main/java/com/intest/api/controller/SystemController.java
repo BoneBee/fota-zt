@@ -324,6 +324,7 @@ public class SystemController extends BaseController {
         roleBto.setRoleType((short) request.getRoleType());
         roleBto.setIsdelete((short) 1);
         roleBto.setUpdateat(new Date());
+        roleBto.setRemark(request.getRemark());
         roleBto.setUpdateby(userBto.getRealName());
         roleImpl.addAll(roleBto.getRoleId(), request.getList());
         if (roleImpl.updateRole(roleBto) != 1) {
