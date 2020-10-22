@@ -373,7 +373,7 @@ public class cartypesassemblyImpl extends BaseController implements CarTypesServ
                 //更新删除字段
                 ctbto.setCartypeId(cartype.getCarTypeId());
 //                ctbto.setCartypename(cartype.getCarTypeName());
-//                ctbto.setIsdelete((short) 0);
+                ctbto.setIsdelete((short) 0);
                 //更新车型删除状态
                 cartypeMapper.updateByPrimaryKeySelective(ctbto);
             }
@@ -470,6 +470,7 @@ public class cartypesassemblyImpl extends BaseController implements CarTypesServ
         CarTypeBtoExample carTypeEx = new CarTypeBtoExample();
         CarTypeBtoExample.Criteria cia = carTypeEx.createCriteria();
         cia.andCartypenameEqualTo(carType.getCarTypeName());
+        cia.andIsdeleteEqualTo((short)1);
 
         if (!carType.getCarTypeId().equals("")) {
             cia.andCartypeIdEqualTo(carType.getCarTypeId());

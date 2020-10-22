@@ -5,7 +5,15 @@ public class AddCarResponeCarType {
     private String carTypeId;
     private String carTypeName;
     private String terminal;
+    private  String terminalPro;
 
+    public String getTerminalPro() {
+        return terminalPro;
+    }
+
+    public void setTerminalPro(String terminalPro) {
+        this.terminalPro = terminalPro;
+    }
 
     public String getCarTypeId() {
         return carTypeId;

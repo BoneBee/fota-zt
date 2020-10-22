@@ -960,6 +960,216 @@ public class CarBtoExample {
             addCriterion("ICCID not between", value1, value2, "iccid");
             return (Criteria) this;
         }
+
+        public Criteria andSimnumberIsNull() {
+            addCriterion("SIMNUMBER is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSimnumberIsNotNull() {
+            addCriterion("SIMNUMBER is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSimnumberEqualTo(String value) {
+            addCriterion("SIMNUMBER =", value, "simnumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andSimnumberNotEqualTo(String value) {
+            addCriterion("SIMNUMBER <>", value, "simnumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andSimnumberGreaterThan(String value) {
+            addCriterion("SIMNUMBER >", value, "simnumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andSimnumberGreaterThanOrEqualTo(String value) {
+            addCriterion("SIMNUMBER >=", value, "simnumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andSimnumberLessThan(String value) {
+            addCriterion("SIMNUMBER <", value, "simnumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andSimnumberLessThanOrEqualTo(String value) {
+            addCriterion("SIMNUMBER <=", value, "simnumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andSimnumberLike(String value) {
+            addCriterion("SIMNUMBER like", value, "simnumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andSimnumberNotLike(String value) {
+            addCriterion("SIMNUMBER not like", value, "simnumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andSimnumberIn(List<String> values) {
+            addCriterion("SIMNUMBER in", values, "simnumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andSimnumberNotIn(List<String> values) {
+            addCriterion("SIMNUMBER not in", values, "simnumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andSimnumberBetween(String value1, String value2) {
+            addCriterion("SIMNUMBER between", value1, value2, "simnumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andSimnumberNotBetween(String value1, String value2) {
+            addCriterion("SIMNUMBER not between", value1, value2, "simnumber");
+            return (Criteria) this;
+        }
+
+        public Criteria andTerminalproIsNull() {
+            addCriterion("TERMINALPRO is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTerminalproIsNotNull() {
+            addCriterion("TERMINALPRO is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTerminalproEqualTo(String value) {
+            addCriterion("TERMINALPRO =", value, "terminalpro");
+            return (Criteria) this;
+        }
+
+        public Criteria andTerminalproNotEqualTo(String value) {
+            addCriterion("TERMINALPRO <>", value, "terminalpro");
+            return (Criteria) this;
+        }
+
+        public Criteria andTerminalproGreaterThan(String value) {
+            addCriterion("TERMINALPRO >", value, "terminalpro");
+            return (Criteria) this;
+        }
+
+        public Criteria andTerminalproGreaterThanOrEqualTo(String value) {
+            addCriterion("TERMINALPRO >=", value, "terminalpro");
+            return (Criteria) this;
+        }
+
+        public Criteria andTerminalproLessThan(String value) {
+            addCriterion("TERMINALPRO <", value, "terminalpro");
+            return (Criteria) this;
+        }
+
+        public Criteria andTerminalproLessThanOrEqualTo(String value) {
+            addCriterion("TERMINALPRO <=", value, "terminalpro");
+            return (Criteria) this;
+        }
+
+        public Criteria andTerminalproLike(String value) {
+            addCriterion("TERMINALPRO like", value, "terminalpro");
+            return (Criteria) this;
+        }
+
+        public Criteria andTerminalproNotLike(String value) {
+            addCriterion("TERMINALPRO not like", value, "terminalpro");
+            return (Criteria) this;
+        }
+
+        public Criteria andTerminalproIn(List<String> values) {
+            addCriterion("TERMINALPRO in", values, "terminalpro");
+            return (Criteria) this;
+        }
+
+        public Criteria andTerminalproNotIn(List<String> values) {
+            addCriterion("TERMINALPRO not in", values, "terminalpro");
+            return (Criteria) this;
+        }
+
+        public Criteria andTerminalproBetween(String value1, String value2) {
+            addCriterion("TERMINALPRO between", value1, value2, "terminalpro");
+            return (Criteria) this;
+        }
+
+        public Criteria andTerminalproNotBetween(String value1, String value2) {
+            addCriterion("TERMINALPRO not between", value1, value2, "terminalpro");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperatorIsNull() {
+            addCriterion("OPERATOR is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperatorIsNotNull() {
+            addCriterion("OPERATOR is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperatorEqualTo(String value) {
+            addCriterion("OPERATOR =", value, "operator");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperatorNotEqualTo(String value) {
+            addCriterion("OPERATOR <>", value, "operator");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperatorGreaterThan(String value) {
+            addCriterion("OPERATOR >", value, "operator");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperatorGreaterThanOrEqualTo(String value) {
+            addCriterion("OPERATOR >=", value, "operator");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperatorLessThan(String value) {
+            addCriterion("OPERATOR <", value, "operator");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperatorLessThanOrEqualTo(String value) {
+            addCriterion("OPERATOR <=", value, "operator");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperatorLike(String value) {
+            addCriterion("OPERATOR like", value, "operator");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperatorNotLike(String value) {
+            addCriterion("OPERATOR not like", value, "operator");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperatorIn(List<String> values) {
+            addCriterion("OPERATOR in", values, "operator");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperatorNotIn(List<String> values) {
+            addCriterion("OPERATOR not in", values, "operator");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperatorBetween(String value1, String value2) {
+            addCriterion("OPERATOR between", value1, value2, "operator");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperatorNotBetween(String value1, String value2) {
+            addCriterion("OPERATOR not between", value1, value2, "operator");
+            return (Criteria) this;
+        }
     }
 
     /**

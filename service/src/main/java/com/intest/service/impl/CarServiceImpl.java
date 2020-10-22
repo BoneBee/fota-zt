@@ -5,9 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.intest.common.result.PagerDataBaseVO;
 import com.intest.common.tableData.TableDataAnnotation;
 import com.intest.dao.entity.CarBto;
-import com.intest.dao.mapper.CarBtoMapper;
 import com.intest.service.CarService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

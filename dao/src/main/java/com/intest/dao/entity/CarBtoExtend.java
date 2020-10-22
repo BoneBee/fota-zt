@@ -22,8 +22,17 @@ public class CarBtoExtend {
     private String executeStatus;
 
     private String carId;
-    //    private String operator;
+        private String operator;
     private String ICCID;
+
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
+
     private String simNumber;
 
     public String getCarTypeName() {

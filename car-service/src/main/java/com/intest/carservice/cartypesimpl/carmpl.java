@@ -3,10 +3,7 @@ package com.intest.carservice.cartypesimpl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.intest.carservice.CarService;
-import com.intest.carservice.Request.CarRequest;
-import com.intest.carservice.Request.RequestCheckVin;
-import com.intest.carservice.Request.addCar;
-import com.intest.carservice.Request.carsEx;
+import com.intest.carservice.Request.*;
 import com.intest.carservice.Respone.*;
 import com.intest.carservice.carTypeTool.carTools;
 import com.intest.common.result.PagerDataBaseVO;
@@ -150,7 +147,6 @@ public class carmpl extends BaseController implements CarService {
 
         }
 
-
         //返回对象
         PagerDataBaseVO carsVO = new PagerDataBaseVO();
         List<CarRespone> carRespones = new ArrayList<>();
@@ -192,8 +188,10 @@ public class carmpl extends BaseController implements CarService {
             crp.setTerminalPro(car.getTerminalPro());
             crp.setTerminalCode(car.getTerminalCode());
             crp.setTerminal(car.getTerminal());
+            crp.setOperator(car.getOperator());
             crp.setVin(car.getVin());
             crp.setICCID(car.getICCID());
+            crp.setSimNumber(car.getSimNumber());
             if (car.getCreateAt() == null || car.getCreateAt().equals("")) {
                 crp.setCreateAt("");
             }
@@ -386,11 +384,13 @@ public class carmpl extends BaseController implements CarService {
         cb.setFkCartypeId(pcar.getCarTypeId());
         UserBto ub = getAccount();
         cb.setCreateby(ub.getUserId());
-        //终端厂商没字段
-        // cb.
+        //终端厂商
+        cb.setTerminalpro(pcar.getTerminalPro());
         cb.setIccid(pcar.getIccid());
-        //运营商也没有
-        //cb.get
+        //运营商
+        cb.setOperator(pcar.getOperator());
+
+        cb.setSimnumber(pcar.getCardCode());
 
         cb.setTerminalcode(pcar.getTerminalCode());
         //添加新车辆
@@ -414,13 +414,13 @@ public class carmpl extends BaseController implements CarService {
         cb.setFkCartypeId(pcar.getCarTypeId());
         cb.setTerminalcode(pcar.getTerminalCode());
         cb.setIsdelete((short) 1);
-        //终端厂商没字段
-        // cb.
+        //终端厂商
+         cb.setTerminalpro(pcar.getTerminalPro());
         cb.setIccid(pcar.getIccid());
         UserBto ub = getAccount();
         cb.setUpdateby(ub.getUserId());
-        //运营商也没有
-        //cb.get
+        //运营商
+        cb.setOperator(pcar.getOperator());
 
         //修改车辆
         int carcount = carmp.updateByPrimaryKeySelective(cb);
@@ -450,6 +450,7 @@ public class carmpl extends BaseController implements CarService {
                 TerminalBto terminalBto = terminalmp.selectByPrimaryKey(ctbto.getFkTerminalId());
                 if (terminalBto != null) {
                     cartyperp.setTerminal(terminalBto.getTerminalname());
+                    cartyperp.setTerminalPro(terminalBto.getPcompany());
                 }
             }
             cartyperps.add(cartyperp);
@@ -470,7 +471,7 @@ public class carmpl extends BaseController implements CarService {
         CarBtoExample carEx = new CarBtoExample();
         CarBtoExample.Criteria cia = carEx.createCriteria();
         cia.andVinEqualTo(cvin.getVin());
-        cia.andIsdeleteEqualTo((short)1);
+        cia.andIsdeleteEqualTo((short) 1);
         if (!cvin.getCarId().equals("")) {
             cia.andCarIdEqualTo(cvin.getCarId());
         }
@@ -481,6 +482,29 @@ public class carmpl extends BaseController implements CarService {
         if (cBto.size() > 0) {
             if (cvin.getCarId().equals("")) {
                 Msg = String.format("Vin：%s 已经存在", cvin.getVin());
+            }
+        }
+        return Msg;
+    }
+
+    /*
+    检测终端编码唯一性
+     */
+    public String checkTerminalCode(RequestCheckTerminalCode ctcode) {
+        CarBtoExample carEx = new CarBtoExample();
+        CarBtoExample.Criteria cia = carEx.createCriteria();
+        cia.andTerminalcodeEqualTo(ctcode.getTerminalCode());
+        cia.andIsdeleteEqualTo((short) 1);
+        if (!ctcode.getCarId().equals("")) {
+            cia.andCarIdEqualTo(ctcode.getCarId());
+        }
+        //查找终端编号
+        List<CarBto> cBto = carmp.selectByExample(carEx);
+        String Msg = "";
+
+        if (cBto.size() > 0) {
+            if (ctcode.getCarId().equals("")) {
+                Msg = String.format("终端编号：%s 已经存在", ctcode.getTerminalCode());
             }
         }
         return Msg;

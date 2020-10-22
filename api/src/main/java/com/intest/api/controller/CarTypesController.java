@@ -266,4 +266,17 @@ public class CarTypesController {
         }
         return result;
     }
+
+    @ApiOperation("检测终端编号是否存在")
+    @RequestMapping(value = "/api/cars/checkTerminalCode", method = RequestMethod.POST)
+    public Result checkTerminalCode(@RequestBody RequestCheckTerminalCode tcode){
+        Result result = new Result();
+        try {
+            result.setMsg(mpl.checkTerminalCode(tcode));
+            result.setSuccess(1);
+        } catch (Exception ex) {
+            result.setSuccess(0);
+        }
+        return result;
+    }
 }
