@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.intest.dao.mapper.LoginLogBtoMapper">
+  <resultMap id="BaseResultMap" type="com.intest.dao.entity.LoginLogBto">
+    <id column="LOGINLOG_ID" jdbcType="CHAR" property="loginlogId" />
+    <result column="FK_USER_ID" jdbcType="CHAR" property="fkUserId" />
+    <result column="COMPANY_EMAIL" jdbcType="NUMERIC" property="companyEmail" />
+    <result column="LOGIN_IP" jdbcType="NVARCHAR" property="loginIp" />
+    <result column="BROWSER" jdbcType="VARCHAR" property="browser" />
+    <result column="NOTE" jdbcType="VARCHAR" property="note" />
+    <result column="ISDELETE" jdbcType="NUMERIC" property="isdelete" />
+    <result column="CREATEAT" jdbcType="TIMESTAMP" property="createat" />
+    <result column="CREATEBY" jdbcType="CHAR" property="createby" />
+    <result column="UPDATEAT" jdbcType="TIMESTAMP" property="updateat" />
+    <result column="UPDATEBY" jdbcType="CHAR" property="updateby" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    LOGINLOG_ID, FK_USER_ID, COMPANY_EMAIL, LOGIN_IP, BROWSER, NOTE, ISDELETE, CREATEAT, 
+    CREATEBY, UPDATEAT, UPDATEBY
+  </sql>
+  <select id="selectByExample" parameterType="com.intest.dao.entity.LoginLogBtoExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from F_LOGIN_LOG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from F_LOGIN_LOG
+    where LOGINLOG_ID = #{loginlogId,jdbcType=CHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from F_LOGIN_LOG
+    where LOGINLOG_ID = #{loginlogId,jdbcType=CHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.intest.dao.entity.LoginLogBtoExample">
+    delete from F_LOGIN_LOG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.intest.dao.entity.LoginLogBto">
+    insert into F_LOGIN_LOG (LOGINLOG_ID, FK_USER_ID, COMPANY_EMAIL, 
+      LOGIN_IP, BROWSER, NOTE, 
+      ISDELETE, CREATEAT, CREATEBY, 
+      UPDATEAT, UPDATEBY)
+    values (#{loginlogId,jdbcType=CHAR}, #{fkUserId,jdbcType=CHAR}, #{companyEmail,jdbcType=NUMERIC}, 
+      #{loginIp,jdbcType=NVARCHAR}, #{browser,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
+      #{isdelete,jdbcType=NUMERIC}, #{createat,jdbcType=TIMESTAMP}, #{createby,jdbcType=CHAR}, 
+      #{updateat,jdbcType=TIMESTAMP}, #{updateby,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.intest.dao.entity.LoginLogBto">
+    insert into F_LOGIN_LOG
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="loginlogId != null">
+        LOGINLOG_ID,
+      </if>
+      <if test="fkUserId != null">
+        FK_USER_ID,
+      </if>
+      <if test="companyEmail != null">
+        COMPANY_EMAIL,
+      </if>
+      <if test="loginIp != null">
+        LOGIN_IP,
+      </if>
+      <if test="browser != null">
+        BROWSER,
+      </if>
+      <if test="note != null">
+        NOTE,
+      </if>
+      <if test="isdelete != null">
+        ISDELETE,
+      </if>
+      <if test="createat != null">
+        CREATEAT,
+      </if>
+      <if test="createby != null">
+        CREATEBY,
+      </if>
+      <if test="updateat != null">
+        UPDATEAT,
+      </if>
+      <if test="updateby != null">
+        UPDATEBY,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="loginlogId != null">
+        #{loginlogId,jdbcType=CHAR},
+      </if>
+      <if test="fkUserId != null">
+        #{fkUserId,jdbcType=CHAR},
+      </if>
+      <if test="companyEmail != null">
+        #{companyEmail,jdbcType=NUMERIC},
+      </if>
+      <if test="loginIp != null">
+        #{loginIp,jdbcType=NVARCHAR},
+      </if>
+      <if test="browser != null">
+        #{browser,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="isdelete != null">
+        #{isdelete,jdbcType=NUMERIC},
+      </if>
+      <if test="createat != null">
+        #{createat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null">
+        #{createby,jdbcType=CHAR},
+      </if>
+      <if test="updateat != null">
+        #{updateat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null">
+        #{updateby,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.intest.dao.entity.LoginLogBtoExample" resultType="java.lang.Long">
+    select count(*) from F_LOGIN_LOG
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update F_LOGIN_LOG
+    <set>
+      <if test="record.loginlogId != null">
+        LOGINLOG_ID = #{record.loginlogId,jdbcType=CHAR},
+      </if>
+      <if test="record.fkUserId != null">
+        FK_USER_ID = #{record.fkUserId,jdbcType=CHAR},
+      </if>
+      <if test="record.companyEmail != null">
+        COMPANY_EMAIL = #{record.companyEmail,jdbcType=NUMERIC},
+      </if>
+      <if test="record.loginIp != null">
+        LOGIN_IP = #{record.loginIp,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.browser != null">
+        BROWSER = #{record.browser,jdbcType=VARCHAR},
+      </if>
+      <if test="record.note != null">
+        NOTE = #{record.note,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isdelete != null">
+        ISDELETE = #{record.isdelete,jdbcType=NUMERIC},
+      </if>
+      <if test="record.createat != null">
+        CREATEAT = #{record.createat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createby != null">
+        CREATEBY = #{record.createby,jdbcType=CHAR},
+      </if>
+      <if test="record.updateat != null">
+        UPDATEAT = #{record.updateat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateby != null">
+        UPDATEBY = #{record.updateby,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update F_LOGIN_LOG
+    set LOGINLOG_ID = #{record.loginlogId,jdbcType=CHAR},
+      FK_USER_ID = #{record.fkUserId,jdbcType=CHAR},
+      COMPANY_EMAIL = #{record.companyEmail,jdbcType=NUMERIC},
+      LOGIN_IP = #{record.loginIp,jdbcType=NVARCHAR},
+      BROWSER = #{record.browser,jdbcType=VARCHAR},
+      NOTE = #{record.note,jdbcType=VARCHAR},
+      ISDELETE = #{record.isdelete,jdbcType=NUMERIC},
+      CREATEAT = #{record.createat,jdbcType=TIMESTAMP},
+      CREATEBY = #{record.createby,jdbcType=CHAR},
+      UPDATEAT = #{record.updateat,jdbcType=TIMESTAMP},
+      UPDATEBY = #{record.updateby,jdbcType=CHAR}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.intest.dao.entity.LoginLogBto">
+    update F_LOGIN_LOG
+    <set>
+      <if test="fkUserId != null">
+        FK_USER_ID = #{fkUserId,jdbcType=CHAR},
+      </if>
+      <if test="companyEmail != null">
+        COMPANY_EMAIL = #{companyEmail,jdbcType=NUMERIC},
+      </if>
+      <if test="loginIp != null">
+        LOGIN_IP = #{loginIp,jdbcType=NVARCHAR},
+      </if>
+      <if test="browser != null">
+        BROWSER = #{browser,jdbcType=VARCHAR},
+      </if>
+      <if test="note != null">
+        NOTE = #{note,jdbcType=VARCHAR},
+      </if>
+      <if test="isdelete != null">
+        ISDELETE = #{isdelete,jdbcType=NUMERIC},
+      </if>
+      <if test="createat != null">
+        CREATEAT = #{createat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createby != null">
+        CREATEBY = #{createby,jdbcType=CHAR},
+      </if>
+      <if test="updateat != null">
+        UPDATEAT = #{updateat,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateby != null">
+        UPDATEBY = #{updateby,jdbcType=CHAR},
+      </if>
+    </set>
+    where LOGINLOG_ID = #{loginlogId,jdbcType=CHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.intest.dao.entity.LoginLogBto">
+    update F_LOGIN_LOG
+    set FK_USER_ID = #{fkUserId,jdbcType=CHAR},
+      COMPANY_EMAIL = #{companyEmail,jdbcType=NUMERIC},
+      LOGIN_IP = #{loginIp,jdbcType=NVARCHAR},
+      BROWSER = #{browser,jdbcType=VARCHAR},
+      NOTE = #{note,jdbcType=VARCHAR},
+      ISDELETE = #{isdelete,jdbcType=NUMERIC},
+      CREATEAT = #{createat,jdbcType=TIMESTAMP},
+      CREATEBY = #{createby,jdbcType=CHAR},
+      UPDATEAT = #{updateat,jdbcType=TIMESTAMP},
+      UPDATEBY = #{updateby,jdbcType=CHAR}
+    where LOGINLOG_ID = #{loginlogId,jdbcType=CHAR}
+  </update>
+</mapper>
