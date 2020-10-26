@@ -75,9 +75,9 @@ public class UserController extends BaseController {
         validData(bindingResult);
         ResultT<LoginVO> result = new ResultT<LoginVO>();
         try {
-//            Browser browser = UserAgent.parseUserAgentString(request.getHeader("User-Agent")).getBrowser();
-//            Version version = browser.getVersion(request.getHeader("User-Agent"));
-            String browserName = "PostmanRuntime/7.26.3";
+            Browser browser = UserAgent.parseUserAgentString(request.getHeader("User-Agent")).getBrowser();
+            Version version = browser.getVersion(request.getHeader("User-Agent"));
+            String browserName = browser.getName() + "/" + version.getVersion();
 //            if (browser.getName().indexOf("Postman") != -1) {
 //                browserName = "";
 //            } else {
