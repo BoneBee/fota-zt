@@ -44,6 +44,7 @@
         m.terminalname terminal,
         c.terminalcode terminalCode,
         c.createat createAt,
+        c.createby createBy,
         c.addtype addType,
         t.taskname taskName,
         t.fk_taskstatusvalue_code checkStatus,
@@ -69,5 +70,13 @@
         <if test="taskName!=null and taskName!=''">
             and t.taskname=#{taskName}
         </if>
+    </select>
+
+    <select id="getPartsOfCar" resultType="com.intest.dao.entity.PartsBto">
+        select p.* from f_car c
+        left join f_cartype ty on c.fk_cartype_id=ty.cartype_id
+        left join f_cartypeparts ctp on ty.cartype_id=ctp.fk_cartype_id
+        left join f_parts p on ctp.fk_parts_id=p.parts_id
+        where c.fk_cartype_id=#{fk_cartype_id} and c.isdelete=1 and p.isdelete=1 and ctp.isdelete=1
     </select>
 </mapper>
