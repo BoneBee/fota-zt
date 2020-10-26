@@ -2,11 +2,11 @@ package com.intest.dao.entity;
 
 import java.util.Date;
 
-public class LoginLogBto {
+public class OperateLogBto {
     /**
-     * 登陆日志ID LOGINLOG_ID
+     * 操作日志ID OPERATE_ID
      */
-    private String loginlogId;
+    private String operateId;
 
     /**
      * 登陆账户ID FK_USER_ID
@@ -14,9 +14,14 @@ public class LoginLogBto {
     private String fkUserId;
 
     /**
-     * 登陆结果（0-失败 1-成功） LOGIN_RESULT
+     * 操作模块 OPERATE_MODE
      */
-    private Short loginResult;
+    private String operateMode;
+
+    /**
+     * 操作动作 OPERATE_ACTION
+     */
+    private String operateAction;
 
     /**
      * 登陆IP LOGIN_IP
@@ -27,11 +32,6 @@ public class LoginLogBto {
      * 浏览器 BROWSER
      */
     private String browser;
-
-    /**
-     * 备注 NOTE
-     */
-    private String note;
 
     /**
      * 是否删除（1-未删除，0-已删除；） ISDELETE
@@ -59,29 +59,29 @@ public class LoginLogBto {
     private String updateby;
 
     /**
-     * 登陆日志ID
+     * 操作日志ID
      * @author xialiang
-     * @date 2020-10-26 11:36:33
-     * @return LOGINLOG_ID 登陆日志ID
+     * @date 2020-10-26 11:33:33
+     * @return OPERATE_ID 操作日志ID
      */
-    public String getLoginlogId() {
-        return loginlogId;
+    public String getOperateId() {
+        return operateId;
     }
 
     /**
-     * 登陆日志ID
+     * 操作日志ID
      * @author xialiang
-     * @date 2020-10-26 11:36:33
-     * @param loginlogId 登陆日志ID
+     * @date 2020-10-26 11:33:33
+     * @param operateId 操作日志ID
      */
-    public void setLoginlogId(String loginlogId) {
-        this.loginlogId = loginlogId == null ? null : loginlogId.trim();
+    public void setOperateId(String operateId) {
+        this.operateId = operateId == null ? null : operateId.trim();
     }
 
     /**
      * 登陆账户ID
      * @author xialiang
-     * @date 2020-10-26 11:36:33
+     * @date 2020-10-26 11:33:33
      * @return FK_USER_ID 登陆账户ID
      */
     public String getFkUserId() {
@@ -91,7 +91,7 @@ public class LoginLogBto {
     /**
      * 登陆账户ID
      * @author xialiang
-     * @date 2020-10-26 11:36:33
+     * @date 2020-10-26 11:33:33
      * @param fkUserId 登陆账户ID
      */
     public void setFkUserId(String fkUserId) {
@@ -99,29 +99,49 @@ public class LoginLogBto {
     }
 
     /**
-     * 登陆结果（0-失败 1-成功）
+     * 操作模块
      * @author xialiang
-     * @date 2020-10-26 11:36:33
-     * @return LOGIN_RESULT 登陆结果（0-失败 1-成功）
+     * @date 2020-10-26 11:33:33
+     * @return OPERATE_MODE 操作模块
      */
-    public Short getLoginResult() {
-        return loginResult;
+    public String getOperateMode() {
+        return operateMode;
     }
 
     /**
-     * 登陆结果（0-失败 1-成功）
+     * 操作模块
      * @author xialiang
-     * @date 2020-10-26 11:36:33
-     * @param loginResult 登陆结果（0-失败 1-成功）
+     * @date 2020-10-26 11:33:33
+     * @param operateMode 操作模块
      */
-    public void setLoginResult(Short loginResult) {
-        this.loginResult = loginResult;
+    public void setOperateMode(String operateMode) {
+        this.operateMode = operateMode == null ? null : operateMode.trim();
+    }
+
+    /**
+     * 操作动作
+     * @author xialiang
+     * @date 2020-10-26 11:33:33
+     * @return OPERATE_ACTION 操作动作
+     */
+    public String getOperateAction() {
+        return operateAction;
+    }
+
+    /**
+     * 操作动作
+     * @author xialiang
+     * @date 2020-10-26 11:33:33
+     * @param operateAction 操作动作
+     */
+    public void setOperateAction(String operateAction) {
+        this.operateAction = operateAction == null ? null : operateAction.trim();
     }
 
     /**
      * 登陆IP
      * @author xialiang
-     * @date 2020-10-26 11:36:33
+     * @date 2020-10-26 11:33:33
      * @return LOGIN_IP 登陆IP
      */
     public String getLoginIp() {
@@ -131,7 +151,7 @@ public class LoginLogBto {
     /**
      * 登陆IP
      * @author xialiang
-     * @date 2020-10-26 11:36:33
+     * @date 2020-10-26 11:33:33
      * @param loginIp 登陆IP
      */
     public void setLoginIp(String loginIp) {
@@ -141,7 +161,7 @@ public class LoginLogBto {
     /**
      * 浏览器
      * @author xialiang
-     * @date 2020-10-26 11:36:33
+     * @date 2020-10-26 11:33:33
      * @return BROWSER 浏览器
      */
     public String getBrowser() {
@@ -151,7 +171,7 @@ public class LoginLogBto {
     /**
      * 浏览器
      * @author xialiang
-     * @date 2020-10-26 11:36:33
+     * @date 2020-10-26 11:33:33
      * @param browser 浏览器
      */
     public void setBrowser(String browser) {
@@ -159,29 +179,9 @@ public class LoginLogBto {
     }
 
     /**
-     * 备注
-     * @author xialiang
-     * @date 2020-10-26 11:36:33
-     * @return NOTE 备注
-     */
-    public String getNote() {
-        return note;
-    }
-
-    /**
-     * 备注
-     * @author xialiang
-     * @date 2020-10-26 11:36:33
-     * @param note 备注
-     */
-    public void setNote(String note) {
-        this.note = note == null ? null : note.trim();
-    }
-
-    /**
      * 是否删除（1-未删除，0-已删除；）
      * @author xialiang
-     * @date 2020-10-26 11:36:33
+     * @date 2020-10-26 11:33:33
      * @return ISDELETE 是否删除（1-未删除，0-已删除；）
      */
     public Short getIsdelete() {
@@ -191,7 +191,7 @@ public class LoginLogBto {
     /**
      * 是否删除（1-未删除，0-已删除；）
      * @author xialiang
-     * @date 2020-10-26 11:36:33
+     * @date 2020-10-26 11:33:33
      * @param isdelete 是否删除（1-未删除，0-已删除；）
      */
     public void setIsdelete(Short isdelete) {
@@ -201,7 +201,7 @@ public class LoginLogBto {
     /**
      * 创建时间
      * @author xialiang
-     * @date 2020-10-26 11:36:33
+     * @date 2020-10-26 11:33:33
      * @return CREATEAT 创建时间
      */
     public Date getCreateat() {
@@ -211,7 +211,7 @@ public class LoginLogBto {
     /**
      * 创建时间
      * @author xialiang
-     * @date 2020-10-26 11:36:33
+     * @date 2020-10-26 11:33:33
      * @param createat 创建时间
      */
     public void setCreateat(Date createat) {
@@ -221,7 +221,7 @@ public class LoginLogBto {
     /**
      * 创建人
      * @author xialiang
-     * @date 2020-10-26 11:36:33
+     * @date 2020-10-26 11:33:33
      * @return CREATEBY 创建人
      */
     public String getCreateby() {
@@ -231,7 +231,7 @@ public class LoginLogBto {
     /**
      * 创建人
      * @author xialiang
-     * @date 2020-10-26 11:36:33
+     * @date 2020-10-26 11:33:33
      * @param createby 创建人
      */
     public void setCreateby(String createby) {
@@ -241,7 +241,7 @@ public class LoginLogBto {
     /**
      * 修改时间
      * @author xialiang
-     * @date 2020-10-26 11:36:33
+     * @date 2020-10-26 11:33:33
      * @return UPDATEAT 修改时间
      */
     public Date getUpdateat() {
@@ -251,7 +251,7 @@ public class LoginLogBto {
     /**
      * 修改时间
      * @author xialiang
-     * @date 2020-10-26 11:36:33
+     * @date 2020-10-26 11:33:33
      * @param updateat 修改时间
      */
     public void setUpdateat(Date updateat) {
@@ -261,7 +261,7 @@ public class LoginLogBto {
     /**
      * 修改人
      * @author xialiang
-     * @date 2020-10-26 11:36:33
+     * @date 2020-10-26 11:33:33
      * @return UPDATEBY 修改人
      */
     public String getUpdateby() {
@@ -271,7 +271,7 @@ public class LoginLogBto {
     /**
      * 修改人
      * @author xialiang
-     * @date 2020-10-26 11:36:33
+     * @date 2020-10-26 11:33:33
      * @param updateby 修改人
      */
     public void setUpdateby(String updateby) {

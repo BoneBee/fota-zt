@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.intest.dao.mapper.LoginLogBtoMapper">
-  <resultMap id="BaseResultMap" type="com.intest.dao.entity.LoginLogBto">
-    <id column="LOGINLOG_ID" jdbcType="CHAR" property="loginlogId" />
+<mapper namespace="com.intest.dao.mapper.OperateLogBtoMapper">
+  <resultMap id="BaseResultMap" type="com.intest.dao.entity.OperateLogBto">
+    <id column="OPERATE_ID" jdbcType="CHAR" property="operateId" />
     <result column="FK_USER_ID" jdbcType="CHAR" property="fkUserId" />
-    <result column="LOGIN_RESULT" jdbcType="NUMERIC" property="loginResult" />
+    <result column="OPERATE_MODE" jdbcType="VARCHAR" property="operateMode" />
+    <result column="OPERATE_ACTION" jdbcType="VARCHAR" property="operateAction" />
     <result column="LOGIN_IP" jdbcType="NVARCHAR" property="loginIp" />
     <result column="BROWSER" jdbcType="VARCHAR" property="browser" />
-    <result column="NOTE" jdbcType="VARCHAR" property="note" />
     <result column="ISDELETE" jdbcType="NUMERIC" property="isdelete" />
     <result column="CREATEAT" jdbcType="TIMESTAMP" property="createat" />
     <result column="CREATEBY" jdbcType="CHAR" property="createby" />
@@ -73,16 +73,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    LOGINLOG_ID, FK_USER_ID, LOGIN_RESULT, LOGIN_IP, BROWSER, NOTE, ISDELETE, CREATEAT, 
-    CREATEBY, UPDATEAT, UPDATEBY
+    OPERATE_ID, FK_USER_ID, OPERATE_MODE, OPERATE_ACTION, LOGIN_IP, BROWSER, ISDELETE, 
+    CREATEAT, CREATEBY, UPDATEAT, UPDATEBY
   </sql>
-  <select id="selectByExample" parameterType="com.intest.dao.entity.LoginLogBtoExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.intest.dao.entity.OperateLogBtoExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from F_LOGIN_LOG
+    from F_OPERATE_LOG
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -93,49 +93,49 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from F_LOGIN_LOG
-    where LOGINLOG_ID = #{loginlogId,jdbcType=CHAR}
+    from F_OPERATE_LOG
+    where OPERATE_ID = #{operateId,jdbcType=CHAR}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from F_LOGIN_LOG
-    where LOGINLOG_ID = #{loginlogId,jdbcType=CHAR}
+    delete from F_OPERATE_LOG
+    where OPERATE_ID = #{operateId,jdbcType=CHAR}
   </delete>
-  <delete id="deleteByExample" parameterType="com.intest.dao.entity.LoginLogBtoExample">
-    delete from F_LOGIN_LOG
+  <delete id="deleteByExample" parameterType="com.intest.dao.entity.OperateLogBtoExample">
+    delete from F_OPERATE_LOG
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.intest.dao.entity.LoginLogBto">
-    insert into F_LOGIN_LOG (LOGINLOG_ID, FK_USER_ID, LOGIN_RESULT, 
-      LOGIN_IP, BROWSER, NOTE, 
+  <insert id="insert" parameterType="com.intest.dao.entity.OperateLogBto">
+    insert into F_OPERATE_LOG (OPERATE_ID, FK_USER_ID, OPERATE_MODE, 
+      OPERATE_ACTION, LOGIN_IP, BROWSER, 
       ISDELETE, CREATEAT, CREATEBY, 
       UPDATEAT, UPDATEBY)
-    values (#{loginlogId,jdbcType=CHAR}, #{fkUserId,jdbcType=CHAR}, #{loginResult,jdbcType=NUMERIC}, 
-      #{loginIp,jdbcType=NVARCHAR}, #{browser,jdbcType=VARCHAR}, #{note,jdbcType=VARCHAR}, 
+    values (#{operateId,jdbcType=CHAR}, #{fkUserId,jdbcType=CHAR}, #{operateMode,jdbcType=VARCHAR}, 
+      #{operateAction,jdbcType=VARCHAR}, #{loginIp,jdbcType=NVARCHAR}, #{browser,jdbcType=VARCHAR}, 
       #{isdelete,jdbcType=NUMERIC}, #{createat,jdbcType=TIMESTAMP}, #{createby,jdbcType=CHAR}, 
       #{updateat,jdbcType=TIMESTAMP}, #{updateby,jdbcType=CHAR})
   </insert>
-  <insert id="insertSelective" parameterType="com.intest.dao.entity.LoginLogBto">
-    insert into F_LOGIN_LOG
+  <insert id="insertSelective" parameterType="com.intest.dao.entity.OperateLogBto">
+    insert into F_OPERATE_LOG
     <trim prefix="(" suffix=")" suffixOverrides=",">
-      <if test="loginlogId != null">
-        LOGINLOG_ID,
+      <if test="operateId != null">
+        OPERATE_ID,
       </if>
       <if test="fkUserId != null">
         FK_USER_ID,
       </if>
-      <if test="loginResult != null">
-        LOGIN_RESULT,
+      <if test="operateMode != null">
+        OPERATE_MODE,
+      </if>
+      <if test="operateAction != null">
+        OPERATE_ACTION,
       </if>
       <if test="loginIp != null">
         LOGIN_IP,
       </if>
       <if test="browser != null">
         BROWSER,
-      </if>
-      <if test="note != null">
-        NOTE,
       </if>
       <if test="isdelete != null">
         ISDELETE,
@@ -154,23 +154,23 @@
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
-      <if test="loginlogId != null">
-        #{loginlogId,jdbcType=CHAR},
+      <if test="operateId != null">
+        #{operateId,jdbcType=CHAR},
       </if>
       <if test="fkUserId != null">
         #{fkUserId,jdbcType=CHAR},
       </if>
-      <if test="loginResult != null">
-        #{loginResult,jdbcType=NUMERIC},
+      <if test="operateMode != null">
+        #{operateMode,jdbcType=VARCHAR},
+      </if>
+      <if test="operateAction != null">
+        #{operateAction,jdbcType=VARCHAR},
       </if>
       <if test="loginIp != null">
         #{loginIp,jdbcType=NVARCHAR},
       </if>
       <if test="browser != null">
         #{browser,jdbcType=VARCHAR},
-      </if>
-      <if test="note != null">
-        #{note,jdbcType=VARCHAR},
       </if>
       <if test="isdelete != null">
         #{isdelete,jdbcType=NUMERIC},
@@ -189,32 +189,32 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.intest.dao.entity.LoginLogBtoExample" resultType="java.lang.Long">
-    select count(*) from F_LOGIN_LOG
+  <select id="countByExample" parameterType="com.intest.dao.entity.OperateLogBtoExample" resultType="java.lang.Long">
+    select count(*) from F_OPERATE_LOG
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update F_LOGIN_LOG
+    update F_OPERATE_LOG
     <set>
-      <if test="record.loginlogId != null">
-        LOGINLOG_ID = #{record.loginlogId,jdbcType=CHAR},
+      <if test="record.operateId != null">
+        OPERATE_ID = #{record.operateId,jdbcType=CHAR},
       </if>
       <if test="record.fkUserId != null">
         FK_USER_ID = #{record.fkUserId,jdbcType=CHAR},
       </if>
-      <if test="record.loginResult != null">
-        LOGIN_RESULT = #{record.loginResult,jdbcType=NUMERIC},
+      <if test="record.operateMode != null">
+        OPERATE_MODE = #{record.operateMode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.operateAction != null">
+        OPERATE_ACTION = #{record.operateAction,jdbcType=VARCHAR},
       </if>
       <if test="record.loginIp != null">
         LOGIN_IP = #{record.loginIp,jdbcType=NVARCHAR},
       </if>
       <if test="record.browser != null">
         BROWSER = #{record.browser,jdbcType=VARCHAR},
-      </if>
-      <if test="record.note != null">
-        NOTE = #{record.note,jdbcType=VARCHAR},
       </if>
       <if test="record.isdelete != null">
         ISDELETE = #{record.isdelete,jdbcType=NUMERIC},
@@ -237,13 +237,13 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update F_LOGIN_LOG
-    set LOGINLOG_ID = #{record.loginlogId,jdbcType=CHAR},
+    update F_OPERATE_LOG
+    set OPERATE_ID = #{record.operateId,jdbcType=CHAR},
       FK_USER_ID = #{record.fkUserId,jdbcType=CHAR},
-      LOGIN_RESULT = #{record.loginResult,jdbcType=NUMERIC},
+      OPERATE_MODE = #{record.operateMode,jdbcType=VARCHAR},
+      OPERATE_ACTION = #{record.operateAction,jdbcType=VARCHAR},
       LOGIN_IP = #{record.loginIp,jdbcType=NVARCHAR},
       BROWSER = #{record.browser,jdbcType=VARCHAR},
-      NOTE = #{record.note,jdbcType=VARCHAR},
       ISDELETE = #{record.isdelete,jdbcType=NUMERIC},
       CREATEAT = #{record.createat,jdbcType=TIMESTAMP},
       CREATEBY = #{record.createby,jdbcType=CHAR},
@@ -253,23 +253,23 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.intest.dao.entity.LoginLogBto">
-    update F_LOGIN_LOG
+  <update id="updateByPrimaryKeySelective" parameterType="com.intest.dao.entity.OperateLogBto">
+    update F_OPERATE_LOG
     <set>
       <if test="fkUserId != null">
         FK_USER_ID = #{fkUserId,jdbcType=CHAR},
       </if>
-      <if test="loginResult != null">
-        LOGIN_RESULT = #{loginResult,jdbcType=NUMERIC},
+      <if test="operateMode != null">
+        OPERATE_MODE = #{operateMode,jdbcType=VARCHAR},
+      </if>
+      <if test="operateAction != null">
+        OPERATE_ACTION = #{operateAction,jdbcType=VARCHAR},
       </if>
       <if test="loginIp != null">
         LOGIN_IP = #{loginIp,jdbcType=NVARCHAR},
       </if>
       <if test="browser != null">
         BROWSER = #{browser,jdbcType=VARCHAR},
-      </if>
-      <if test="note != null">
-        NOTE = #{note,jdbcType=VARCHAR},
       </if>
       <if test="isdelete != null">
         ISDELETE = #{isdelete,jdbcType=NUMERIC},
@@ -287,20 +287,20 @@
         UPDATEBY = #{updateby,jdbcType=CHAR},
       </if>
     </set>
-    where LOGINLOG_ID = #{loginlogId,jdbcType=CHAR}
+    where OPERATE_ID = #{operateId,jdbcType=CHAR}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.intest.dao.entity.LoginLogBto">
-    update F_LOGIN_LOG
+  <update id="updateByPrimaryKey" parameterType="com.intest.dao.entity.OperateLogBto">
+    update F_OPERATE_LOG
     set FK_USER_ID = #{fkUserId,jdbcType=CHAR},
-      LOGIN_RESULT = #{loginResult,jdbcType=NUMERIC},
+      OPERATE_MODE = #{operateMode,jdbcType=VARCHAR},
+      OPERATE_ACTION = #{operateAction,jdbcType=VARCHAR},
       LOGIN_IP = #{loginIp,jdbcType=NVARCHAR},
       BROWSER = #{browser,jdbcType=VARCHAR},
-      NOTE = #{note,jdbcType=VARCHAR},
       ISDELETE = #{isdelete,jdbcType=NUMERIC},
       CREATEAT = #{createat,jdbcType=TIMESTAMP},
       CREATEBY = #{createby,jdbcType=CHAR},
       UPDATEAT = #{updateat,jdbcType=TIMESTAMP},
       UPDATEBY = #{updateby,jdbcType=CHAR}
-    where LOGINLOG_ID = #{loginlogId,jdbcType=CHAR}
+    where OPERATE_ID = #{operateId,jdbcType=CHAR}
   </update>
 </mapper>

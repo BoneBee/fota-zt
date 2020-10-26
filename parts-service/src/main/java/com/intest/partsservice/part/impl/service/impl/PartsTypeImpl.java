@@ -70,8 +70,7 @@ public class PartsTypeImpl implements PartsTypeService {
     public PagerDataBaseVO getPartTypeInfo(PartTypePage model) {
         PagerDataBaseVO type = new PagerDataBaseVO();
         PageHelper.startPage(model.getPi(), model.getPs());
-        PartsTypeBtoExample partsTypeBtoExample = new PartsTypeBtoExample();
-        List<PartsTypeBto> partsTypeBtoList = partsTypeBtoMapper.selectByExample(partsTypeBtoExample);
+        List<PartsTypeBto> partsTypeBtoList = partsTypeBtoMapper.selectByExample(null);
         List<PartsTypeListResponse> partsTypeListResponseList = new ArrayList<>();
         PageInfo<PartsTypeBto> pageInfo = new PageInfo<PartsTypeBto>(partsTypeBtoList);
         int index = pageInfo.getStartRow() - 1;

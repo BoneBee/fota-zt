@@ -18,7 +18,7 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.intest.web</groupId>
-			<artifactId>service</artifactId>
+			<artifactId>log-service</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 

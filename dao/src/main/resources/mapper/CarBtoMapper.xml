@@ -14,6 +14,9 @@
     <result column="UPDATEAT" jdbcType="TIMESTAMP" property="updateat" />
     <result column="UPDATEBY" jdbcType="CHAR" property="updateby" />
     <result column="ICCID" jdbcType="NVARCHAR" property="iccid" />
+    <result column="SIMNUMBER" jdbcType="CHAR" property="simnumber" />
+    <result column="TERMINALPRO" jdbcType="NVARCHAR" property="terminalpro" />
+    <result column="OPERATOR" jdbcType="NVARCHAR" property="operator" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -75,7 +78,7 @@
   </sql>
   <sql id="Base_Column_List">
     CAR_ID, FK_CARTYPE_ID, VIN, ADDTYPE, LICENSE, TERMINALCODE, ISDELETE, CREATEAT, CREATEBY, 
-    UPDATEAT, UPDATEBY, ICCID
+    UPDATEAT, UPDATEBY, ICCID, SIMNUMBER, TERMINALPRO, OPERATOR
   </sql>
   <select id="selectByExample" parameterType="com.intest.dao.entity.CarBtoExample" resultMap="BaseResultMap">
     select
@@ -111,12 +114,14 @@
     insert into F_CAR (CAR_ID, FK_CARTYPE_ID, VIN, 
       ADDTYPE, LICENSE, TERMINALCODE, 
       ISDELETE, CREATEAT, CREATEBY, 
-      UPDATEAT, UPDATEBY, ICCID
+      UPDATEAT, UPDATEBY, ICCID, 
+      SIMNUMBER, TERMINALPRO, OPERATOR
       )
     values (#{carId,jdbcType=CHAR}, #{fkCartypeId,jdbcType=CHAR}, #{vin,jdbcType=CHAR}, 
       #{addtype,jdbcType=NUMERIC}, #{license,jdbcType=NVARCHAR}, #{terminalcode,jdbcType=NVARCHAR}, 
       #{isdelete,jdbcType=NUMERIC}, #{createat,jdbcType=TIMESTAMP}, #{createby,jdbcType=CHAR}, 
-      #{updateat,jdbcType=TIMESTAMP}, #{updateby,jdbcType=CHAR}, #{iccid,jdbcType=NVARCHAR}
+      #{updateat,jdbcType=TIMESTAMP}, #{updateby,jdbcType=CHAR}, #{iccid,jdbcType=NVARCHAR}, 
+      #{simnumber,jdbcType=CHAR}, #{terminalpro,jdbcType=NVARCHAR}, #{operator,jdbcType=NVARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.intest.dao.entity.CarBto">
@@ -158,6 +163,15 @@
       <if test="iccid != null">
         ICCID,
       </if>
+      <if test="simnumber != null">
+        SIMNUMBER,
+      </if>
+      <if test="terminalpro != null">
+        TERMINALPRO,
+      </if>
+      <if test="operator != null">
+        OPERATOR,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="carId != null">
@@ -195,6 +209,15 @@
       </if>
       <if test="iccid != null">
         #{iccid,jdbcType=NVARCHAR},
+      </if>
+      <if test="simnumber != null">
+        #{simnumber,jdbcType=CHAR},
+      </if>
+      <if test="terminalpro != null">
+        #{terminalpro,jdbcType=NVARCHAR},
+      </if>
+      <if test="operator != null">
+        #{operator,jdbcType=NVARCHAR},
       </if>
     </trim>
   </insert>
@@ -243,6 +266,15 @@
       <if test="record.iccid != null">
         ICCID = #{record.iccid,jdbcType=NVARCHAR},
       </if>
+      <if test="record.simnumber != null">
+        SIMNUMBER = #{record.simnumber,jdbcType=CHAR},
+      </if>
+      <if test="record.terminalpro != null">
+        TERMINALPRO = #{record.terminalpro,jdbcType=NVARCHAR},
+      </if>
+      <if test="record.operator != null">
+        OPERATOR = #{record.operator,jdbcType=NVARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -261,7 +293,10 @@
       CREATEBY = #{record.createby,jdbcType=CHAR},
       UPDATEAT = #{record.updateat,jdbcType=TIMESTAMP},
       UPDATEBY = #{record.updateby,jdbcType=CHAR},
-      ICCID = #{record.iccid,jdbcType=NVARCHAR}
+      ICCID = #{record.iccid,jdbcType=NVARCHAR},
+      SIMNUMBER = #{record.simnumber,jdbcType=CHAR},
+      TERMINALPRO = #{record.terminalpro,jdbcType=NVARCHAR},
+      OPERATOR = #{record.operator,jdbcType=NVARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -302,6 +337,15 @@
       <if test="iccid != null">
         ICCID = #{iccid,jdbcType=NVARCHAR},
       </if>
+      <if test="simnumber != null">
+        SIMNUMBER = #{simnumber,jdbcType=CHAR},
+      </if>
+      <if test="terminalpro != null">
+        TERMINALPRO = #{terminalpro,jdbcType=NVARCHAR},
+      </if>
+      <if test="operator != null">
+        OPERATOR = #{operator,jdbcType=NVARCHAR},
+      </if>
     </set>
     where CAR_ID = #{carId,jdbcType=CHAR}
   </update>
@@ -317,9 +361,10 @@
       CREATEBY = #{createby,jdbcType=CHAR},
       UPDATEAT = #{updateat,jdbcType=TIMESTAMP},
       UPDATEBY = #{updateby,jdbcType=CHAR},
-      ICCID = #{iccid,jdbcType=NVARCHAR}
+      ICCID = #{iccid,jdbcType=NVARCHAR},
+      SIMNUMBER = #{simnumber,jdbcType=CHAR},
+      TERMINALPRO = #{terminalpro,jdbcType=NVARCHAR},
+      OPERATOR = #{operator,jdbcType=NVARCHAR}
     where CAR_ID = #{carId,jdbcType=CHAR}
   </update>
-
-
 </mapper>

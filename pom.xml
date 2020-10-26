@@ -20,11 +20,11 @@
 	<!--2.加入子模块信息,也就是maven中的聚合-->
 	<modules>
 		<module>api</module>
-		<module>service</module>
 		<module>dao</module>
 		<module>dao-help</module>
 		<module>common</module>
 		<!-- 产品service -->
+		<module>log-service</module>
 		<module>basic-service</module>
 		<module>parts-service</module>
 		<module>car-service</module>
@@ -85,6 +85,12 @@
 			<groupId>cn.hutool</groupId>
 			<artifactId>hutool-all</artifactId>
 			<version>5.3.10</version>
+		</dependency>
+
+		<dependency>
+			<groupId>eu.bitwalker</groupId>
+			<artifactId>UserAgentUtils</artifactId>
+			<version>1.20</version>
 		</dependency>
 
 		<!-- Pagehelper -->

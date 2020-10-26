@@ -68,6 +68,12 @@
         <!--                    &lt;!&ndash; <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
         <!--                    &lt;!&ndash; <columnOverride column="content" jdbcType="VARCHAR" />&ndash;&gt;-->
         <!--                </table>-->
+        <!--<table tableName="F_USER" domainObjectName="UserBto">-->
+        <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--&lt;!&ndash; 插入时是否自动生成主键 &ndash;&gt;-->
+        <!--&lt;!&ndash; <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
+        <!--&lt;!&ndash; <columnOverride column="content" jdbcType="VARCHAR" />&ndash;&gt;-->
+        <!--</table>-->
 
         <!--        <table tableName="F_OPTION" domainObjectName="OptionBto">-->
         <!--            <property name="useActualColumnNames" value="false"/>-->
@@ -226,11 +232,56 @@
         <!--            &lt;!&ndash; <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
         <!--            &lt;!&ndash; <columnOverride column="content" jdbcType="VARCHAR" />&ndash;&gt;-->
         <!--        </table>-->
-                <table tableName="F_LOGIN_LOG" domainObjectName="LoginLogBto">
-                    <property name="useActualColumnNames" value="false"/>
-                    <!-- 插入时是否自动生成主键 -->
-                    <!-- <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
-                    <!-- <columnOverride column="content" jdbcType="VARCHAR" />-->
-                </table>
+        <table tableName="F_LOGIN_LOG" domainObjectName="LoginLogBto">
+            <property name="useActualColumnNames" value="false"/>
+            <!-- 插入时是否自动生成主键 -->
+            <!-- <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!-- <columnOverride column="content" jdbcType="VARCHAR" />-->
+        </table>
+
+<!--        <table tableName="F_OPERATE_LOG" domainObjectName="OperateLogBto">-->
+<!--            <property name="useActualColumnNames" value="false"/>-->
+<!--            &lt;!&ndash; 插入时是否自动生成主键 &ndash;&gt;-->
+<!--            &lt;!&ndash; <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
+<!--            &lt;!&ndash; <columnOverride column="content" jdbcType="VARCHAR" />&ndash;&gt;-->
+<!--        </table>-->
+        <!--        <table tableName="F_ROLE" domainObjectName="RoleBto">-->
+        <!--            <property name="useActualColumnNames" value="false"/>-->
+        <!--            &lt;!&ndash; 插入时是否自动生成主键 &ndash;&gt;-->
+        <!--            &lt;!&ndash; <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
+        <!--            &lt;!&ndash; <columnOverride column="content" jdbcType="VARCHAR" />&ndash;&gt;-->
+        <!--        </table>-->
+        <!--        <table tableName="F_PERMISSION" domainObjectName="PermissionBto">-->
+        <!--            <property name="useActualColumnNames" value="false"/>-->
+        <!--            &lt;!&ndash; 插入时是否自动生成主键 &ndash;&gt;-->
+        <!--            &lt;!&ndash; <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
+        <!--            &lt;!&ndash; <columnOverride column="content" jdbcType="VARCHAR" />&ndash;&gt;-->
+        <!--        </table>-->
+        <!--        <table tableName="F_USERROLE" domainObjectName="UserRoleBto">-->
+        <!--            <property name="useActualColumnNames" value="false"/>-->
+        <!--            &lt;!&ndash; 插入时是否自动生成主键 &ndash;&gt;-->
+        <!--            &lt;!&ndash; <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
+        <!--            &lt;!&ndash; <columnOverride column="content" jdbcType="VARCHAR" />&ndash;&gt;-->
+        <!--        </table>-->
+        <!--        <table tableName="F_ROLEPERMISSION" domainObjectName="RolePermissionBto">-->
+        <!--            <property name="useActualColumnNames" value="false"/>-->
+        <!--            &lt;!&ndash; 插入时是否自动生成主键 &ndash;&gt;-->
+        <!--            &lt;!&ndash; <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
+        <!--            &lt;!&ndash; <columnOverride column="content" jdbcType="VARCHAR" />&ndash;&gt;-->
+        <!--        </table>-->
+
+        <!--        <table tableName="F_USERROLEPERMISSION" domainObjectName="UserRolePermissionBto">-->
+        <!--            <property name="useActualColumnNames" value="false"/>-->
+        <!--            &lt;!&ndash; 插入时是否自动生成主键 &ndash;&gt;-->
+        <!--            &lt;!&ndash; <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
+        <!--            &lt;!&ndash; <columnOverride column="content" jdbcType="VARCHAR" />&ndash;&gt;-->
+        <!--        </table>-->
+
+        <!--<table tableName="F_CAR" domainObjectName="CarBto">-->
+        <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--&lt;!&ndash; 插入时是否自动生成主键 &ndash;&gt;-->
+        <!--&lt;!&ndash; <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
+        <!--&lt;!&ndash; <columnOverride column="content" jdbcType="VARCHAR" />&ndash;&gt;-->
+        <!--</table>-->
     </context>
 </generatorConfiguration>

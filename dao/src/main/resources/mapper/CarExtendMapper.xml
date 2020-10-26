@@ -36,6 +36,8 @@
         c.vin,
         c.iccid ICCID,
         c.simNumber,
+        c.terminalpro,
+        c.operator,
         ty.cartype_id carTypeId,
         ty.cartypename carTypeName,
         m.terminal_id terminalId,

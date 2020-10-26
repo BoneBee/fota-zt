@@ -4,19 +4,19 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class LoginLogBtoExample {
+public class OperateLogBtoExample {
     /**
-     * F_LOGIN_LOG
+     * F_OPERATE_LOG
      */
     protected String orderByClause;
 
     /**
-     * F_LOGIN_LOG
+     * F_OPERATE_LOG
      */
     protected boolean distinct;
 
     /**
-     * F_LOGIN_LOG
+     * F_OPERATE_LOG
      */
     protected List<Criteria> oredCriteria;
 
@@ -24,7 +24,7 @@ public class LoginLogBtoExample {
      *
      * @mbg.generated
      */
-    public LoginLogBtoExample() {
+    public OperateLogBtoExample() {
         oredCriteria = new ArrayList<>();
     }
 
@@ -118,7 +118,7 @@ public class LoginLogBtoExample {
     }
 
     /**
-     * F_LOGIN_LOG null
+     * F_OPERATE_LOG null
      */
     protected abstract static class GeneratedCriteria {
         protected List<Criterion> criteria;
@@ -161,73 +161,73 @@ public class LoginLogBtoExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        public Criteria andLoginlogIdIsNull() {
-            addCriterion("LOGINLOG_ID is null");
+        public Criteria andOperateIdIsNull() {
+            addCriterion("OPERATE_ID is null");
             return (Criteria) this;
         }
 
-        public Criteria andLoginlogIdIsNotNull() {
-            addCriterion("LOGINLOG_ID is not null");
+        public Criteria andOperateIdIsNotNull() {
+            addCriterion("OPERATE_ID is not null");
             return (Criteria) this;
         }
 
-        public Criteria andLoginlogIdEqualTo(String value) {
-            addCriterion("LOGINLOG_ID =", value, "loginlogId");
+        public Criteria andOperateIdEqualTo(String value) {
+            addCriterion("OPERATE_ID =", value, "operateId");
             return (Criteria) this;
         }
 
-        public Criteria andLoginlogIdNotEqualTo(String value) {
-            addCriterion("LOGINLOG_ID <>", value, "loginlogId");
+        public Criteria andOperateIdNotEqualTo(String value) {
+            addCriterion("OPERATE_ID <>", value, "operateId");
             return (Criteria) this;
         }
 
-        public Criteria andLoginlogIdGreaterThan(String value) {
-            addCriterion("LOGINLOG_ID >", value, "loginlogId");
+        public Criteria andOperateIdGreaterThan(String value) {
+            addCriterion("OPERATE_ID >", value, "operateId");
             return (Criteria) this;
         }
 
-        public Criteria andLoginlogIdGreaterThanOrEqualTo(String value) {
-            addCriterion("LOGINLOG_ID >=", value, "loginlogId");
+        public Criteria andOperateIdGreaterThanOrEqualTo(String value) {
+            addCriterion("OPERATE_ID >=", value, "operateId");
             return (Criteria) this;
         }
 
-        public Criteria andLoginlogIdLessThan(String value) {
-            addCriterion("LOGINLOG_ID <", value, "loginlogId");
+        public Criteria andOperateIdLessThan(String value) {
+            addCriterion("OPERATE_ID <", value, "operateId");
             return (Criteria) this;
         }
 
-        public Criteria andLoginlogIdLessThanOrEqualTo(String value) {
-            addCriterion("LOGINLOG_ID <=", value, "loginlogId");
+        public Criteria andOperateIdLessThanOrEqualTo(String value) {
+            addCriterion("OPERATE_ID <=", value, "operateId");
             return (Criteria) this;
         }
 
-        public Criteria andLoginlogIdLike(String value) {
-            addCriterion("LOGINLOG_ID like", value, "loginlogId");
+        public Criteria andOperateIdLike(String value) {
+            addCriterion("OPERATE_ID like", value, "operateId");
             return (Criteria) this;
         }
 
-        public Criteria andLoginlogIdNotLike(String value) {
-            addCriterion("LOGINLOG_ID not like", value, "loginlogId");
+        public Criteria andOperateIdNotLike(String value) {
+            addCriterion("OPERATE_ID not like", value, "operateId");
             return (Criteria) this;
         }
 
-        public Criteria andLoginlogIdIn(List<String> values) {
-            addCriterion("LOGINLOG_ID in", values, "loginlogId");
+        public Criteria andOperateIdIn(List<String> values) {
+            addCriterion("OPERATE_ID in", values, "operateId");
             return (Criteria) this;
         }
 
-        public Criteria andLoginlogIdNotIn(List<String> values) {
-            addCriterion("LOGINLOG_ID not in", values, "loginlogId");
+        public Criteria andOperateIdNotIn(List<String> values) {
+            addCriterion("OPERATE_ID not in", values, "operateId");
             return (Criteria) this;
         }
 
-        public Criteria andLoginlogIdBetween(String value1, String value2) {
-            addCriterion("LOGINLOG_ID between", value1, value2, "loginlogId");
+        public Criteria andOperateIdBetween(String value1, String value2) {
+            addCriterion("OPERATE_ID between", value1, value2, "operateId");
             return (Criteria) this;
         }
 
-        public Criteria andLoginlogIdNotBetween(String value1, String value2) {
-            addCriterion("LOGINLOG_ID not between", value1, value2, "loginlogId");
+        public Criteria andOperateIdNotBetween(String value1, String value2) {
+            addCriterion("OPERATE_ID not between", value1, value2, "operateId");
             return (Criteria) this;
         }
 
@@ -301,63 +301,143 @@ public class LoginLogBtoExample {
             return (Criteria) this;
         }
 
-        public Criteria andLoginResultIsNull() {
-            addCriterion("LOGIN_RESULT is null");
+        public Criteria andOperateModeIsNull() {
+            addCriterion("OPERATE_MODE is null");
             return (Criteria) this;
         }
 
-        public Criteria andLoginResultIsNotNull() {
-            addCriterion("LOGIN_RESULT is not null");
+        public Criteria andOperateModeIsNotNull() {
+            addCriterion("OPERATE_MODE is not null");
             return (Criteria) this;
         }
 
-        public Criteria andLoginResultEqualTo(Short value) {
-            addCriterion("LOGIN_RESULT =", value, "loginResult");
+        public Criteria andOperateModeEqualTo(String value) {
+            addCriterion("OPERATE_MODE =", value, "operateMode");
             return (Criteria) this;
         }
 
-        public Criteria andLoginResultNotEqualTo(Short value) {
-            addCriterion("LOGIN_RESULT <>", value, "loginResult");
+        public Criteria andOperateModeNotEqualTo(String value) {
+            addCriterion("OPERATE_MODE <>", value, "operateMode");
             return (Criteria) this;
         }
 
-        public Criteria andLoginResultGreaterThan(Short value) {
-            addCriterion("LOGIN_RESULT >", value, "loginResult");
+        public Criteria andOperateModeGreaterThan(String value) {
+            addCriterion("OPERATE_MODE >", value, "operateMode");
             return (Criteria) this;
         }
 
-        public Criteria andLoginResultGreaterThanOrEqualTo(Short value) {
-            addCriterion("LOGIN_RESULT >=", value, "loginResult");
+        public Criteria andOperateModeGreaterThanOrEqualTo(String value) {
+            addCriterion("OPERATE_MODE >=", value, "operateMode");
             return (Criteria) this;
         }
 
-        public Criteria andLoginResultLessThan(Short value) {
-            addCriterion("LOGIN_RESULT <", value, "loginResult");
+        public Criteria andOperateModeLessThan(String value) {
+            addCriterion("OPERATE_MODE <", value, "operateMode");
             return (Criteria) this;
         }
 
-        public Criteria andLoginResultLessThanOrEqualTo(Short value) {
-            addCriterion("LOGIN_RESULT <=", value, "loginResult");
+        public Criteria andOperateModeLessThanOrEqualTo(String value) {
+            addCriterion("OPERATE_MODE <=", value, "operateMode");
             return (Criteria) this;
         }
 
-        public Criteria andLoginResultIn(List<Short> values) {
-            addCriterion("LOGIN_RESULT in", values, "loginResult");
+        public Criteria andOperateModeLike(String value) {
+            addCriterion("OPERATE_MODE like", value, "operateMode");
             return (Criteria) this;
         }
 
-        public Criteria andLoginResultNotIn(List<Short> values) {
-            addCriterion("LOGIN_RESULT not in", values, "loginResult");
+        public Criteria andOperateModeNotLike(String value) {
+            addCriterion("OPERATE_MODE not like", value, "operateMode");
             return (Criteria) this;
         }
 
-        public Criteria andLoginResultBetween(Short value1, Short value2) {
-            addCriterion("LOGIN_RESULT between", value1, value2, "loginResult");
+        public Criteria andOperateModeIn(List<String> values) {
+            addCriterion("OPERATE_MODE in", values, "operateMode");
             return (Criteria) this;
         }
 
-        public Criteria andLoginResultNotBetween(Short value1, Short value2) {
-            addCriterion("LOGIN_RESULT not between", value1, value2, "loginResult");
+        public Criteria andOperateModeNotIn(List<String> values) {
+            addCriterion("OPERATE_MODE not in", values, "operateMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateModeBetween(String value1, String value2) {
+            addCriterion("OPERATE_MODE between", value1, value2, "operateMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateModeNotBetween(String value1, String value2) {
+            addCriterion("OPERATE_MODE not between", value1, value2, "operateMode");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateActionIsNull() {
+            addCriterion("OPERATE_ACTION is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateActionIsNotNull() {
+            addCriterion("OPERATE_ACTION is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateActionEqualTo(String value) {
+            addCriterion("OPERATE_ACTION =", value, "operateAction");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateActionNotEqualTo(String value) {
+            addCriterion("OPERATE_ACTION <>", value, "operateAction");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateActionGreaterThan(String value) {
+            addCriterion("OPERATE_ACTION >", value, "operateAction");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateActionGreaterThanOrEqualTo(String value) {
+            addCriterion("OPERATE_ACTION >=", value, "operateAction");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateActionLessThan(String value) {
+            addCriterion("OPERATE_ACTION <", value, "operateAction");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateActionLessThanOrEqualTo(String value) {
+            addCriterion("OPERATE_ACTION <=", value, "operateAction");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateActionLike(String value) {
+            addCriterion("OPERATE_ACTION like", value, "operateAction");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateActionNotLike(String value) {
+            addCriterion("OPERATE_ACTION not like", value, "operateAction");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateActionIn(List<String> values) {
+            addCriterion("OPERATE_ACTION in", values, "operateAction");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateActionNotIn(List<String> values) {
+            addCriterion("OPERATE_ACTION not in", values, "operateAction");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateActionBetween(String value1, String value2) {
+            addCriterion("OPERATE_ACTION between", value1, value2, "operateAction");
+            return (Criteria) this;
+        }
+
+        public Criteria andOperateActionNotBetween(String value1, String value2) {
+            addCriterion("OPERATE_ACTION not between", value1, value2, "operateAction");
             return (Criteria) this;
         }
 
@@ -498,76 +578,6 @@ public class LoginLogBtoExample {
 
         public Criteria andBrowserNotBetween(String value1, String value2) {
             addCriterion("BROWSER not between", value1, value2, "browser");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteIsNull() {
-            addCriterion("NOTE is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteIsNotNull() {
-            addCriterion("NOTE is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteEqualTo(String value) {
-            addCriterion("NOTE =", value, "note");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteNotEqualTo(String value) {
-            addCriterion("NOTE <>", value, "note");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteGreaterThan(String value) {
-            addCriterion("NOTE >", value, "note");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteGreaterThanOrEqualTo(String value) {
-            addCriterion("NOTE >=", value, "note");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteLessThan(String value) {
-            addCriterion("NOTE <", value, "note");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteLessThanOrEqualTo(String value) {
-            addCriterion("NOTE <=", value, "note");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteLike(String value) {
-            addCriterion("NOTE like", value, "note");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteNotLike(String value) {
-            addCriterion("NOTE not like", value, "note");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteIn(List<String> values) {
-            addCriterion("NOTE in", values, "note");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteNotIn(List<String> values) {
-            addCriterion("NOTE not in", values, "note");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteBetween(String value1, String value2) {
-            addCriterion("NOTE between", value1, value2, "note");
-            return (Criteria) this;
-        }
-
-        public Criteria andNoteNotBetween(String value1, String value2) {
-            addCriterion("NOTE not between", value1, value2, "note");
             return (Criteria) this;
         }
 
@@ -893,7 +903,7 @@ public class LoginLogBtoExample {
     }
 
     /**
-     * F_LOGIN_LOG
+     * F_OPERATE_LOG
      */
     public static class Criteria extends GeneratedCriteria {
         protected Criteria() {
@@ -902,7 +912,7 @@ public class LoginLogBtoExample {
     }
 
     /**
-     * F_LOGIN_LOG null
+     * F_OPERATE_LOG null
      */
     public static class Criterion {
         private String condition;

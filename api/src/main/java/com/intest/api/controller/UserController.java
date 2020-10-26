@@ -25,6 +25,9 @@ import com.intest.systemservice.impl.service.impl.RoleImpl;
 import com.intest.systemservice.impl.service.impl.RolePermissionImpl;
 import com.intest.systemservice.impl.service.impl.UserRoleImpl;
 import com.intest.systemservice.response.SystemMenuResponse;
+import eu.bitwalker.useragentutils.Browser;
+import eu.bitwalker.useragentutils.UserAgent;
+import eu.bitwalker.useragentutils.Version;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -70,10 +73,17 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/api/account/login", method = RequestMethod.POST)
     public ResultT<LoginVO> inLogin(@Validated @RequestBody UserRequest userRequest, BindingResult bindingResult) {
         validData(bindingResult);
-
         ResultT<LoginVO> result = new ResultT<LoginVO>();
         try {
-            LoginVO loginVO = userService.checkLogin(userRequest.getUserName(), userRequest.getPassword());
+//            Browser browser = UserAgent.parseUserAgentString(request.getHeader("User-Agent")).getBrowser();
+//            Version version = browser.getVersion(request.getHeader("User-Agent"));
+            String browserName = "PostmanRuntime/7.26.3";
+//            if (browser.getName().indexOf("Postman") != -1) {
+//                browserName = "";
+//            } else {
+//                browserName = browser.getName() + "/" + version.getVersion();
+//            }
+            LoginVO loginVO = userService.checkLogin(getIpAddr(), browserName, userRequest.getUserName(), userRequest.getPassword());
             result.setResult(loginVO);
         } catch (Exception ex) {
             result.setFail();
