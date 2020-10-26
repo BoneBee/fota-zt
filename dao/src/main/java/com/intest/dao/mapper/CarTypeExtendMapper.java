@@ -1,6 +1,7 @@
 package com.intest.dao.mapper;
 
 import com.intest.dao.entity.CarTypeBto;
+import com.intest.dao.entity.CarTypePartsBto;
 import com.intest.dao.entity.PartsBto;
 
 import java.util.List;
@@ -19,8 +20,15 @@ public interface CarTypeExtendMapper {
     int addcarupdatePart(PartsBto pbto);
 
     /*
+    删除车型所关联的零件
+     */
+    int mdfcarupdatePart(String fk_cartype_id,String userId);
+
+    /*
     添加车型
      */
     int addCarType(CarTypeBto cbto);
+
+    List<PartsBto> getPartsOfCarType(String fk_cartype_id);
 
 }

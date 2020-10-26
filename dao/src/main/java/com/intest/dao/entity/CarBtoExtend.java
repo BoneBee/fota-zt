@@ -13,7 +13,7 @@ public class CarBtoExtend {
     private String terminalCode;
     private String vin;
     private String createAt;
-    //    private String createBy;
+    private String createBy;
     private String addType;
 
     //private CarTask taskMsg;
@@ -90,14 +90,14 @@ public class CarBtoExtend {
     public void setCreateAt(String createAt) {
         this.createAt = createAt;
     }
-//
-//    public String getCreateBy() {
-//        return createBy;
-//    }
-//
-//    public void setCreateBy(String createBy) {
-//        this.createBy = createBy;
-//    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
 
     public String getCarTypeId() {
         return carTypeId;

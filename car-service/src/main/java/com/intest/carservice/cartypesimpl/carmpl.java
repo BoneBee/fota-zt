@@ -54,6 +54,15 @@ public class carmpl extends BaseController implements CarService {
     @Autowired
     CarExtendMapper carExmp;
 
+    @Autowired
+    CarTypePartsBtoMapper ctpbMapper;
+
+    @Autowired
+    CarTypeExtendMapper ctExMapper;
+
+    @Autowired
+    UserBtoMapper userMapper;
+
     /* 删除车型时用到：查询车型下是否有车辆
     根据车型ID获取车辆
      */
@@ -192,6 +201,11 @@ public class carmpl extends BaseController implements CarService {
             crp.setVin(car.getVin());
             crp.setICCID(car.getICCID());
             crp.setSimNumber(car.getSimNumber());
+
+            String CreateBy = carTools.getUserRealName(userMapper, car.getCreateBy());
+
+            crp.setCreateBy(CreateBy);
+
             if (car.getCreateAt() == null || car.getCreateAt().equals("")) {
                 crp.setCreateAt("");
             }
@@ -212,12 +226,18 @@ public class carmpl extends BaseController implements CarService {
             cartask.setCheckStatus(car.getCheckStatus());
 
             //获取该车辆绑定的零件
-            PartsBtoExample partEx = new PartsBtoExample();
-            PartsBtoExample.Criteria ciapart = partEx.createCriteria();
-            ciapart.andFkCartypeIdEqualTo(car.getCarTypeId());
+//            CarTypePartsBtoExample ctpbEx = new CarTypePartsBtoExample();
+//            CarTypePartsBtoExample.Criteria ciactpb = ctpbEx.createCriteria();
+//            ciactpb.andFkCartypeIdEqualTo(car.getCarTypeId());
+//            List<CarTypePartsBto> ctpbs=ctpbMapper.selectByExample(ctpbEx);
+//
+//            PartsBtoExample partEx = new PartsBtoExample();
+//            PartsBtoExample.Criteria ciapart = partEx.createCriteria();
+//            ciapart.andFkCartypeIdEqualTo(car.getCarTypeId());
 
             //查找车辆的零件
-            List<PartsBto> parts = partmp.selectByExample(partEx);
+//            List<PartsBto> parts = partmp.selectByExample(partEx);
+            List<PartsBto> parts = carExmp.getPartsOfCar(car.getCarTypeId());
             List<CarEcu> ecus = new ArrayList<>();
             int ecuCount = 0;
             //获取零件信息集合
@@ -415,7 +435,7 @@ public class carmpl extends BaseController implements CarService {
         cb.setTerminalcode(pcar.getTerminalCode());
         cb.setIsdelete((short) 1);
         //终端厂商
-         cb.setTerminalpro(pcar.getTerminalPro());
+        cb.setTerminalpro(pcar.getTerminalPro());
         cb.setIccid(pcar.getIccid());
         UserBto ub = getAccount();
         cb.setUpdateby(ub.getUserId());
