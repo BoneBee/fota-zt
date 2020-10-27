@@ -1,9 +1,9 @@
 package com.intest.api.controller;
 
-import com.intest.basicservice.user.response.UserPage;
 import com.intest.common.result.PagerDataBaseVO;
-import com.intest.service.LoginLogPage;
+import com.intest.service.LogPage;
 import com.intest.service.impl.LoginLogImp;
+import com.intest.service.impl.OperateLogImp;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +20,9 @@ public class LogController {
     @Autowired
     LoginLogImp loginLogImp;
 
+    @Autowired
+    OperateLogImp operateLogImp;
+
 
     /**
      * 获取用户登陆日志列表
@@ -27,6 +30,15 @@ public class LogController {
      * @return
      */
     public PagerDataBaseVO getLoginLog() {
-        return loginLogImp.getLoginLogTmpInfo(new LoginLogPage());
+        return loginLogImp.getLoginLogTmpInfo(new LogPage());
+    }
+
+    /**
+     * 获取用户操作日志列表
+     *
+     * @return
+     */
+    public PagerDataBaseVO getOperateLog() {
+        return operateLogImp.getOperateLogTmpInfo(new LogPage());
     }
 }

@@ -25,6 +25,7 @@ import com.intest.systemservice.impl.service.impl.RoleImpl;
 import com.intest.systemservice.impl.service.impl.RolePermissionImpl;
 import com.intest.systemservice.impl.service.impl.UserRoleImpl;
 import com.intest.systemservice.response.SystemMenuResponse;
+import com.intest.util.ModelName;
 import eu.bitwalker.useragentutils.Browser;
 import eu.bitwalker.useragentutils.UserAgent;
 import eu.bitwalker.useragentutils.Version;
@@ -75,15 +76,7 @@ public class UserController extends BaseController {
         validData(bindingResult);
         ResultT<LoginVO> result = new ResultT<LoginVO>();
         try {
-            Browser browser = UserAgent.parseUserAgentString(request.getHeader("User-Agent")).getBrowser();
-            Version version = browser.getVersion(request.getHeader("User-Agent"));
-            String browserName = browser.getName() + "/" + version.getVersion();
-//            if (browser.getName().indexOf("Postman") != -1) {
-//                browserName = "";
-//            } else {
-//                browserName = browser.getName() + "/" + version.getVersion();
-//            }
-            LoginVO loginVO = userService.checkLogin(getIpAddr(), browserName, userRequest.getUserName(), userRequest.getPassword());
+            LoginVO loginVO = userService.checkLogin(getIpAddr(), getBrowser(), userRequest.getUserName(), userRequest.getPassword());
             result.setResult(loginVO);
         } catch (Exception ex) {
             result.setFail();
@@ -211,6 +204,7 @@ public class UserController extends BaseController {
         userRoleBto.setCreateby("admin");
         userRoleService.addUserRole(userRoleBto);
         if (userService.addUser(userBto) == 1) {
+            addOperateLog(ModelName.MODEL_SYSTEM_USER, ModelName.ACTION_CREATE);
             return new ResponseBean(1, "注册成功", null);
         } else {
             throw new CustomException("注册失败");
@@ -247,6 +241,7 @@ public class UserController extends BaseController {
         userRoleBto.setFkRoleId(request.getRoleId());
         userRoleService.updateUserRole(userRoleBto);
         if (userService.updateUser(newUser) == 1) {
+            addOperateLog(ModelName.MODEL_SYSTEM_USER, ModelName.ACTION_UPDATE);
             return new ResponseBean(1, "修改成功", null);
         } else {
             throw new CustomException("修改失败");
@@ -273,6 +268,7 @@ public class UserController extends BaseController {
                 throw new CustomException(userIdBean.getId() + "删除失败");
             }
         }
+        addOperateLog(ModelName.MODEL_SYSTEM_USER, ModelName.ACTION_DELETE);
         return new ResponseBean(1, "删除成功", null);
     }
 
@@ -300,6 +296,7 @@ public class UserController extends BaseController {
         if (userService.updateUser(userBto) != 1) {
             throw new CustomException("重置密码失败");
         }
+        addOperateLog(ModelName.MODEL_SYSTEM_USER, ModelName.ACTION_SYSTEM_USER_REPLE);
         return new ResponseBean(1, "重置密码成功", new ResetPassworldResponse("12ab34cd56ef@"));
     }
 
@@ -448,6 +445,7 @@ public class UserController extends BaseController {
             response1.setChildren(two);
             one.add(response1);
         }
+        addOperateLog(ModelName.MODEL_SYSTEM_USER, ModelName.ACTION_SYSTEM_USER_ROLE);
         return new ResponseBean(1, "", one);
     }
 
@@ -472,6 +470,7 @@ public class UserController extends BaseController {
         if (userService.updateUser(userBto) != 1) {
             throw new CustomException("修改失败");
         }
+        addOperateLog(ModelName.MODEL_SYSTEM_USER, ModelName.ACTION_SYSTEM_USER_STATE);
         return new ResponseBean(1, "修改成功", null);
     }
 

@@ -10,7 +10,7 @@ import com.intest.dao.mapper.RoleBtoMapper;
 import com.intest.dao.mapper.UserBtoMapper;
 import com.intest.dao.mapper.UserRoleBtoMapper;
 import com.intest.response.LoginLogResponse;
-import com.intest.service.LoginLogPage;
+import com.intest.service.LogPage;
 import com.intest.service.LoginLogService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,7 +56,7 @@ public class LoginLogImp implements LoginLogService {
 
     @Override
     @TableDataAnnotation(tableId = "cb8eece0-12ca-4091-8065-e7464bebec60")
-    public PagerDataBaseVO getLoginLogTmpInfo(LoginLogPage model) {
+    public PagerDataBaseVO getLoginLogTmpInfo(LogPage model) {
         PagerDataBaseVO type = new PagerDataBaseVO();
         PageHelper.startPage(model.getPi(), model.getPs());
         List<LoginLogBto> loginLogBtos = mapper.selectByExample(null);

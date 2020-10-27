@@ -13,5 +13,5 @@ public interface LoginLogService {
 
     int deleteLoginLog(String loginLogId);
 
-    PagerDataBaseVO getLoginLogTmpInfo(LoginLogPage model);
+    PagerDataBaseVO getLoginLogTmpInfo(LogPage model);
 }

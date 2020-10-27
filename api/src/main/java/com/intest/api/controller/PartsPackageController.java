@@ -1,6 +1,7 @@
 package com.intest.api.controller;
 
 import com.intest.common.result.ResultT;
+import com.intest.common.webcore.BaseController;
 import com.intest.dao.entity.FileBto;
 import com.intest.dao.entity.PartsBigPackageBto;
 import com.intest.dao.entity.PartsPackageBto;
@@ -11,6 +12,7 @@ import com.intest.dao.mapper.PartsPackageBtoMapper;
 import com.intest.packageservice.request.PartsPackageRequest;
 import com.intest.packageservice.service.PartsPackageService;
 import com.intest.packageservice.vo.PartsPackageVO;
+import com.intest.util.ModelName;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.IOUtils;
@@ -34,7 +36,7 @@ import java.util.Map;
 @Api(tags = {"版本管理/零件包"})
 @RequestMapping("/api/partspackage")
 @RestController
-public class PartsPackageController {
+public class PartsPackageController extends BaseController {
     @Autowired
     private PartsPackageService partsPackageService;
 
@@ -81,7 +83,7 @@ public class PartsPackageController {
         List<PartsPackageBto> list = partsPackageBtoMapper.selectByExample(example);
         PartsBigPackageBto bto = partsBigPackageBtoMapper.selectByPrimaryKey(list.get(0).getFkPartsbigpackageId());
         FileBto fi = fileBtoMapper.selectByPrimaryKey(fileId);
-
+        addOperateLog(ModelName.MODEL_VERSION_PART, ModelName.ACTION_VERSION_PART_DOWNLOAD);
         if(fi == null){
             return;
         }

@@ -3,6 +3,7 @@ package com.intest.api.controller;
 import com.intest.common.result.ResultT;
 import com.intest.common.util.FtpClientUtil;
 import com.intest.common.util.MultiDownloadUtil;
+import com.intest.common.webcore.BaseController;
 import com.intest.dao.entity.FileBto;
 import com.intest.dao.entity.PartsUpgradePackageBto;
 import com.intest.dao.entity.PartsUpgradePackageBtoExample;
@@ -11,6 +12,7 @@ import com.intest.dao.mapper.PartsUpgradePackageBtoMapper;
 import com.intest.dao.mapper.UpgradePackageFileinfoBtoMapper;
 import com.intest.packageservice.request.*;
 import com.intest.packageservice.service.UpgradePackageService;
+import com.intest.util.ModelName;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +35,7 @@ import java.util.List;
 @Api(tags = {"升级包管理/升级包"})
 @RequestMapping("/api/upgradepackage")
 @RestController
-public class UpgradePackageController {
+public class UpgradePackageController extends BaseController {
     @Autowired
     private UpgradePackageService upgradePackageService;
 
@@ -88,6 +90,7 @@ public class UpgradePackageController {
         ResultT result = new ResultT();
         try{
             result.setResult(upgradePackageService.make(request));
+            addOperateLog(ModelName.MODEL_UPDATE_FILE, ModelName.ACTION_CREATE);
         }catch (Exception e){
             e.printStackTrace();
             result.setFail();
@@ -101,6 +104,7 @@ public class UpgradePackageController {
         ResultT result = new ResultT();
         try{
             result.setResult(upgradePackageService.unpublish(request.getPackageTaskId()));
+            addOperateLog(ModelName.MODEL_UPDATE_FILE, ModelName.ACTION_UPDATE_FILE_CANCLE);
         }catch (Exception e){
             e.printStackTrace();
             result.setFail();

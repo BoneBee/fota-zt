@@ -2,9 +2,14 @@ package com.intest.common.webcore;
 
 import com.intest.common.jwt.JwtUtil;
 import com.intest.common.jwt.constant.JwtConstant;
+import com.intest.dao.entity.OperateLogBto;
 import com.intest.dao.entity.UserBto;
 import com.intest.dao.entity.UserBtoExample;
+import com.intest.dao.mapper.OperateLogBtoMapper;
 import com.intest.dao.mapper.UserBtoMapper;
+import eu.bitwalker.useragentutils.Browser;
+import eu.bitwalker.useragentutils.UserAgent;
+import eu.bitwalker.useragentutils.Version;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -15,8 +20,10 @@ import org.springframework.validation.ObjectError;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.ValidationException;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * @author zhanghui
@@ -54,7 +61,7 @@ public class BaseController {
         }
     }
 
-    public String getIpAddr()  {
+    public String getIpAddr() {
         String ip = request.getHeader("x-forwarded-for");
         if (ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {
             ip = request.getHeader("Proxy-Client-IP");
@@ -74,6 +81,12 @@ public class BaseController {
         return ip;
     }
 
+    public String getBrowser() {
+        Browser browser = UserAgent.parseUserAgentString(request.getHeader("User-Agent")).getBrowser();
+        Version version = browser.getVersion(request.getHeader("User-Agent"));
+        String browserName = browser.getName() + "/" + version.getVersion();
+        return browserName;
+    }
 
 
     /**
@@ -84,7 +97,7 @@ public class BaseController {
      * @param
      * @return java.lang.String
      */
-    protected String getAuthorizationToken(){
+    protected String getAuthorizationToken() {
         String token = "";
         // 获取头部信息
         Enumeration<String> headerNames = request.getHeaderNames();
@@ -101,6 +114,9 @@ public class BaseController {
 
     @Autowired
     private UserBtoMapper userMapper;
+
+    @Autowired
+    OperateLogBtoMapper operateLogBtoMapper;
 
     /**
      * create by: zhanghui
@@ -134,6 +150,22 @@ public class BaseController {
             logger.error(ex);
         }
         return userBto;
+    }
+
+
+    public void addOperateLog(String Model, String Action) {
+        UserBto userBto = getAccount();
+        OperateLogBto operateLogBto = new OperateLogBto();
+        operateLogBto.setOperateId(UUID.randomUUID() + "");
+        operateLogBto.setFkUserId(userBto.getUserId());
+        operateLogBto.setOperateMode(Model);
+        operateLogBto.setOperateAction(Action);
+        operateLogBto.setLoginIp(getIpAddr());
+        operateLogBto.setBrowser(getBrowser());
+        operateLogBto.setIsdelete((short) 1);
+        operateLogBto.setCreateat(new Date());
+        operateLogBto.setCreateby(userBto.getUserId());
+        operateLogBtoMapper.insert(operateLogBto);
     }
 
 }

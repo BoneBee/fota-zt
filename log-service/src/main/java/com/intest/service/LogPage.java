@@ -4,7 +4,7 @@ import com.intest.common.ro.PagerBaseRO;
 
 import java.util.Date;
 
-public class LoginLogPage extends PagerBaseRO {
+public class LogPage extends PagerBaseRO {
     private String id;
 
     private int age;
