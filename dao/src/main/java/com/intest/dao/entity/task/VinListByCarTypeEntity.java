@@ -12,8 +12,7 @@ import lombok.Setter;
  * @修改内容：
  * @修改时间：
  */
-@Getter
-@Setter
+
 public class VinListByCarTypeEntity {
 
     public int index;
@@ -37,4 +36,43 @@ public class VinListByCarTypeEntity {
      */
     public int  isTasking;
 
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public String getVin() {
+        return vin;
+    }
+
+    public void setVin(String vin) {
+        this.vin = vin;
+    }
+
+    public String getCarTypeName() {
+        return carTypeName;
+    }
+
+    public void setCarTypeName(String carTypeName) {
+        this.carTypeName = carTypeName;
+    }
+
+    public String getTerminalName() {
+        return terminalName;
+    }
+
+    public void setTerminalName(String terminalName) {
+        this.terminalName = terminalName;
+    }
+
+    public int getIsTasking() {
+        return isTasking;
+    }
+
+    public void setIsTasking(int isTasking) {
+        this.isTasking = isTasking;
+    }
 }

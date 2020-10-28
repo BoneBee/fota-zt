@@ -11,8 +11,7 @@ import lombok.Setter;
  * @修改内容：
  * @修改时间：
  */
-@Getter
-@Setter
+
 public class TaskReviewTmpEntity {
     /**
      * 审核记录ID
@@ -33,4 +32,35 @@ public class TaskReviewTmpEntity {
      */
     public int state;
 
+    public String getTaskReviewTmpId() {
+        return taskReviewTmpId;
+    }
+
+    public void setTaskReviewTmpId(String taskReviewTmpId) {
+        this.taskReviewTmpId = taskReviewTmpId;
+    }
+
+    public String getTaskReviewTmpName() {
+        return taskReviewTmpName;
+    }
+
+    public void setTaskReviewTmpName(String taskReviewTmpName) {
+        this.taskReviewTmpName = taskReviewTmpName;
+    }
+
+    public int getTmpType() {
+        return tmpType;
+    }
+
+    public void setTmpType(int tmpType) {
+        this.tmpType = tmpType;
+    }
+
+    public int getState() {
+        return state;
+    }
+
+    public void setState(int state) {
+        this.state = state;
+    }
 }

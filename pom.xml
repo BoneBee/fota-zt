@@ -24,6 +24,7 @@
 		<module>dao-help</module>
 		<module>common</module>
 		<!-- 产品service -->
+		<module>statistical-service</module>
 		<module>log-service</module>
 		<module>basic-service</module>
 		<module>parts-service</module>

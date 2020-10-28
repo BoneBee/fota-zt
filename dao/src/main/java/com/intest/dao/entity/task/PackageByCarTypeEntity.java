@@ -13,8 +13,7 @@ import java.util.Date;
  * @修改内容：
  * @修改时间：
  */
-@Getter
-@Setter
+
 public class PackageByCarTypeEntity {
 
     public int index;
@@ -46,4 +45,60 @@ public class PackageByCarTypeEntity {
      * 制作人
      */
     public String createBy;
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public String getPackageTaskId() {
+        return packageTaskId;
+    }
+
+    public void setPackageTaskId(String packageTaskId) {
+        this.packageTaskId = packageTaskId;
+    }
+
+    public String getPackageName() {
+        return packageName;
+    }
+
+    public void setPackageName(String packageName) {
+        this.packageName = packageName;
+    }
+
+    public String getCarTypeName() {
+        return carTypeName;
+    }
+
+    public void setCarTypeName(String carTypeName) {
+        this.carTypeName = carTypeName;
+    }
+
+    public String getPackageTaskStatusValueName() {
+        return packageTaskStatusValueName;
+    }
+
+    public void setPackageTaskStatusValueName(String packageTaskStatusValueName) {
+        this.packageTaskStatusValueName = packageTaskStatusValueName;
+    }
+
+    public Date getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
 }

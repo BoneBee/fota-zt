@@ -15,8 +15,7 @@ import java.util.List;
  * @修改内容：
  * @修改时间：
  */
-@Getter
-@Setter
+
 public class CarTypeBaseInfoEntity {
     /*
     车型名称
@@ -36,4 +35,27 @@ public class CarTypeBaseInfoEntity {
         children=new ArrayList<>();
     }
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public List<PartsBaseInfoEntity> getChildren() {
+        return children;
+    }
+
+    public void setChildren(List<PartsBaseInfoEntity> children) {
+        this.children = children;
+    }
 }
