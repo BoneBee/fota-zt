@@ -11,8 +11,7 @@ import lombok.Setter;
  * @修改内容：
  * @修改时间：
  */
-@Getter
-@Setter
+
 public class PartsBaseInfoEntity {
     /**
     零部件名称
@@ -27,4 +26,27 @@ public class PartsBaseInfoEntity {
      */
     public int orderNum;
 
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
+    }
+
+    public int getOrderNum() {
+        return orderNum;
+    }
+
+    public void setOrderNum(int orderNum) {
+        this.orderNum = orderNum;
+    }
 }

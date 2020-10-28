@@ -9,6 +9,8 @@ import com.intest.carservice.cartypesimpl.cartypesassemblyImpl;
 import com.intest.common.result.PagerDataBaseVO;
 import com.intest.common.result.Result;
 import com.intest.common.result.ResultT;
+import com.intest.common.webcore.BaseController;
+import com.intest.util.ModelName;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +21,7 @@ import java.util.List;
 
 @RestController
 @Api(tags = {"车型管理"})
-public class CarTypesController {
+public class CarTypesController extends BaseController {
 
     @Autowired
     cartypesassemblyImpl cartypesTypeImpl;
@@ -98,6 +100,7 @@ public class CarTypesController {
             PagerDataBaseVO pgVO = new PagerDataBaseVO();
             String ErrMsg = cartypesTypeImpl.delCarType(carTypes, buf);
             result.setMsg(ErrMsg);
+            addOperateLog(ModelName.MODEL_CAR_TYPE, ModelName.ACTION_DELETE);
             if (ErrMsg.equals("") || ErrMsg == null) {
                 result.setSuccess(1);
             }
@@ -119,6 +122,7 @@ public class CarTypesController {
         StringBuffer buffer = new StringBuffer();
         try {
             int i = cartypesTypeImpl.addCarType(addcartype);
+            addOperateLog(ModelName.MODEL_CAR_TYPE, ModelName.ACTION_CREATE);
             result.setSuccess(i);
 
         } catch (Exception ex) {
@@ -135,6 +139,7 @@ public class CarTypesController {
         Result result = new Result();
         try {
             int i = cartypesTypeImpl.mdfCarType(addcartype);
+            addOperateLog(ModelName.MODEL_CAR_TYPE, ModelName.ACTION_UPDATE);
             result.setSuccess(i);
         } catch (Exception ex) {
             result.setSuccess(0);
@@ -149,6 +154,7 @@ public class CarTypesController {
         Result result = new Result();
         try {
             delCarRespone dels = mpl.delCars(carArr);
+            addOperateLog(ModelName.MODEL_CAR_MESSAGE, ModelName.ACTION_DELETE);
             result.setMsg(dels.getSuccessMsg());
             if (dels.getSuccessMsg() == null || dels.getSuccessMsg().equals("")) {
                 result.setSuccess(1);
@@ -196,6 +202,7 @@ public class CarTypesController {
         Result result = new Result();
         try {
             CarAddRespone addCar = mpl.addCar(pcar);
+            addOperateLog(ModelName.MODEL_CAR_MESSAGE, ModelName.ACTION_CREATE);
             result.setSuccess(addCar.getAddCarResult());
             result.setMsg(addCar.getMsg());
         } catch (Exception ex) {
@@ -212,6 +219,7 @@ public class CarTypesController {
         Result result = new Result();
         try {
             int i = mpl.mdfCar(pcar);
+            addOperateLog(ModelName.MODEL_CAR_MESSAGE, ModelName.ACTION_UPDATE);
             if (i >= 1) {
                 result.setSuccess(1);
             }

@@ -14,8 +14,7 @@ import java.util.List;
  * @修改内容：
  * @修改时间：
  */
-@Getter
-@Setter
+
 public class TaskReqParaEntity extends PagerBaseRO {
 
     public String taskId;
@@ -29,4 +28,27 @@ public class TaskReqParaEntity extends PagerBaseRO {
 //    public int ps;
 
 
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
+    }
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
+
+    public String getCarTypeId() {
+        return carTypeId;
+    }
+
+    public void setCarTypeId(String carTypeId) {
+        this.carTypeId = carTypeId;
+    }
 }

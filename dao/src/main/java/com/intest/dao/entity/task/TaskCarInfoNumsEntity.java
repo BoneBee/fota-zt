@@ -11,8 +11,7 @@ import lombok.Setter;
  * @修改内容：
  * @修改时间：
  */
-@Getter
-@Setter
+
 public class TaskCarInfoNumsEntity {
     /**
      * 总数
@@ -34,4 +33,44 @@ public class TaskCarInfoNumsEntity {
      * 取消数量
      */
     public int carCancelNum;
+
+    public int getCarTotalNum() {
+        return carTotalNum;
+    }
+
+    public void setCarTotalNum(int carTotalNum) {
+        this.carTotalNum = carTotalNum;
+    }
+
+    public int getCarComNum() {
+        return carComNum;
+    }
+
+    public void setCarComNum(int carComNum) {
+        this.carComNum = carComNum;
+    }
+
+    public int getCarUpNum() {
+        return carUpNum;
+    }
+
+    public void setCarUpNum(int carUpNum) {
+        this.carUpNum = carUpNum;
+    }
+
+    public int getCarFailedNum() {
+        return carFailedNum;
+    }
+
+    public void setCarFailedNum(int carFailedNum) {
+        this.carFailedNum = carFailedNum;
+    }
+
+    public int getCarCancelNum() {
+        return carCancelNum;
+    }
+
+    public void setCarCancelNum(int carCancelNum) {
+        this.carCancelNum = carCancelNum;
+    }
 }

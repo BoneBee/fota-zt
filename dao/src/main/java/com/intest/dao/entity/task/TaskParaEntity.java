@@ -12,8 +12,7 @@ import lombok.Setter;
  * @修改内容：
  * @修改时间：
  */
-@Getter
-@Setter
+
 public class TaskParaEntity{
 
     public int pi;
@@ -55,4 +54,84 @@ public class TaskParaEntity{
     @JsonIgnore
     public String updateBy;
 
+
+    public int getPi() {
+        return pi;
+    }
+
+    public void setPi(int pi) {
+        this.pi = pi;
+    }
+
+    public int getPs() {
+        return ps;
+    }
+
+    public void setPs(int ps) {
+        this.ps = ps;
+    }
+
+    public int getReqType() {
+        return reqType;
+    }
+
+    public void setReqType(int reqType) {
+        this.reqType = reqType;
+    }
+
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
+    }
+
+    public String getTaskCarId() {
+        return taskCarId;
+    }
+
+    public void setTaskCarId(String taskCarId) {
+        this.taskCarId = taskCarId;
+    }
+
+    public String getTaskCode() {
+        return taskCode;
+    }
+
+    public void setTaskCode(String taskCode) {
+        this.taskCode = taskCode;
+    }
+
+    public String getTaskReviewCode() {
+        return taskReviewCode;
+    }
+
+    public void setTaskReviewCode(String taskReviewCode) {
+        this.taskReviewCode = taskReviewCode;
+    }
+
+    public String getTaskCarCode() {
+        return taskCarCode;
+    }
+
+    public void setTaskCarCode(String taskCarCode) {
+        this.taskCarCode = taskCarCode;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getUpdateBy() {
+        return updateBy;
+    }
+
+    public void setUpdateBy(String updateBy) {
+        this.updateBy = updateBy;
+    }
 }

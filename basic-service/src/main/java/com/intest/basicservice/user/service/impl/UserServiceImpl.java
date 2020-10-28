@@ -14,6 +14,7 @@ import com.intest.common.result.PagerDataBaseVO;
 import com.intest.common.tableData.TableDataAnnotation;
 import com.intest.common.util.BCrypt;
 import com.intest.dao.entity.*;
+import com.intest.dao.mapper.LoginLogBtoMapper;
 import com.intest.dao.mapper.RoleBtoMapper;
 import com.intest.dao.mapper.UserBtoMapper;
 import com.intest.dao.mapper.UserRoleBtoMapper;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @TableDataAnnotation
@@ -48,6 +50,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     RoleBtoMapper roleBtoMapper;
 
+    @Autowired
+    LoginLogBtoMapper loginLogBtoMapper;
+
     /**
      * create by: zhanghui
      * description: TODO
@@ -58,7 +63,7 @@ public class UserServiceImpl implements UserService {
      * @return com.intest.basicservice.user.vo.LoginVO
      */
     @Override
-    public LoginVO checkLogin(String userName, String password) {
+    public LoginVO checkLogin(String Ip, String browser, String userName, String password) {
         LoginVO vo = new LoginVO();
 
         // 检查用户名是否正确
@@ -80,7 +85,30 @@ public class UserServiceImpl implements UserService {
                         vo.setFreeNum(user.getPasswordRetryCount().intValue() - 1);
                         updateUserByErrorPwd(user.getUserId(), user.getPasswordRetryCount().intValue());
                     }
+                    LoginLogBto loginLogBto = new LoginLogBto();
+                    loginLogBto.setLoginlogId(UUID.randomUUID() + "");
+                    loginLogBto.setFkUserId(user.getUserId());
+                    loginLogBto.setLoginResult((short) 0);
+                    loginLogBto.setLoginIp(Ip);
+                    loginLogBto.setBrowser(browser);
+                    loginLogBto.setNote("登陆失败，密码错误");
+                    loginLogBto.setIsdelete((short)1);
+                    loginLogBto.setCreateat(new Date());
+                    loginLogBto.setCreateby(user.getUserId());
+                    loginLogBtoMapper.insert(loginLogBto);
                 } else {
+                    LoginLogBto loginLogBto = new LoginLogBto();
+                    loginLogBto.setLoginlogId(UUID.randomUUID() + "");
+                    loginLogBto.setFkUserId(user.getUserId());
+                    loginLogBto.setLoginResult((short) 1);
+                    loginLogBto.setLoginIp(Ip);
+                    loginLogBto.setBrowser(browser);
+                    loginLogBto.setNote("登陆成功");
+                    loginLogBto.setIsdelete((short)1);
+                    loginLogBto.setCreateat(new Date());
+                    loginLogBto.setCreateby(user.getUserId());
+                    loginLogBtoMapper.insert(loginLogBto);
+
                     updateUserBySuccess(user.getUserId());
                     vo.setIsCanLogin(1);
                     //vo.setToken(bcrptTokenGenerator.generate(userName));

@@ -10,7 +10,7 @@ import java.util.List;
 
 public interface UserService {
 
-    LoginVO checkLogin(String userName, String password);
+    LoginVO checkLogin(String Ip, String browser,String userName, String password);
 
     LoginVO getUserLoginInfo(String userId);
 

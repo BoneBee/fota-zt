@@ -2,11 +2,13 @@ package com.intest.api.controller;
 
 import com.alibaba.fastjson.JSON;
 import com.intest.basicservice.table.common.ResponseBean;
+import com.intest.common.webcore.BaseController;
 import com.intest.dao.entity.partsConfig.CarTypeAPartsEntity;
 import com.intest.dao.entity.partsConfig.PartsBaseConfig;
 import com.intest.partsconfigservice.service.entity.CarTypeBaseInfoEntity;
 import com.intest.partsconfigservice.service.entity.PartsBaseInfoEntity;
 import com.intest.partsconfigservice.service.impl.PartsConfigServiceImpl;
+import com.intest.util.ModelName;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.slf4j.Logger;
@@ -30,7 +32,7 @@ import java.util.stream.Collectors;
  */
 @RestController
 @Api(tags = {"策略管理"})
-public class PartsConfigController {
+public class PartsConfigController extends BaseController {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -66,6 +68,7 @@ public class PartsConfigController {
         logger.info("接收到配置策略信息请求，更新信息："+JSON.toJSONString(partsBaseConfig));
         try {
             int n = partsConfigServiceImpl.updatePartsConfig(partsBaseConfig);
+            addOperateLog(ModelName.MODEL_PARTS_CONFIG, ModelName.ACTION_UPDATE);
             if (n > 0) {
                 logger.info("处理配置策略信息修改成功，更新信息："+JSON.toJSONString(partsBaseConfig));
                 return new ResponseBean(1, "配置策略信息修改成功", null);

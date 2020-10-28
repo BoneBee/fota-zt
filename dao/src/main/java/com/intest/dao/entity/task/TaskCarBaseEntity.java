@@ -14,8 +14,7 @@ import java.util.Date;
  * @修改内容：
  * @修改时间：
  */
-@Getter
-@Setter
+
 public class TaskCarBaseEntity {
 
     public int index;
@@ -106,5 +105,149 @@ public class TaskCarBaseEntity {
 
     public TaskCarBaseEntity(){
         createBy="任务管理模块";
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
+    }
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
+
+    public String getTaskStrategy() {
+        return taskStrategy;
+    }
+
+    public void setTaskStrategy(String taskStrategy) {
+        this.taskStrategy = taskStrategy;
+    }
+
+    public String getTaskStrategyName() {
+        return taskStrategyName;
+    }
+
+    public void setTaskStrategyName(String taskStrategyName) {
+        this.taskStrategyName = taskStrategyName;
+    }
+
+    public String getTaskStatusValueCode() {
+        return taskStatusValueCode;
+    }
+
+    public void setTaskStatusValueCode(String taskStatusValueCode) {
+        this.taskStatusValueCode = taskStatusValueCode;
+    }
+
+    public String getTaskStatusValueName() {
+        return taskStatusValueName;
+    }
+
+    public void setTaskStatusValueName(String taskStatusValueName) {
+        this.taskStatusValueName = taskStatusValueName;
+    }
+
+    public String getTaskCarId() {
+        return taskCarId;
+    }
+
+    public void setTaskCarId(String taskCarId) {
+        this.taskCarId = taskCarId;
+    }
+
+    public String getVin() {
+        return vin;
+    }
+
+    public void setVin(String vin) {
+        this.vin = vin;
+    }
+
+    public String getUpgradeTime() {
+        return upgradeTime;
+    }
+
+    public void setUpgradeTime(String upgradeTime) {
+        this.upgradeTime = upgradeTime;
+    }
+
+    public String getTaskCarStatusValueCode() {
+        return taskCarStatusValueCode;
+    }
+
+    public void setTaskCarStatusValueCode(String taskCarStatusValueCode) {
+        this.taskCarStatusValueCode = taskCarStatusValueCode;
+    }
+
+    public String getTaskCarStatusValueName() {
+        return taskCarStatusValueName;
+    }
+
+    public void setTaskCarStatusValueName(String taskCarStatusValueName) {
+        this.taskCarStatusValueName = taskCarStatusValueName;
+    }
+
+    public String getProgress() {
+        return progress;
+    }
+
+    public void setProgress(String progress) {
+        this.progress = progress;
+    }
+
+    public Date getPlanStartTime() {
+        return planStartTime;
+    }
+
+    public void setPlanStartTime(Date planStartTime) {
+        this.planStartTime = planStartTime;
+    }
+
+    public Date getPlanEndTime() {
+        return planEndTime;
+    }
+
+    public void setPlanEndTime(Date planEndTime) {
+        this.planEndTime = planEndTime;
+    }
+
+    public String getCarTypeName() {
+        return carTypeName;
+    }
+
+    public void setCarTypeName(String carTypeName) {
+        this.carTypeName = carTypeName;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
     }
 }

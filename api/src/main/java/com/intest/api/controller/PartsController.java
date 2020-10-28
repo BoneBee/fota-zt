@@ -16,6 +16,7 @@ import com.intest.partsservice.part.request.*;
 import com.intest.basicservice.table.common.ResponseBean;
 import com.intest.basicservice.table.config.helper.ValidateHelper;
 import com.intest.partsservice.part.response.*;
+import com.intest.util.ModelName;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,6 +61,7 @@ public class PartsController extends BaseController {
             if (partsTypeImpl.addPartsType(partsTypeBto) != 1) {
                 throw new CustomException("新增零部件类型失败！");
             }
+            addOperateLog(ModelName.MODEL_PARTS_TYPE, ModelName.ACTION_CREATE);
             return new ResponseBean(1, "新增成功", null);
         }
     }
@@ -86,6 +88,7 @@ public class PartsController extends BaseController {
             if (partsTypeImpl.updatePartsType(partsTypeBto) != 1) {
                 throw new CustomException("修改零部件类型失败！");
             }
+            addOperateLog(ModelName.MODEL_PARTS_TYPE, ModelName.ACTION_UPDATE);
             return new ResponseBean(1, "修改成功", null);
         }
     }
@@ -107,6 +110,7 @@ public class PartsController extends BaseController {
                 throw new CustomException("删除零部件信息失败");
             }
         }
+        addOperateLog(ModelName.MODEL_PARTS_TYPE, ModelName.ACTION_DELETE);
         return new ResponseBean(1, "删除成功", null);
     }
 
@@ -190,6 +194,7 @@ public class PartsController extends BaseController {
         if (partsConfigImpl.addParts(partsConfigBto) != 1) {
             throw new CustomException("新增零部件策略配置信息失败");
         }
+        addOperateLog(ModelName.MODEL_PARTS_MESSAGE, ModelName.ACTION_CREATE);
         return new ResponseBean(1, "新增成功", null);
 
     }
@@ -221,7 +226,7 @@ public class PartsController extends BaseController {
                 throw new CustomException("修改零部件信息失败");
             }
         }
-
+        addOperateLog(ModelName.MODEL_PARTS_MESSAGE, ModelName.ACTION_UPDATE);
         return new ResponseBean(1, "修改成功", null);
     }
 
@@ -242,6 +247,7 @@ public class PartsController extends BaseController {
                 throw new CustomException("删除零部件信息失败");
             }
         }
+        addOperateLog(ModelName.MODEL_PARTS_MESSAGE, ModelName.ACTION_DELETE);
         return new ResponseBean(1, "删除成功", null);
     }
 

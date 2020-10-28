@@ -16,8 +16,7 @@ import java.util.List;
  * @修改内容：
  * @修改时间：
  */
-@Getter
-@Setter
+
 public class TaskBaseEntity {
     /**
      * 序号
@@ -170,5 +169,261 @@ public class TaskBaseEntity {
 
     public TaskBaseEntity(){
         vinLst=new ArrayList<>();
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
+    }
+
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
+    }
+
+    public String getTaskName() {
+        return taskName;
+    }
+
+    public void setTaskName(String taskName) {
+        this.taskName = taskName;
+    }
+
+    public String getUpgradeTime() {
+        return upgradeTime;
+    }
+
+    public void setUpgradeTime(String upgradeTime) {
+        this.upgradeTime = upgradeTime;
+    }
+
+    public Date getPlanStartTime() {
+        return planStartTime;
+    }
+
+    public void setPlanStartTime(Date planStartTime) {
+        this.planStartTime = planStartTime;
+    }
+
+    public Date getPlanEndTime() {
+        return planEndTime;
+    }
+
+    public void setPlanEndTime(Date planEndTime) {
+        this.planEndTime = planEndTime;
+    }
+
+    public String getTaskNote() {
+        return taskNote;
+    }
+
+    public void setTaskNote(String taskNote) {
+        this.taskNote = taskNote;
+    }
+
+    public Short getTaskStrategy() {
+        return taskStrategy;
+    }
+
+    public void setTaskStrategy(Short taskStrategy) {
+        this.taskStrategy = taskStrategy;
+    }
+
+    public String getTaskStrategyName() {
+        return taskStrategyName;
+    }
+
+    public void setTaskStrategyName(String taskStrategyName) {
+        this.taskStrategyName = taskStrategyName;
+    }
+
+    public String getTaskStatusValueCode() {
+        return taskStatusValueCode;
+    }
+
+    public void setTaskStatusValueCode(String taskStatusValueCode) {
+        this.taskStatusValueCode = taskStatusValueCode;
+    }
+
+    public String getTaskStatusValueName() {
+        return taskStatusValueName;
+    }
+
+    public void setTaskStatusValueName(String taskStatusValueName) {
+        this.taskStatusValueName = taskStatusValueName;
+    }
+
+    public String getPackageTaskId() {
+        return packageTaskId;
+    }
+
+    public void setPackageTaskId(String packageTaskId) {
+        this.packageTaskId = packageTaskId;
+    }
+
+    public String getCarTypeId() {
+        return carTypeId;
+    }
+
+    public void setCarTypeId(String carTypeId) {
+        this.carTypeId = carTypeId;
+    }
+
+    public String getCarTypeName() {
+        return carTypeName;
+    }
+
+    public void setCarTypeName(String carTypeName) {
+        this.carTypeName = carTypeName;
+    }
+
+    public Date getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(Date createAt) {
+        this.createAt = createAt;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+    public String getTaskReviewStatusValueCode() {
+        return taskReviewStatusValueCode;
+    }
+
+    public void setTaskReviewStatusValueCode(String taskReviewStatusValueCode) {
+        this.taskReviewStatusValueCode = taskReviewStatusValueCode;
+    }
+
+    public String getTaskReviewStatusValueName() {
+        return taskReviewStatusValueName;
+    }
+
+    public void setTaskReviewStatusValueName(String taskReviewStatusValueName) {
+        this.taskReviewStatusValueName = taskReviewStatusValueName;
+    }
+
+    public String getTaskReviewTmpId() {
+        return taskReviewTmpId;
+    }
+
+    public void setTaskReviewTmpId(String taskReviewTmpId) {
+        this.taskReviewTmpId = taskReviewTmpId;
+    }
+
+    public String getReviewLevelCode() {
+        return reviewLevelCode;
+    }
+
+    public void setReviewLevelCode(String reviewLevelCode) {
+        this.reviewLevelCode = reviewLevelCode;
+    }
+
+    public String getReviewLevel() {
+        return reviewLevel;
+    }
+
+    public void setReviewLevel(String reviewLevel) {
+        this.reviewLevel = reviewLevel;
+    }
+
+    public Date getTaskUpTime() {
+        return taskUpTime;
+    }
+
+    public void setTaskUpTime(Date taskUpTime) {
+        this.taskUpTime = taskUpTime;
+    }
+
+    public String getTaskUpBy() {
+        return taskUpBy;
+    }
+
+    public void setTaskUpBy(String taskUpBy) {
+        this.taskUpBy = taskUpBy;
+    }
+
+    public Date getTaskCloseTime() {
+        return taskCloseTime;
+    }
+
+    public void setTaskCloseTime(Date taskCloseTime) {
+        this.taskCloseTime = taskCloseTime;
+    }
+
+    public String getTaskCloseBy() {
+        return taskCloseBy;
+    }
+
+    public void setTaskCloseBy(String taskCloseBy) {
+        this.taskCloseBy = taskCloseBy;
+    }
+
+    public List<TaskCarBaseEntity> getVinLst() {
+        return vinLst;
+    }
+
+    public void setVinLst(List<TaskCarBaseEntity> vinLst) {
+        this.vinLst = vinLst;
+    }
+
+    public String getTerminalName() {
+        return terminalName;
+    }
+
+    public void setTerminalName(String terminalName) {
+        this.terminalName = terminalName;
+    }
+
+    public TaskCarInfoNumsEntity getTaskCars() {
+        return taskCars;
+    }
+
+    public void setTaskCars(TaskCarInfoNumsEntity taskCars) {
+        this.taskCars = taskCars;
+    }
+
+    public String getReviewUserId() {
+        return reviewUserId;
+    }
+
+    public void setReviewUserId(String reviewUserId) {
+        this.reviewUserId = reviewUserId;
+    }
+
+    public String getReviewLoginName() {
+        return reviewLoginName;
+    }
+
+    public void setReviewLoginName(String reviewLoginName) {
+        this.reviewLoginName = reviewLoginName;
+    }
+
+    public String getReviewRealName() {
+        return reviewRealName;
+    }
+
+    public void setReviewRealName(String reviewRealName) {
+        this.reviewRealName = reviewRealName;
+    }
+
+    public int getCarCountNum() {
+        return carCountNum;
+    }
+
+    public void setCarCountNum(int carCountNum) {
+        this.carCountNum = carCountNum;
     }
 }
