@@ -12,6 +12,7 @@ import com.intest.packageservice.request.PackageParseRequest;
 import com.intest.packageservice.request.PackageRequest;
 import com.intest.packageservice.service.LargePackageService;
 import com.intest.packageservice.vo.PackageVO;
+import com.intest.util.ModelName;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.apache.commons.io.IOUtils;
@@ -100,6 +101,7 @@ public class PackageController extends BaseController {
         ResultT result = new ResultT();
         try{
             result.setSuccess(largePackageService.deletePackage(request.getIds()));
+            addOperateLog(ModelName.MODEL_VERSION_NEW, ModelName.ACTION_DELETE);
         }catch (Exception e){
             e.printStackTrace();
             result.setFail();
@@ -154,6 +156,7 @@ public class PackageController extends BaseController {
     @RequestMapping(value = "/package/download", method = RequestMethod.GET)
     public void download(@RequestParam("fileId") String fileId, HttpServletRequest request, HttpServletResponse response){
         FileBto fi = largePackageService.getFileById(fileId);
+        addOperateLog(ModelName.MODEL_VERSION_NEW, ModelName.ACTION_VERSION_NEW_DOWNLOAD);
         if(fi == null){
           return;
         }

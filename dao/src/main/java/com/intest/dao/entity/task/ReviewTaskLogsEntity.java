@@ -16,8 +16,7 @@ import java.util.List;
  * @修改内容：
  * @修改时间：
  */
-@Getter
-@Setter
+
 public class ReviewTaskLogsEntity {
 
     /**
@@ -77,5 +76,93 @@ public class ReviewTaskLogsEntity {
 
     public ReviewTaskLogsEntity(){
         createBy="任务管理模块";
+    }
+
+    public String getTaskReviewLogsId() {
+        return taskReviewLogsId;
+    }
+
+    public void setTaskReviewLogsId(String taskReviewLogsId) {
+        this.taskReviewLogsId = taskReviewLogsId;
+    }
+
+    public String getTaskId() {
+        return taskId;
+    }
+
+    public void setTaskId(String taskId) {
+        this.taskId = taskId;
+    }
+
+    public String getTaskReviewTmpId() {
+        return taskReviewTmpId;
+    }
+
+    public void setTaskReviewTmpId(String taskReviewTmpId) {
+        this.taskReviewTmpId = taskReviewTmpId;
+    }
+
+    public int getTaskNum() {
+        return taskNum;
+    }
+
+    public void setTaskNum(int taskNum) {
+        this.taskNum = taskNum;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public int getReviewLevel() {
+        return reviewLevel;
+    }
+
+    public void setReviewLevel(int reviewLevel) {
+        this.reviewLevel = reviewLevel;
+    }
+
+    public int getIsAdopt() {
+        return isAdopt;
+    }
+
+    public void setIsAdopt(int isAdopt) {
+        this.isAdopt = isAdopt;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
+    }
+
+    public String getCreateBy() {
+        return createBy;
+    }
+
+    public void setCreateBy(String createBy) {
+        this.createBy = createBy;
+    }
+
+    public String getCreateAt() {
+        return createAt;
+    }
+
+    public void setCreateAt(String createAt) {
+        this.createAt = createAt;
     }
 }

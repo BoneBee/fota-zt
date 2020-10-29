@@ -15,6 +15,7 @@ import com.intest.systemservice.impl.service.impl.*;
 import com.intest.systemservice.request.*;
 import com.intest.systemservice.response.RoleListResponse;
 import com.intest.systemservice.response.TaskUserResopnse;
+import com.intest.util.ModelName;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -97,6 +98,7 @@ public class SystemController extends BaseController {
                 throw new CustomException("存储失败");
             }
         }
+        addOperateLog(ModelName.MODEL_TASKS_REVIEW, ModelName.ACTION_CREATE);
         return new ResponseBean(1, "新增成功", null);
     }
 
@@ -140,6 +142,7 @@ public class SystemController extends BaseController {
                 throw new CustomException("taskReviewTmpDetileBto更新失败");
             }
         }
+        addOperateLog(ModelName.MODEL_TASKS_REVIEW, ModelName.ACTION_UPDATE);
         return new ResponseBean(1, "编辑成功", null);
     }
 
@@ -166,6 +169,7 @@ public class SystemController extends BaseController {
                 }
             }
         }
+        addOperateLog(ModelName.MODEL_TASKS_REVIEW, ModelName.ACTION_DELETE);
         return new ResponseBean(1, "删除成功", null);
     }
 
@@ -295,6 +299,7 @@ public class SystemController extends BaseController {
         if (roleImpl.addRole(roleBto) != 1) {
             throw new CustomException("新增角色失败！");
         }
+        addOperateLog(ModelName.MODEL_SYSTEM_ROLE, ModelName.ACTION_CREATE);
         return new ResponseBean(1, "新增角色成功", null);
     }
 
@@ -330,6 +335,7 @@ public class SystemController extends BaseController {
         if (roleImpl.updateRole(roleBto) != 1) {
             throw new CustomException("修改角色失败！");
         }
+        addOperateLog(ModelName.MODEL_SYSTEM_ROLE, ModelName.ACTION_UPDATE);
         return new ResponseBean(1, "修改角色成功", null);
     }
 
@@ -352,6 +358,7 @@ public class SystemController extends BaseController {
             }
             roleImpl.deleteRole(deleteRoleRequet.getRoleId());
         }
+        addOperateLog(ModelName.MODEL_SYSTEM_ROLE, ModelName.ACTION_DELETE);
         return new ResponseBean(1, "删除角色成功", null);
     }
 
