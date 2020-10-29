@@ -1,17 +1,20 @@
 package com.intest.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class OperateLogResponse {
-    private int index;
-    private String loginName;
-    private String realName;
-    private String roleName;
-    private String actionModel;
-    private String actioning;
-    private Date actionTime;
-    private String actionIp;
-    private String browser;
+    private int index;//序号
+    private String loginName;//操作账户
+    private String realName;//姓名
+    private String roleName;//用户角色
+    private String actionModel;//操作模块
+    private String actioning;//操作动作
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date actionTime;//操作时间
+    private String actionIp;//IP地址
+    private String browser;//浏览器
 
     public int getIndex() {
         return index;

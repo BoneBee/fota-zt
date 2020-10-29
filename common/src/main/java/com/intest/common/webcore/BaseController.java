@@ -82,10 +82,14 @@ public class BaseController {
     }
 
     public String getBrowser() {
-        Browser browser = UserAgent.parseUserAgentString(request.getHeader("User-Agent")).getBrowser();
-        Version version = browser.getVersion(request.getHeader("User-Agent"));
-        String browserName = browser.getName() + "/" + version.getVersion();
-        return browserName;
+        if (request.getHeader("User-Agent").indexOf("Postman") == -1) {
+            Browser browser = UserAgent.parseUserAgentString(request.getHeader("User-Agent")).getBrowser();
+            Version version = browser.getVersion(request.getHeader("User-Agent"));
+            String browserName = browser.getName() + "/" + version.getVersion();
+            return browserName;
+        }
+        return "PostmanRuntime/7.26.3";
+
     }
 
 

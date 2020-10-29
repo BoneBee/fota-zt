@@ -226,7 +226,7 @@
         <!--            &lt;!&ndash; <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
         <!--            &lt;!&ndash; <columnOverride column="content" jdbcType="VARCHAR" />&ndash;&gt;-->
         <!--        </table>-->
-        <table tableName="F_LOGIN_LOG" domainObjectName="LoginLogBto">
+        <table tableName="F_TASKCARSTATUSLOG" domainObjectName="TaskCarStatusLogBto">
             <property name="useActualColumnNames" value="false"/>
             <!-- 插入时是否自动生成主键 -->
             <!-- <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->

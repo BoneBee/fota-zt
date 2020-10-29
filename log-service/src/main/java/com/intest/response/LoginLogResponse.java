@@ -1,17 +1,20 @@
 package com.intest.response;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.util.Date;
 
 public class LoginLogResponse {
-    private int index;
-    private String loginName;
-    private String realName;
-    private String roleName;
-    private Date loginTime;
-    private int loginResult;
-    private String loginIp;
-    private String browser;
-    private String remak;
+    private int index;//序号
+    private String loginName;//登陆账户
+    private String realName;//姓名
+    private String roleName;//用户角色
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    private Date loginTime;//登陆时间
+    private int loginResult;//登陆结果
+    private String loginIp;//IP地址
+    private String browser;//浏览器
+    private String remak;//描述
 
     public int getIndex() {
         return index;

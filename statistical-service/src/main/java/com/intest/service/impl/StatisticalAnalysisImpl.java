@@ -11,6 +11,7 @@ import com.intest.dao.entity.task.TaskCarBaseEntity;
 import com.intest.dao.entity.task.TaskCarInfoNumsEntity;
 import com.intest.dao.mapper.CarExtendMapper;
 import com.intest.dao.mapper.TaskMapper;
+import com.intest.response.CarAnalysisResponse;
 import com.intest.response.StatisticalAnalysisResponse;
 import com.intest.service.StatisticalAnalysisPage;
 import com.intest.service.StatisticalAnalysisService;
@@ -185,7 +186,38 @@ public class StatisticalAnalysisImpl implements StatisticalAnalysisService {
     @Override
     @TableDataAnnotation(tableId = "61596607-f69d-4862-a136-8311525c6d4a")
     public PagerDataBaseVO getCarAnalysisTmpInfo(StatisticalAnalysisPage model) {
-        List<CarBtoExtend> cartmpExs = carExtendMapper.getCars(null);
-        return null;
+        PagerDataBaseVO type = new PagerDataBaseVO();
+        PageHelper.startPage(model.getPi(), model.getPs());
+        List<CarBtoExtend> cartmpExs = carExtendMapper.getCars(null);//获取所有车辆信息
+        List<TaskBaseEntity> taskLst = taskMapper.selectTaskLst();//获取所有任务信息
+        List<CarAnalysisResponse> carAnalysisResponseList = new ArrayList<>();
+        PageInfo<CarBtoExtend> pageInfo = new PageInfo<>(cartmpExs);
+        int index = pageInfo.getStartRow() - 1;
+        for (CarBtoExtend carBtoExtend : cartmpExs) {
+            int checkNum = 0;
+            CarAnalysisResponse response = new CarAnalysisResponse();
+            response.setIndex(index += 1);
+            response.setVin(carBtoExtend.getVin());
+            response.setCarTypeName(carBtoExtend.getCarTypeName());
+            response.setTerminal(carBtoExtend.getTerminal());
+            for (TaskBaseEntity taskBaseEntity : taskLst) {
+                List<TaskCarBaseEntity> taskCars = taskMapper.getTaskCar(taskBaseEntity.getTaskId());
+                for (TaskCarBaseEntity taskCarBaseEntity : taskCars) {
+                    if (carBtoExtend.getVin().equals(taskCarBaseEntity.getVin())) {
+                        checkNum += 1;
+                    }
+                }
+            }
+            response.setCheckNum(checkNum);
+            response.setDownloadSuccessNum(0);
+            response.setUpdateNum(0);
+            response.setUpdateSuccessNum(0);
+            response.setUpdateErroNum(0);
+            response.setUpdateSuccessRate("30%");
+            carAnalysisResponseList.add(response);
+        }
+        type.setTotal(pageInfo.getTotal());
+        type.setData(carAnalysisResponseList);
+        return type;
     }
 }
