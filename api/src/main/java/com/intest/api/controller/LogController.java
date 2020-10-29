@@ -4,6 +4,7 @@ import com.intest.common.result.PagerDataBaseVO;
 import com.intest.service.LogPage;
 import com.intest.service.impl.LoginLogImp;
 import com.intest.service.impl.OperateLogImp;
+import com.intest.service.impl.TaskCarStatusLogImp;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
@@ -23,6 +24,9 @@ public class LogController {
     @Autowired
     OperateLogImp operateLogImp;
 
+    @Autowired
+    TaskCarStatusLogImp taskCarStatusLogImp;
+
 
     /**
      * 获取用户登陆日志列表
@@ -40,5 +44,15 @@ public class LogController {
      */
     public PagerDataBaseVO getOperateLog() {
         return operateLogImp.getOperateLogTmpInfo(new LogPage());
+    }
+
+
+    /**
+     * 获取升级日志列表
+     *
+     * @return
+     */
+    public PagerDataBaseVO getTaskCarStatusLogTmpInfo() {
+        return taskCarStatusLogImp.getTaskCarStatusLogTmpInfo(new LogPage());
     }
 }
