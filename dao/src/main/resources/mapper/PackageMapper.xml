@@ -17,11 +17,11 @@
         SELECT P.PARTS_ID
         FROM F_PARTS P
         LEFT JOIN F_PARTSTYPE PT
-        ON P.FK_PARTSTYPE_ID = PT.PARTSTYPE_ID
-        AND PT.ISDELETE = 1
+        ON P.FK_PARTSTYPE_ID = PT.PARTSTYPE_ID AND PT.ISDELETE = 1
+        LEFT JOIN F_CARTYPEPARTS CTP ON P.PARTS_ID=CTP.FK_PARTS_ID AND CTP.ISDELETE=1
         WHERE P.ISDELETE = 1
         AND PT.PARTSTYPENAME = #{param1}
-        AND P.FK_CARTYPE_ID = #{param2}
+        AND CTP.FK_CARTYPE_ID = #{param2}
     </select>
     <select id="findAllLargePackage" resultType="com.intest.dao.entity.PackageExtendBto">
         SELECT t.*, rownum id FROM (SELECT pbp.PARTSBIGPACKAGE_ID packageId, pbp.FK_FILE_ID fileId, pbp.FK_CARTYPE_ID carTypeId,

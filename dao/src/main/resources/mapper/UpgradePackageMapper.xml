@@ -52,8 +52,9 @@
     <select id="getPartsByCarTypeId" resultType="com.intest.dao.entity.PartsTreeBto">
         SELECT T.PARTS_ID KEY, T.PARTSNAME TITLE
         FROM F_PARTS T
+        LEFT JOIN F_CARTYPEPARTS CTP ON T.PARTS_ID=CTP.FK_PARTS_ID AND CTP.ISDELETE=1
         WHERE T.ISDELETE = 1
-        AND T.FK_CARTYPE_ID = #{carTypeId}
+        AND CTP.FK_CARTYPE_ID = #{carTypeId}
     </select>
     <select id="getPartsCode" resultType="com.intest.dao.entity.ChildNode">
         SELECT GET_GUID() KEY,TITLE FROM (SELECT DISTINCT T.FK_PARTS_ID KEY,T.PARTNUMBER TITLE
