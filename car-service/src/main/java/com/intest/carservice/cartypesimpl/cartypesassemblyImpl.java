@@ -439,6 +439,13 @@ public class cartypesassemblyImpl extends BaseController implements CarTypesServ
      */
     @Override
     public int mdfCarType(addCarType addcartype) {
+
+        //删除车型绑定的零件；
+        String carTypeId = addcartype.getCarTypeId();
+
+        int mdfpartcount = extendMapper.mdfCarTypeofPart(carTypeId);
+
+
         CarTypeBto cbto = new CarTypeBto();
         cbto.setCartypeId(addcartype.getCarTypeId());
         cbto.setCartypename(addcartype.getCarTypeName());
@@ -497,7 +504,7 @@ public class cartypesassemblyImpl extends BaseController implements CarTypesServ
         CarBtoExample carEx = new CarBtoExample();
         CarBtoExample.Criteria cia = carEx.createCriteria();
         cia.andFkCartypeIdEqualTo(carTypeId);
-        cia.andIsdeleteEqualTo((short)1);
+        cia.andIsdeleteEqualTo((short) 1);
         List<CarBto> btos = new ArrayList<>();
         try {
             btos = carmp.selectByExample(carEx);
@@ -514,7 +521,7 @@ public class cartypesassemblyImpl extends BaseController implements CarTypesServ
         CarTypeBtoExample carTypeEx = new CarTypeBtoExample();
         CarTypeBtoExample.Criteria cia = carTypeEx.createCriteria();
         cia.andCartypenameEqualTo(carType.getCarTypeName());
-        cia.andIsdeleteEqualTo((short)1);
+        cia.andIsdeleteEqualTo((short) 1);
 
         if (!carType.getCarTypeId().equals("")) {
             cia.andCartypeIdEqualTo(carType.getCarTypeId());

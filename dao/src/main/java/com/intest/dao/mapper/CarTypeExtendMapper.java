@@ -20,6 +20,11 @@ public interface CarTypeExtendMapper {
     int addcarupdatePart(PartsBto pbto);
 
     /*
+    绑定零件与指定车型解绑
+     */
+    int mdfCarTypeofPart(String FK_CarType_ID);
+
+    /*
     删除车型所关联的零件
      */
     int mdfcarupdatePart(String fk_cartype_id,String userId);
