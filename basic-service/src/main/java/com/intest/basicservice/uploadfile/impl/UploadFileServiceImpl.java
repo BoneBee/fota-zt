@@ -8,11 +8,14 @@ import com.intest.basicservice.uploadfile.utils.FileComparator;
 import com.intest.basicservice.uploadfile.vo.CheckUploadFileVO;
 import com.intest.basicservice.uploadfile.vo.ChunkFileVO;
 import com.intest.common.util.Md5CaculateUtil;
+import com.intest.common.webcore.BaseController;
 import com.intest.dao.entity.FileBto;
 import com.intest.dao.entity.UploadFileBto;
 import com.intest.dao.entity.UploadFileBtoExample;
+import com.intest.dao.entity.UserBto;
 import com.intest.dao.mapper.FileBtoMapper;
 import com.intest.dao.mapper.UploadFileBtoMapper;
+import com.intest.dao.mapper.UserBtoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -30,13 +33,17 @@ import java.util.UUID;
  * @create 2020-08-10 15:33
  */
 @Component
-public class UploadFileServiceImpl implements UploadFileService {
+public class UploadFileServiceImpl extends BaseController implements UploadFileService {
 
     @Autowired
     private UploadFileBtoMapper uploadFileDao;
 
     @Autowired
     private FileBtoMapper fileBtoMapper;
+
+    @Autowired
+    UserBtoMapper userMapper;
+
 
     @Value("${upload-file.path-string}")
     private String path;
@@ -143,8 +150,10 @@ public class UploadFileServiceImpl implements UploadFileService {
                     fileBto.setFilesize(new BigDecimal(newFile.length()));
                     String md5 = Md5CaculateUtil.getMD5(newFile);
                     fileBto.setMd5(md5);
-                    fileBto.setUploadinguser(UUID.randomUUID().toString());
-                    fileBto.setCreateby(UUID.randomUUID().toString());
+                    UserBto ub = getAccount();
+                    String lgName = ub.getLoginName();
+                    fileBto.setUploadinguser(lgName);
+                    fileBto.setCreateby(lgName);
                     fileBtoMapper.insertSelective(fileBto);
 
                     uploadFile1.setUploadedsuccess((short) 1);
@@ -155,6 +164,17 @@ public class UploadFileServiceImpl implements UploadFileService {
             result = false;
         }
         return result;
+    }
+
+    public static String getUserRealName(UserBtoMapper userMapper, String UserId){
+
+        UserBto usbto=new UserBto();
+        usbto = userMapper.selectByPrimaryKey(UserId);
+        String UserName="";
+        if(usbto!=null&&!usbto.getRealName().equals("")){
+            UserName=usbto.getLoginName();
+        }
+        return UserName;
     }
 
     private boolean MergeFiles(File[] files, String resultPath) {

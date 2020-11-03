@@ -17,13 +17,13 @@ public class carTools {
         return NewChar;
     }
 
-    public static String getUserRealName(UserBtoMapper userMapper, String UserId){
+    public static String getUserRealName(UserBtoMapper userMapper, String UserId) {
 
-        UserBto usbto=new UserBto();
+        UserBto usbto = new UserBto();
         usbto = userMapper.selectByPrimaryKey(UserId);
-        String UserName="";
-        if(usbto!=null&&!usbto.getRealName().equals("")){
-            UserName=usbto.getRealName();
+        String UserName = "";
+        if (usbto != null && !usbto.getRealName().equals("")) {
+            UserName = usbto.getLoginName();
         }
         return UserName;
     }

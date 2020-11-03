@@ -11,6 +11,7 @@ import com.intest.dao.entity.task.TaskBaseEntity;
 import com.intest.dao.entity.task.TaskCarBaseEntity;
 import com.intest.dao.entity.task.TaskCarInfoNumsEntity;
 import com.intest.dao.mapper.TaskMapper;
+import com.intest.dao.mapper.UserBtoMapper;
 import com.intest.taskbaseservice.service.ExcpUtil;
 import com.intest.taskbaseservice.service.TaskBaseService;
 import com.intest.taskbaseservice.service.entity.TaskReqParaEntity;
@@ -19,7 +20,12 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
+import java.util.Date;
 
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 
@@ -40,6 +46,9 @@ public class TaskBaseServiceImpl extends BaseController implements TaskBaseServi
     @Autowired
     TaskMapper taskMapper;
 
+    @Autowired
+    UserBtoMapper userMapper;
+
     /**
      * 任务列表
      */
@@ -49,6 +58,9 @@ public class TaskBaseServiceImpl extends BaseController implements TaskBaseServi
 
         logger.info("接收到到查询任务列表请求");
         PagerDataBaseVO type = new PagerDataBaseVO();
+
+        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateFormat df =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             PageHelper.startPage(taskParaEntity.getPi(), taskParaEntity.getPs());
 
@@ -59,6 +71,21 @@ public class TaskBaseServiceImpl extends BaseController implements TaskBaseServi
                 TaskCarInfoNumsEntity taskCarInfoNumsEntity=taskMapper.selectTaskCarNum(item.getTaskId());
 
                 item.setCarCountNum(taskCarInfoNumsEntity.getCarTotalNum());
+
+                //String strDate=ft.format(item.getCreateAt());
+                //item.setCreateAt(strDate);
+
+                //Date tmpDate= df.parse(strDate);
+
+//                String result1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date(item.getCreateAt() * 1000));
+//                String tmpDate=ft.format(item.getCreateAt());
+//
+////一般网上的转换是没有中间new Long（timeStamp）,因为他们都是精确到毫秒的时间戳，不用再乘以1000进行转换
+//                long longTimeStamp = new Long(new Long(timeStamp) * 1000);
+//                Date date = new Date(longTimeStamp);
+//                item.setCreateAt(tmpDate);
+                String CreateBy = getUserRealName(userMapper, item.getCreateBy());
+                item.setCreateBy(CreateBy);
             }
 
             PageInfo<TaskBaseEntity> pageInfo = new PageInfo<>(taskLst);
@@ -104,6 +131,8 @@ public class TaskBaseServiceImpl extends BaseController implements TaskBaseServi
             int index = pageInfo.getStartRow() - 1;
             for (TaskCarBaseEntity item : taskCarLst) {
                 item.setIndex(index+=1);
+
+
             }
             type.setTotal(pageInfo.getTotal());
             type.setData(taskCarLst);
@@ -134,6 +163,8 @@ public class TaskBaseServiceImpl extends BaseController implements TaskBaseServi
                 TaskCarInfoNumsEntity taskCarInfoNumsEntity = taskMapper.selectTaskCarNum(item.getTaskId());
 
                 item.setCarCountNum(taskCarInfoNumsEntity.getCarTotalNum());
+                String CreateBy = getUserRealName(userMapper, item.getCreateBy());
+                item.setCreateBy(CreateBy);
             }
 
             PageInfo<TaskBaseEntity> pageInfo = new PageInfo<>(taskLst);
@@ -196,5 +227,16 @@ public class TaskBaseServiceImpl extends BaseController implements TaskBaseServi
                 return type;
             }
         }
+    }
+
+    public static String getUserRealName(UserBtoMapper userMapper, String UserId){
+
+        UserBto usbto=new UserBto();
+        usbto = userMapper.selectByPrimaryKey(UserId);
+        String UserName="";
+        if(usbto!=null&&!usbto.getRealName().equals("")){
+            UserName=usbto.getLoginName();
+        }
+        return UserName;
     }
 }

@@ -7,6 +7,7 @@ import com.intest.common.result.PagerDataBaseVO;
 import com.intest.common.tableData.TableDataAnnotation;
 import com.intest.common.util.HttpClientUtil;
 import com.intest.common.util.StringUtils;
+import com.intest.common.webcore.BaseController;
 import com.intest.dao.entity.*;
 import com.intest.dao.mapper.*;
 import com.intest.packageservice.request.*;
@@ -28,7 +29,7 @@ import java.util.UUID;
  */
 @Component
 @TableDataAnnotation
-public class UpgradePackageServiceImpl implements UpgradePackageService {
+public class UpgradePackageServiceImpl extends BaseController implements UpgradePackageService {
     @Autowired
     private UpgradePackageMapper upgradePackageMapper;
 
@@ -145,7 +146,8 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
     public List<VersionVO> getVersion(VersionRequest request){
         List<VersionVO> list = new ArrayList<>();
         PartsPackageBtoExample example = new PartsPackageBtoExample();
-        example.createCriteria().andFkPartsIdEqualTo(request.getPartsId()).andPartnumberEqualTo(request.getPartsCode());
+        example.createCriteria().andFkPartsIdEqualTo(request.getPartsId()).andPartnumberEqualTo(request.getPartsCode())
+        .andIsdeleteEqualTo((short)1);
         List<PartsPackageBto> partsPackageBtoList = partsPackageBtoMapper.selectByExample(example);
         for(PartsPackageBto bto : partsPackageBtoList){
             VersionVO vo = new VersionVO();
@@ -161,11 +163,12 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
     @Override
     public int make(MakeRequest request){
         try{
+            UserBto ub = getAccount();
             PackageTaskBto packageTaskBto = new PackageTaskBto();
             String packageTaskId = UUID.randomUUID().toString();
             packageTaskBto.setPackagetaskId(packageTaskId);
             packageTaskBto.setFkPackagetaskstatusvalueCode("100");
-            packageTaskBto.setCreateby(UUID.randomUUID().toString());
+            packageTaskBto.setCreateby(ub.getLoginName());
             packageTaskBto.setFkCartypeId(request.getCarTypeId());
             packageTaskBto.setTitle(request.getTitle());
             packageTaskBto.setContent(request.getContent());
@@ -180,7 +183,7 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
                     taskOriginalPackageBto.setFkPackagetaskId(packageTaskId);
                     taskOriginalPackageBto.setType(new BigDecimal(0));
                     taskOriginalPackageBto.setFkPartspackageId(partsRequest.getBasePartsPackageId());
-                    taskOriginalPackageBto.setCreateby(UUID.randomUUID().toString());
+                    taskOriginalPackageBto.setCreateby(ub.getLoginName());
                     taskOriginalPackageBtoMapper.insertSelective(taskOriginalPackageBto);
 
                     taskOriginalPackageBto = new TaskOriginalPackageBto();
@@ -188,7 +191,7 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
                     taskOriginalPackageBto.setFkPackagetaskId(packageTaskId);
                     taskOriginalPackageBto.setType(new BigDecimal(1));
                     taskOriginalPackageBto.setFkPartspackageId(partsRequest.getTargetPartsPackageId());
-                    taskOriginalPackageBto.setCreateby(UUID.randomUUID().toString());
+                    taskOriginalPackageBto.setCreateby(ub.getLoginName());
                     taskOriginalPackageBtoMapper.insertSelective(taskOriginalPackageBto);
                 }else if(partsRequest.getType() == 1){
                     TaskOriginalPackageBto taskOriginalPackageBto = new TaskOriginalPackageBto();
@@ -196,7 +199,7 @@ public class UpgradePackageServiceImpl implements UpgradePackageService {
                     taskOriginalPackageBto.setFkPackagetaskId(packageTaskId);
                     taskOriginalPackageBto.setType(new BigDecimal(2));
                     taskOriginalPackageBto.setFkPartspackageId(partsRequest.getBasePartsPackageId());
-                    taskOriginalPackageBto.setCreateby(UUID.randomUUID().toString());
+                    taskOriginalPackageBto.setCreateby(ub.getLoginName());
                     taskOriginalPackageBtoMapper.insertSelective(taskOriginalPackageBto);
                 }
             }

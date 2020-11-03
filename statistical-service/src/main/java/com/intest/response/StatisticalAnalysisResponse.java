@@ -16,7 +16,7 @@ public class StatisticalAnalysisResponse {
     private int erroNum;//升级失败数量
     private int cancleNum;//取消升级数量
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-    private Date creatAy;//任务创建时间
+    private String creatAy;//任务创建时间
 
     public int getIndex() {
         return index;
@@ -98,11 +98,11 @@ public class StatisticalAnalysisResponse {
         this.cancleNum = cancleNum;
     }
 
-    public Date getCreatAy() {
+    public String getCreatAy() {
         return creatAy;
     }
 
-    public void setCreatAy(Date creatAy) {
+    public void setCreatAy(String creatAy) {
         this.creatAy = creatAy;
     }
 }

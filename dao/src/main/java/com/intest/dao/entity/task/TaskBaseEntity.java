@@ -89,7 +89,7 @@ public class TaskBaseEntity {
     /**
      * 创建时间
      */
-    public Date createAt;
+    public String createAt;
 
     /**
      * 创建人
@@ -283,11 +283,11 @@ public class TaskBaseEntity {
         this.carTypeName = carTypeName;
     }
 
-    public Date getCreateAt() {
+    public String getCreateAt() {
         return createAt;
     }
 
-    public void setCreateAt(Date createAt) {
+    public void setCreateAt(String createAt) {
         this.createAt = createAt;
     }
 

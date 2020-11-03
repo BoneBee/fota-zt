@@ -202,8 +202,9 @@ public class carmpl extends BaseController implements CarService {
             crp.setICCID(car.getICCID());
             crp.setSimNumber(car.getSimNumber());
 
-            String CreateBy = carTools.getUserRealName(userMapper, car.getCreateBy());
-
+            crp.setCreateAt(car.getCreateAt());
+            String CreateBy = "";//carTools.getUserRealName(userMapper, car.getCreateBy());
+            CreateBy = carTools.getUserRealName(userMapper, car.getCreateBy());
             crp.setCreateBy(CreateBy);
 
             if (car.getCreateAt() == null || car.getCreateAt().equals("")) {
