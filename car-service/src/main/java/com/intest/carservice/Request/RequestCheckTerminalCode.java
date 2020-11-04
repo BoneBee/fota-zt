@@ -21,6 +21,6 @@ public class RequestCheckTerminalCode {
     }
 
     public void setTerminalCode(String terminalCode) {
-        terminalCode = terminalCode;
+       this. terminalCode = terminalCode;
     }
 }

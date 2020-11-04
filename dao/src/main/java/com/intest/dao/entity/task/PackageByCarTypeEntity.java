@@ -40,7 +40,7 @@ public class PackageByCarTypeEntity {
     /**
      * 制作时间
      */
-    public Date createAt;
+    public String createAt;
     /**
      * 制作人
      */
@@ -86,11 +86,11 @@ public class PackageByCarTypeEntity {
         this.packageTaskStatusValueName = packageTaskStatusValueName;
     }
 
-    public Date getCreateAt() {
+    public String getCreateAt() {
         return createAt;
     }
 
-    public void setCreateAt(Date createAt) {
+    public void setCreateAt(String createAt) {
         this.createAt = createAt;
     }
 
