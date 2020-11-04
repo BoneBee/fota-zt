@@ -22,10 +22,9 @@
         update F_Parts   set FK_CarType_ID = #{fkCartypeId} where Parts_ID = #{partsId}
     </update>
 
-    <update id="mdfcarupdatePart" parameterType="com.intest.dao.entity.CarTypePartsBto" keyProperty="CARTYPEPARTS_ID">
-        update F_CARTYPEPARTS  set ISDELETE = 0 ,updateby=#{userId} where FK_CARTYPE_ID = #{fk_cartype_id}
+    <update id="mdfCarTypeofPart" parameterType="com.intest.dao.entity.PartsBto" keyProperty="Parts_ID">
+        update F_Parts   set FK_CarType_ID = '' where FK_CarType_ID = #{FK_CarType_ID}
     </update>
-
 
     <insert id="addCarType" parameterType="com.intest.dao.entity.CarTypeBto">
         insert into F_CarType (CARTYPE_ID,CARTYPENAME,REMARK,FK_TERMINAL_ID)
@@ -35,19 +34,4 @@
          #{remark},
          #{fkTerminalId})
     </insert>
-
-    <select id="getPartsOfCar" resultType="com.intest.dao.entity.PartsBto">
-        select p.* from f_car c
-        left join f_cartype ty on c.fk_cartype_id=ty.cartype_id
-        left join f_cartypeparts ctp on ty.cartype_id=ctp.fk_cartype_id
-        left join f_parts p on ctp.fk_parts_id=p.parts_id
-        where c.fk_cartype_id=#{fk_cartype_id} and c.isdelete=1 and p.isdelete=1 and ctp.isdelete=1
-    </select>
-
-    <select id="getPartsOfCarType" resultType="com.intest.dao.entity.PartsBto">
-        select p.* from  f_cartype ty
-        left join  f_cartypeparts ctp on ty.cartype_id=ctp.fk_cartype_id
-        left join f_parts p on ctp.fk_parts_id=p.parts_id
-        where ty.cartype_id=#{fk_cartype_id} and p.isdelete=1 and ctp.isdelete=1
-    </select>
 </mapper>

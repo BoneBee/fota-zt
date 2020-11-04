@@ -52,11 +52,6 @@ public class cartypesassemblyImpl extends BaseController implements CarTypesServ
     @Autowired
     UserBtoMapper userMapper;
 
-    @Autowired
-    CarTypePartsBtoMapper ctpbMapper;
-
-
-
     @Override
     public CarTypeBto getCarTypeById(String cartypeid) {
 
@@ -167,11 +162,9 @@ public class cartypesassemblyImpl extends BaseController implements CarTypesServ
                 PartsBtoExample partEx = new PartsBtoExample();
                 PartsBtoExample.Criteria ciapart = partEx.createCriteria();
                 ciapart.andFkCartypeIdEqualTo(ctb.getCartypeId());
-                ciapart.andIsdeleteEqualTo((short)1);
 
                 //查找终端的零件
-                //List<PartsBto> pBto = partMapper.selectByExample(partEx);
-                List<PartsBto> pBto = extendMapper.getPartsOfCarType(ctb.getCartypeId());
+                List<PartsBto> pBto = partMapper.selectByExample(partEx);
 
                 List<CarTypeEcus> ecus = new ArrayList<>();
 
@@ -223,13 +216,8 @@ public class cartypesassemblyImpl extends BaseController implements CarTypesServ
         PartsBtoExample.Criteria cia = partEx.createCriteria();
         cia.andFkCartypeIdEqualTo(CarTypebyId.getCarTypeId());
 
-//        CarTypePartsBtoExample ctpbEx = new CarTypePartsBtoExample();
-//        CarTypePartsBtoExample.Criteria ctpbcia = ctpbEx.createCriteria();
-//        ctpbcia.andFkCartypeIdEqualTo(CarTypebyId.getCarTypeId());
-
         //查找终端的零件
-        List<PartsBto> pBto = extendMapper.getPartsOfCarType(CarTypebyId.getCarTypeId());
-        //List<PartsBto> pBto = partMapper.selectByExample(partEx);
+        List<PartsBto> pBto = partMapper.selectByExample(partEx);
 
         List<CarTypeEcus> ecus = new ArrayList<>();
 
@@ -411,18 +399,11 @@ public class cartypesassemblyImpl extends BaseController implements CarTypesServ
         List<String> pts = addcartype.getPartTypes();
         int partcount = 0;
         for (String pId : pts) {
-            CarTypePartsBto ctpb=new CarTypePartsBto();
-            ctpb.setCartypepartsId(UUID.randomUUID().toString());
-            ctpb.setFkCartypeId(carId);
-            ctpb.setFkPartsId(pId);
-            ctpb.setCreateby(ub.getUserId());
-
-            partcount += ctpbMapper.insertSelective(ctpb);
-//            PartsBto tbto = new PartsBto();
-//            tbto.setPartsId(pId);
-//            tbto.setFkCartypeId(carId);
+            PartsBto tbto = new PartsBto();
+            tbto.setPartsId(pId);
+            tbto.setFkCartypeId(carId);
             //添加车型相关的零件
-            //partcount += extendMapper.addcarupdatePart(tbto);
+            partcount += extendMapper.addcarupdatePart(tbto);
         }
         int carcount = 0;
 
@@ -455,38 +436,13 @@ public class cartypesassemblyImpl extends BaseController implements CarTypesServ
         UserBto ub = getAccount();
         cbto.setUpdateby(ub.getUserId());
         List<String> partTypes = addcartype.getPartTypes();
-
-        //先删除零件，再添加零件
-        CarTypePartsBto ctpb=new CarTypePartsBto();
-        ctpb.setCartypepartsId(UUID.randomUUID().toString());
-        ctpb.setFkCartypeId(addcartype.getCarTypeId());
-        ctpb.setUpdateby(ub.getUserId());
-        ctpb.setIsdelete((short)0);
-        int delparts=0;
-
-        //删除原来的车型
-        delparts += extendMapper.mdfcarupdatePart(addcartype.getCarTypeId(),ctpb.getUpdateby());
-
-
-
-
         int partCount = 0;
         for (String pId : partTypes) {
-
-            CarTypePartsBto addctpb=new CarTypePartsBto();
-            ctpb.setCartypepartsId(UUID.randomUUID().toString());
-            ctpb.setFkCartypeId(addcartype.getCarTypeId());
-            ctpb.setFkPartsId(pId);
-            ctpb.setIsdelete((short)1);
-            ctpb.setCreateby(ub.getUserId());
-
-            partCount += ctpbMapper.insertSelective(ctpb);
-
-//            PartsBto tbto = new PartsBto();
-//            tbto.setPartsId(pId);
-//            tbto.setFkCartypeId(addcartype.getCarTypeId());
-//            //添加车型相关的零件
-//            partCount += extendMapper.addcarupdatePart(tbto);
+            PartsBto tbto = new PartsBto();
+            tbto.setPartsId(pId);
+            tbto.setFkCartypeId(addcartype.getCarTypeId());
+            //添加车型相关的零件
+            partCount += extendMapper.addcarupdatePart(tbto);
         }
         //修改车型
         int i = 0;
