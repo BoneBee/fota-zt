@@ -22,6 +22,60 @@ public class StatisticalAnalysisController {
     @Autowired
     StatisticalAnalysisImpl statisticalAnalysis;
 
+    /**
+     * 获取主页数据
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/basic/home/getHomeOneDate", method = RequestMethod.GET)
+    public ResultT getHomeOneDate() {
+        ResultT result = new ResultT<>();
+        try {
+            result.setResult(statisticalAnalysis.getHomeOneDate());
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setFail();
+        }
+        return result;
+    }
+
+    /**
+     * 获取车辆升级数量趋势折线图数据
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/basic/home/getCarUpdateDate", method = RequestMethod.POST)
+    public ResultT getCarUpdateDate(@RequestBody TimeRequest request) {
+        ResultT result = new ResultT<>();
+        try {
+            result.setResult(statisticalAnalysis.getCarUpdateDate(request));
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setFail();
+        }
+        return result;
+    }
+
+    /**
+     * 获取车辆升级失败原因统计数据
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/basic/home/getCarErroDate", method = RequestMethod.POST)
+    public ResultT getCarErroDate(@RequestBody TimeRequest request) {
+        ResultT result = new ResultT<>();
+        try {
+            result.setResult(statisticalAnalysis.getCarErroDate(request));
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setFail();
+        }
+        return result;
+    }
+
 
     /**
      * 获取任务统计列表
@@ -33,7 +87,7 @@ public class StatisticalAnalysisController {
     public ResultT getStatisticalAnalysisTmpInfo(@RequestBody TimeRequest request) {
         ResultT result = new ResultT<>();
         try {
-            result.setResult(statisticalAnalysis.getStatisticalAnalysisTmpInfo(new StatisticalAnalysisPage(),request));
+            result.setResult(statisticalAnalysis.getStatisticalAnalysisTmpInfo(new StatisticalAnalysisPage(), request));
         } catch (Exception e) {
             e.printStackTrace();
             result.setFail();
@@ -77,7 +131,7 @@ public class StatisticalAnalysisController {
     @ResponseBody
     @RequestMapping(value = "/api/basic/statistical/getCarAnalysisTmpInfo", method = RequestMethod.POST)
     public PagerDataBaseVO getCarAnalysisTmpInfo(@RequestBody TimeRequest request) {
-        return statisticalAnalysis.getCarAnalysisTmpInfo(new StatisticalAnalysisPage(),request);
+        return statisticalAnalysis.getCarAnalysisTmpInfo(new StatisticalAnalysisPage(), request);
     }
 
     /**
