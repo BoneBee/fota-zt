@@ -4,11 +4,20 @@ import com.intest.common.result.PagerDataBaseVO;
 import com.intest.dao.entity.statisticalAnalysis.TimeRequest;
 import com.intest.dao.entity.task.TaskBaseEntity;
 import com.intest.request.CarUpdateFindRequest;
+import com.intest.response.CarErroDateResponse;
 import com.intest.response.CarMenuDateResponse;
+import com.intest.response.HomeOneDateResponse;
 
 import java.util.List;
 
 public interface StatisticalAnalysisService {
+
+    HomeOneDateResponse getHomeOneDate();
+
+    PagerDataBaseVO getCarUpdateDate(TimeRequest request);
+
+    List<CarErroDateResponse> getCarErroDate(TimeRequest request);
+
     List<TaskBaseEntity> getTaskList(TimeRequest request);
 
     PagerDataBaseVO getCarUpdateFindList(StatisticalAnalysisPage model, CarUpdateFindRequest request);
