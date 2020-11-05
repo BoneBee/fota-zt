@@ -2,7 +2,10 @@ package com.intest.api.controller;
 
 import com.intest.basicservice.table.common.ResponseBean;
 import com.intest.common.result.PagerDataBaseVO;
+import com.intest.common.result.ResultT;
+import com.intest.dao.entity.statisticalAnalysis.TimeRequest;
 import com.intest.dao.entity.task.TaskBaseEntity;
+import com.intest.request.CarUpdateFindRequest;
 import com.intest.response.TaskMenuDateResponse;
 import com.intest.service.StatisticalAnalysisPage;
 import com.intest.service.impl.StatisticalAnalysisImpl;
@@ -25,8 +28,17 @@ public class StatisticalAnalysisController {
      *
      * @return
      */
-    public PagerDataBaseVO getStatisticalAnalysisTmpInfo() {
-        return statisticalAnalysis.getStatisticalAnalysisTmpInfo(new StatisticalAnalysisPage());
+    @ResponseBody
+    @RequestMapping(value = "/api/basic/statistical/getStatisticalAnalysisTmpInfo", method = RequestMethod.POST)
+    public ResultT getStatisticalAnalysisTmpInfo(@RequestBody TimeRequest request) {
+        ResultT result = new ResultT<>();
+        try {
+            result.setResult(statisticalAnalysis.getStatisticalAnalysisTmpInfo(new StatisticalAnalysisPage(),request));
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setFail();
+        }
+        return result;
     }
 
     /**
@@ -35,9 +47,9 @@ public class StatisticalAnalysisController {
      * @return
      */
     @ResponseBody
-    @RequestMapping(value = "/api/basic/statistical/getStatisticalAnalysisDate", method = RequestMethod.GET)
-    public ResponseBean getStatisticalAnalysisDate() {
-        List<TaskBaseEntity> taskLst = statisticalAnalysis.getTaskList();
+    @RequestMapping(value = "/api/basic/statistical/getStatisticalAnalysisDate", method = RequestMethod.POST)
+    public ResponseBean getStatisticalAnalysisDate(@RequestBody TimeRequest request) {
+        List<TaskBaseEntity> taskLst = statisticalAnalysis.getTaskList(request);
         TaskMenuDateResponse response = new TaskMenuDateResponse();
         int erroNum = 0;
         int successNum = 0;
@@ -46,7 +58,7 @@ public class StatisticalAnalysisController {
                 case "已完成":
                     successNum += 1;
                     break;
-                case "":
+                case "已关闭":
                     erroNum += 1;
                     break;
             }
@@ -62,8 +74,88 @@ public class StatisticalAnalysisController {
      *
      * @return
      */
-    public PagerDataBaseVO getCarAnalysisTmpInfo() {
-        return statisticalAnalysis.getCarAnalysisTmpInfo(new StatisticalAnalysisPage());
+    @ResponseBody
+    @RequestMapping(value = "/api/basic/statistical/getCarAnalysisTmpInfo", method = RequestMethod.POST)
+    public PagerDataBaseVO getCarAnalysisTmpInfo(@RequestBody TimeRequest request) {
+        return statisticalAnalysis.getCarAnalysisTmpInfo(new StatisticalAnalysisPage(),request);
+    }
+
+    /**
+     * 获取车辆统计区数据接口
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/basic/statistical/getCarStatisticalAnalysisDate", method = RequestMethod.POST)
+    public ResultT getCarStatisticalAnalysisDate(@RequestBody TimeRequest request) {
+        ResultT result = new ResultT<>();
+        try {
+            result.setResult(statisticalAnalysis.getCarStatisticalAnalysisDate(request));
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setFail();
+        }
+        return result;
+    }
+
+    /**
+     * 新建Vin查询任务-获取车辆vin列表接口
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/basic/statistical/getVinCarList", method = RequestMethod.POST)
+    public ResultT getVinCarList(@RequestBody CarUpdateFindRequest request) {
+        ResultT result = new ResultT<>();
+        try {
+            result.setResult(statisticalAnalysis.getCarUpdateFindList(new StatisticalAnalysisPage(), request));
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setFail();
+        }
+        return result;
+    }
+
+    /**
+     * 获取版本统计列表
+     *
+     * @return
+     */
+    public ResultT getVersionAnalysisTmpInfo() {
+        ResultT result = new ResultT<>();
+        try {
+            result.setResult(statisticalAnalysis.getVersionAnalysisTmpInfo(new StatisticalAnalysisPage()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setFail();
+        }
+        return result;
+    }
+
+    /**
+     * 获取零件升级统计列表
+     *
+     * @return
+     */
+    public ResultT getPartsUpdateAnalysisTmpInfo() {
+        ResultT result = new ResultT<>();
+        try {
+            result.setResult(statisticalAnalysis.getPartsUpdateAnalysisTmpInfo(new StatisticalAnalysisPage()));
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setFail();
+        }
+        return result;
+    }
+
+
+    /**
+     * 获取失败原因统计列表
+     *
+     * @return
+     */
+    public PagerDataBaseVO getErroMessageTmpInfo() {
+        return statisticalAnalysis.getErroMessageTmpInfo(new StatisticalAnalysisPage());
     }
 
 

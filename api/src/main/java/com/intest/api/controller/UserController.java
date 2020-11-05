@@ -76,7 +76,7 @@ public class UserController extends BaseController {
         validData(bindingResult);
         ResultT<LoginVO> result = new ResultT<LoginVO>();
         try {
-            LoginVO loginVO = userService.checkLogin(getIpAddr(), getBrowser(), userRequest.getUserName(), userRequest.getPassword());
+            LoginVO loginVO = userService.checkLogin(getIpAddr(), "getBrowser()", userRequest.getUserName(), userRequest.getPassword());
             result.setResult(loginVO);
         } catch (Exception ex) {
             result.setFail();
