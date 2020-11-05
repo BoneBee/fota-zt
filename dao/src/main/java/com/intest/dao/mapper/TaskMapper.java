@@ -1,6 +1,7 @@
 package com.intest.dao.mapper;
 
 
+import com.intest.dao.entity.statisticalAnalysis.TimeRequest;
 import com.intest.dao.entity.task.*;
 
 
@@ -21,6 +22,12 @@ public interface TaskMapper {
      * @return
      */
     List<TaskBaseEntity> selectTaskLst();
+
+    /**
+     * 带时间条件任务列表
+     * @return
+     */
+    List<TaskBaseEntity> selectTimeTaskLst(TimeRequest request);
 
     /**
      * 创建任务

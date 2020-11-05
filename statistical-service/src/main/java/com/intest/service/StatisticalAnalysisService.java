@@ -1,14 +1,27 @@
 package com.intest.service;
 
 import com.intest.common.result.PagerDataBaseVO;
+import com.intest.dao.entity.statisticalAnalysis.TimeRequest;
 import com.intest.dao.entity.task.TaskBaseEntity;
+import com.intest.request.CarUpdateFindRequest;
+import com.intest.response.CarMenuDateResponse;
 
 import java.util.List;
 
 public interface StatisticalAnalysisService {
-    List<TaskBaseEntity> getTaskList();
+    List<TaskBaseEntity> getTaskList(TimeRequest request);
 
-    PagerDataBaseVO getStatisticalAnalysisTmpInfo(StatisticalAnalysisPage model);
+    PagerDataBaseVO getCarUpdateFindList(StatisticalAnalysisPage model, CarUpdateFindRequest request);
 
-    PagerDataBaseVO getCarAnalysisTmpInfo(StatisticalAnalysisPage model);
+    CarMenuDateResponse getCarStatisticalAnalysisDate(TimeRequest request);
+
+    PagerDataBaseVO getStatisticalAnalysisTmpInfo(StatisticalAnalysisPage model, TimeRequest request);
+
+    PagerDataBaseVO getCarAnalysisTmpInfo(StatisticalAnalysisPage model, TimeRequest request);
+
+    PagerDataBaseVO getVersionAnalysisTmpInfo(StatisticalAnalysisPage model);
+
+    PagerDataBaseVO getPartsUpdateAnalysisTmpInfo(StatisticalAnalysisPage model);
+
+    PagerDataBaseVO getErroMessageTmpInfo(StatisticalAnalysisPage model);
 }

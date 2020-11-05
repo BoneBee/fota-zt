@@ -2,6 +2,8 @@ package com.intest.common.ro;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.List;
+
 /**
  * @author zhanghui
  * @create 2020-08-14 13:22
@@ -27,6 +29,8 @@ public class PagerBaseRO {
      * 全文搜索
      */
     private String FullTextSearch;
+
+    private String queryWhere;
 
     /*
      * 页码
@@ -55,4 +59,9 @@ public class PagerBaseRO {
     public String getFullTextSearch(){
         return this.FullTextSearch;
     }
+
+    public String getQueryWhere() {
+        return queryWhere;
+    }
+
 }

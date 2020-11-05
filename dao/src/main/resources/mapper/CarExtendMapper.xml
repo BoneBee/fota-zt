@@ -71,4 +71,38 @@
             and t.taskname=#{taskName}
         </if>
     </select>
+
+
+    <select id="getTimeCars" parameterType="com.intest.dao.entity.statisticalAnalysis.TimeRequest"
+            resultType="com.intest.dao.entity.CarBtoExtend">
+        select
+        c.car_id carId,
+        c.vin,
+        c.iccid ICCID,
+        c.simNumber,
+        c.terminalpro,
+        c.operator,
+        ty.cartype_id carTypeId,
+        ty.cartypename carTypeName,
+        m.terminal_id terminalId,
+        m.terminalname terminal,
+        c.terminalcode terminalCode,
+        c.createat createAt,
+        c.createby createBy,
+        c.addtype addType,
+        t.taskname taskName,
+        t.fk_taskstatusvalue_code checkStatus,
+        tc.fk_taskcarstatusvalue_code executeStatus
+        from f_car c
+        left join f_taskcar tc on c.vin=tc.vin
+        left join f_task t on tc.fk_task_id=t.task_id
+        left join f_cartype ty on c.fk_cartype_id=ty.cartype_id
+        left join f_terminal m on ty.fk_terminal_id=m.terminal_id
+        where c.isdelete=1
+
+        <if test="starTime!=null  and endTime!=null">
+            and t.createat between  #{starTime} and #{endTime}
+        </if>
+
+    </select>
 </mapper>

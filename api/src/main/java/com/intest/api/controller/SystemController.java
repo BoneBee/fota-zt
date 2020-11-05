@@ -314,9 +314,6 @@ public class SystemController extends BaseController {
     public ResponseBean updateRole(@RequestBody UpdateRoleRequet request) {
         ValidateHelper.validateNull(request, new String[]{"roleName", "roleType", "roleId"});
         List<RolePermissionBto> rolePermissionBtoList = rolePermissionImpl.getRolePermissionListByRoleId(request.getRoleId());
-        if (roleImpl.getRoleByName(request.getRoleName()) != null) {
-            throw new CustomException("该角色名称已存在！");
-        }
         roleImpl.deleteRole(request.getRoleId());
         for (RolePermissionBto bto : rolePermissionBtoList) {
             permissionImpl.deletePermission(bto.getFkPermissionId());

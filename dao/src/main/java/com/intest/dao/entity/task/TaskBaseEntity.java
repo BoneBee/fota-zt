@@ -1,5 +1,6 @@
 package com.intest.dao.entity.task;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Getter;
 import lombok.Setter;
@@ -89,7 +90,8 @@ public class TaskBaseEntity {
     /**
      * 创建时间
      */
-    public String createAt;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+    public Date createAt;
 
     /**
      * 创建人
@@ -283,11 +285,11 @@ public class TaskBaseEntity {
         this.carTypeName = carTypeName;
     }
 
-    public String getCreateAt() {
+    public Date getCreateAt() {
         return createAt;
     }
 
-    public void setCreateAt(String createAt) {
+    public void setCreateAt(Date createAt) {
         this.createAt = createAt;
     }
 
