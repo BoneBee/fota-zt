@@ -159,17 +159,20 @@ public class BaseController {
 
     public void addOperateLog(String Model, String Action) {
         UserBto userBto = getAccount();
-        OperateLogBto operateLogBto = new OperateLogBto();
-        operateLogBto.setOperateId(UUID.randomUUID() + "");
-        operateLogBto.setFkUserId(userBto.getUserId());
-        operateLogBto.setOperateMode(Model);
-        operateLogBto.setOperateAction(Action);
-        operateLogBto.setLoginIp(getIpAddr());
-        operateLogBto.setBrowser(getBrowser());
-        operateLogBto.setIsdelete((short) 1);
-        operateLogBto.setCreateat(new Date());
-        operateLogBto.setCreateby(userBto.getUserId());
-        operateLogBtoMapper.insert(operateLogBto);
+        if (userBto != null) {
+            OperateLogBto operateLogBto = new OperateLogBto();
+            operateLogBto.setOperateId(UUID.randomUUID() + "");
+            operateLogBto.setFkUserId(userBto.getUserId());
+            operateLogBto.setOperateMode(Model);
+            operateLogBto.setOperateAction(Action);
+            operateLogBto.setLoginIp(getIpAddr());
+            operateLogBto.setBrowser(getBrowser());
+            operateLogBto.setIsdelete((short) 1);
+            operateLogBto.setCreateat(new Date());
+            operateLogBto.setCreateby(userBto.getUserId());
+            operateLogBtoMapper.insert(operateLogBto);
+        }
+
     }
 
 }
