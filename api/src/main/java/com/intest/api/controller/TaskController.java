@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -340,7 +341,7 @@ public class TaskController extends BaseController {
                 return new ResponseBean(1, "获取车辆升级日志成功", lst);
             } else {
                 logger.info("获取车辆升级日志成功,无日志数据");
-                return new ResponseBean(0, "获取车辆升级日志成功,无日志数据", null);
+                return new ResponseBean(1, "获取车辆升级日志成功,无日志数据", null);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
