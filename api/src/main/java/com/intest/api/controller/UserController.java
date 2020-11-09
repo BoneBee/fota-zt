@@ -117,7 +117,6 @@ public class UserController extends BaseController {
     @RequestMapping(value = "/api/account/logout", method = RequestMethod.GET)
     public Result exitLogin(HttpServletRequest request) {
         String token = this.getAuthorizationToken();
-
         Result result = new Result();
         try {
             String account = JwtUtil.getClaim(token, JwtConstant.ACCOUNT);
@@ -129,15 +128,6 @@ public class UserController extends BaseController {
             logger.error(ex);
             result.setFail();
         }
-        //String token = request.getHeader("token");
-        //if (JedisUtil.exists(Constant.PREFIX_SHIRO_ACCESS_TOKEN + token)) {
-        //    Object userName = JedisUtil.getObject(Constant.PREFIX_SHIRO_ACCESS_TOKEN + token);
-        //    JedisUtil.delKey(Constant.PREFIX_SHIRO_ACCESS_TOKEN + token);
-        //    JedisUtil.delKey(Constant.PREFIX_SHIRO_CACHE + userName);
-        //    return new ResponseBean(1, "成功退出登陆", new LoginOutResponse(1));
-        //} else {
-        //    return new ResponseBean(0, "登出失败", new LoginOutResponse(2));
-        //}
         return result;
     }
 
@@ -151,69 +141,16 @@ public class UserController extends BaseController {
     @ApiOperation("用户注册接口")
     @ResponseBody
     @RequestMapping(value = "/api/infota/product/inRegister", method = RequestMethod.POST)
-    public ResponseBean inRegister(@RequestBody AddUserRequest request) {
-        ValidateHelper.validateNull(request, new String[]{"loginName", "loginPassword", "accountKind", "accountStatus"});
-        String account = request.getLoginName();
-        String passworld = request.getLoginPassword();
-//        if (account.equals(passworld)) {
-//            throw new CustomException("密码不可与用户名一致");
-//        }
-//
-//        if (CheckPwd.checkLateralKeyboardSite(passworld) || CheckPwd.checkSequentialChars(passworld)) {
-//            throw new CustomException("密码不能连续3位或3位以上字母或数字");
-//        }
-//
-//        if (CheckPwd.checkSequentialSameChars(passworld)) {
-//            throw new CustomException("密码不能相同连续3位或3位以上字母或数字");
-//        }
-//
-//        if (!CheckPwd.checkPasswordLength(passworld)) {
-//            throw new CustomException("密码长度必须8-16位");
-//        }
-//
-        if (userService.getUserByname(account) != null) {
-            throw new CustomException("已存在相同用户名，请重新修改用户名");
-        }
-
-        UserBto userBto = new UserBto();
-        UUID uuid = UUID.randomUUID();
-        String yan = BCrypt.gensalt();
-        String hashd = BCrypt.hashpw(passworld, yan);
-        userBto.setUserId(uuid + "");
-        userBto.setLoginName(request.getLoginName());
-        userBto.setLoginPassword(hashd);
-        userBto.setCsprng(yan);
-        userBto.setRealName(request.getRealName());
-        userBto.setDepartment(request.getDepartment());
-        userBto.setMobile(request.getMobile());
-        userBto.setCompanyEmail(request.getCompanyEmail());
-        userBto.setSex((short) request.getSex());
-        userBto.setNote(request.getNote());
-        userBto.setAccountKind((short) request.getAccountKind());
-        userBto.setPasswordRetryCount(5);
-        userBto.setAccountStatus((short) request.getAccountStatus());
-        userBto.setIsdelete((short) 1);
-        userBto.setCreateat(new Date());
-        userBto.setCreateby("admin");
-        UserRoleBto userRoleBto = new UserRoleBto();
-        userRoleBto.setUserRoleId(UUID.randomUUID() + "");
-        userRoleBto.setFkUserId(uuid + "");
-        userRoleBto.setFkRoleId(request.getRoleId());
-        userRoleBto.setIsdelete((short) 1);
-        userRoleBto.setCreateat(new Date());
-        userRoleBto.setCreateby("admin");
-        userRoleService.addUserRole(userRoleBto);
-        if (userService.addUser(userBto) == 1) {
+    public ResultT inRegister(@RequestBody AddUserRequest request) {
+        ResultT result = new ResultT<>();
+        try {
+            result.setResult(userService.inRegister(request));
             addOperateLog(ModelName.MODEL_SYSTEM_USER, ModelName.ACTION_CREATE);
-            return new ResponseBean(1, "注册成功", null);
-        } else {
-            throw new CustomException("注册失败");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setFail();
         }
-//        if (CheckPwd.checkContainDigit(passworld) && CheckPwd.checkContainCase(passworld) && CheckPwd.checkContainSpecialChar(passworld)) {
-//
-//        } else {
-//            throw new CustomException("密码必须由字母、数字、特殊符号组成");
-//        }
+        return result;
     }
 
 
@@ -226,26 +163,17 @@ public class UserController extends BaseController {
     @ApiOperation("修改用户接口")
     @ResponseBody
     @RequestMapping(value = "/api/infota/product/updateUser", method = RequestMethod.POST)
-    public ResponseBean updateUser(@RequestBody UpdateUserRequest request) {
-        ValidateHelper.validateNull(request, new String[]{"userId", "realName"});
-        UserBto newUser = userService.getUserByUserId(request.getUserId());
-        if (newUser == null) {
-            throw new CustomException("您要修改的用户不存在");
-        }
-        newUser.setRealName(request.getRealName());
-        newUser.setDepartment(request.getDepartment());
-        newUser.setMobile(request.getMobile());
-        newUser.setCompanyEmail(request.getCompanyEmail());
-        newUser.setAccountStatus((short) request.getAccountStatus());
-        UserRoleBto userRoleBto = userRoleService.getUserRoleByUserId(request.getUserId());
-        userRoleBto.setFkRoleId(request.getRoleId());
-        userRoleService.updateUserRole(userRoleBto);
-        if (userService.updateUser(newUser) == 1) {
+    public ResultT updateUser(@RequestBody UpdateUserRequest request) {
+        ResultT result = new ResultT<>();
+        try {
+            result.setResult(userService.updateUser(request));
             addOperateLog(ModelName.MODEL_SYSTEM_USER, ModelName.ACTION_UPDATE);
-            return new ResponseBean(1, "修改成功", null);
-        } else {
-            throw new CustomException("修改失败");
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setFail();
         }
+        return result;
+
     }
 
     /**
@@ -257,19 +185,16 @@ public class UserController extends BaseController {
     @ApiOperation("删除用户接口")
     @ResponseBody
     @RequestMapping(value = "/api/infota/product/deleteUser", method = RequestMethod.POST)
-    public ResponseBean deleteUser(@RequestBody List<DeleteUserRequest> request) {
-        if (request.size() == 0) {
-            throw new CustomException("请输入要删除的用户ID");
+    public ResultT deleteUser(@RequestBody List<DeleteUserRequest> request) {
+        ResultT result = new ResultT<>();
+        try {
+            result.setResult(userService.deleteUser(request));
+            addOperateLog(ModelName.MODEL_SYSTEM_USER, ModelName.ACTION_DELETE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setFail();
         }
-        for (DeleteUserRequest userIdBean : request) {
-            UserRoleBto userRoleBto = userRoleService.getUserRoleByUserId(userIdBean.getId());
-            userRoleService.deleteUserRole(userRoleBto.getUserRoleId());
-            if (userService.deleteUser(userIdBean.getId()) != 1) {
-                throw new CustomException(userIdBean.getId() + "删除失败");
-            }
-        }
-        addOperateLog(ModelName.MODEL_SYSTEM_USER, ModelName.ACTION_DELETE);
-        return new ResponseBean(1, "删除成功", null);
+        return result;
     }
 
 
@@ -282,22 +207,16 @@ public class UserController extends BaseController {
     @ApiOperation("重置密码接口")
     @ResponseBody
     @RequestMapping(value = "/api/infota/product/resetPassworld", method = RequestMethod.GET)
-    public ResponseBean ResetPassworld(@ApiParam String userId) {
-        if (!StringUtils.isNotEmptyStr(userId)) {
-            throw new CustomException("用户ID不能为空");
+    public ResultT resetPassworld(@ApiParam String userId) {
+        ResultT result = new ResultT<>();
+        try {
+            result.setResult(userService.resetPassworld(userId));
+            addOperateLog(ModelName.MODEL_SYSTEM_USER, ModelName.ACTION_SYSTEM_USER_REPLE);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setFail();
         }
-        UserBto userBto = userService.getUserByUserId(userId);
-        if (userBto == null) {
-            throw new CustomException("该用户不存在");
-        }
-        String yan = userBto.getCsprng();
-        String hashd = BCrypt.hashpw("abCD12", yan);
-        userBto.setLoginPassword(hashd);
-        if (userService.updateUser(userBto) != 1) {
-            throw new CustomException("重置密码失败");
-        }
-        addOperateLog(ModelName.MODEL_SYSTEM_USER, ModelName.ACTION_SYSTEM_USER_REPLE);
-        return new ResponseBean(1, "重置密码成功", new ResetPassworldResponse("abCD12"));
+        return result;
     }
 
     /**
@@ -309,45 +228,15 @@ public class UserController extends BaseController {
     @ApiOperation("修改密码")
     @ResponseBody
     @RequestMapping(value = "/api/infota/product/updatePassworld", method = RequestMethod.POST)
-    public ResponseBean updatePassworld(@RequestBody UpdatePassworldRequest request) {
-        UserBto userBto = userService.getUserByname(request.getLoginName());
-        if (userBto == null) {
-            throw new CustomException("未找到该用户");
+    public ResultT updatePassworld(@RequestBody UpdatePassworldRequest request) {
+        ResultT result = new ResultT<>();
+        try {
+            result.setResult(userService.updatePassworld(request));
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setFail();
         }
-        if (!BCrypt.checkpw(request.getOldPassworld(), userBto.getLoginPassword())) {
-            throw new CustomException("您输入的旧密码错误，请重试");
-        }
-        if (!request.getNewPassworld().equals(request.getIsPassworld())) {
-            throw new CustomException("您两次输入的密码不一致，请重试");
-        }
-
-//        if (request.getLoginName().equals(request.getNewPassworld())) {
-//            throw new CustomException("密码不可与用户名一致");
-//        }
-//
-//        if (CheckPwd.checkLateralKeyboardSite(request.getNewPassworld()) || CheckPwd.checkSequentialChars(request.getNewPassworld())) {
-//            throw new CustomException("密码不能连续3位或3位以上字母或数字");
-//        }
-//
-//        if (CheckPwd.checkSequentialSameChars(request.getNewPassworld())) {
-//            throw new CustomException("密码不能相同连续3位或3位以上字母或数字");
-//        }
-//
-//        if (!CheckPwd.checkPasswordLength(request.getNewPassworld())) {
-//            throw new CustomException("密码长度必须8-16位");
-//        }
-        String yan = userBto.getCsprng();
-        String hashd = BCrypt.hashpw(request.getNewPassworld(), yan);
-        userBto.setLoginPassword(hashd);
-        if (userService.updateUser(userBto) != 1) {
-            throw new CustomException("密码修改失败");
-        }
-        return new ResponseBean(1, "密码修改成功", null);
-//        if (CheckPwd.checkContainDigit(request.getNewPassworld()) && CheckPwd.checkContainCase(request.getNewPassworld()) && CheckPwd.checkContainSpecialChar(request.getNewPassworld())) {
-//
-//        } else {
-//            throw new CustomException("密码必须由字母、数字、特殊符号组成");
-//        }
+        return result;
     }
 
 
@@ -528,6 +417,25 @@ public class UserController extends BaseController {
         }
     }
 
+    /**
+     * 检测邮箱是否重复接口
+     *
+     * @param mail
+     * @return
+     */
+    @ApiOperation("检测邮箱是否重复接口")
+    @ResponseBody
+    @RequestMapping(value = "/api/infota/product/selectMail", method = RequestMethod.GET)
+    public ResultT selectMail(@ApiParam String mail, @ApiParam String id) {
+        ResultT result = new ResultT<>();
+        try {
+            result.setResult(userService.selectMail(mail, id));
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setFail();
+        }
+        return result;
+    }
 
 
 }
