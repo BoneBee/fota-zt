@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.intest.dao.mapper.TableExtendMapper">
+
+    <select id="getMenuByTableIdDate"  resultType="com.intest.dao.entity.table.MenuByTableIdExtend">
+    select
+    fm.MENU_ID as menuId,
+--     fm.MENUDISPLAYNAME,
+    ft.TABLE_ID as tableId,
+    ftb.TOOLBAR_ID as toolBarId,
+    ftbi.TOOLBARITEM_ID as toolBarItemId,
+    ftbi.FK_ITEM_ID as itemId,
+    fi.NAME as itemName
+    FROM F_MENU fm
+     LEFT JOIN F_TABLE ft ON fm.MENU_ID=ft.FK_MENU_ID
+     LEFT JOIN F_TOOLBAR ftb ON ft.TABLE_ID=ftb.FK_TABLE_ID
+     LEFT JOIN F_TOOLBARITEM ftbi ON ftb.TOOLBAR_ID=ftbi.FK_TOOLBAR_ID
+     LEFT JOIN F_ITEM fi ON ftbi.FK_ITEM_ID=fi.ITEM_ID
+     WHERE fm.MENU_ID!='B967FEB6-4643-40DF-9156-152FE51777C0' AND fm.FK_MENU_ID!='B967FEB6-4643-40DF-9156-152FE51777C0'
+     AND fm.MENU_ID!='F76E44A8-7062-466C-8C61-AD905B68186D'   AND fm.FK_MENU_ID!='F76E44A8-7062-466C-8C61-AD905B68186D'
+     AND fm.MENU_ID!='792CDE0C-2F7F-49A7-8188-FA979C3A9FF9'   AND fm.FK_MENU_ID!='792CDE0C-2F7F-49A7-8188-FA979C3A9FF9'
+     AND fm.MENU_ID!='2C263342-34C4-416E-82F7-975AB1870332'   AND fm.FK_MENU_ID!='2C263342-34C4-416E-82F7-975AB1870332'
+     AND ft.TABLE_ID IS NOT NULL
+  </select>
+
+</mapper>

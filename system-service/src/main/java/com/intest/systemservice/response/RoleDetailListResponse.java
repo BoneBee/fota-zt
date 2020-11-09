@@ -1,6 +1,7 @@
 package com.intest.systemservice.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.intest.dao.entity.table.MenuExtend;
 
 import java.util.Date;
 import java.util.List;
@@ -9,7 +10,7 @@ public class RoleDetailListResponse {
     private int index;
     private String roleId;
     private String roleName;
-    private Short roleType;
+    private int roleType;
     private String remark;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date createat;
@@ -17,7 +18,24 @@ public class RoleDetailListResponse {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date updateat;
     private String updateby;
-    private List<SystemMenuResponse> list;
+    private List<MenuExtend> list;
+
+
+    public RoleDetailListResponse() {
+    }
+
+    public RoleDetailListResponse(int index, String roleId, String roleName, int roleType, String remark, Date createat, String createby, Date updateat, String updateby, List<MenuExtend> list) {
+        this.index = index;
+        this.roleId = roleId;
+        this.roleName = roleName;
+        this.roleType = roleType;
+        this.remark = remark;
+        this.createat = createat;
+        this.createby = createby;
+        this.updateat = updateat;
+        this.updateby = updateby;
+        this.list = list;
+    }
 
     public int getIndex() {
         return index;
@@ -43,11 +61,11 @@ public class RoleDetailListResponse {
         this.roleName = roleName;
     }
 
-    public Short getRoleType() {
+    public int getRoleType() {
         return roleType;
     }
 
-    public void setRoleType(Short roleType) {
+    public void setRoleType(int roleType) {
         this.roleType = roleType;
     }
 
@@ -91,11 +109,11 @@ public class RoleDetailListResponse {
         this.updateby = updateby;
     }
 
-    public List<SystemMenuResponse> getList() {
+    public List<MenuExtend> getList() {
         return list;
     }
 
-    public void setList(List<SystemMenuResponse> list) {
+    public void setList(List<MenuExtend> list) {
         this.list = list;
     }
 }

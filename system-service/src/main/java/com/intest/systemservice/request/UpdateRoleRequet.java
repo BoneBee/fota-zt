@@ -49,33 +49,4 @@ public class UpdateRoleRequet {
         this.list = list;
     }
 
-    public static class PermissionBean {
-        private String id;
-        private int resourceType;
-        private List<AddRoleRequet.PermissionBean> children;
-
-        public String getId() {
-            return id;
-        }
-
-        public void setId(String id) {
-            this.id = id;
-        }
-
-        public int getResourceType() {
-            return resourceType;
-        }
-
-        public void setResourceType(int resourceType) {
-            this.resourceType = resourceType;
-        }
-
-        public List<AddRoleRequet.PermissionBean> getChildren() {
-            return children;
-        }
-
-        public void setChildren(List<AddRoleRequet.PermissionBean> children) {
-            this.children = children;
-        }
-    }
 }

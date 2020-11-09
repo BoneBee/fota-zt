@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.intest.dao.mapper.MenuExtendMapper">
+    <resultMap id="BaseResultMap" type="com.intest.dao.entity.table.MenuExtend">
+        <id column="MENU_ID" jdbcType="CHAR" property="key"/>
+        <result column="FK_MENU_ID" jdbcType="CHAR" property="parentId"/>
+        <result column="MENUDISPLAYNAME" jdbcType="NVARCHAR" property="title"/>
+        <!--    <result column="MENULINK" jdbcType="NVARCHAR" property="menulink" />-->
+        <!--    <result column="ICON" jdbcType="NVARCHAR" property="icon" />-->
+        <result column="ISSHOW" jdbcType="NUMERIC" property="type"/>
+        <!--            <result column="ISPAGE" jdbcType="NUMERIC" property="type" />-->
+        <!--    <result column="ORDERNO" jdbcType="NUMERIC" property="orderno" />-->
+        <!--    <result column="NOTE" jdbcType="NVARCHAR" property="note" />-->
+        <!--    <result column="ISDELETE" jdbcType="NUMERIC" property="isdelete" />-->
+        <!--    <result column="CREATEAT" jdbcType="TIMESTAMP" property="createat" />-->
+        <!--    <result column="CREATEBY" jdbcType="CHAR" property="createby" />-->
+        <!--    <result column="UPDATEAT" jdbcType="TIMESTAMP" property="updateat" />-->
+        <!--    <result column="UPDATEBY" jdbcType="CHAR" property="updateby" />-->
+        <collection property="children" ofType="com.intest.dao.entity.table.MenuExtend" column="MENU_ID"
+                    select="getMenuChildren"></collection>
+    </resultMap>
+
+    <select id="findAllRecursion" resultMap="BaseResultMap">
+        select * FROM F_MENU WHERE FK_MENU_ID IS NULL
+         AND MENU_ID!='B967FEB6-4643-40DF-9156-152FE51777C0'
+         AND MENU_ID!='F76E44A8-7062-466C-8C61-AD905B68186D'
+         AND MENU_ID!='792CDE0C-2F7F-49A7-8188-FA979C3A9FF9'
+         AND MENU_ID!='2C263342-34C4-416E-82F7-975AB1870332'
+    </select>
+
+    <select id="getMenuChildren" resultMap="BaseResultMap">
+    select * FROM F_MENU  WHERE FK_MENU_ID = #{id}
+        AND MENU_ID!='B967FEB6-4643-40DF-9156-152FE51777C0'
+         AND MENU_ID!='F76E44A8-7062-466C-8C61-AD905B68186D'
+          AND MENU_ID!='792CDE0C-2F7F-49A7-8188-FA979C3A9FF9'
+          AND MENU_ID!='2C263342-34C4-416E-82F7-975AB1870332'
+  </select>
+
+
+</mapper>
