@@ -11,6 +11,7 @@ public  class ModelName {
 
     public static final String MODEL_SYSTEM_ROLE = "角色管理";
     public static final String MODEL_TASKS_REVIEW = "审核流程管理";
+    public static final String ACTION_TASKS_REVIEW_STATE = "修改审核流程状态";
 
     public static final String MODEL_TASK_MESSAGE="任务信息管理";
     public static final String ACTION_TASK_MESSAGE_PUBLISH = "发布";

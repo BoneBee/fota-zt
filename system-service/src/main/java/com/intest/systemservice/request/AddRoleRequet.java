@@ -43,7 +43,6 @@ public class AddRoleRequet {
     public static class PermissionBean {
         private String key;
         private int type;
-        private List<PermissionBean> children;
 
         public String getKey() {
             return key;
@@ -61,12 +60,5 @@ public class AddRoleRequet {
             this.type = type;
         }
 
-        public List<PermissionBean> getChildren() {
-            return children;
-        }
-
-        public void setChildren(List<PermissionBean> children) {
-            this.children = children;
-        }
     }
 }

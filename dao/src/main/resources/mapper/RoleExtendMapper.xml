@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.intest.dao.mapper.RoleExtendMapper">
+
+    <select id="getRoleListDate" resultType="com.intest.dao.entity.system.RoleListDateExtend">
+    SELECT
+    fr.ROLE_ID as roleId,
+    fr.ROLE_NAME as roleName,
+    fr.ROLE_TYPE as roleType,
+    fr.REMARK as remark,
+    fr.CREATEBY as createBy,
+    fr.CREATEAT as createAt,
+    fr.UPDATEAT as updateAt,
+    fr.UPDATEBY as updateBy,
+    frp.ROLEPERMISSION_ID as rolePermissionId,
+    fp.PERMISSION_ID as permissionId,
+    fp.FK_RESOURCE_ID as resourceId
+    FROM F_ROLE fr
+    LEFT JOIN F_ROLEPERMISSION frp ON fr.ROLE_ID=frp.FK_ROLE_ID
+    LEFT JOIN F_PERMISSION fp ON frp.FK_PERMISSION_ID=fp.PERMISSION_ID
+    </select>
+
+
+</mapper>

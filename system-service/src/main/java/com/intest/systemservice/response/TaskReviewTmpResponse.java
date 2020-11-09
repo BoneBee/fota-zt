@@ -20,6 +20,23 @@ public class TaskReviewTmpResponse {
     private Date updateAt;
     private String updateBy;
 
+    public TaskReviewTmpResponse() {
+    }
+
+    public TaskReviewTmpResponse(int index, String taskTmpId, List<DetailBean> detaileIDs, String taskTmpName, int tmpType, int state, Short taskNum, Date createAt, String createBy, Date updateAt, String updateBy) {
+        this.index = index;
+        this.taskTmpId = taskTmpId;
+        this.detaileIDs = detaileIDs;
+        this.taskTmpName = taskTmpName;
+        this.tmpType = tmpType;
+        this.state = state;
+        this.taskNum = taskNum;
+        this.createAt = createAt;
+        this.createBy = createBy;
+        this.updateAt = updateAt;
+        this.updateBy = updateBy;
+    }
+
     public int getIndex() {
         return index;
     }
@@ -114,6 +131,14 @@ public class TaskReviewTmpResponse {
         private String name;
         private String realName;
         private int level;
+
+        public DetailBean(String id, String userId, String name, String realName, int level) {
+            this.id = id;
+            this.userId = userId;
+            this.name = name;
+            this.realName = realName;
+            this.level = level;
+        }
 
         public String getId() {
             return id;

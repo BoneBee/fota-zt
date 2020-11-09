@@ -40,6 +40,43 @@ public class StatisticalAnalysisController {
         return result;
     }
 
+
+    /**
+     * 获取平台任务情况数据
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/basic/home/getHomeTaskDate", method = RequestMethod.GET)
+    public ResultT getHomeTaskDate() {
+        ResultT result = new ResultT<>();
+        try {
+            result.setResult(statisticalAnalysis.getHomeTaskDate());
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setFail();
+        }
+        return result;
+    }
+
+    /**
+     * 获取升级包类型占比
+     *
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/api/basic/home/getHomeUpdatePackageDate", method = RequestMethod.GET)
+    public ResultT getHomeUpdatePackageDate() {
+        ResultT result = new ResultT<>();
+        try {
+            result.setResult(statisticalAnalysis.getHomeUpdatePackageDate());
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setFail();
+        }
+        return result;
+    }
+
     /**
      * 获取车辆升级数量趋势折线图数据
      *

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.intest.dao.mapper.PermissionExtendMapper">
+    <!-- 批量插入-->
+    <insert id="insertPermission" parameterType="java.util.List" >
+        INSERT INTO F_PERMISSION(PERMISSION_ID, FK_RESOURCE_ID, RESOURCE_TYPE,ISDELETE, CREATEAT, CREATEBY,UPDATEAT, UPDATEBY) (
+        <foreach collection="list" item="item" index="index" separator="UNION ALL">
+            select
+            #{item.permissionId,jdbcType=CHAR},
+            #{item.fkResourceId,jdbcType=CHAR},
+            #{item.resourceType,jdbcType=NUMERIC},
+            #{item.isdelete,jdbcType=NUMERIC},
+            #{item.createat,jdbcType=TIMESTAMP},
+            #{item.createby,jdbcType=CHAR},
+            #{item.updateat,jdbcType=TIMESTAMP},
+            #{item.updateby,jdbcType=CHAR}
+            from dual
+        </foreach>
+        )
+    </insert>
+
+
+
+</mapper>

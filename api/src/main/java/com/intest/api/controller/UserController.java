@@ -291,13 +291,13 @@ public class UserController extends BaseController {
             throw new CustomException("该用户不存在");
         }
         String yan = userBto.getCsprng();
-        String hashd = BCrypt.hashpw("12ab34cd56ef@", yan);
+        String hashd = BCrypt.hashpw("abCD12", yan);
         userBto.setLoginPassword(hashd);
         if (userService.updateUser(userBto) != 1) {
             throw new CustomException("重置密码失败");
         }
         addOperateLog(ModelName.MODEL_SYSTEM_USER, ModelName.ACTION_SYSTEM_USER_REPLE);
-        return new ResponseBean(1, "重置密码成功", new ResetPassworldResponse("12ab34cd56ef@"));
+        return new ResponseBean(1, "重置密码成功", new ResetPassworldResponse("abCD12"));
     }
 
     /**
@@ -371,82 +371,82 @@ public class UserController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/api/infota/product/getUserPermission", method = RequestMethod.GET)
     public ResponseBean getUserPermission(@ApiParam String userId) {
-        if (!StringUtils.isNotEmptyStr(userId)) {
-            throw new CustomException("用户ID不能为空");
-        }
-        UserRoleBto userRoleBto = userRoleService.getUserRoleByUserId(userId);
-        RoleBto roleBto = roleImpl.getRoleById(userRoleBto.getFkRoleId());
-        List<SystemMenuResponse> list = roleImpl.getRolePermissionList();
-        List<RolePermissionBto> rolePermissionBtoList = rolePermissionImpl.getRolePermissionListByRoleId(roleBto.getRoleId());
-        List<PermissionBto> permissionBtoList = new ArrayList<>();
-        for (RolePermissionBto rolePermissionBto : rolePermissionBtoList) {
-            PermissionBto permissionBto = permissionImpl.getPermissionById(rolePermissionBto.getFkPermissionId());
-            permissionBtoList.add(permissionBto);
-        }
-        List<SystemMenuResponse> one = new ArrayList<>();
-        for (SystemMenuResponse bto1 : list) {
-            SystemMenuResponse response1 = new SystemMenuResponse();
-            response1.setTitle(bto1.getTitle());
-            response1.setType(bto1.getType());
-            response1.setKey(bto1.getKey());
-            for (PermissionBto permissionBto : permissionBtoList) {
-                if (bto1.getKey().equals(permissionBto.getFkResourceId())) {
-                    response1.setChecked(true);
-                }
-            }
-            List<SystemMenuResponse> two = new ArrayList<>();
-            if (bto1.getChildren() != null && bto1.getChildren().size() != 0) {
-                for (SystemMenuResponse bto2 : bto1.getChildren()) {
-                    SystemMenuResponse response2 = new SystemMenuResponse();
-                    response2.setTitle(bto2.getTitle());
-                    response2.setType(bto2.getType());
-                    response2.setKey(bto2.getKey());
-                    for (PermissionBto permissionBto : permissionBtoList) {
-                        if (bto2.getKey().equals(permissionBto.getFkResourceId())) {
-                            response2.setChecked(true);
-                        }
-                    }
-                    List<SystemMenuResponse> three = new ArrayList<>();
-                    if (bto2.getChildren() != null && bto2.getChildren().size() != 0) {
-                        for (SystemMenuResponse bto3 : bto2.getChildren()) {
-                            SystemMenuResponse response3 = new SystemMenuResponse();
-                            response3.setTitle(bto3.getTitle());
-                            response3.setType(bto3.getType());
-                            response3.setKey(bto3.getKey());
-                            for (PermissionBto permissionBto : permissionBtoList) {
-                                if (bto3.getKey().equals(permissionBto.getFkResourceId())) {
-                                    response3.setChecked(true);
-                                }
-                            }
-                            List<SystemMenuResponse> four = new ArrayList<>();
-                            if (bto3.getChildren() != null && bto3.getChildren().size() != 0) {
-                                for (SystemMenuResponse bto4 : bto3.getChildren()) {
-                                    SystemMenuResponse response4 = new SystemMenuResponse();
-                                    response4.setTitle(bto4.getTitle());
-                                    response4.setType(bto4.getType());
-                                    response4.setKey(bto4.getKey());
-                                    for (PermissionBto permissionBto : permissionBtoList) {
-                                        if (bto4.getKey().equals(permissionBto.getFkResourceId())) {
-                                            response4.setChecked(true);
-                                        }
-                                    }
-                                    response4.setChildren(new ArrayList<>());
-                                    four.add(response4);
-                                }
-                            }
-                            response3.setChildren(four);
-                            three.add(response3);
-                        }
-                    }
-                    response2.setChildren(three);
-                    two.add(response2);
-                }
-            }
-            response1.setChildren(two);
-            one.add(response1);
-        }
-        addOperateLog(ModelName.MODEL_SYSTEM_USER, ModelName.ACTION_SYSTEM_USER_ROLE);
-        return new ResponseBean(1, "", one);
+//        if (!StringUtils.isNotEmptyStr(userId)) {
+//            throw new CustomException("用户ID不能为空");
+//        }
+//        UserRoleBto userRoleBto = userRoleService.getUserRoleByUserId(userId);
+//        RoleBto roleBto = roleImpl.getRoleById(userRoleBto.getFkRoleId());
+//        List<SystemMenuResponse> list = roleImpl.getRolePermissionList();
+//        List<RolePermissionBto> rolePermissionBtoList = rolePermissionImpl.getRolePermissionListByRoleId(roleBto.getRoleId());
+//        List<PermissionBto> permissionBtoList = new ArrayList<>();
+//        for (RolePermissionBto rolePermissionBto : rolePermissionBtoList) {
+//            PermissionBto permissionBto = permissionImpl.getPermissionById(rolePermissionBto.getFkPermissionId());
+//            permissionBtoList.add(permissionBto);
+//        }
+//        List<SystemMenuResponse> one = new ArrayList<>();
+//        for (SystemMenuResponse bto1 : list) {
+//            SystemMenuResponse response1 = new SystemMenuResponse();
+//            response1.setTitle(bto1.getTitle());
+//            response1.setType(bto1.getType());
+//            response1.setKey(bto1.getKey());
+//            for (PermissionBto permissionBto : permissionBtoList) {
+//                if (bto1.getKey().equals(permissionBto.getFkResourceId())) {
+//                    response1.setChecked(true);
+//                }
+//            }
+//            List<SystemMenuResponse> two = new ArrayList<>();
+//            if (bto1.getChildren() != null && bto1.getChildren().size() != 0) {
+//                for (SystemMenuResponse bto2 : bto1.getChildren()) {
+//                    SystemMenuResponse response2 = new SystemMenuResponse();
+//                    response2.setTitle(bto2.getTitle());
+//                    response2.setType(bto2.getType());
+//                    response2.setKey(bto2.getKey());
+//                    for (PermissionBto permissionBto : permissionBtoList) {
+//                        if (bto2.getKey().equals(permissionBto.getFkResourceId())) {
+//                            response2.setChecked(true);
+//                        }
+//                    }
+//                    List<SystemMenuResponse> three = new ArrayList<>();
+//                    if (bto2.getChildren() != null && bto2.getChildren().size() != 0) {
+//                        for (SystemMenuResponse bto3 : bto2.getChildren()) {
+//                            SystemMenuResponse response3 = new SystemMenuResponse();
+//                            response3.setTitle(bto3.getTitle());
+//                            response3.setType(bto3.getType());
+//                            response3.setKey(bto3.getKey());
+//                            for (PermissionBto permissionBto : permissionBtoList) {
+//                                if (bto3.getKey().equals(permissionBto.getFkResourceId())) {
+//                                    response3.setChecked(true);
+//                                }
+//                            }
+//                            List<SystemMenuResponse> four = new ArrayList<>();
+//                            if (bto3.getChildren() != null && bto3.getChildren().size() != 0) {
+//                                for (SystemMenuResponse bto4 : bto3.getChildren()) {
+//                                    SystemMenuResponse response4 = new SystemMenuResponse();
+//                                    response4.setTitle(bto4.getTitle());
+//                                    response4.setType(bto4.getType());
+//                                    response4.setKey(bto4.getKey());
+//                                    for (PermissionBto permissionBto : permissionBtoList) {
+//                                        if (bto4.getKey().equals(permissionBto.getFkResourceId())) {
+//                                            response4.setChecked(true);
+//                                        }
+//                                    }
+//                                    response4.setChildren(new ArrayList<>());
+//                                    four.add(response4);
+//                                }
+//                            }
+//                            response3.setChildren(four);
+//                            three.add(response3);
+//                        }
+//                    }
+//                    response2.setChildren(three);
+//                    two.add(response2);
+//                }
+//            }
+//            response1.setChildren(two);
+//            one.add(response1);
+//        }
+//        addOperateLog(ModelName.MODEL_SYSTEM_USER, ModelName.ACTION_SYSTEM_USER_ROLE);
+        return new ResponseBean(1, "", null);
     }
 
     /**
@@ -527,5 +527,7 @@ public class UserController extends BaseController {
             return new ResponseBean(1, "该手机号已注册，请重新输入", new DateResponse(1));
         }
     }
+
+
 
 }

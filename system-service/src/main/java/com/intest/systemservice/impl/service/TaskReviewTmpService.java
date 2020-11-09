@@ -1,23 +1,29 @@
 package com.intest.systemservice.impl.service;
 
 
+import com.intest.common.exception.ResponseBean;
 import com.intest.common.result.PagerDataBaseVO;
-import com.intest.dao.entity.TaskReviewTmpBto;
+import com.intest.dao.entity.UserBto;
+import com.intest.systemservice.request.AddTaskReviewTmpRequest;
+import com.intest.systemservice.request.DeleteTaskReviewTmpRequest;
+import com.intest.systemservice.request.UpdateTaskReviewTmpRequest;
+import com.intest.systemservice.response.TaskUserResopnse;
 
 import java.util.List;
 
 public interface TaskReviewTmpService {
-    TaskReviewTmpBto getTaskReviewTmpById(String taskreviewtmpId);
 
-    TaskReviewTmpBto getTaskReviewTmpByName(String taskTmpName);
+    ResponseBean addTaskReviewTmp(AddTaskReviewTmpRequest request, UserBto userBto);
 
-    List<TaskReviewTmpBto> getTaskReviewTmpByTmpType(int tmpType);
+    ResponseBean updateTaskReviewTmp(UpdateTaskReviewTmpRequest request, UserBto userBto);
 
-    int addTaskReviewTmp(TaskReviewTmpBto taskReviewTmpBto);
-
-    int updateTaskReviewTmp(TaskReviewTmpBto taskReviewTmpBto);
-
-    int deleteTaskReviewTmp(String taskreviewtmpId);
+    ResponseBean deleteTaskReviewTmps(DeleteTaskReviewTmpRequest request);
 
     PagerDataBaseVO getTaskReviewTmpInfo(SystemPage model);
+
+    ResponseBean updateTaskReviewTmpState(String id, int state);
+
+    ResponseBean selectTaskTmpName(String taskTmpName, String taskTmpId);
+
+    List<TaskUserResopnse> getTaskUserList();
 }

@@ -12,7 +12,6 @@ import com.intest.dao.entity.task.TaskBaseEntity;
 import com.intest.dao.entity.task.TaskCarBaseEntity;
 import com.intest.dao.entity.task.TaskCarInfoNumsEntity;
 import com.intest.dao.mapper.*;
-import com.intest.packageservice.service.UpgradePackageService;
 import com.intest.request.CarUpdateFindRequest;
 import com.intest.response.*;
 import com.intest.service.StatisticalAnalysisPage;
@@ -59,8 +58,8 @@ public class StatisticalAnalysisImpl implements StatisticalAnalysisService {
 
 
     @Override
-    public HomeOneDateResponse getHomeOneDate() {
-        HomeOneDateResponse response = new HomeOneDateResponse();
+    public HomeStatisticalResponse getHomeOneDate() {
+        HomeStatisticalResponse response = new HomeStatisticalResponse();
         List<CarBto> carBtos = carBtoMapper.selectByExample(null);
         List<TaskCarBto> taskCarBtos = taskBtoMapper.selectByExample(null);
         List<TaskBaseEntity> taskBaseEntities = taskMapper.selectTaskLst();
@@ -74,72 +73,63 @@ public class StatisticalAnalysisImpl implements StatisticalAnalysisService {
         int taskNum = taskBaseEntities.size();
         DecimalFormat dF = new DecimalFormat("0.00");
         String successP = dF.format((float) updateCarNum / carNum) + "";
-        HomeOneDateResponse.StatisticalBean statisticalBean = new HomeOneDateResponse.StatisticalBean();
-        statisticalBean.setCarNum(carNum);
-        statisticalBean.setSuccess(successP);
-        statisticalBean.setTaskNum(taskNum);
-        statisticalBean.setUpdateCarNum(updateCarNum);
-        response.setStatisticalDate(statisticalBean);
+        response.setCarNum(carNum);
+        response.setSuccess(successP);
+        response.setTaskNum(taskNum);
+        response.setUpdateCarNum(updateCarNum);
+        return response;
+    }
 
-        int reviewNum = 0;
-        int unPublishedNum = 0;
-        int inNum = 0;
-        int completedNum = 0;
-        int taskClose = 0;
-        for (TaskBaseEntity entity : taskBaseEntities) {
-            switch (entity.getTaskStatusValueName()) {
-                case "审核中":
-                    reviewNum += 1;
-                    break;
-                case "未发布":
-                    unPublishedNum += 1;
-                    break;
-                case "进行中":
-                    inNum += 1;
-                    break;
-                case "已完成":
-                    completedNum += 1;
-                    break;
-                case "任务关闭":
-                    taskClose += 1;
-                    break;
+    @Override
+    public List<HomeDateResponse> getHomeTaskDate() {
+        List<HomeDateResponse> homeDateRespons = new ArrayList<>();
+        List<TaskBaseEntity> taskBaseEntities = taskMapper.selectTaskLst();
+        String[] taskType = {"审核中", "未发布", "进行中", "已完成", "任务关闭"};
+        int num = 0;
+        for (String type : taskType) {
+            HomeDateResponse response = new HomeDateResponse();
+            for (TaskBaseEntity entity : taskBaseEntities) {
+                if (type.equals(entity.getTaskStatusValueName())) {
+                    num += 1;
+                }
             }
+            response.setName(type);
+            response.setNum(num);
+            homeDateRespons.add(response);
         }
-        HomeOneDateResponse.TaskBean taskBean = new HomeOneDateResponse.TaskBean();
-        taskBean.setCompletedNum(completedNum);
-        taskBean.setReviewNum(reviewNum);
-        taskBean.setInNum(inNum);
-        taskBean.setTaskClose(taskClose);
-        taskBean.setUnPublishedNum(unPublishedNum);
-        response.setTaskDate(taskBean);
+        return homeDateRespons;
+    }
 
+    @Override
+    public List<HomeDateResponse> getHomeUpdatePackageDate() {
+        List<HomeDateResponse> homeDateResponses = new ArrayList<>();
         List<PackageTaskBto> packageTaskBtos = packageTaskBtoMapper.selectByExample(null);
+        int[] packageType = {0, 1, 2};
         int updatePackageNum = packageTaskBtos.size();
-        int diffPackageNum = 0;
-        int fullPackageNUm = 0;
-        int smartPackageNum = 0;
-        for (PackageTaskBto packageTaskBto : packageTaskBtos) {
-            switch (packageTaskBto.getMaketype().intValue()) {
+        int num = 0;
+        for (int type : packageType) {
+            HomeDateResponse response = new HomeDateResponse();
+            for (PackageTaskBto packageTaskBto : packageTaskBtos) {
+                if (type == packageTaskBto.getMaketype().intValue()) {
+                    num += 1;
+                }
+            }
+            switch (type) {
                 case 0:
-                    fullPackageNUm += 1;
+                    response.setName("全量包");
                     break;
                 case 1:
-                    diffPackageNum += 1;
+                    response.setName("差分包");
                     break;
                 case 2:
-                    smartPackageNum += 1;
+                    response.setName("智能包");
                     break;
             }
+            response.setNum(num);
+            homeDateResponses.add(response);
         }
-        HomeOneDateResponse.UpdatePackageBean updatePackageBean = new HomeOneDateResponse.UpdatePackageBean();
-        updatePackageBean.setDiffPackageNum(diffPackageNum);
-        updatePackageBean.setFullPackageNUm(fullPackageNUm);
-        updatePackageBean.setSmartPackageNum(smartPackageNum);
-        updatePackageBean.setUpdatePackageNum(updatePackageNum);
-        response.setUpdatePackageDate(updatePackageBean);
 
-
-        return response;
+        return homeDateResponses;
     }
 
     @Override
