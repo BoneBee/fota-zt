@@ -6,13 +6,18 @@ import com.intest.dao.entity.task.TaskBaseEntity;
 import com.intest.request.CarUpdateFindRequest;
 import com.intest.response.CarErroDateResponse;
 import com.intest.response.CarMenuDateResponse;
-import com.intest.response.HomeOneDateResponse;
+import com.intest.response.HomeDateResponse;
+import com.intest.response.HomeStatisticalResponse;
 
 import java.util.List;
 
 public interface StatisticalAnalysisService {
 
-    HomeOneDateResponse getHomeOneDate();
+    HomeStatisticalResponse getHomeOneDate();
+
+    List<HomeDateResponse> getHomeTaskDate();
+
+    List<HomeDateResponse> getHomeUpdatePackageDate();
 
     PagerDataBaseVO getCarUpdateDate(TimeRequest request);
 

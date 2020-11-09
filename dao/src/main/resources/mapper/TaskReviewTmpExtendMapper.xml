@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.intest.dao.mapper.TaskReviewTmpExtendMapper">
+
+
+    <select id="getTaskReviewTmpInfo" resultType="com.intest.dao.entity.system.TaskReviewTmpExtend">
+    select
+    a.TASKREVIEWTMP_ID as taskTmpId ,
+    a.TASK_REVIEWTMP_NAME as taskTmpName,
+    a.TMP_TYPE as tmpType,
+    a.STATE as state,
+    a.TASKNUM as taskNum,
+    a.CREATEAT as createAt,
+    a.CREATEBY as createBy,
+    a.UPDATEAT as updateAt,
+    a.UPDATEBY as updateBy,
+    b.TASKREVIEWTMPDETAILE_ID as detailID,
+    b.FK_USER_ID as userId,
+    b.REVIEW_LEVEL as levels,
+    c.LOGIN_NAME as named,
+    c.REAL_NAME as realName
+    FROM F_TASKREVIEWTMP a
+    LEFT JOIN F_TASKREVIEWTMPDETAILE b ON a.TASKREVIEWTMP_ID=b.FK_TASKREVIEWTMP_ID
+    LEFT JOIN F_USER c ON b.FK_USER_ID=c.USER_ID
+    WHERE a.ISDELETE=1 and b.ISDELETE=1 and c.ISDELETE=1
+
+  </select>
+
+    <delete id="deleteTaskReviewTmp" parameterType="java.util.List">
+        delete from F_TASKREVIEWTMP where TASKREVIEWTMP_ID in
+        <foreach collection="list" item="item" index="index" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </delete>
+</mapper>

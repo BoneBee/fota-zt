@@ -3,21 +3,29 @@ package com.intest.basicservice.user.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.intest.basicservice.menu.service.MenuService;
+import com.intest.basicservice.table.common.ResponseBean;
+import com.intest.basicservice.table.config.helper.ValidateHelper;
+import com.intest.basicservice.user.request.AddUserRequest;
+import com.intest.basicservice.user.request.DeleteUserRequest;
+import com.intest.basicservice.user.request.UpdatePassworldRequest;
+import com.intest.basicservice.user.request.UpdateUserRequest;
+import com.intest.basicservice.user.response.ResetPassworldResponse;
 import com.intest.basicservice.user.response.UserPage;
 import com.intest.basicservice.user.response.UserResponse;
 import com.intest.basicservice.user.service.UserService;
 import com.intest.basicservice.user.vo.LoginVO;
+import com.intest.common.exception.CustomException;
 import com.intest.common.jwt.JwtUtil;
 import com.intest.common.jwt.constant.RedisConstant;
 import com.intest.common.redis.JedisUtil;
 import com.intest.common.result.PagerDataBaseVO;
 import com.intest.common.tableData.TableDataAnnotation;
 import com.intest.common.util.BCrypt;
+import com.intest.common.util.StringUtils;
 import com.intest.dao.entity.*;
-import com.intest.dao.mapper.LoginLogBtoMapper;
-import com.intest.dao.mapper.RoleBtoMapper;
-import com.intest.dao.mapper.UserBtoMapper;
-import com.intest.dao.mapper.UserRoleBtoMapper;
+import com.intest.dao.entity.system.UserListDateExtend;
+import com.intest.dao.mapper.*;
+import com.intest.partsservice.part.response.DateResponse;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,7 +100,7 @@ public class UserServiceImpl implements UserService {
                     loginLogBto.setLoginIp(Ip);
                     loginLogBto.setBrowser(browser);
                     loginLogBto.setNote("登陆失败，密码错误");
-                    loginLogBto.setIsdelete((short)1);
+                    loginLogBto.setIsdelete((short) 1);
                     loginLogBto.setCreateat(new Date());
                     loginLogBto.setCreateby(user.getUserId());
                     loginLogBtoMapper.insert(loginLogBto);
@@ -104,7 +112,7 @@ public class UserServiceImpl implements UserService {
                     loginLogBto.setLoginIp(Ip);
                     loginLogBto.setBrowser(browser);
                     loginLogBto.setNote("登陆成功");
-                    loginLogBto.setIsdelete((short)1);
+                    loginLogBto.setIsdelete((short) 1);
                     loginLogBto.setCreateat(new Date());
                     loginLogBto.setCreateby(user.getUserId());
                     loginLogBtoMapper.insert(loginLogBto);
@@ -303,29 +311,186 @@ public class UserServiceImpl implements UserService {
         return userBtoMapper.deleteByPrimaryKey(userId);
     }
 
+
+    @Autowired
+    UserRoleExtendMapper userRoleExtendMapper;
+
+    @Override
+    public ResponseBean inRegister(AddUserRequest request) {
+        ValidateHelper.validateNull(request, new String[]{"loginName", "loginPassword", "accountKind", "accountStatus"});
+        String account = request.getLoginName();
+        String passworld = request.getLoginPassword();
+        UserBtoExample example = new UserBtoExample();
+        UserBtoExample.Criteria criteria = example.createCriteria();
+        criteria.andLoginNameEqualTo(account);
+        List<UserBto> userBtos = userBtoMapper.selectByExample(example);
+        if (userBtos != null || userBtos.size() != 0) {
+            throw new CustomException("已存在相同用户名，请重新修改用户名");
+        }
+        UserBto userBto = new UserBto();
+        UUID uuid = UUID.randomUUID();
+        String yan = BCrypt.gensalt();
+        String hashd = BCrypt.hashpw(passworld, yan);
+        userBto.setUserId(uuid + "");
+        userBto.setLoginName(request.getLoginName());
+        userBto.setLoginPassword(hashd);
+        userBto.setCsprng(yan);
+        userBto.setRealName(request.getRealName());
+        userBto.setDepartment(request.getDepartment());
+        userBto.setMobile(request.getMobile());
+        userBto.setCompanyEmail(request.getCompanyEmail());
+        userBto.setSex((short) request.getSex());
+        userBto.setNote(request.getNote());
+        userBto.setAccountKind((short) request.getAccountKind());
+        userBto.setPasswordRetryCount(5);
+        userBto.setAccountStatus((short) request.getAccountStatus());
+        userBto.setIsdelete((short) 1);
+        userBto.setCreateat(new Date());
+        userBto.setCreateby("admin");
+        UserRoleBto userRoleBto = new UserRoleBto();
+        userRoleBto.setUserRoleId(UUID.randomUUID() + "");
+        userRoleBto.setFkUserId(uuid + "");
+        userRoleBto.setFkRoleId(request.getRoleId());
+        userRoleBto.setIsdelete((short) 1);
+        userRoleBto.setCreateat(new Date());
+        userRoleBto.setCreateby("admin");
+        userRoleBtoMapper.insert(userRoleBto);
+        if (userBtoMapper.insert(userBto) == 1) {
+            return new ResponseBean(1, "注册成功", null);
+        } else {
+            return new ResponseBean(1, "注册失败", null);
+        }
+    }
+
+    @Override
+    public ResponseBean updateUser(UpdateUserRequest request) {
+
+        ValidateHelper.validateNull(request, new String[]{"userId", "realName"});
+        UserBto newUser = userBtoMapper.selectByPrimaryKey(request.getUserId());
+        if (newUser == null) {
+            throw new CustomException("您要修改的用户不存在");
+        }
+        newUser.setRealName(request.getRealName());
+        newUser.setDepartment(request.getDepartment());
+        newUser.setMobile(request.getMobile());
+        newUser.setCompanyEmail(request.getCompanyEmail());
+        newUser.setAccountStatus((short) request.getAccountStatus());
+        UserRoleBtoExample example = new UserRoleBtoExample();
+        UserRoleBtoExample.Criteria criteria = example.createCriteria();
+        criteria.andFkUserIdEqualTo(request.getUserId());
+        List<UserRoleBto> userRoleBtos = userRoleBtoMapper.selectByExample(example);
+        UserRoleBto userRoleBto = userRoleBtos.get(0);
+        userRoleBto.setFkRoleId(request.getRoleId());
+        userRoleBtoMapper.updateByPrimaryKey(userRoleBto);
+        if (userBtoMapper.updateByPrimaryKey(newUser) == 1) {
+            return new ResponseBean(1, "修改成功", null);
+        } else {
+            throw new CustomException("修改失败");
+        }
+    }
+
+    @Override
+    public ResponseBean deleteUser(List<DeleteUserRequest> request) {
+        if (request.size() == 0) {
+            throw new CustomException("请输入要删除的用户ID");
+        }
+        List<UserRoleBto> userRoleBtos = new ArrayList<>();
+        for (DeleteUserRequest userIdBean : request) {
+            UserRoleBtoExample example = new UserRoleBtoExample();
+            UserRoleBtoExample.Criteria criteria = example.createCriteria();
+            criteria.andFkUserIdEqualTo(userIdBean.getId());
+            List<UserRoleBto> userRoleBto = userRoleBtoMapper.selectByExample(example);
+            System.out.println(userRoleBto.get(0).getFkUserId());
+            userRoleBtos.add(userRoleBto.get(0));
+        }
+
+        userRoleExtendMapper.deleteListUserId(userRoleBtos);
+        userRoleExtendMapper.deleteListUserRoleId(userRoleBtos);
+        return new ResponseBean(1, "删除成功", null);
+    }
+
+    @Override
+    public ResponseBean resetPassworld(String userId) {
+        if (!StringUtils.isNotEmptyStr(userId)) {
+            throw new CustomException("用户ID不能为空");
+        }
+        UserBto userBto = userBtoMapper.selectByPrimaryKey(userId);
+        if (userBto == null) {
+            throw new CustomException("该用户不存在");
+        }
+        String yan = userBto.getCsprng();
+        String hashd = BCrypt.hashpw("abCD12", yan);
+        userBto.setLoginPassword(hashd);
+        if (userBtoMapper.updateByPrimaryKey(userBto) != 1) {
+            throw new CustomException("重置密码失败");
+        }
+
+        return new ResponseBean(1, "重置密码成功", new ResetPassworldResponse("abCD12"));
+    }
+
+    @Override
+    public ResponseBean updatePassworld(UpdatePassworldRequest request) {
+        UserBtoExample example = new UserBtoExample();
+        UserBtoExample.Criteria criteria = example.createCriteria();
+        criteria.andLoginNameEqualTo(request.getLoginName());
+        List<UserBto> userBtos = userBtoMapper.selectByExample(example);
+
+        if (userBtos == null) {
+            throw new CustomException("未找到该用户");
+        }
+        if (!BCrypt.checkpw(request.getOldPassworld(), userBtos.get(0).getLoginPassword())) {
+            throw new CustomException("您输入的旧密码错误，请重试");
+        }
+        if (!request.getNewPassworld().equals(request.getIsPassworld())) {
+            throw new CustomException("您两次输入的密码不一致，请重试");
+        }
+        String yan = userBtos.get(0).getCsprng();
+        String hashd = BCrypt.hashpw(request.getNewPassworld(), yan);
+        userBtos.get(0).setLoginPassword(hashd);
+        if (userBtoMapper.updateByPrimaryKey(userBtos.get(0)) != 1) {
+            throw new CustomException("密码修改失败");
+        }
+        return new ResponseBean(1, "密码修改成功", null);
+    }
+
     @Override
     @TableDataAnnotation(tableId = "262c1a6f-a568-42a8-92c1-30fdceded241")
     public PagerDataBaseVO getUserInfo(UserPage model) {
         PagerDataBaseVO user = new PagerDataBaseVO();
         PageHelper.startPage(model.getPi(), model.getPs());
-        List<UserBto> userBtos = userBtoMapper.selectByExample(null);
-        List<UserResponse> userResponseList = new ArrayList<>();
-        PageInfo<UserBto> pageInfo = new PageInfo<UserBto>(userBtos);
+        List<UserListDateExtend> userListDateExtends = userRoleExtendMapper.getUserDate();
+        PageInfo<UserListDateExtend> pageInfo = new PageInfo<>(userListDateExtends);
         int index = pageInfo.getStartRow() - 1;
-        for (UserBto userBto : userBtos) {
-            UserRoleBtoExample example = new UserRoleBtoExample();
-            UserRoleBtoExample.Criteria criteria = example.createCriteria();
-            criteria.andFkUserIdEqualTo(userBto.getUserId());
-            List<UserRoleBto> userRoleBtos = userRoleBtoMapper.selectByExample(example);
-            RoleBto roleBto = null;
-            if (userRoleBtos != null && userRoleBtos.size() != 0) {
-                roleBto = roleBtoMapper.selectByPrimaryKey(userRoleBtos.get(0).getFkRoleId());
-            }
-            UserResponse userResponse = new UserResponse(index += 1, userBto.getUserId(), userBto.getLoginName(), userBto.getRealName(), roleBto != null ? roleBto.getRoleName() : "", roleBto != null ? roleBto.getRoleId() : "", userBto.getDepartment(), userBto.getMobile(), userBto.getCompanyEmail(), userBto.getSex() == 1 ? "男" : "女", userBto.getNote(), userBto.getAccountKind() == 1 ? "系统用户账户" : "服务账户", userBto.getLastLoginat(), userBto.getAccountStatus(), userBto.getCreateat(), userBto.getCreateby());
-            userResponseList.add(userResponse);
+        for (UserListDateExtend userListDateExtend : userListDateExtends) {
+            userListDateExtend.setIndex(index += 1);
         }
+
         user.setTotal(pageInfo.getTotal());
-        user.setData(userResponseList);
+        user.setData(userListDateExtends);
         return user;
     }
+
+    @Override
+    public ResponseBean selectMail(String mail, String id) {
+        if (!StringUtils.isNotEmptyStr(mail)) {
+            throw new CustomException("邮箱不能为空");
+        }
+        if (StringUtils.isNotEmptyStr(id)) {
+            UserBto userBto = userBtoMapper.selectByPrimaryKey(id);
+            if (userBto.getCompanyEmail().equals(mail)) {
+                return new ResponseBean(1, "该手机号未注册", new DateResponse(0));
+            }
+        }
+        UserBtoExample example = new UserBtoExample();
+        UserBtoExample.Criteria criteria = example.createCriteria();
+        criteria.andMobileEqualTo(mail);
+        List<UserBto> userBtos = userBtoMapper.selectByExample(example);
+        if (userBtos == null || userBtos.size() == 0) {
+            return new ResponseBean(1, "该手机号未注册", new DateResponse(0));
+        } else {
+            return new ResponseBean(1, "该手机号已注册，请重新输入", new DateResponse(1));
+        }
+    }
+
+
 }
