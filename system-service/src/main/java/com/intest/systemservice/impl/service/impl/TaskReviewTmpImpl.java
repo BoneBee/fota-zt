@@ -88,7 +88,7 @@ public class TaskReviewTmpImpl implements TaskReviewTmpService {
             List<TaskReviewTmpBto> tmpBtoList = mapper.selectByExample(example);
             if (tmpBtoList != null && tmpBtoList.size() > 0) {
                 for (TaskReviewTmpBto bto : tmpBtoList) {
-                    bto.setState((short) 0);
+                    bto.setState((short) 1);
                     if (mapper.updateByPrimaryKey(bto) != 1) {
                         throw new CustomException("修改bto失败！");
                     }

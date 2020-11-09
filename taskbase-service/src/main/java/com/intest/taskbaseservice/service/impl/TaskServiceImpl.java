@@ -127,7 +127,8 @@ public class TaskServiceImpl implements TaskService {
             }
             else {
                 //最后一次审核
-                taskParaEntity.setTaskReviewCode("00" + (reviewTaskLogsEntity.getReviewLevel() + 1));//审核状态为 下一级别审核
+                //taskParaEntity.setTaskReviewCode("00" + (reviewTaskLogsEntity.getReviewLevel() + 1));//审核状态为 下一级别审核
+                taskParaEntity.setTaskReviewCode("00" + reviewTaskLogsEntity.getTaskNum());//审核状态为 下一级别审核
                 taskParaEntity.setTaskCode("101");//任务状态为 审核中
             }
 

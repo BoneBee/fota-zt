@@ -39,7 +39,7 @@ import java.util.List;
  */
 @Service
 @TableDataAnnotation
-public class TaskBaseServiceImpl extends BaseController implements TaskBaseService  {
+public class TaskBaseServiceImpl extends BaseController implements TaskBaseService {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
@@ -60,15 +60,15 @@ public class TaskBaseServiceImpl extends BaseController implements TaskBaseServi
         PagerDataBaseVO type = new PagerDataBaseVO();
 
         SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        DateFormat df =new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         try {
             PageHelper.startPage(taskParaEntity.getPi(), taskParaEntity.getPs());
 
             List<TaskBaseEntity> taskLst = taskMapper.selectTaskLst();
 
-            for (TaskBaseEntity item:taskLst){
+            for (TaskBaseEntity item : taskLst) {
                 //获取任务车辆数量
-                TaskCarInfoNumsEntity taskCarInfoNumsEntity=taskMapper.selectTaskCarNum(item.getTaskId());
+                TaskCarInfoNumsEntity taskCarInfoNumsEntity = taskMapper.selectTaskCarNum(item.getTaskId());
 
                 item.setCarCountNum(taskCarInfoNumsEntity.getCarTotalNum());
 
@@ -92,13 +92,13 @@ public class TaskBaseServiceImpl extends BaseController implements TaskBaseServi
             int index = pageInfo.getStartRow() - 1;
 
             for (TaskBaseEntity item : taskLst) {
-                item.setIndex(index+=1);
+                item.setIndex(index += 1);
             }
             type.setTotal(pageInfo.getTotal());
             type.setData(taskLst);
             logger.info("查询任务列表请求处理成功");
             return type;
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             logger.info("查询任务列表：失败信息：" + ExcpUtil.getStackTraceString(ex));
             return type;
@@ -108,19 +108,20 @@ public class TaskBaseServiceImpl extends BaseController implements TaskBaseServi
 
     /**
      * 获取任务车辆
+     *
      * @param taskParaEntity
      * @return
      */
     @Override
     @TableDataAnnotation(tableId = "340b390d-c197-4b70-81fb-7cf9451401ba")
     public PagerDataBaseVO getTaskCar(GetDataRO taskParaEntity) {
-      //  return taskMapper.getTaskCar(taskParaEntity.getTaskId());
-        logger.info("接收到到获取任务车辆列表请求：taskId:"+taskParaEntity.getTaskId());
+        //  return taskMapper.getTaskCar(taskParaEntity.getTaskId());
+        logger.info("接收到到获取任务车辆列表请求：taskId:" + taskParaEntity.getTaskId());
 
         PagerDataBaseVO type = new PagerDataBaseVO();
         try {
             PageHelper.startPage(taskParaEntity.getPi(), taskParaEntity.getPs());
-            List<TaskCarBaseEntity>  taskCarLst = taskMapper.getTaskCar(taskParaEntity.getTaskId());
+            List<TaskCarBaseEntity> taskCarLst = taskMapper.getTaskCar(taskParaEntity.getTaskId());
 //        for (TaskCarBaseEntity item:taskCarLst){
 //            //获取任务车辆数量
 //            TaskCarInfoNumsEntity taskCarInfoNumsEntity=taskMapper.selectTaskCarNum(item.getTaskId());
@@ -130,22 +131,24 @@ public class TaskBaseServiceImpl extends BaseController implements TaskBaseServi
             PageInfo<TaskCarBaseEntity> pageInfo = new PageInfo<>(taskCarLst);
             int index = pageInfo.getStartRow() - 1;
             for (TaskCarBaseEntity item : taskCarLst) {
-                item.setIndex(index+=1);
+                item.setIndex(index += 1);
 
 
             }
             type.setTotal(pageInfo.getTotal());
             type.setData(taskCarLst);
             return type;
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             logger.info("获取任务车辆列表失败：失败信息：" + ExcpUtil.getStackTraceString(ex));
             return type;
         }
 
     }
+
     /**
      * 任务审核  任务列表
+     *
      * @param
      * @return
      */
@@ -155,8 +158,9 @@ public class TaskBaseServiceImpl extends BaseController implements TaskBaseServi
         logger.info("接收到查询审核任务列表请求");
         PagerDataBaseVO type = new PagerDataBaseVO();
         try {
+            UserBto userBto = getAccount();
             PageHelper.startPage(taskParaEntity.getPi(), taskParaEntity.getPs());
-            List<TaskBaseEntity> taskLst =  taskMapper.selectReviewedTaskLst();
+            List<TaskBaseEntity> taskLst = taskMapper.selectReviewedTaskLst();
 
             for (TaskBaseEntity item : taskLst) {
                 //获取任务车辆数量
@@ -165,25 +169,37 @@ public class TaskBaseServiceImpl extends BaseController implements TaskBaseServi
                 item.setCarCountNum(taskCarInfoNumsEntity.getCarTotalNum());
                 String CreateBy = getUserRealName(userMapper, item.getCreateBy());
                 item.setCreateBy(CreateBy);
+                String ReviewId = getUserRealName(userMapper, item.getReviewUserId());
+                item.setReviewUserId(ReviewId);
+
+                if (userBto.getLoginName().equals(ReviewId)) {
+                    item.setFlag(true);
+                }
+                else {
+                    item.setFlag(false);
+                }
+
             }
 
             PageInfo<TaskBaseEntity> pageInfo = new PageInfo<>(taskLst);
             int index = pageInfo.getStartRow() - 1;
             for (TaskBaseEntity item : taskLst) {
-                item.setIndex(index+=1);
+                item.setIndex(index += 1);
             }
             type.setTotal(pageInfo.getTotal());
             type.setData(taskLst);
             logger.info("查询审核任务列表请求处理成功");
             return type;
-        }catch (Exception ex){
+        } catch (Exception ex) {
             ex.printStackTrace();
             logger.info("查询审核任务列表失败：失败信息：" + ExcpUtil.getStackTraceString(ex));
             return type;
         }
     }
+
     /**
      * 我的审核列表
+     *
      * @param taskParaEntity
      * @return
      */
@@ -192,36 +208,47 @@ public class TaskBaseServiceImpl extends BaseController implements TaskBaseServi
     public PagerDataBaseVO selectMyReviewTaskLst(GetDataRO taskParaEntity) {
         logger.info("接收到查询我的审核列表请求");
         //获取当前登录用户信息
-        UserBto userBto= getAccount();
+        UserBto userBto = getAccount();
 
         PagerDataBaseVO type = new PagerDataBaseVO();
-        if(userBto==null){
+        if (userBto == null) {
             logger.info("查询我的审核列表请求前获取登录用户信息为空，查询失败");
             return type;
-        }else {
+        }
+        else {
 
             try {
-                logger.info("当前登录用户Id："+userBto.getUserId());
+                logger.info("当前登录用户Id：" + userBto.getUserId());
                 PageHelper.startPage(taskParaEntity.getPi(), taskParaEntity.getPs());
-                List<TaskBaseEntity> taskLst =  taskMapper.selectMyReviewTaskLst(userBto.getUserId());
+                List<TaskBaseEntity> taskLst = taskMapper.selectMyReviewTaskLst(userBto.getUserId());
 
-                for (TaskBaseEntity item:taskLst){
+                for (TaskBaseEntity item : taskLst) {
                     //获取任务车辆数量
-                    TaskCarInfoNumsEntity taskCarInfoNumsEntity=taskMapper.selectTaskCarNum(item.getTaskId());
+                    TaskCarInfoNumsEntity taskCarInfoNumsEntity = taskMapper.selectTaskCarNum(item.getTaskId());
 
                     item.setCarCountNum(taskCarInfoNumsEntity.getCarTotalNum());
+                    String CreateBy = getUserRealName(userMapper, item.getCreateBy());
+                    item.setCreateBy(CreateBy);
+                    if (userBto.getLoginName().equals(CreateBy)) {
+                        item.setFlag(true);
+                    }
+                    else {
+                        item.setFlag(false);
+                    }
+                    String ReviewId = getUserRealName(userMapper, item.getReviewUserId());
+                    item.setReviewUserId(ReviewId);
                 }
 
                 PageInfo<TaskBaseEntity> pageInfo = new PageInfo<>(taskLst);
                 int index = pageInfo.getStartRow() - 1;
                 for (TaskBaseEntity item : taskLst) {
-                    item.setIndex(index+=1);
+                    item.setIndex(index += 1);
                 }
                 type.setTotal(pageInfo.getTotal());
                 type.setData(taskLst);
                 logger.info("查询我的审核列表请求处理成功");
                 return type;
-            }catch (Exception ex){
+            } catch (Exception ex) {
                 ex.printStackTrace();
                 logger.info("查询我的审核列表失败：失败信息：" + ExcpUtil.getStackTraceString(ex));
                 return type;
@@ -229,13 +256,13 @@ public class TaskBaseServiceImpl extends BaseController implements TaskBaseServi
         }
     }
 
-    public static String getUserRealName(UserBtoMapper userMapper, String UserId){
+    public static String getUserRealName(UserBtoMapper userMapper, String UserId) {
 
-        UserBto usbto=new UserBto();
+        UserBto usbto = new UserBto();
         usbto = userMapper.selectByPrimaryKey(UserId);
-        String UserName="";
-        if(usbto!=null&&!usbto.getRealName().equals("")){
-            UserName=usbto.getLoginName();
+        String UserName = "";
+        if (usbto != null && !usbto.getRealName().equals("")) {
+            UserName = usbto.getLoginName();
         }
         return UserName;
     }

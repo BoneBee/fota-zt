@@ -55,21 +55,23 @@ public class TaskController extends BaseController {
     public ResponseBean updatePartsConfig(@RequestBody TaskBaseEntity taskBaseEntity) {
         logger.info("接收到创建任务请求，请求信息：" + JSON.toJSONString(taskBaseEntity));
         try {
-            UserBto userBto= getAccount();
-            if(userBto!=null){
-                String userId= userBto.getUserId();
-                logger.info("用户Id："+userId);
+            UserBto userBto = getAccount();
+            if (userBto != null) {
+                String userId = userBto.getUserId();
+                logger.info("用户Id：" + userId);
                 taskBaseEntity.setCreateBy(userId);
-            }else {
+            }
+            else {
                 return new ResponseBean(0, "创建任务创建失败，未获取到当前登录用户信息，请重新登录创建", null);
             }
             //taskBaseEntity.setCreateBy("");
             taskBaseEntity.setTaskId(UUID.randomUUID().toString());
             //获取任务审核模板ID
-            List<TaskReviewTmpEntity> taskReviewTmpEntities=taskService.getTaskReviewTmp();
-            if(taskReviewTmpEntities==null||taskReviewTmpEntities.size()==0){
+            List<TaskReviewTmpEntity> taskReviewTmpEntities = taskService.getTaskReviewTmp();
+            if (taskReviewTmpEntities == null || taskReviewTmpEntities.size() == 0) {
                 return new ResponseBean(-1, "创建任务失败，未获取到任务审批模板，请检查是否维护该信息。", null);
-            }else if(taskReviewTmpEntities.size()>1){
+            }
+            else if (taskReviewTmpEntities.size() > 1) {
                 return new ResponseBean(-1, "创建任务失败，获取到多条任务审批模板信息，请检查数据是否正确。", null);
             }
             //赋值任务审批模板信息
@@ -92,7 +94,8 @@ public class TaskController extends BaseController {
 
             if (n > 0) {
                 return new ResponseBean(1, "创建任务创建成功", null);
-            } else {
+            }
+            else {
                 logger.info("创建任务创建失败,影响行数为：0");
                 return new ResponseBean(0, "创建任务创建失败，影响行数：0", null);
             }
@@ -124,34 +127,39 @@ public class TaskController extends BaseController {
                 str = "发布任务";
                 taskParaEntity.setTaskCode("105");
                 addOperateLog(ModelName.MODEL_TASK_MESSAGE, ModelName.ACTION_TASK_MESSAGE_PUBLISH);
-            } else if(taskParaEntity.getReqType() == 1) {
+            }
+            else if (taskParaEntity.getReqType() == 1) {
                 //关闭任务
                 str = "关闭任务";
                 taskParaEntity.setTaskCode("301");
                 taskParaEntity.setTaskCarCode("1070");
                 addOperateLog(ModelName.MODEL_TASK_MESSAGE, ModelName.ACTION_TASK_MESSAGE_CLOSE);
                 //查询改任务下是否有执行中的任务（暂不做限制，已实际车辆状态为准）
-            }else if(taskParaEntity.getReqType() == 2){
+            }
+            else if (taskParaEntity.getReqType() == 2) {
                 //取消发布
                 str = "取消发布";
                 taskParaEntity.setTaskCode("106");
-            }else {
-                return new ResponseBean(-1, str + "失败，参数输入错误：reqType 0:发布任务，1:关闭任务，2:取消发布；当前值为："+taskParaEntity.getReqType(), null);
+            }
+            else {
+                return new ResponseBean(-1, str + "失败，参数输入错误：reqType 0:发布任务，1:关闭任务，2:取消发布；当前值为：" + taskParaEntity.getReqType(), null);
             }
 
-            UserBto userBto= getAccount();
-            if(userBto!=null){
-                String userId= userBto.getUserId();
+            UserBto userBto = getAccount();
+            if (userBto != null) {
+                String userId = userBto.getUserId();
                 taskParaEntity.setUserId(userId);
-            }else {
-                return new ResponseBean(0, str+"失败，未获取到当前登录用户信息，请重新登录", null);
+            }
+            else {
+                return new ResponseBean(0, str + "失败，未获取到当前登录用户信息，请重新登录", null);
             }
 //            taskParaEntity.setUserId("test");
             int n = taskService.operationTask(taskParaEntity);
 
             if (n > 0) {
                 return new ResponseBean(1, str + "成功", null);
-            } else {
+            }
+            else {
                 logger.info(str + "失败,影响行数为：0");
                 return new ResponseBean(-1, str + "失败，影响行数：0", null);
             }
@@ -161,7 +169,8 @@ public class TaskController extends BaseController {
             return new ResponseBean(-1, str + "失败", null);
         }
     }
-        //    使用表格方式查询
+
+    //    使用表格方式查询
     @ApiOperation("获取任务车辆")
     @RequestMapping(value = "/api/basic/task/getTaskCarLst", method = RequestMethod.POST)
     public ResultT<PagerDataBaseVO> getTaskCarLst(@RequestBody TaskReqParaEntity taskReqParaEntity) {
@@ -196,11 +205,12 @@ public class TaskController extends BaseController {
     public ResponseBean cancelTaskCar(@RequestBody TaskParaEntity taskParaEntity) {
         logger.info("接收到取消车辆任务请求，请求信息：" + JSON.toJSONString(taskParaEntity));
         try {
-            UserBto userBto= getAccount();
-            if(userBto!=null){
-                String userId= userBto.getUserId();
+            UserBto userBto = getAccount();
+            if (userBto != null) {
+                String userId = userBto.getUserId();
                 taskParaEntity.setUpdateBy(userId);
-            }else {
+            }
+            else {
                 return new ResponseBean(0, "取消车辆任务失败，未获取到当前登录用户信息，请重新登录", null);
             }
             taskParaEntity.setTaskCarCode("1070");
@@ -208,7 +218,8 @@ public class TaskController extends BaseController {
 
             if (n > 0) {
                 return new ResponseBean(1, "取消任务成功", null);
-            } else {
+            }
+            else {
                 logger.info("取消任务失败,影响行数为：0");
                 return new ResponseBean(0, "取消任务失败，影响行数：0", null);
             }
@@ -227,7 +238,8 @@ public class TaskController extends BaseController {
             int n = taskService.addReviewTask(reviewTaskLogsEntity);
             if (n > 0) {
                 return new ResponseBean(1, "添加审核记录成功", null);
-            } else {
+            }
+            else {
                 logger.info("添加审核记录失败,影响行数为：0");
                 return new ResponseBean(0, "添加审核记录失败，影响行数：0", null);
             }
@@ -244,12 +256,13 @@ public class TaskController extends BaseController {
     public ResponseBean getTaskReviewLogs(String taskId) {
         logger.info("接收到发布、关闭任务请求，请求信息：" + taskId);
         try {
-            List<ReviewTaskLogsEntity> lst=taskService.getTaskReviewLogs(taskId);
+            List<ReviewTaskLogsEntity> lst = taskService.getTaskReviewLogs(taskId);
 
 
-            if (lst!=null && lst.size()>0) {
+            if (lst != null && lst.size() > 0) {
                 return new ResponseBean(1, "获取审核记录成功", lst);
-            } else {
+            }
+            else {
                 logger.info("获取审核记录成功,无数据");
                 return new ResponseBean(1, "获取审核记录成功，无数据", null);
             }
@@ -259,6 +272,7 @@ public class TaskController extends BaseController {
             return new ResponseBean(0, "取消任务失败", null);
         }
     }
+
     //    使用表格方式查询
     @ApiOperation("任务审核  任务列表")
     @RequestMapping(value = "/api/basic/task/getReviewedTaskLst", method = RequestMethod.POST)
@@ -272,9 +286,9 @@ public class TaskController extends BaseController {
             PageHelper.startPage(taskReqParaEntity.getPi(), taskReqParaEntity.getPs());
             List<TaskBaseEntity> lst = taskService.selectReviewedTaskLst();
 
-            for (TaskBaseEntity item:lst){
+            for (TaskBaseEntity item : lst) {
                 //获取任务车辆数量
-                TaskCarInfoNumsEntity taskCarInfoNumsEntity=taskService.selectTaskCarNum(item.getTaskId());
+                TaskCarInfoNumsEntity taskCarInfoNumsEntity = taskService.selectTaskCarNum(item.getTaskId());
 
                 item.setCarCountNum(taskCarInfoNumsEntity.getCarTotalNum());
             }
@@ -308,9 +322,9 @@ public class TaskController extends BaseController {
             PageHelper.startPage(taskParaEntity.getPi(), taskParaEntity.getPs());
             List<TaskBaseEntity> lst = taskService.selectMyReviewTaskLst(taskParaEntity);
 
-            for (TaskBaseEntity item:lst){
+            for (TaskBaseEntity item : lst) {
                 //获取任务车辆数量
-                TaskCarInfoNumsEntity taskCarInfoNumsEntity=taskService.selectTaskCarNum(item.getTaskId());
+                TaskCarInfoNumsEntity taskCarInfoNumsEntity = taskService.selectTaskCarNum(item.getTaskId());
 
                 item.setCarCountNum(taskCarInfoNumsEntity.getCarTotalNum());
             }
@@ -331,15 +345,17 @@ public class TaskController extends BaseController {
             return result;
         }
     }
+
     @ApiOperation("获取车辆升级日志")
     @RequestMapping(value = "/api/basic/task/getTaskCarLogs", method = RequestMethod.GET)
     public ResponseBean updatePartsConfig(String taskCarId) {
         logger.info("接收到获取车辆升级日志请求，请求信息：" + taskCarId);
         try {
             List<TaskCarLogsEntity> lst = taskService.selectTaskCarLog(taskCarId);
-            if (lst!=null&&lst.size()>0) {
+            if (lst != null && lst.size() > 0) {
                 return new ResponseBean(1, "获取车辆升级日志成功", lst);
-            } else {
+            }
+            else {
                 logger.info("获取车辆升级日志成功,无日志数据");
                 return new ResponseBean(1, "获取车辆升级日志成功,无日志数据", null);
             }
@@ -358,12 +374,13 @@ public class TaskController extends BaseController {
 
             TaskBaseEntity taskBaseEntity = taskService.getTaskDetaile(taskId);
             //获取任务车辆数量
-            TaskCarInfoNumsEntity taskCarInfoNumsEntity=taskService.selectTaskCarNum(taskId);
+            TaskCarInfoNumsEntity taskCarInfoNumsEntity = taskService.selectTaskCarNum(taskId);
 
             taskBaseEntity.setTaskCars(taskCarInfoNumsEntity);
-            if (taskBaseEntity!=null) {
+            if (taskBaseEntity != null) {
                 return new ResponseBean(1, "获取车辆详情-基础信息tab页成功", taskBaseEntity);
-            } else {
+            }
+            else {
                 logger.info("获取车辆详情-基础信息tab页成功,无日志数据");
                 return new ResponseBean(0, "获取车辆详情-基础信息tab页成功,无日志数据", null);
             }
@@ -419,10 +436,11 @@ public class TaskController extends BaseController {
             for (VinListByCarTypeEntity item : lst) {
                 item.setIndex(index += 1);
                 //判断该车是否有任务
-                int countNum=taskService.getVinIsTasking(item.getVin());
-                if(countNum>0){
+                int countNum = taskService.getVinIsTasking(item.getVin());
+                if (countNum > 0) {
                     item.setIsTasking(1);//有任务
-                }else {
+                }
+                else {
                     item.setIsTasking(0);//无任务
                 }
             }

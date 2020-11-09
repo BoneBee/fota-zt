@@ -107,7 +107,7 @@
     <!--任务详情 审核记录tab页-->
     <select id="getTaskReviewLogs" resultType="com.intest.dao.entity.task.ReviewTaskLogsEntity"
             parameterType="java.lang.String">
-        select ftt.tasknum             as taskNum,
+        select ftl.tasknum             as taskNum,
                f.task_id               as taskId,
                ftl.f_taskreviewlogs_id as taskReviewLogsId,
                ftl.fk_taskreviewtmp_id as taskReviewTmpId,
@@ -115,7 +115,7 @@
                fu.real_name            as userName,
                ftl.reviewlevel         as reviewLevel,
                ftl.isadopt             as isAdopt,
-               ftl.createat as
+               ftl.createat as createAt
         from f_taskreviewlogs ftl
             left join f_task f
         on ftl.fk_task_id=f.task_id
@@ -384,9 +384,9 @@
 
     <insert id="addReviewTask" parameterType="com.intest.dao.entity.task.ReviewTaskLogsEntity">
         insert into f_taskreviewlogs(F_TASKREVIEWLOGS_ID, FK_TASK_ID, FK_TASKREVIEWTMP_ID, FK_USER_ID, REVIEWLEVEL,
-                                     ISADOPT, REMARK, CREATEAT, CREATEBY)
+                                     ISADOPT, REMARK, CREATEAT, CREATEBY,TASKNUM)
         values (#{taskReviewLogsId}, #{taskId}, #{taskReviewTmpId}, #{userId}, #{reviewLevel}, #{isAdopt}, #{remark},
-                sysdate, #{createBy})
+                sysdate, #{createBy},#{TASKNUM})
 
     </insert>
 
