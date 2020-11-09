@@ -43,7 +43,7 @@ public class TaskCarLogsEntity {
     /**
      * 终端上报时间
      */
-    public Date tupLoadAt;
+    public String tupLoadAt;
 
     /**
      * 平台API接口日志ID
@@ -53,7 +53,7 @@ public class TaskCarLogsEntity {
     /**
      * 时间
      */
-    public Date createAt;
+    public String createAt;
     /**
      * 车型名称
      */

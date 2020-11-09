@@ -402,12 +402,17 @@
                f.tuploadat                  as tupLoadAt,
                f.fk_platformapilog_id       as platformApiLogId,
                f.createat                   as createAt,
-               fcp.cartypename              as carTypeName,
+               ct.cartypename              as carTypeName,
                ftc.vin,
-               fk.taskname                  as taskName
+               fcp.taskname                  as taskName
         from F_TaskCarStatusLog f
                  left join f_taskcarstatusvalue ftv
                            on f.fk_taskcarstatusvalue_code = ftv.code
+                           left join f_taskcar ftc
+                           on f.fk_taskcar_id= ftc.taskcar_id
+                           left join f_task fcp on ftc.fk_task_id=fcp.task_id
+                           left join f_car c on ftc.vin=c.vin
+                           left join f_cartype ct on c.fk_cartype_id=ct.cartype_id
         where f.fk_taskcar_id = #{taskCarId}
         order by f.createat desc
 
