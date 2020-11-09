@@ -12,6 +12,7 @@ import com.intest.dao.entity.task.TaskBaseEntity;
 import com.intest.dao.entity.task.TaskCarBaseEntity;
 import com.intest.dao.entity.task.TaskCarInfoNumsEntity;
 import com.intest.dao.mapper.*;
+import com.intest.packageservice.service.UpgradePackageService;
 import com.intest.request.CarUpdateFindRequest;
 import com.intest.response.*;
 import com.intest.service.StatisticalAnalysisPage;
@@ -53,6 +54,129 @@ public class StatisticalAnalysisImpl implements StatisticalAnalysisService {
     @Autowired
     private PartsPackageMapper partsPackageMapper;
 
+    @Autowired
+    private PackageTaskBtoMapper packageTaskBtoMapper;
+
+
+    @Override
+    public HomeOneDateResponse getHomeOneDate() {
+        HomeOneDateResponse response = new HomeOneDateResponse();
+        List<CarBto> carBtos = carBtoMapper.selectByExample(null);
+        List<TaskCarBto> taskCarBtos = taskBtoMapper.selectByExample(null);
+        List<TaskBaseEntity> taskBaseEntities = taskMapper.selectTaskLst();
+        int updateCarNum = 0;
+        for (TaskCarBto taskCarBto : taskCarBtos) {
+            if (taskCarBto.getFkTaskcarstatusvalueCode().equals(CarCode.CODE_1053)) {
+                updateCarNum += 1;
+            }
+        }
+        int carNum = carBtos.size();
+        int taskNum = taskBaseEntities.size();
+        DecimalFormat dF = new DecimalFormat("0.00");
+        String successP = dF.format((float) updateCarNum / carNum) + "";
+        HomeOneDateResponse.StatisticalBean statisticalBean = new HomeOneDateResponse.StatisticalBean();
+        statisticalBean.setCarNum(carNum);
+        statisticalBean.setSuccess(successP);
+        statisticalBean.setTaskNum(taskNum);
+        statisticalBean.setUpdateCarNum(updateCarNum);
+        response.setStatisticalDate(statisticalBean);
+
+        int reviewNum = 0;
+        int unPublishedNum = 0;
+        int inNum = 0;
+        int completedNum = 0;
+        int taskClose = 0;
+        for (TaskBaseEntity entity : taskBaseEntities) {
+            switch (entity.getTaskStatusValueName()) {
+                case "审核中":
+                    reviewNum += 1;
+                    break;
+                case "未发布":
+                    unPublishedNum += 1;
+                    break;
+                case "进行中":
+                    inNum += 1;
+                    break;
+                case "已完成":
+                    completedNum += 1;
+                    break;
+                case "任务关闭":
+                    taskClose += 1;
+                    break;
+            }
+        }
+        HomeOneDateResponse.TaskBean taskBean = new HomeOneDateResponse.TaskBean();
+        taskBean.setCompletedNum(completedNum);
+        taskBean.setReviewNum(reviewNum);
+        taskBean.setInNum(inNum);
+        taskBean.setTaskClose(taskClose);
+        taskBean.setUnPublishedNum(unPublishedNum);
+        response.setTaskDate(taskBean);
+
+        List<PackageTaskBto> packageTaskBtos = packageTaskBtoMapper.selectByExample(null);
+        int updatePackageNum = packageTaskBtos.size();
+        int diffPackageNum = 0;
+        int fullPackageNUm = 0;
+        int smartPackageNum = 0;
+        for (PackageTaskBto packageTaskBto : packageTaskBtos) {
+            switch (packageTaskBto.getMaketype().intValue()) {
+                case 0:
+                    fullPackageNUm += 1;
+                    break;
+                case 1:
+                    diffPackageNum += 1;
+                    break;
+                case 2:
+                    smartPackageNum += 1;
+                    break;
+            }
+        }
+        HomeOneDateResponse.UpdatePackageBean updatePackageBean = new HomeOneDateResponse.UpdatePackageBean();
+        updatePackageBean.setDiffPackageNum(diffPackageNum);
+        updatePackageBean.setFullPackageNUm(fullPackageNUm);
+        updatePackageBean.setSmartPackageNum(smartPackageNum);
+        updatePackageBean.setUpdatePackageNum(updatePackageNum);
+        response.setUpdatePackageDate(updatePackageBean);
+
+
+        return response;
+    }
+
+    @Override
+    public PagerDataBaseVO getCarUpdateDate(TimeRequest request) {
+        TaskCarBtoExample example = new TaskCarBtoExample();
+        TaskCarBtoExample.Criteria criteria = example.createCriteria();
+        criteria.andCreateatBetween(request.getStarTime(), request.getEndTime());
+        List<TaskCarBto> taskCarBtos = taskBtoMapper.selectByExample(example);
+        return null;
+    }
+
+    @Override
+    public List<CarErroDateResponse> getCarErroDate(TimeRequest request) {
+        TaskCarBtoExample example = new TaskCarBtoExample();
+        TaskCarBtoExample.Criteria criteria = example.createCriteria();
+        criteria.andCreateatBetween(request.getStarTime(), request.getEndTime());
+        List<TaskCarBto> taskCarBtos = taskBtoMapper.selectByExample(example);
+        List<TaskCarBto> erroType = taskCarBtos.stream().filter(distinctByKey(TaskCarBto::getFkTaskcarstatusvalueCode)).collect(Collectors.toList());
+        List<CarErroDateResponse> carErroDateResponses = new ArrayList<>();
+        for (TaskCarBto taskCarBto : erroType) {
+            CarErroDateResponse response = new CarErroDateResponse();
+            for (CarCodeEnu enu : CarCodeEnu.values()) {
+                if (taskCarBto.getFkTaskcarstatusvalueCode().equals(enu.getCode())) {
+                    response.setCodeMessage(enu.getMessage());
+                }
+            }
+            int erroNum = 0;
+            for (TaskCarBto bto : taskCarBtos) {
+                if (taskCarBto.getFkTaskcarstatusvalueCode().equals(bto.getFkTaskcarstatusvalueCode())) {
+                    erroNum += 1;
+                }
+            }
+            response.setErroNum(erroNum);
+            carErroDateResponses.add(response);
+        }
+        return carErroDateResponses;
+    }
 
     @Override
     public List<TaskBaseEntity> getTaskList(@RequestBody TimeRequest request) {
