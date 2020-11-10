@@ -1,8 +1,11 @@
 package com.intest.api.controller;
 
+import com.intest.common.exception.ResponseBean;
 import com.intest.common.result.PagerDataBaseVO;
+import com.intest.common.result.Result;
 import com.intest.common.result.ResultT;
 import com.intest.common.webcore.BaseController;
+import com.intest.partsservice.part.response.DateResponse;
 import com.intest.systemservice.impl.service.SystemPage;
 import com.intest.systemservice.impl.service.impl.*;
 import com.intest.systemservice.request.*;
@@ -122,13 +125,18 @@ public class SystemController extends BaseController {
      */
     @ResponseBody
     @RequestMapping(value = "/api/basic/system/selectTaskTmpName", method = RequestMethod.GET)
-    public ResultT selectTaskTmpName(@ApiParam String taskTmpName, @ApiParam String taskTmpId) {
-        ResultT result = new ResultT<>();
+    public ResponseBean selectTaskTmpName(@ApiParam String taskTmpName, @ApiParam String taskTmpId) {
+        ResponseBean result = null;
         try {
-            result.setResult(taskReviewTmpImpl.selectTaskTmpName(taskTmpName, taskTmpId));
+            result= taskReviewTmpImpl.selectTaskTmpName(taskTmpName, taskTmpId);
+//            ResponseBean temp = taskReviewTmpImpl.selectTaskTmpName(taskTmpName, taskTmpId);
+//            result.setSuccess(1);
+//            result= (Result)temp;
+//            result.setMsg(temp.getMsg());
+            //result.setResul(taskReviewTmpImpl.selectTaskTmpName(taskTmpName, taskTmpId));
         } catch (Exception e) {
             e.printStackTrace();
-            result.setFail();
+            result.setSuccess(0);
         }
         return result;
     }

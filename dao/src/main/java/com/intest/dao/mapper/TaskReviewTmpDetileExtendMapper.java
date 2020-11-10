@@ -1,5 +1,6 @@
 package com.intest.dao.mapper;
 
+import com.intest.dao.entity.TaskReviewTmpBto;
 import com.intest.dao.entity.TaskReviewTmpDetileBto;
 import com.intest.dao.entity.TaskReviewTmpDetileBtoExample;
 import org.apache.ibatis.annotations.Param;
@@ -12,4 +13,5 @@ public interface TaskReviewTmpDetileExtendMapper {
 
     void deleteTaskReviewTmpDetile(List<String> ids);
 
+    void updateReview(TaskReviewTmpBto ttb);
 }

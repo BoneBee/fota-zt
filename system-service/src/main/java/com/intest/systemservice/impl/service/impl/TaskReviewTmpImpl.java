@@ -177,6 +177,12 @@ public class TaskReviewTmpImpl implements TaskReviewTmpService {
         if (taskReviewTmpBto == null) {
             throw new CustomException("未找到对应ID数据");
         }
+
+        //先把相关类型的启用状态设成禁用。再把当前审核设置成启用；
+        taskReviewTmpBto.setState((short) 0);
+        taskReviewTmpDetileExtendMapper.updateReview(taskReviewTmpBto);
+
+
         taskReviewTmpBto.setState((short) state);
         if (state == 1) {
             TaskReviewTmpBtoExample example = new TaskReviewTmpBtoExample();
@@ -186,7 +192,7 @@ public class TaskReviewTmpImpl implements TaskReviewTmpService {
             List<TaskReviewTmpBto> tmpBtoList = mapper.selectByExample(example);
             if (tmpBtoList != null && tmpBtoList.size() > 0) {
                 for (TaskReviewTmpBto bto : tmpBtoList) {
-                    bto.setState((short) 0);
+                    bto.setState((short) 1);
                     if (mapper.updateByPrimaryKey(bto) != 1) {
                         throw new CustomException("修改bto失败！");
                     }

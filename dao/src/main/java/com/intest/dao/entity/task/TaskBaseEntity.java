@@ -169,6 +169,16 @@ public class TaskBaseEntity {
      */
     public int carCountNum;
 
+    public Boolean flag;
+
+    public Boolean getFlag() {
+        return flag;
+    }
+
+    public void setFlag(Boolean flag) {
+        this.flag = flag;
+    }
+
     public TaskBaseEntity(){
         vinLst=new ArrayList<>();
     }

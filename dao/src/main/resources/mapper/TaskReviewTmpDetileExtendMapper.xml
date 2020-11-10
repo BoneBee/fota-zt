@@ -27,4 +27,8 @@
             #{item}
         </foreach>
     </delete>
+
+    <update id="updateReview" parameterType="com.intest.dao.entity.TaskReviewTmpBto">
+        update  f_taskreviewtmp vp set vp.state=#{state} where vp.tmp_type=#{tmpType}
+    </update>
 </mapper>

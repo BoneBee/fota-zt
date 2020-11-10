@@ -82,12 +82,12 @@ public class TaskCarBaseEntity {
     /**
      * 计划开始时间
      */
-    public Date planStartTime;
+    public String planStartTime;
 
     /**
      * 计划结束时间
      */
-    public Date planEndTime;
+    public String planEndTime;
     /**
      * 车型名称
      */
@@ -211,19 +211,19 @@ public class TaskCarBaseEntity {
         this.progress = progress;
     }
 
-    public Date getPlanStartTime() {
+    public String getPlanStartTime() {
         return planStartTime;
     }
 
-    public void setPlanStartTime(Date planStartTime) {
+    public void setPlanStartTime(String planStartTime) {
         this.planStartTime = planStartTime;
     }
 
-    public Date getPlanEndTime() {
+    public String getPlanEndTime() {
         return planEndTime;
     }
 
-    public void setPlanEndTime(Date planEndTime) {
+    public void setPlanEndTime(String planEndTime) {
         this.planEndTime = planEndTime;
     }
 
