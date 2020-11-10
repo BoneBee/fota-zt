@@ -507,7 +507,7 @@
                t.state
         from f_taskreviewtmp t
         where t.tmp_type = 0
-          and t.state = 0
+          and t.state = 1
           and t.isdelete = 1
     </select>
 

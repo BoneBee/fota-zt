@@ -132,8 +132,6 @@ public class TaskBaseServiceImpl extends BaseController implements TaskBaseServi
             int index = pageInfo.getStartRow() - 1;
             for (TaskCarBaseEntity item : taskCarLst) {
                 item.setIndex(index += 1);
-
-
             }
             type.setTotal(pageInfo.getTotal());
             type.setData(taskCarLst);
@@ -178,7 +176,6 @@ public class TaskBaseServiceImpl extends BaseController implements TaskBaseServi
                 else {
                     item.setFlag(false);
                 }
-
             }
 
             PageInfo<TaskBaseEntity> pageInfo = new PageInfo<>(taskLst);
@@ -216,7 +213,6 @@ public class TaskBaseServiceImpl extends BaseController implements TaskBaseServi
             return type;
         }
         else {
-
             try {
                 logger.info("当前登录用户Id：" + userBto.getUserId());
                 PageHelper.startPage(taskParaEntity.getPi(), taskParaEntity.getPs());
