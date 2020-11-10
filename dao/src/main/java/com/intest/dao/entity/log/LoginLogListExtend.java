@@ -1,10 +1,10 @@
-package com.intest.response;
+package com.intest.dao.entity.log;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
-public class LoginLogResponse {
+public class LoginLogListExtend {
     private int index;//序号
     private String loginName;//登陆账户
     private String realName;//姓名
@@ -15,6 +15,7 @@ public class LoginLogResponse {
     private String loginIp;//IP地址
     private String browser;//浏览器
     private String remak;//描述
+
 
     public int getIndex() {
         return index;

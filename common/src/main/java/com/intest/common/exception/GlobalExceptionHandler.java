@@ -32,7 +32,7 @@ public class GlobalExceptionHandler {
      *
      * @return
      */
-    @ResponseStatus(HttpStatus.OK)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(CustomException.class)
     public ResponseBean handle(CustomException e) {
         logger.error("捕捉其他所有自定义异常:" + e.getMessage(), e);

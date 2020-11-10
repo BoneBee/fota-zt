@@ -83,7 +83,7 @@ public class PartsPackageController extends BaseController {
         List<PartsPackageBto> list = partsPackageBtoMapper.selectByExample(example);
         PartsBigPackageBto bto = partsBigPackageBtoMapper.selectByPrimaryKey(list.get(0).getFkPartsbigpackageId());
         FileBto fi = fileBtoMapper.selectByPrimaryKey(fileId);
-        addOperateLog(ModelName.MODEL_VERSION_PART, ModelName.ACTION_VERSION_PART_DOWNLOAD);
+        addOperateLog(ModelName.MODEL_VERSION_PART, ModelName.ACTION_VERSION_PART_DOWNLOAD,ModelName.actionRemark("零件包下载", getAccount().getRealName(), 1));
         if(fi == null){
             return;
         }

@@ -13,6 +13,7 @@
     <result column="CREATEBY" jdbcType="CHAR" property="createby" />
     <result column="UPDATEAT" jdbcType="TIMESTAMP" property="updateat" />
     <result column="UPDATEBY" jdbcType="CHAR" property="updateby" />
+    <result column="ACTION_REMARK" jdbcType="VARCHAR" property="actionRemark" />
   </resultMap>
   <sql id="Example_Where_Clause">
     <where>
@@ -74,7 +75,7 @@
   </sql>
   <sql id="Base_Column_List">
     OPERATE_ID, FK_USER_ID, OPERATE_MODE, OPERATE_ACTION, LOGIN_IP, BROWSER, ISDELETE, 
-    CREATEAT, CREATEBY, UPDATEAT, UPDATEBY
+    CREATEAT, CREATEBY, UPDATEAT, UPDATEBY, ACTION_REMARK
   </sql>
   <select id="selectByExample" parameterType="com.intest.dao.entity.OperateLogBtoExample" resultMap="BaseResultMap">
     select
@@ -110,11 +111,13 @@
     insert into F_OPERATE_LOG (OPERATE_ID, FK_USER_ID, OPERATE_MODE, 
       OPERATE_ACTION, LOGIN_IP, BROWSER, 
       ISDELETE, CREATEAT, CREATEBY, 
-      UPDATEAT, UPDATEBY)
+      UPDATEAT, UPDATEBY, ACTION_REMARK
+      )
     values (#{operateId,jdbcType=CHAR}, #{fkUserId,jdbcType=CHAR}, #{operateMode,jdbcType=VARCHAR}, 
       #{operateAction,jdbcType=VARCHAR}, #{loginIp,jdbcType=NVARCHAR}, #{browser,jdbcType=VARCHAR}, 
       #{isdelete,jdbcType=NUMERIC}, #{createat,jdbcType=TIMESTAMP}, #{createby,jdbcType=CHAR}, 
-      #{updateat,jdbcType=TIMESTAMP}, #{updateby,jdbcType=CHAR})
+      #{updateat,jdbcType=TIMESTAMP}, #{updateby,jdbcType=CHAR}, #{actionRemark,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.intest.dao.entity.OperateLogBto">
     insert into F_OPERATE_LOG
@@ -152,6 +155,9 @@
       <if test="updateby != null">
         UPDATEBY,
       </if>
+      <if test="actionRemark != null">
+        ACTION_REMARK,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="operateId != null">
@@ -186,6 +192,9 @@
       </if>
       <if test="updateby != null">
         #{updateby,jdbcType=CHAR},
+      </if>
+      <if test="actionRemark != null">
+        #{actionRemark,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -231,6 +240,9 @@
       <if test="record.updateby != null">
         UPDATEBY = #{record.updateby,jdbcType=CHAR},
       </if>
+      <if test="record.actionRemark != null">
+        ACTION_REMARK = #{record.actionRemark,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
@@ -248,7 +260,8 @@
       CREATEAT = #{record.createat,jdbcType=TIMESTAMP},
       CREATEBY = #{record.createby,jdbcType=CHAR},
       UPDATEAT = #{record.updateat,jdbcType=TIMESTAMP},
-      UPDATEBY = #{record.updateby,jdbcType=CHAR}
+      UPDATEBY = #{record.updateby,jdbcType=CHAR},
+      ACTION_REMARK = #{record.actionRemark,jdbcType=VARCHAR}
     <if test="_parameter != null">
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -286,6 +299,9 @@
       <if test="updateby != null">
         UPDATEBY = #{updateby,jdbcType=CHAR},
       </if>
+      <if test="actionRemark != null">
+        ACTION_REMARK = #{actionRemark,jdbcType=VARCHAR},
+      </if>
     </set>
     where OPERATE_ID = #{operateId,jdbcType=CHAR}
   </update>
@@ -300,7 +316,8 @@
       CREATEAT = #{createat,jdbcType=TIMESTAMP},
       CREATEBY = #{createby,jdbcType=CHAR},
       UPDATEAT = #{updateat,jdbcType=TIMESTAMP},
-      UPDATEBY = #{updateby,jdbcType=CHAR}
+      UPDATEBY = #{updateby,jdbcType=CHAR},
+      ACTION_REMARK = #{actionRemark,jdbcType=VARCHAR}
     where OPERATE_ID = #{operateId,jdbcType=CHAR}
   </update>
 </mapper>

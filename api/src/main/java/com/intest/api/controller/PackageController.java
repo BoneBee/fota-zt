@@ -101,7 +101,7 @@ public class PackageController extends BaseController {
         ResultT result = new ResultT();
         try{
             result.setSuccess(largePackageService.deletePackage(request.getIds()));
-            addOperateLog(ModelName.MODEL_VERSION_NEW, ModelName.ACTION_DELETE);
+            addOperateLog(ModelName.MODEL_VERSION_NEW, ModelName.ACTION_DELETE,ModelName.actionRemark("删除", getAccount().getRealName(), 1));
         }catch (Exception e){
             e.printStackTrace();
             result.setFail();
@@ -156,7 +156,7 @@ public class PackageController extends BaseController {
     @RequestMapping(value = "/package/download", method = RequestMethod.GET)
     public void download(@RequestParam("fileId") String fileId, HttpServletRequest request, HttpServletResponse response){
         FileBto fi = largePackageService.getFileById(fileId);
-        addOperateLog(ModelName.MODEL_VERSION_NEW, ModelName.ACTION_VERSION_NEW_DOWNLOAD);
+        addOperateLog(ModelName.MODEL_VERSION_NEW, ModelName.ACTION_VERSION_NEW_DOWNLOAD,ModelName.actionRemark("原始包下载", getAccount().getRealName(), 1));
         if(fi == null){
           return;
         }

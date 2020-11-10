@@ -226,19 +226,19 @@
         <!--            &lt;!&ndash; <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
         <!--            &lt;!&ndash; <columnOverride column="content" jdbcType="VARCHAR" />&ndash;&gt;-->
         <!--        </table>-->
-        <table tableName="F_TASKCARSTATUSLOG" domainObjectName="TaskCarStatusLogBto">
-            <property name="useActualColumnNames" value="false"/>
-            <!-- 插入时是否自动生成主键 -->
-            <!-- <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
-            <!-- <columnOverride column="content" jdbcType="VARCHAR" />-->
-        </table>
-
-<!--        <table tableName="F_OPERATE_LOG" domainObjectName="OperateLogBto">-->
+<!--        <table tableName="F_TASKCARSTATUSLOG" domainObjectName="TaskCarStatusLogBto">-->
 <!--            <property name="useActualColumnNames" value="false"/>-->
 <!--            &lt;!&ndash; 插入时是否自动生成主键 &ndash;&gt;-->
 <!--            &lt;!&ndash; <generatedKey column="id" sqlStatement="MySql" identity="true"/>&ndash;&gt;-->
 <!--            &lt;!&ndash; <columnOverride column="content" jdbcType="VARCHAR" />&ndash;&gt;-->
 <!--        </table>-->
+
+        <table tableName="F_OPERATE_LOG" domainObjectName="OperateLogBto">
+            <property name="useActualColumnNames" value="false"/>
+            <!-- 插入时是否自动生成主键 -->
+            <!-- <generatedKey column="id" sqlStatement="MySql" identity="true"/>-->
+            <!-- <columnOverride column="content" jdbcType="VARCHAR" />-->
+        </table>
         <!--        <table tableName="F_ROLE" domainObjectName="RoleBto">-->
         <!--            <property name="useActualColumnNames" value="false"/>-->
         <!--            &lt;!&ndash; 插入时是否自动生成主键 &ndash;&gt;-->

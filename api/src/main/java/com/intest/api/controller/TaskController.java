@@ -88,7 +88,7 @@ public class TaskController extends BaseController {
                 //item.setCreateBy("任务管理模块");
             }
             int n = taskService.addTask(taskBaseEntity, taskBaseEntity.getVinLst());
-            addOperateLog(ModelName.MODEL_TASK_MESSAGE, ModelName.ACTION_CREATE);
+            addOperateLog(ModelName.MODEL_TASK_MESSAGE, ModelName.ACTION_CREATE,ModelName.actionRemark("新建", getAccount().getRealName(), 1));
 
             if (n > 0) {
                 return new ResponseBean(1, "创建任务创建成功", null);
@@ -123,13 +123,13 @@ public class TaskController extends BaseController {
                 //发布任务
                 str = "发布任务";
                 taskParaEntity.setTaskCode("105");
-                addOperateLog(ModelName.MODEL_TASK_MESSAGE, ModelName.ACTION_TASK_MESSAGE_PUBLISH);
+                addOperateLog(ModelName.MODEL_TASK_MESSAGE, ModelName.ACTION_TASK_MESSAGE_PUBLISH,ModelName.actionRemark("发布任务", getAccount().getRealName(), 1));
             } else if(taskParaEntity.getReqType() == 1) {
                 //关闭任务
                 str = "关闭任务";
                 taskParaEntity.setTaskCode("301");
                 taskParaEntity.setTaskCarCode("1070");
-                addOperateLog(ModelName.MODEL_TASK_MESSAGE, ModelName.ACTION_TASK_MESSAGE_CLOSE);
+                addOperateLog(ModelName.MODEL_TASK_MESSAGE, ModelName.ACTION_TASK_MESSAGE_CLOSE,ModelName.actionRemark("关闭任务", getAccount().getRealName(), 1));
                 //查询改任务下是否有执行中的任务（暂不做限制，已实际车辆状态为准）
             }else if(taskParaEntity.getReqType() == 2){
                 //取消发布
@@ -168,7 +168,7 @@ public class TaskController extends BaseController {
         ResultT<PagerDataBaseVO> result = new ResultT<>();
 
         logger.info("接收到获取任务车辆请求，请求信息：" + JSON.toJSONString(taskReqParaEntity));
-        addOperateLog(ModelName.MODEL_TASK_MESSAGE, ModelName.ACTION_TASK_MESSAGE_LOOK);
+        addOperateLog(ModelName.MODEL_TASK_MESSAGE, ModelName.ACTION_TASK_MESSAGE_LOOK,ModelName.actionRemark("获取任务车辆", getAccount().getRealName(), 1));
         try {
             PagerDataBaseVO type = new PagerDataBaseVO();
             PageHelper.startPage(taskReqParaEntity.getPi(), taskReqParaEntity.getPs());

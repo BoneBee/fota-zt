@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.intest.dao.mapper.TaskCarStatusExtendBtoMapper">
+
+    <select id="getTaskCarStatusLogList" resultType="com.intest.dao.entity.log.TaskCarStatusLogListExtend">
+    SELECT
+    ftl.NOTE as updateLog,
+    ft.VIN as vin,
+    fts.TASKNAME as taskName,
+    ftl.CREATEAT as creatTime
+    FROM F_TASKCARSTATUSLOG ftl
+    LEFT JOIN F_TASKCAR ft ON ftl.FK_TASKCAR_ID=ft.TASKCAR_ID
+    LEFT JOIN F_TASK fts ON ft.FK_TASK_ID=fts.TASK_ID
+    </select>
+
+</mapper>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.intest.dao.mapper.LoginExtendMapper">
+
+  <select id="getLoginLogList" resultType="com.intest.dao.entity.log.LoginLogListExtend">
+   SELECT
+    fu.USER_ID ,
+    fu.LOGIN_NAME as loginName,
+    fu.REAL_NAME as realName,
+    fu.DEPARTMENT ,
+    fu.MOBILE ,
+    fu.COMPANY_EMAIL ,
+    fu.SEX ,
+    fu.NOTE ,
+    fu.ACCOUNT_KIND,
+    fu.ACCOUNT_STATUS ,
+    fr.ROLE_ID ,
+    fr.ROLE_NAME as roleName,
+	flg.LOGIN_RESULT as loginResult,
+	flg.LOGIN_IP as loginIp,
+	flg.BROWSER as browser,
+	flg.NOTE as remak,
+    flg.CREATEAT as loginTime,
+    flg.CREATEBY
+
+    FROM F_LOGIN_LOG flg
+	LEFT JOIN F_USER fu ON flg.FK_USER_ID=fu.USER_ID
+    LEFT JOIN F_USERROLE fur ON fu.USER_ID=fur.FK_USER_ID
+    LEFT JOIN F_ROLE fr ON fur.FK_ROLE_ID=fr.ROLE_ID
+	ORDER BY flg.CREATEAT DESC
+
+  </select>
+
+</mapper>

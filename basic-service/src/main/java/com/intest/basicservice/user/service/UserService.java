@@ -10,6 +10,8 @@ import com.intest.basicservice.user.response.UserPage;
 import com.intest.basicservice.user.vo.LoginVO;
 import com.intest.common.result.PagerDataBaseVO;
 import com.intest.dao.entity.UserBto;
+import com.intest.dao.entity.table.MenuExtend;
+import com.intest.partsservice.part.response.DateResponse;
 
 import java.util.List;
 
@@ -19,38 +21,26 @@ public interface UserService {
 
     LoginVO getUserLoginInfo(String userId);
 
-    UserBto getUserByname(String name);
+    int inRegister(AddUserRequest request, UserBto user);
 
-    UserBto getUserByPhone(String phone);
+    int updateUser(UpdateUserRequest request);
 
-    UserBto getUserByUserName(String userName);
+    int deleteUser(List<DeleteUserRequest> request);
 
-    UserBto getUserByUserId(String userId);
+    int resetPassworld(String userId);
 
-    List<UserBto> getUserList();
-
-    int addUser(UserBto person);
-
-    int updateUser(UserBto person);
-
-    int deleteUser(String userId);
+    int updatePassworld(UpdatePassworldRequest request);
 
     PagerDataBaseVO getUserInfo(UserPage model);
 
+    List<MenuExtend> getUserPermission(String userId);
 
+    int updateUserState(String userId, int state);
 
+    DateResponse selectLoginName(String loginName, String id);
 
+    DateResponse selectPhone(String phone, String id);
 
-    ResponseBean inRegister(AddUserRequest request);
-
-    ResponseBean updateUser(UpdateUserRequest request);
-
-    ResponseBean deleteUser(List<DeleteUserRequest> request);
-
-    ResponseBean resetPassworld(String userId);
-
-    ResponseBean updatePassworld(UpdatePassworldRequest request);
-
-    ResponseBean selectMail(String mail, String id);
+    DateResponse selectMail(String mail, String id);
 
 }

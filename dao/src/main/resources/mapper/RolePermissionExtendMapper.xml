@@ -3,8 +3,7 @@
 <mapper namespace="com.intest.dao.mapper.RolePermissionExtendMapper">
     <!-- 批量插入-->
     <insert id="insertRolePermission" parameterType="java.util.List">
-        INSERT INTO F_ROLEPERMISSION(ROLEPERMISSION_ID, FK_ROLE_ID, FK_PERMISSION_ID,DEFAULT_CHECKED, ISDELETE,
-        CREATEAT,CREATEBY, UPDATEAT, UPDATEBY) (
+        INSERT INTO F_ROLEPERMISSION(ROLEPERMISSION_ID, FK_ROLE_ID, FK_PERMISSION_ID,DEFAULT_CHECKED, ISDELETE,CREATEAT,CREATEBY, UPDATEAT, UPDATEBY) (
         <foreach collection="list" item="item" index="index" separator="UNION ALL">
             select
             #{item.rolepermissionId,jdbcType=CHAR},

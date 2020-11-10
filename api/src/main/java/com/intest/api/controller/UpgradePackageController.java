@@ -90,7 +90,7 @@ public class UpgradePackageController extends BaseController {
         ResultT result = new ResultT();
         try{
             result.setResult(upgradePackageService.make(request));
-            addOperateLog(ModelName.MODEL_UPDATE_FILE, ModelName.ACTION_CREATE);
+            addOperateLog(ModelName.MODEL_UPDATE_FILE, ModelName.ACTION_CREATE,ModelName.actionRemark("升级包制作", getAccount().getRealName(), 1));
         }catch (Exception e){
             e.printStackTrace();
             result.setFail();
@@ -104,7 +104,7 @@ public class UpgradePackageController extends BaseController {
         ResultT result = new ResultT();
         try{
             result.setResult(upgradePackageService.unpublish(request.getPackageTaskId()));
-            addOperateLog(ModelName.MODEL_UPDATE_FILE, ModelName.ACTION_UPDATE_FILE_CANCLE);
+            addOperateLog(ModelName.MODEL_UPDATE_FILE, ModelName.ACTION_UPDATE_FILE_CANCLE,ModelName.actionRemark("取消发布", getAccount().getRealName(), 1));
         }catch (Exception e){
             e.printStackTrace();
             result.setFail();

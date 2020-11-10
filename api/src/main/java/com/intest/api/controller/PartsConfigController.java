@@ -68,7 +68,7 @@ public class PartsConfigController extends BaseController {
         logger.info("接收到配置策略信息请求，更新信息："+JSON.toJSONString(partsBaseConfig));
         try {
             int n = partsConfigServiceImpl.updatePartsConfig(partsBaseConfig);
-            addOperateLog(ModelName.MODEL_PARTS_CONFIG, ModelName.ACTION_UPDATE);
+            addOperateLog(ModelName.MODEL_PARTS_CONFIG, ModelName.ACTION_UPDATE,ModelName.actionRemark("配置策略信息", getAccount().getRealName(), 1));
             if (n > 0) {
                 logger.info("处理配置策略信息修改成功，更新信息："+JSON.toJSONString(partsBaseConfig));
                 return new ResponseBean(1, "配置策略信息修改成功", null);

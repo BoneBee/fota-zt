@@ -900,6 +900,76 @@ public class OperateLogBtoExample {
             addCriterion("UPDATEBY not between", value1, value2, "updateby");
             return (Criteria) this;
         }
+
+        public Criteria andActionRemarkIsNull() {
+            addCriterion("ACTION_REMARK is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionRemarkIsNotNull() {
+            addCriterion("ACTION_REMARK is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionRemarkEqualTo(String value) {
+            addCriterion("ACTION_REMARK =", value, "actionRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionRemarkNotEqualTo(String value) {
+            addCriterion("ACTION_REMARK <>", value, "actionRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionRemarkGreaterThan(String value) {
+            addCriterion("ACTION_REMARK >", value, "actionRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionRemarkGreaterThanOrEqualTo(String value) {
+            addCriterion("ACTION_REMARK >=", value, "actionRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionRemarkLessThan(String value) {
+            addCriterion("ACTION_REMARK <", value, "actionRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionRemarkLessThanOrEqualTo(String value) {
+            addCriterion("ACTION_REMARK <=", value, "actionRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionRemarkLike(String value) {
+            addCriterion("ACTION_REMARK like", value, "actionRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionRemarkNotLike(String value) {
+            addCriterion("ACTION_REMARK not like", value, "actionRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionRemarkIn(List<String> values) {
+            addCriterion("ACTION_REMARK in", values, "actionRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionRemarkNotIn(List<String> values) {
+            addCriterion("ACTION_REMARK not in", values, "actionRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionRemarkBetween(String value1, String value2) {
+            addCriterion("ACTION_REMARK between", value1, value2, "actionRemark");
+            return (Criteria) this;
+        }
+
+        public Criteria andActionRemarkNotBetween(String value1, String value2) {
+            addCriterion("ACTION_REMARK not between", value1, value2, "actionRemark");
+            return (Criteria) this;
+        }
     }
 
     /**

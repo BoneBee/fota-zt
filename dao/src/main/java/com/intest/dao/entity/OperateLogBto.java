@@ -59,9 +59,14 @@ public class OperateLogBto {
     private String updateby;
 
     /**
+     * 操作描述 ACTION_REMARK
+     */
+    private String actionRemark;
+
+    /**
      * 操作日志ID
      * @author xialiang
-     * @date 2020-10-26 11:33:33
+     * @date 2020-11-10 10:45:08
      * @return OPERATE_ID 操作日志ID
      */
     public String getOperateId() {
@@ -71,7 +76,7 @@ public class OperateLogBto {
     /**
      * 操作日志ID
      * @author xialiang
-     * @date 2020-10-26 11:33:33
+     * @date 2020-11-10 10:45:08
      * @param operateId 操作日志ID
      */
     public void setOperateId(String operateId) {
@@ -81,7 +86,7 @@ public class OperateLogBto {
     /**
      * 登陆账户ID
      * @author xialiang
-     * @date 2020-10-26 11:33:33
+     * @date 2020-11-10 10:45:08
      * @return FK_USER_ID 登陆账户ID
      */
     public String getFkUserId() {
@@ -91,7 +96,7 @@ public class OperateLogBto {
     /**
      * 登陆账户ID
      * @author xialiang
-     * @date 2020-10-26 11:33:33
+     * @date 2020-11-10 10:45:08
      * @param fkUserId 登陆账户ID
      */
     public void setFkUserId(String fkUserId) {
@@ -101,7 +106,7 @@ public class OperateLogBto {
     /**
      * 操作模块
      * @author xialiang
-     * @date 2020-10-26 11:33:33
+     * @date 2020-11-10 10:45:08
      * @return OPERATE_MODE 操作模块
      */
     public String getOperateMode() {
@@ -111,7 +116,7 @@ public class OperateLogBto {
     /**
      * 操作模块
      * @author xialiang
-     * @date 2020-10-26 11:33:33
+     * @date 2020-11-10 10:45:08
      * @param operateMode 操作模块
      */
     public void setOperateMode(String operateMode) {
@@ -121,7 +126,7 @@ public class OperateLogBto {
     /**
      * 操作动作
      * @author xialiang
-     * @date 2020-10-26 11:33:33
+     * @date 2020-11-10 10:45:08
      * @return OPERATE_ACTION 操作动作
      */
     public String getOperateAction() {
@@ -131,7 +136,7 @@ public class OperateLogBto {
     /**
      * 操作动作
      * @author xialiang
-     * @date 2020-10-26 11:33:33
+     * @date 2020-11-10 10:45:08
      * @param operateAction 操作动作
      */
     public void setOperateAction(String operateAction) {
@@ -141,7 +146,7 @@ public class OperateLogBto {
     /**
      * 登陆IP
      * @author xialiang
-     * @date 2020-10-26 11:33:33
+     * @date 2020-11-10 10:45:08
      * @return LOGIN_IP 登陆IP
      */
     public String getLoginIp() {
@@ -151,7 +156,7 @@ public class OperateLogBto {
     /**
      * 登陆IP
      * @author xialiang
-     * @date 2020-10-26 11:33:33
+     * @date 2020-11-10 10:45:08
      * @param loginIp 登陆IP
      */
     public void setLoginIp(String loginIp) {
@@ -161,7 +166,7 @@ public class OperateLogBto {
     /**
      * 浏览器
      * @author xialiang
-     * @date 2020-10-26 11:33:33
+     * @date 2020-11-10 10:45:08
      * @return BROWSER 浏览器
      */
     public String getBrowser() {
@@ -171,7 +176,7 @@ public class OperateLogBto {
     /**
      * 浏览器
      * @author xialiang
-     * @date 2020-10-26 11:33:33
+     * @date 2020-11-10 10:45:08
      * @param browser 浏览器
      */
     public void setBrowser(String browser) {
@@ -181,7 +186,7 @@ public class OperateLogBto {
     /**
      * 是否删除（1-未删除，0-已删除；）
      * @author xialiang
-     * @date 2020-10-26 11:33:33
+     * @date 2020-11-10 10:45:08
      * @return ISDELETE 是否删除（1-未删除，0-已删除；）
      */
     public Short getIsdelete() {
@@ -191,7 +196,7 @@ public class OperateLogBto {
     /**
      * 是否删除（1-未删除，0-已删除；）
      * @author xialiang
-     * @date 2020-10-26 11:33:33
+     * @date 2020-11-10 10:45:08
      * @param isdelete 是否删除（1-未删除，0-已删除；）
      */
     public void setIsdelete(Short isdelete) {
@@ -201,7 +206,7 @@ public class OperateLogBto {
     /**
      * 创建时间
      * @author xialiang
-     * @date 2020-10-26 11:33:33
+     * @date 2020-11-10 10:45:08
      * @return CREATEAT 创建时间
      */
     public Date getCreateat() {
@@ -211,7 +216,7 @@ public class OperateLogBto {
     /**
      * 创建时间
      * @author xialiang
-     * @date 2020-10-26 11:33:33
+     * @date 2020-11-10 10:45:08
      * @param createat 创建时间
      */
     public void setCreateat(Date createat) {
@@ -221,7 +226,7 @@ public class OperateLogBto {
     /**
      * 创建人
      * @author xialiang
-     * @date 2020-10-26 11:33:33
+     * @date 2020-11-10 10:45:08
      * @return CREATEBY 创建人
      */
     public String getCreateby() {
@@ -231,7 +236,7 @@ public class OperateLogBto {
     /**
      * 创建人
      * @author xialiang
-     * @date 2020-10-26 11:33:33
+     * @date 2020-11-10 10:45:08
      * @param createby 创建人
      */
     public void setCreateby(String createby) {
@@ -241,7 +246,7 @@ public class OperateLogBto {
     /**
      * 修改时间
      * @author xialiang
-     * @date 2020-10-26 11:33:33
+     * @date 2020-11-10 10:45:08
      * @return UPDATEAT 修改时间
      */
     public Date getUpdateat() {
@@ -251,7 +256,7 @@ public class OperateLogBto {
     /**
      * 修改时间
      * @author xialiang
-     * @date 2020-10-26 11:33:33
+     * @date 2020-11-10 10:45:08
      * @param updateat 修改时间
      */
     public void setUpdateat(Date updateat) {
@@ -261,7 +266,7 @@ public class OperateLogBto {
     /**
      * 修改人
      * @author xialiang
-     * @date 2020-10-26 11:33:33
+     * @date 2020-11-10 10:45:08
      * @return UPDATEBY 修改人
      */
     public String getUpdateby() {
@@ -271,10 +276,30 @@ public class OperateLogBto {
     /**
      * 修改人
      * @author xialiang
-     * @date 2020-10-26 11:33:33
+     * @date 2020-11-10 10:45:08
      * @param updateby 修改人
      */
     public void setUpdateby(String updateby) {
         this.updateby = updateby == null ? null : updateby.trim();
+    }
+
+    /**
+     * 操作描述
+     * @author xialiang
+     * @date 2020-11-10 10:45:08
+     * @return ACTION_REMARK 操作描述
+     */
+    public String getActionRemark() {
+        return actionRemark;
+    }
+
+    /**
+     * 操作描述
+     * @author xialiang
+     * @date 2020-11-10 10:45:08
+     * @param actionRemark 操作描述
+     */
+    public void setActionRemark(String actionRemark) {
+        this.actionRemark = actionRemark == null ? null : actionRemark.trim();
     }
 }

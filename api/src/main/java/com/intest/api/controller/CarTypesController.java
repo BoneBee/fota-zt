@@ -9,6 +9,7 @@ import com.intest.carservice.cartypesimpl.cartypesassemblyImpl;
 import com.intest.common.result.PagerDataBaseVO;
 import com.intest.common.result.Result;
 import com.intest.common.result.ResultT;
+import com.intest.common.util.StringUtils;
 import com.intest.common.webcore.BaseController;
 import com.intest.util.ModelName;
 import io.swagger.annotations.Api;
@@ -100,11 +101,10 @@ public class CarTypesController extends BaseController {
             PagerDataBaseVO pgVO = new PagerDataBaseVO();
             String ErrMsg = cartypesTypeImpl.delCarType(carTypes, buf);
             result.setMsg(ErrMsg);
-            addOperateLog(ModelName.MODEL_CAR_TYPE, ModelName.ACTION_DELETE);
+            addOperateLog(ModelName.MODEL_CAR_TYPE, ModelName.ACTION_DELETE, ModelName.actionRemark("删除", getAccount().getRealName(), StringUtils.isNotEmptyStr(ErrMsg) ? 1 : 0));
             if (ErrMsg.equals("") || ErrMsg == null) {
                 result.setSuccess(1);
-            }
-            else {
+            } else {
                 result.setSuccess(0);
             }
         } catch (Exception ex) {
@@ -122,7 +122,7 @@ public class CarTypesController extends BaseController {
         StringBuffer buffer = new StringBuffer();
         try {
             int i = cartypesTypeImpl.addCarType(addcartype);
-            addOperateLog(ModelName.MODEL_CAR_TYPE, ModelName.ACTION_CREATE);
+            addOperateLog(ModelName.MODEL_CAR_TYPE, ModelName.ACTION_CREATE, ModelName.actionRemark("新增", getAccount().getRealName(), i == 1 ? 1 : 0));
             result.setSuccess(i);
 
         } catch (Exception ex) {
@@ -139,7 +139,7 @@ public class CarTypesController extends BaseController {
         Result result = new Result();
         try {
             int i = cartypesTypeImpl.mdfCarType(addcartype);
-            addOperateLog(ModelName.MODEL_CAR_TYPE, ModelName.ACTION_UPDATE);
+            addOperateLog(ModelName.MODEL_CAR_TYPE, ModelName.ACTION_UPDATE, ModelName.actionRemark("修改", getAccount().getRealName(), i == 1 ? 1 : 0));
             result.setSuccess(i);
         } catch (Exception ex) {
             result.setSuccess(0);
@@ -154,12 +154,11 @@ public class CarTypesController extends BaseController {
         Result result = new Result();
         try {
             delCarRespone dels = mpl.delCars(carArr);
-            addOperateLog(ModelName.MODEL_CAR_MESSAGE, ModelName.ACTION_DELETE);
+            addOperateLog(ModelName.MODEL_CAR_MESSAGE, ModelName.ACTION_DELETE, ModelName.actionRemark("删除", getAccount().getRealName(), StringUtils.isNotEmptyStr(dels.getSuccessMsg()) ? 1 : 0));
             result.setMsg(dels.getSuccessMsg());
             if (dels.getSuccessMsg() == null || dels.getSuccessMsg().equals("")) {
                 result.setSuccess(1);
-            }
-            else {
+            } else {
                 result.setSuccess(0);
             }
         } catch (Exception ex) {
@@ -202,7 +201,7 @@ public class CarTypesController extends BaseController {
         Result result = new Result();
         try {
             CarAddRespone addCar = mpl.addCar(pcar);
-            addOperateLog(ModelName.MODEL_CAR_MESSAGE, ModelName.ACTION_CREATE);
+            addOperateLog(ModelName.MODEL_CAR_MESSAGE, ModelName.ACTION_CREATE,ModelName.actionRemark("新建", getAccount().getRealName(), 1));
             result.setSuccess(addCar.getAddCarResult());
             result.setMsg(addCar.getMsg());
         } catch (Exception ex) {
@@ -219,11 +218,10 @@ public class CarTypesController extends BaseController {
         Result result = new Result();
         try {
             int i = mpl.mdfCar(pcar);
-            addOperateLog(ModelName.MODEL_CAR_MESSAGE, ModelName.ACTION_UPDATE);
+            addOperateLog(ModelName.MODEL_CAR_MESSAGE, ModelName.ACTION_UPDATE,ModelName.actionRemark("编辑", getAccount().getRealName(), 1));
             if (i >= 1) {
                 result.setSuccess(1);
-            }
-            else {
+            } else {
                 result.setSuccess(0);
             }
         } catch (Exception ex) {
@@ -277,7 +275,7 @@ public class CarTypesController extends BaseController {
 
     @ApiOperation("检测终端编号是否存在")
     @RequestMapping(value = "/api/cars/checkTerminalCode", method = RequestMethod.POST)
-    public Result checkTerminalCode(@RequestBody RequestCheckTerminalCode tcode){
+    public Result checkTerminalCode(@RequestBody RequestCheckTerminalCode tcode) {
         Result result = new Result();
         try {
             result.setMsg(mpl.checkTerminalCode(tcode));

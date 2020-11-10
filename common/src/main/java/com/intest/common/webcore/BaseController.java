@@ -157,7 +157,7 @@ public class BaseController {
     }
 
 
-    public void addOperateLog(String Model, String Action) {
+    public void addOperateLog(String Model, String Action, String actionRemark) {
         UserBto userBto = getAccount();
         if (userBto != null) {
             OperateLogBto operateLogBto = new OperateLogBto();
@@ -167,6 +167,7 @@ public class BaseController {
             operateLogBto.setOperateAction(Action);
             operateLogBto.setLoginIp(getIpAddr());
             operateLogBto.setBrowser(getBrowser());
+            operateLogBto.setActionRemark(actionRemark);
             operateLogBto.setIsdelete((short) 1);
             operateLogBto.setCreateat(new Date());
             operateLogBto.setCreateby(userBto.getUserId());

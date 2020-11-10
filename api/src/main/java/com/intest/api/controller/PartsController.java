@@ -61,7 +61,7 @@ public class PartsController extends BaseController {
             if (partsTypeImpl.addPartsType(partsTypeBto) != 1) {
                 throw new CustomException("新增零部件类型失败！");
             }
-            addOperateLog(ModelName.MODEL_PARTS_TYPE, ModelName.ACTION_CREATE);
+            addOperateLog(ModelName.MODEL_PARTS_TYPE, ModelName.ACTION_CREATE,ModelName.actionRemark("新建", getAccount().getRealName(), 1));
             return new ResponseBean(1, "新增成功", null);
         }
     }
@@ -88,7 +88,7 @@ public class PartsController extends BaseController {
             if (partsTypeImpl.updatePartsType(partsTypeBto) != 1) {
                 throw new CustomException("修改零部件类型失败！");
             }
-            addOperateLog(ModelName.MODEL_PARTS_TYPE, ModelName.ACTION_UPDATE);
+            addOperateLog(ModelName.MODEL_PARTS_TYPE, ModelName.ACTION_UPDATE,ModelName.actionRemark("编辑", getAccount().getRealName(), 1));
             return new ResponseBean(1, "修改成功", null);
         }
     }
@@ -110,7 +110,7 @@ public class PartsController extends BaseController {
                 throw new CustomException("删除零部件信息失败");
             }
         }
-        addOperateLog(ModelName.MODEL_PARTS_TYPE, ModelName.ACTION_DELETE);
+        addOperateLog(ModelName.MODEL_PARTS_TYPE, ModelName.ACTION_DELETE,ModelName.actionRemark("删除", getAccount().getRealName(), 1));
         return new ResponseBean(1, "删除成功", null);
     }
 
@@ -194,7 +194,7 @@ public class PartsController extends BaseController {
         if (partsConfigImpl.addParts(partsConfigBto) != 1) {
             throw new CustomException("新增零部件策略配置信息失败");
         }
-        addOperateLog(ModelName.MODEL_PARTS_MESSAGE, ModelName.ACTION_CREATE);
+        addOperateLog(ModelName.MODEL_PARTS_MESSAGE, ModelName.ACTION_CREATE,ModelName.actionRemark("新建", getAccount().getRealName(), 1));
         return new ResponseBean(1, "新增成功", null);
 
     }
@@ -226,7 +226,7 @@ public class PartsController extends BaseController {
                 throw new CustomException("修改零部件信息失败");
             }
         }
-        addOperateLog(ModelName.MODEL_PARTS_MESSAGE, ModelName.ACTION_UPDATE);
+        addOperateLog(ModelName.MODEL_PARTS_MESSAGE, ModelName.ACTION_UPDATE,ModelName.actionRemark("编辑", getAccount().getRealName(), 1));
         return new ResponseBean(1, "修改成功", null);
     }
 
@@ -247,7 +247,7 @@ public class PartsController extends BaseController {
                 throw new CustomException("删除零部件信息失败");
             }
         }
-        addOperateLog(ModelName.MODEL_PARTS_MESSAGE, ModelName.ACTION_DELETE);
+        addOperateLog(ModelName.MODEL_PARTS_MESSAGE, ModelName.ACTION_DELETE,ModelName.actionRemark("删除", getAccount().getRealName(), 1));
         return new ResponseBean(1, "删除成功", null);
     }
 

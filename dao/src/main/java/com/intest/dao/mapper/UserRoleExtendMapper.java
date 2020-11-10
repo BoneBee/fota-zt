@@ -10,8 +10,8 @@ public interface UserRoleExtendMapper {
 
     List<UserListDateExtend> getUserDate();
 
-    void deleteListUserRoleId(List<UserRoleBto> permissionBtos);
+    int deleteListUserRoleId(List<UserRoleBto> permissionBtos);
 
-    void deleteListUserId(List<UserRoleBto> roleBtos);
+    int deleteListUserId(List<UserRoleBto> roleBtos);
 
 }

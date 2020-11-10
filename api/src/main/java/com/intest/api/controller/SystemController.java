@@ -36,7 +36,7 @@ public class SystemController extends BaseController {
         ResultT result = new ResultT<>();
         try {
             result.setResult(taskReviewTmpImpl.addTaskReviewTmp(request, getAccount()));
-            addOperateLog(ModelName.MODEL_TASKS_REVIEW, ModelName.ACTION_CREATE);
+            addOperateLog(ModelName.MODEL_TASKS_REVIEW, ModelName.ACTION_CREATE,ModelName.actionRemark("新建", getAccount().getRealName(), 1));
         } catch (Exception e) {
             e.printStackTrace();
             result.setFail();
@@ -56,7 +56,7 @@ public class SystemController extends BaseController {
         ResultT result = new ResultT<>();
         try {
             result.setResult(taskReviewTmpImpl.updateTaskReviewTmp(request, getAccount()));
-            addOperateLog(ModelName.MODEL_TASKS_REVIEW, ModelName.ACTION_UPDATE);
+            addOperateLog(ModelName.MODEL_TASKS_REVIEW, ModelName.ACTION_UPDATE,ModelName.actionRemark("编辑", getAccount().getRealName(), 1));
         } catch (Exception e) {
             e.printStackTrace();
             result.setFail();
@@ -76,7 +76,7 @@ public class SystemController extends BaseController {
         ResultT result = new ResultT<>();
         try {
             result.setResult(taskReviewTmpImpl.deleteTaskReviewTmps(request));
-            addOperateLog(ModelName.MODEL_TASKS_REVIEW, ModelName.ACTION_DELETE);
+            addOperateLog(ModelName.MODEL_TASKS_REVIEW, ModelName.ACTION_DELETE,ModelName.actionRemark("删除", getAccount().getRealName(), 1));
         } catch (Exception e) {
             e.printStackTrace();
             result.setFail();
@@ -106,7 +106,7 @@ public class SystemController extends BaseController {
         ResultT result = new ResultT<>();
         try {
             result.setResult(taskReviewTmpImpl.updateTaskReviewTmpState(id, state));
-            addOperateLog(ModelName.MODEL_TASKS_REVIEW, ModelName.ACTION_TASKS_REVIEW_STATE);
+            addOperateLog(ModelName.MODEL_TASKS_REVIEW, ModelName.ACTION_TASKS_REVIEW_STATE,ModelName.actionRemark("编辑", getAccount().getRealName(), 1));
         } catch (Exception e) {
             e.printStackTrace();
             result.setFail();
@@ -181,7 +181,7 @@ public class SystemController extends BaseController {
         ResultT result = new ResultT<>();
         try {
             result.setResult(roleImpl.addRole(request));
-            addOperateLog(ModelName.MODEL_SYSTEM_ROLE, ModelName.ACTION_CREATE);
+            addOperateLog(ModelName.MODEL_SYSTEM_ROLE, ModelName.ACTION_CREATE,ModelName.actionRemark("新建", getAccount().getRealName(), 1));
         } catch (Exception e) {
             e.printStackTrace();
             result.setFail();
@@ -201,7 +201,7 @@ public class SystemController extends BaseController {
         ResultT result = new ResultT<>();
         try {
             result.setResult(roleImpl.updateRole(request, getAccount()));
-            addOperateLog(ModelName.MODEL_SYSTEM_ROLE, ModelName.ACTION_UPDATE);
+            addOperateLog(ModelName.MODEL_SYSTEM_ROLE, ModelName.ACTION_UPDATE,ModelName.actionRemark("编辑", getAccount().getRealName(), 1));
         } catch (Exception e) {
             e.printStackTrace();
             result.setFail();
@@ -220,7 +220,7 @@ public class SystemController extends BaseController {
         ResultT result = new ResultT<>();
         try {
             result.setResult(roleImpl.deleteRole(request));
-            addOperateLog(ModelName.MODEL_SYSTEM_ROLE, ModelName.ACTION_DELETE);
+            addOperateLog(ModelName.MODEL_SYSTEM_ROLE, ModelName.ACTION_DELETE,ModelName.actionRemark("删除", getAccount().getRealName(), 1));
         } catch (Exception e) {
             e.printStackTrace();
             result.setFail();

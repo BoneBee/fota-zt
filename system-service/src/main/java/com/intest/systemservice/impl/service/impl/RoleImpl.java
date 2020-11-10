@@ -3,6 +3,7 @@ package com.intest.systemservice.impl.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.intest.basicservice.table.config.helper.ValidateHelper;
+import com.intest.basicservice.user.service.impl.UserServiceImpl;
 import com.intest.common.exception.CustomException;
 import com.intest.common.exception.ResponseBean;
 import com.intest.common.result.PagerDataBaseVO;
@@ -39,53 +40,27 @@ import java.util.stream.Collectors;
 public class RoleImpl implements RoleService {
 
     @Autowired
+    UserServiceImpl userService;
+
+    @Autowired
     RoleBtoMapper roleBtoMapper;
 
     @Autowired
     RolePermissionImpl rolePermissionImpl;
 
     @Autowired
-    MenuExtendMapper menuExtendMapper;
-    @Autowired
-    TableExtendMapper tableExtendMapper;
-    @Autowired
     PermissionExtendMapper permissionExtendMapper;
+
     @Autowired
     RolePermissionExtendMapper rolePermissionExtendMapper;
+
     @Autowired
     RoleExtendMapper roleExtendMapper;
 
+
+    @Override
     public List<MenuExtend> getRolePermissionList() {
-        List<MenuExtend> menuExtends = menuExtendMapper.findAllRecursion();
-        List<MenuByTableIdExtend> menuByTableIdExtends = tableExtendMapper.getMenuByTableIdDate();
-        for (MenuExtend menuExtend : menuExtends) {
-            menuExtend.setChecked(false);
-            for (MenuExtend extend : menuExtend.getChildren()) {
-                extend.setChecked(false);
-                List<MenuByTableIdExtend> menu = new ArrayList<>();
-                for (MenuByTableIdExtend menuByTableIdExtend : menuByTableIdExtends) {
-                    if (extend.getKey().equals(menuByTableIdExtend.getMenuId())) {
-                        menu.add(menuByTableIdExtend);
-                    }
-                }
-                List<MenuByTableIdExtend> typeMenu = menu.stream().filter(distinctByKey(MenuByTableIdExtend::getTableId)).collect(Collectors.toList());
-                List<MenuExtend> tableMenu = new ArrayList<>();
-                int i = 0;
-                for (MenuByTableIdExtend men : typeMenu) {
-                    List<MenuExtend> model = new ArrayList<>();
-                    for (MenuByTableIdExtend menuByTableIdExtend : menuByTableIdExtends) {
-                        if (men.getTableId().equals(menuByTableIdExtend.getTableId()) && StringUtils.isNotEmptyStr(menuByTableIdExtend.getToolBarItemId())) {
-                            MenuExtend tableIdExtend = new MenuExtend(menuByTableIdExtend.getToolBarItemId(), "", 1, false, menuByTableIdExtend.getItemName(), new ArrayList<>());
-                            model.add(tableIdExtend);
-                        }
-                    }
-                    MenuExtend tableIdExtend = new MenuExtend(men.getTableId(), "", 1, false, "表格" + (i += 1), model);
-                    tableMenu.add(tableIdExtend);
-                }
-                extend.setChildren(tableMenu);
-            }
-        }
-        return menuExtends;
+        return userService.getRolePermissionList();
     }
 
     @Override
@@ -101,28 +76,29 @@ public class RoleImpl implements RoleService {
         roleBto.setCreateby("admin");
         List<PermissionBto> permissionBtos = new ArrayList<>();
         List<RolePermissionBto> rolePermissionBtoList = new ArrayList<>();
-        for (AddRoleRequet.PermissionBean permissionBean : request.getList()) {
-            PermissionBto bto = new PermissionBto();
-            bto.setPermissionId(UUID.randomUUID() + "");
-            bto.setFkResourceId(permissionBean.getKey());
-            bto.setResourceType((short) permissionBean.getType());
-            bto.setIsdelete((short) 1);
-            bto.setCreateat(new Date());
-            bto.setCreateby("admin");
-            permissionBtos.add(bto);
-            RolePermissionBto rolePermissionBto = new RolePermissionBto();
-            rolePermissionBto.setRolepermissionId(UUID.randomUUID() + "");
-            rolePermissionBto.setFkRoleId(roleBto.getRoleId());
-            rolePermissionBto.setFkPermissionId(bto.getPermissionId());
-            rolePermissionBto.setDefaultChecked((short) 1);
-            rolePermissionBto.setIsdelete((short) 1);
-            rolePermissionBto.setCreateat(new Date());
-            rolePermissionBto.setCreateby("admin");
-            rolePermissionBtoList.add(rolePermissionBto);
+        if (request.getList() != null && request.getList().size() != 0) {
+            for (AddRoleRequet.PermissionBean permissionBean : request.getList()) {
+                PermissionBto bto = new PermissionBto();
+                bto.setPermissionId(UUID.randomUUID() + "");
+                bto.setFkResourceId(permissionBean.getKey());
+                bto.setResourceType((short) permissionBean.getType());
+                bto.setIsdelete((short) 1);
+                bto.setCreateat(new Date());
+                bto.setCreateby("admin");
+                permissionBtos.add(bto);
+                RolePermissionBto rolePermissionBto = new RolePermissionBto();
+                rolePermissionBto.setRolepermissionId(UUID.randomUUID() + "");
+                rolePermissionBto.setFkRoleId(roleBto.getRoleId());
+                rolePermissionBto.setFkPermissionId(bto.getPermissionId());
+                rolePermissionBto.setDefaultChecked((short) 1);
+                rolePermissionBto.setIsdelete((short) 1);
+                rolePermissionBto.setCreateat(new Date());
+                rolePermissionBto.setCreateby("admin");
+                rolePermissionBtoList.add(rolePermissionBto);
+            }
+            permissionExtendMapper.insertPermission(permissionBtos);
+            rolePermissionExtendMapper.insertRolePermission(rolePermissionBtoList);
         }
-        permissionExtendMapper.insertPermission(permissionBtos);
-        rolePermissionExtendMapper.insertRolePermission(rolePermissionBtoList);
-
         if (roleBtoMapper.insert(roleBto) != 1) {
             throw new CustomException("新增角色失败！");
         }
@@ -133,43 +109,47 @@ public class RoleImpl implements RoleService {
     public ResponseBean updateRole(UpdateRoleRequet request, UserBto bto) {
         ValidateHelper.validateNull(request, new String[]{"roleName", "roleType", "roleId"});
         List<RolePermissionBto> rolePermissionBtoList = rolePermissionImpl.getRolePermissionListByRoleId(request.getRoleId());
-        rolePermissionExtendMapper.deletePermission(rolePermissionBtoList);
-        rolePermissionExtendMapper.deleteRolePermission(rolePermissionBtoList);
+        if (rolePermissionBtoList != null && rolePermissionBtoList.size() != 0) {
+            rolePermissionExtendMapper.deletePermission(rolePermissionBtoList);
+            rolePermissionExtendMapper.deleteRolePermission(rolePermissionBtoList);
+        }
+
         RoleBto roleBto = roleBtoMapper.selectByPrimaryKey(request.getRoleId());
-        roleBto.setRoleId(UUID.randomUUID() + "");
         roleBto.setRoleName(request.getRoleName());
         roleBto.setRoleType((short) request.getRoleType());
         roleBto.setIsdelete((short) 1);
         roleBto.setUpdateat(new Date());
         roleBto.setRemark(request.getRemark());
         roleBto.setUpdateby(bto.getRealName());
-        List<PermissionBto> permissionBtos = new ArrayList<>();
-        List<RolePermissionBto> rolePermissionBtoList1 = new ArrayList<>();
-        for (AddRoleRequet.PermissionBean permissionBean : request.getList()) {
-            PermissionBto bto1 = new PermissionBto();
-            bto1.setPermissionId(UUID.randomUUID() + "");
-            bto1.setFkResourceId(permissionBean.getKey());
-            bto1.setResourceType((short) permissionBean.getType());
-            bto1.setIsdelete((short) 1);
-            bto1.setCreateat(new Date());
-            bto1.setCreateby("admin");
-            permissionBtos.add(bto1);
-            RolePermissionBto rolePermissionBto = new RolePermissionBto();
-            rolePermissionBto.setRolepermissionId(UUID.randomUUID() + "");
-            rolePermissionBto.setFkRoleId(roleBto.getRoleId());
-            rolePermissionBto.setFkPermissionId(bto1.getPermissionId());
-            rolePermissionBto.setDefaultChecked((short) 1);
-            rolePermissionBto.setIsdelete((short) 1);
-            rolePermissionBto.setCreateat(new Date());
-            rolePermissionBto.setCreateby("admin");
-            rolePermissionBtoList1.add(rolePermissionBto);
+        if (request.getList() != null && request.getList().size() != 0) {
+            List<PermissionBto> permissionBtos = new ArrayList<>();
+            List<RolePermissionBto> rolePermissionBtoList1 = new ArrayList<>();
+            for (AddRoleRequet.PermissionBean permissionBean : request.getList()) {
+                PermissionBto bto1 = new PermissionBto();
+                bto1.setPermissionId(UUID.randomUUID() + "");
+                bto1.setFkResourceId(permissionBean.getKey());
+                bto1.setResourceType((short) permissionBean.getType());
+                bto1.setIsdelete((short) 1);
+                bto1.setCreateat(new Date());
+                bto1.setCreateby(bto.getRealName());
+                permissionBtos.add(bto1);
+                RolePermissionBto rolePermissionBto = new RolePermissionBto();
+                rolePermissionBto.setRolepermissionId(UUID.randomUUID() + "");
+                rolePermissionBto.setFkRoleId(roleBto.getRoleId());
+                rolePermissionBto.setFkPermissionId(bto1.getPermissionId());
+                rolePermissionBto.setDefaultChecked((short) 1);
+                rolePermissionBto.setIsdelete((short) 1);
+                rolePermissionBto.setCreateat(new Date());
+                rolePermissionBto.setCreateby(bto.getRealName());
+                rolePermissionBtoList1.add(rolePermissionBto);
+            }
+            permissionExtendMapper.insertPermission(permissionBtos);
+            rolePermissionExtendMapper.insertRolePermission(rolePermissionBtoList1);
         }
-        permissionExtendMapper.insertPermission(permissionBtos);
-        rolePermissionExtendMapper.insertRolePermission(rolePermissionBtoList);
         if (roleBtoMapper.updateByPrimaryKey(roleBto) != 1) {
             throw new CustomException("修改角色失败！");
         }
-        return null;
+        return new ResponseBean(1, "修改角色成功", null);
     }
 
     @Override
@@ -180,12 +160,16 @@ public class RoleImpl implements RoleService {
         List<RolePermissionBto> rolePermissionBtos = new ArrayList<>();
         for (DeleteRoleRequet roleRequet : request) {
             List<RolePermissionBto> rolePermissionBtoList = rolePermissionImpl.getRolePermissionListByRoleId(roleRequet.getRoleId());
-            for (RolePermissionBto rolePermissionBto : rolePermissionBtoList) {
-                rolePermissionBtos.add(rolePermissionBto);
+            if (rolePermissionBtoList != null && rolePermissionBtoList.size() != 0) {
+                for (RolePermissionBto rolePermissionBto : rolePermissionBtoList) {
+                    rolePermissionBtos.add(rolePermissionBto);
+                }
             }
         }
-        rolePermissionExtendMapper.deleteRolePermission(rolePermissionBtos);
-        rolePermissionExtendMapper.deletePermission(rolePermissionBtos);
+        if (rolePermissionBtos.size() != 0) {
+            rolePermissionExtendMapper.deleteRolePermission(rolePermissionBtos);
+            rolePermissionExtendMapper.deletePermission(rolePermissionBtos);
+        }
         rolePermissionExtendMapper.deleteListByRoleId(rolePermissionBtos);
         return new ResponseBean(1, "删除角色成功", null);
     }
@@ -195,14 +179,14 @@ public class RoleImpl implements RoleService {
     public PagerDataBaseVO getRoleTmpInfo(SystemPage model) {
         List<RoleListDateExtend> roleListDateExtends = roleExtendMapper.getRoleListDate();
         List<RoleListDateExtend> roleTypes = roleListDateExtends.stream().filter(distinctByKey(RoleListDateExtend::getRoleId)).collect(Collectors.toList());
-        List<MenuExtend> menuS = getRolePermissionList();
+//        List<MenuExtend> menuS = userService.getRolePermissionList();
         PagerDataBaseVO role = new PagerDataBaseVO();
         PageHelper.startPage(model.getPi(), model.getPs());
         List<RoleDetailListResponse> responseList = new ArrayList<>();
         PageInfo<RoleListDateExtend> pageInfo = new PageInfo<>(roleTypes);
         int index = pageInfo.getStartRow();
         for (RoleListDateExtend type : roleTypes) {
-            List<MenuExtend> menuExtends = menuS;
+            List<MenuExtend> menuExtends = userService.getRolePermissionList();
             List<RoleListDateExtend> roleListDateExtendList = new ArrayList<>();
             for (RoleListDateExtend roleListDateExtend : roleListDateExtends) {
                 if (type.getRoleId().equals(roleListDateExtend.getRoleId())) {

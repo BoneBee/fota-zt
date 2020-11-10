@@ -1,10 +1,10 @@
-package com.intest.response;
+package com.intest.dao.entity.log;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.util.Date;
 
-public class OperateLogResponse {
+public class OperateLogListExtend {
     private int index;//序号
     private String loginName;//操作账户
     private String realName;//姓名
@@ -15,6 +15,7 @@ public class OperateLogResponse {
     private Date actionTime;//操作时间
     private String actionIp;//IP地址
     private String browser;//浏览器
+    private String actionRemark;
 
     public int getIndex() {
         return index;
@@ -86,5 +87,13 @@ public class OperateLogResponse {
 
     public void setBrowser(String browser) {
         this.browser = browser;
+    }
+
+    public String getActionRemark() {
+        return actionRemark;
+    }
+
+    public void setActionRemark(String actionRemark) {
+        this.actionRemark = actionRemark;
     }
 }
