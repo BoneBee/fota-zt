@@ -126,7 +126,7 @@ public class TaskController extends BaseController {
                 //发布任务
                 str = "发布任务";
                 taskParaEntity.setTaskCode("105");
-                addOperateLog(ModelName.MODEL_TASK_MESSAGE, ModelName.ACTION_TASK_MESSAGE_PUBLISH,,ModelName.actionRemark("发布任务", getAccount().getRealName(), 1));
+                addOperateLog(ModelName.MODEL_TASK_MESSAGE, ModelName.ACTION_TASK_MESSAGE_PUBLISH,ModelName.actionRemark("发布任务", getAccount().getRealName(), 1));
             }
             else if (taskParaEntity.getReqType() == 1) {
                 addOperateLog(ModelName.MODEL_TASK_MESSAGE, ModelName.ACTION_TASK_MESSAGE_PUBLISH,ModelName.actionRemark("发布任务", getAccount().getRealName(), 1));

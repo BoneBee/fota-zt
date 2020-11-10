@@ -179,7 +179,6 @@ public class RoleImpl implements RoleService {
     public PagerDataBaseVO getRoleTmpInfo(SystemPage model) {
         List<RoleListDateExtend> roleListDateExtends = roleExtendMapper.getRoleListDate();
         List<RoleListDateExtend> roleTypes = roleListDateExtends.stream().filter(distinctByKey(RoleListDateExtend::getRoleId)).collect(Collectors.toList());
-//        List<MenuExtend> menuS = userService.getRolePermissionList();
         PagerDataBaseVO role = new PagerDataBaseVO();
         PageHelper.startPage(model.getPi(), model.getPs());
         List<RoleDetailListResponse> responseList = new ArrayList<>();

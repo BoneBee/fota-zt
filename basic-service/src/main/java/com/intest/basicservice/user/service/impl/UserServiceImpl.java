@@ -188,7 +188,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int inRegister(AddUserRequest request, UserBto user) {
-        ValidateHelper.validateNull(request, new String[]{"loginName", "loginPassword", "accountKind", "accountStatus"});
+        ValidateHelper.validateNull(request, new String[]{"loginName", "loginPassword", "accountStatus"});
         String account = request.getLoginName();
         String passworld = request.getLoginPassword();
         UserBtoExample example = new UserBtoExample();
@@ -234,7 +234,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int updateUser(UpdateUserRequest request) {
-        ValidateHelper.validateNull(request, new String[]{"userId", "realName"});
+        ValidateHelper.validateNull(request, new String[]{"userId"});
         UserBto newUser = userBtoMapper.selectByPrimaryKey(request.getUserId());
         if (newUser == null) {
             throw new CustomException("您要修改的用户不存在");

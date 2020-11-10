@@ -530,7 +530,7 @@ public class StatisticalAnalysisImpl implements StatisticalAnalysisService {
             }
         }
         PageInfo pageInfo = new PageInfo<VersionAnalysisResponse>(versionAnalysisResponses);
-        int index = pageInfo.getStartRow() - 1;
+        int index = pageInfo.getStartRow() ;
         for (VersionAnalysisResponse version : versionAnalysisResponses) {
             version.setIndex(index += 1);
         }
